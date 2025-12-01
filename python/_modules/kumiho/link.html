@@ -72,6 +72,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#version">Version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#resource">Resource</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#link">Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#collection">Collection</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#metadata">Metadata</a><ul>
@@ -139,6 +140,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.allow_public"><code class="docutils literal notranslate"><span class="pre">Project.allow_public</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.__init__"><code class="docutils literal notranslate"><span class="pre">Project.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.__repr__"><code class="docutils literal notranslate"><span class="pre">Project.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.create_collection"><code class="docutils literal notranslate"><span class="pre">Project.create_collection()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.create_group"><code class="docutils literal notranslate"><span class="pre">Project.create_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.get_group"><code class="docutils literal notranslate"><span class="pre">Project.get_group()</span></code></a></li>
@@ -157,6 +159,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.username"><code class="docutils literal notranslate"><span class="pre">Group.username</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.__init__"><code class="docutils literal notranslate"><span class="pre">Group.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.__repr__"><code class="docutils literal notranslate"><span class="pre">Group.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_collection"><code class="docutils literal notranslate"><span class="pre">Group.create_collection()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_group"><code class="docutils literal notranslate"><span class="pre">Group.create_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_product"><code class="docutils literal notranslate"><span class="pre">Group.create_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.delete"><code class="docutils literal notranslate"><span class="pre">Group.delete()</span></code></a></li>
@@ -211,10 +214,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.default_resource"><code class="docutils literal notranslate"><span class="pre">Version.default_resource</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.__init__"><code class="docutils literal notranslate"><span class="pre">Version.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.__repr__"><code class="docutils literal notranslate"><span class="pre">Version.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.analyze_impact"><code class="docutils literal notranslate"><span class="pre">Version.analyze_impact()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_link"><code class="docutils literal notranslate"><span class="pre">Version.create_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_resource"><code class="docutils literal notranslate"><span class="pre">Version.create_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete"><code class="docutils literal notranslate"><span class="pre">Version.delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete_link"><code class="docutils literal notranslate"><span class="pre">Version.delete_link()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.find_path_to"><code class="docutils literal notranslate"><span class="pre">Version.find_path_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependencies"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependencies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependents"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependents()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_group"><code class="docutils literal notranslate"><span class="pre">Version.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_links"><code class="docutils literal notranslate"><span class="pre">Version.get_links()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_locations"><code class="docutils literal notranslate"><span class="pre">Version.get_locations()</span></code></a></li>
@@ -296,6 +303,57 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.ProjectLimitError"><code class="docutils literal notranslate"><span class="pre">ProjectLimitError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection"><code class="docutils literal notranslate"><span class="pre">Collection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.kref"><code class="docutils literal notranslate"><span class="pre">Collection.kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.name"><code class="docutils literal notranslate"><span class="pre">Collection.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.product_name"><code class="docutils literal notranslate"><span class="pre">Collection.product_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.product_type"><code class="docutils literal notranslate"><span class="pre">Collection.product_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.metadata"><code class="docutils literal notranslate"><span class="pre">Collection.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.created_at"><code class="docutils literal notranslate"><span class="pre">Collection.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.author"><code class="docutils literal notranslate"><span class="pre">Collection.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.username"><code class="docutils literal notranslate"><span class="pre">Collection.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.deprecated"><code class="docutils literal notranslate"><span class="pre">Collection.deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.__init__"><code class="docutils literal notranslate"><span class="pre">Collection.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.__repr__"><code class="docutils literal notranslate"><span class="pre">Collection.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.add_member"><code class="docutils literal notranslate"><span class="pre">Collection.add_member()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.get_history"><code class="docutils literal notranslate"><span class="pre">Collection.get_history()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.get_members"><code class="docutils literal notranslate"><span class="pre">Collection.get_members()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Collection.remove_member"><code class="docutils literal notranslate"><span class="pre">Collection.remove_member()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionMember"><code class="docutils literal notranslate"><span class="pre">CollectionMember</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionMember.product_kref"><code class="docutils literal notranslate"><span class="pre">CollectionMember.product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionMember.added_at"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionMember.added_by"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionMember.added_by_username"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionMember.added_in_version"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_in_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionMember.__init__"><code class="docutils literal notranslate"><span class="pre">CollectionMember.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id2"><code class="docutils literal notranslate"><span class="pre">CollectionMember.product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id3"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id4"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id5"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id6"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_in_version</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.version_number"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.version_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.action"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.member_product_kref"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.member_product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.author"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.username"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.created_at"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.metadata"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.CollectionVersionHistory.__init__"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id7"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.version_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id8"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id9"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.member_product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id10"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id11"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id12"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id13"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.metadata</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.ReservedProductTypeError"><code class="docutils literal notranslate"><span class="pre">ReservedProductTypeError</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client"><code class="docutils literal notranslate"><span class="pre">use_client</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client.__init__"><code class="docutils literal notranslate"><span class="pre">use_client.__init__()</span></code></a></li>
@@ -306,8 +364,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id2"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id3"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id14"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id15"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkType"><code class="docutils literal notranslate"><span class="pre">LinkType</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkType.BELONGS_TO"><code class="docutils literal notranslate"><span class="pre">LinkType.BELONGS_TO</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkType.CREATED_FROM"><code class="docutils literal notranslate"><span class="pre">LinkType.CREATED_FROM</span></code></a></li>
@@ -315,21 +373,21 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkType.DEPENDS_ON"><code class="docutils literal notranslate"><span class="pre">LinkType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkType.DERIVED_FROM"><code class="docutils literal notranslate"><span class="pre">LinkType.DERIVED_FROM</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkType.CONTAINS"><code class="docutils literal notranslate"><span class="pre">LinkType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id4"><code class="docutils literal notranslate"><span class="pre">LinkType.BELONGS_TO</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id5"><code class="docutils literal notranslate"><span class="pre">LinkType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id6"><code class="docutils literal notranslate"><span class="pre">LinkType.CREATED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id7"><code class="docutils literal notranslate"><span class="pre">LinkType.DEPENDS_ON</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id8"><code class="docutils literal notranslate"><span class="pre">LinkType.DERIVED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id9"><code class="docutils literal notranslate"><span class="pre">LinkType.REFERENCED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id16"><code class="docutils literal notranslate"><span class="pre">LinkType.BELONGS_TO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id17"><code class="docutils literal notranslate"><span class="pre">LinkType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id18"><code class="docutils literal notranslate"><span class="pre">LinkType.CREATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id19"><code class="docutils literal notranslate"><span class="pre">LinkType.DEPENDS_ON</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id20"><code class="docutils literal notranslate"><span class="pre">LinkType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id21"><code class="docutils literal notranslate"><span class="pre">LinkType.REFERENCED</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkDirection"><code class="docutils literal notranslate"><span class="pre">LinkDirection</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkDirection.OUTGOING"><code class="docutils literal notranslate"><span class="pre">LinkDirection.OUTGOING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkDirection.INCOMING"><code class="docutils literal notranslate"><span class="pre">LinkDirection.INCOMING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkDirection.BOTH"><code class="docutils literal notranslate"><span class="pre">LinkDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id10"><code class="docutils literal notranslate"><span class="pre">LinkDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id11"><code class="docutils literal notranslate"><span class="pre">LinkDirection.INCOMING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id12"><code class="docutils literal notranslate"><span class="pre">LinkDirection.OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id22"><code class="docutils literal notranslate"><span class="pre">LinkDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">LinkDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">LinkDirection.OUTGOING</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
@@ -348,6 +406,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/project.html">kumiho.project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/group.html">kumiho.group</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/product.html">kumiho.product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/collection.html">kumiho.collection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/version.html">kumiho.version</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/resource.html">kumiho.resource</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/link.html">kumiho.link</a></li>
@@ -623,6 +682,210 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_link</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_kref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_kref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">link_type</span><span class="p">)</span></div>
 </div>
+
+
+
+<span class="c1"># --- Graph Traversal Result Classes ---</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+
+
+<div class="viewcode-block" id="PathStep">
+<a class="viewcode-back" href="../../api/link.html#kumiho.PathStep">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PathStep</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A single step in a traversal path.</span>
+
+<span class="sd">    Represents one hop in a graph traversal, including the version</span>
+<span class="sd">    reached and the link type used to reach it.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        version_kref (Kref): The version at this step.</span>
+<span class="sd">        link_type (str): The relationship type used to reach this version.</span>
+<span class="sd">        depth (int): Distance from the origin (0 = origin).</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        for step in path.steps:</span>
+<span class="sd">            print(f&quot;Step {step.depth}: {step.version_kref} via {step.link_type}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">version_kref</span><span class="p">:</span> <span class="n">Kref</span>
+    <span class="n">link_type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="VersionPath">
+<a class="viewcode-back" href="../../api/link.html#kumiho.VersionPath">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">VersionPath</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A complete path between versions.</span>
+
+<span class="sd">    Represents a sequence of steps from one version to another,</span>
+<span class="sd">    used in traversal and shortest-path queries.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        steps (List[PathStep]): The sequence of steps in the path.</span>
+<span class="sd">        total_depth (int): Total length of the path.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        path = source_version.find_path_to(target_version)</span>
+<span class="sd">        if path:</span>
+<span class="sd">            print(f&quot;Path length: {path.total_depth}&quot;)</span>
+<span class="sd">            for step in path.steps:</span>
+<span class="sd">                print(f&quot;  -&gt; {step.version_kref}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PathStep</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">total_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="ImpactedVersion">
+<a class="viewcode-back" href="../../api/link.html#kumiho.ImpactedVersion">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImpactedVersion</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A version impacted by changes to another version.</span>
+
+<span class="sd">    Represents a version that directly or indirectly depends on</span>
+<span class="sd">    a target version, used in impact analysis.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        version_kref (Kref): The impacted version.</span>
+<span class="sd">        product_kref (Kref): The product containing the impacted version.</span>
+<span class="sd">        impact_depth (int): How many hops away from the target.</span>
+<span class="sd">        impact_path_types (List[str]): Link types in the impact chain.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        impact = texture_v1.analyze_impact()</span>
+<span class="sd">        for iv in impact:</span>
+<span class="sd">            print(f&quot;{iv.version_kref} at depth {iv.impact_depth}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">version_kref</span><span class="p">:</span> <span class="n">Kref</span>
+    <span class="n">product_kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Kref</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">impact_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">impact_path_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="TraversalResult">
+<a class="viewcode-back" href="../../api/link.html#kumiho.TraversalResult">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TraversalResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a graph traversal query.</span>
+
+<span class="sd">    Contains all versions discovered during a multi-hop traversal,</span>
+<span class="sd">    along with optional path information.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        version_krefs (List[Kref]): Flat list of discovered version references.</span>
+<span class="sd">        paths (List[VersionPath]): Path information if requested.</span>
+<span class="sd">        links (List[Link]): All traversed links.</span>
+<span class="sd">        total_count (int): Total number of discovered versions.</span>
+<span class="sd">        truncated (bool): True if results were limited by max_depth or limit.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        # Get all transitive dependencies</span>
+<span class="sd">        result = version.get_all_dependencies(max_depth=5)</span>
+<span class="sd">        </span>
+<span class="sd">        print(f&quot;Found {result.total_count} dependencies&quot;)</span>
+<span class="sd">        if result.truncated:</span>
+<span class="sd">            print(&quot;Results were truncated&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        for kref in result.version_krefs:</span>
+<span class="sd">            print(f&quot;  - {kref}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TraversalResult.__init__">
+<a class="viewcode-back" href="../../api/link.html#kumiho.TraversalResult.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">version_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Kref</span><span class="p">],</span>
+        <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VersionPath</span><span class="p">],</span>
+        <span class="n">links</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Link&#39;</span><span class="p">],</span>
+        <span class="n">total_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">truncated</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version_krefs</span> <span class="o">=</span> <span class="n">version_krefs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links</span> <span class="o">=</span> <span class="n">links</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_count</span> <span class="o">=</span> <span class="n">total_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span> <span class="o">=</span> <span class="n">truncated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;TraversalResult count=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_count</span><span class="si">}</span><span class="s2"> truncated=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">truncated</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+
+<div class="viewcode-block" id="TraversalResult.get_versions">
+<a class="viewcode-back" href="../../api/link.html#kumiho.TraversalResult.get_versions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Version&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch full Version objects for all discovered versions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Version]: List of Version objects.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            result = version.get_all_dependencies()</span>
+<span class="sd">            for v in result.get_versions():</span>
+<span class="sd">                print(f&quot;{v.kref} - {v.metadata}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">Version</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span> <span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">version_krefs</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ShortestPathResult">
+<a class="viewcode-back" href="../../api/link.html#kumiho.ShortestPathResult">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShortestPathResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a shortest path query.</span>
+
+<span class="sd">    Contains path(s) between two versions if found.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        paths (List[VersionPath]): One or more shortest paths found.</span>
+<span class="sd">        path_exists (bool): True if any path was found.</span>
+<span class="sd">        path_length (int): Length of the shortest path(s).</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        result = source_version.find_path_to(target_version)</span>
+<span class="sd">        if result.path_exists:</span>
+<span class="sd">            print(f&quot;Found path of length {result.path_length}&quot;)</span>
+<span class="sd">            for path in result.paths:</span>
+<span class="sd">                for step in path.steps:</span>
+<span class="sd">                    print(f&quot;  {step.depth}: {step.version_kref}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ShortestPathResult.__init__">
+<a class="viewcode-back" href="../../api/link.html#kumiho.ShortestPathResult.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VersionPath</span><span class="p">],</span>
+        <span class="n">path_exists</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">path_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_exists</span> <span class="o">=</span> <span class="n">path_exists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_length</span> <span class="o">=</span> <span class="n">path_length</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;ShortestPathResult exists=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path_exists</span><span class="si">}</span><span class="s2"> length=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path_length</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">first_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">VersionPath</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the first (or only) shortest path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            VersionPath if a path exists, None otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 </pre></div>
 

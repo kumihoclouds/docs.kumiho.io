@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.version &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.collection &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -459,7 +459,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.version</li>
+      <li class="breadcrumb-item active">kumiho.collection</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -468,743 +468,434 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.version</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Version module for Kumiho asset management.</span>
+  <h1>Source code for kumiho.collection</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Collection module for Kumiho asset management.</span>
 
-<span class="sd">This module provides the :class:`Version` class, which represents a specific</span>
-<span class="sd">iteration of a product. Versions contain resources (file references), tags,</span>
-<span class="sd">and metadata, and can be linked to other versions to track dependencies.</span>
+<span class="sd">This module provides the :class:`Collection` class, which represents a special</span>
+<span class="sd">type of product that aggregates other products. Collections are used to group</span>
+<span class="sd">related products together and maintain an audit trail of membership changes.</span>
 
-<span class="sd">Example:</span>
-<span class="sd">    Working with versions::</span>
+<span class="sd">Collections are unique in that:</span>
+<span class="sd">    - The ``collection`` product type is reserved and cannot be created manually.</span>
+<span class="sd">    - Use :meth:`Project.create_collection` or :meth:`Group.create_collection`.</span>
+<span class="sd">    - Each membership change (add/remove) creates a new version for audit trail.</span>
+<span class="sd">    - Version metadata is immutable, providing complete change history.</span>
 
-<span class="sd">        import kumiho</span>
+<span class="sd">Example::</span>
 
-<span class="sd">        # Get a version</span>
-<span class="sd">        version = kumiho.get_version(&quot;kref://project/models/hero.model?v=1&quot;)</span>
+<span class="sd">    import kumiho</span>
 
-<span class="sd">        # Add resources</span>
-<span class="sd">        version.create_resource(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
-<span class="sd">        version.create_resource(&quot;textures&quot;, &quot;/assets/hero_tex.zip&quot;)</span>
+<span class="sd">    # Create a collection from a project or group</span>
+<span class="sd">    project = kumiho.get_project(&quot;my-project&quot;)</span>
+<span class="sd">    collection = project.create_collection(&quot;asset-bundle&quot;)</span>
 
-<span class="sd">        # Tag the version</span>
-<span class="sd">        version.tag(&quot;approved&quot;)</span>
-<span class="sd">        version.tag(&quot;ready-for-lighting&quot;)</span>
+<span class="sd">    # Add products to the collection</span>
+<span class="sd">    hero_model = kumiho.get_product(&quot;kref://my-project/models/hero.model&quot;)</span>
+<span class="sd">    collection.add_member(hero_model)</span>
 
-<span class="sd">        # Create links to dependencies</span>
-<span class="sd">        texture_version = kumiho.get_version(&quot;kref://project/textures/skin.texture?v=3&quot;)</span>
-<span class="sd">        version.create_link(texture_version, kumiho.DEPENDS_ON)</span>
+<span class="sd">    # Get all members</span>
+<span class="sd">    members = collection.get_members()</span>
+<span class="sd">    for member in members:</span>
+<span class="sd">        print(f&quot;Product: {member.product_kref}&quot;)</span>
+
+<span class="sd">    # View history of changes (immutable audit trail)</span>
+<span class="sd">    for entry in collection.get_history():</span>
+<span class="sd">        print(f&quot;v{entry.version_number}: {entry.action} {entry.member_product_kref}&quot;)</span>
+
+<span class="sd">See Also:</span>
+<span class="sd">    - :class:`CollectionMember`: Data class for collection members.</span>
+<span class="sd">    - :class:`CollectionVersionHistory`: Data class for audit trail entries.</span>
+<span class="sd">    - :exc:`ReservedProductTypeError`: Error for reserved type violations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">VersionResponse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.resource</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resource</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">Link</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.product</span><span class="w"> </span><span class="kn">import</span> <span class="n">Product</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.product</span><span class="w"> </span><span class="kn">import</span> <span class="n">Product</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">Group</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraversalResult</span><span class="p">,</span> <span class="n">VersionPath</span><span class="p">,</span> <span class="n">ImpactedVersion</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">Version</span>
 
 
-<div class="viewcode-block" id="Version">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Version</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A specific iteration of a product in the Kumiho system.</span>
+<span class="c1"># Reserved product types that cannot be created manually</span>
+<span class="n">RESERVED_PRODUCT_TYPES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s2">&quot;collection&quot;</span><span class="p">])</span>
+<span class="sd">&quot;&quot;&quot;frozenset: Product types that are reserved and cannot be created via create_product.</span>
 
-<span class="sd">    Versions are immutable snapshots of a product at a point in time. Each</span>
-<span class="sd">    version can have multiple resources (file references), tags for</span>
-<span class="sd">    categorization, and links to other versions for dependency tracking.</span>
+<span class="sd">Currently includes:</span>
+<span class="sd">    - ``collection``: Use :meth:`Project.create_collection` or </span>
+<span class="sd">      :meth:`Group.create_collection` instead.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">    The version&#39;s kref includes the version number:</span>
-<span class="sd">    ``kref://project/group/product.type?v=1``</span>
 
-<span class="sd">    Versions support dynamic tag checking—the ``tags`` property automatically</span>
-<span class="sd">    refreshes from the server if the local data might be stale (older than 5</span>
-<span class="sd">    seconds). This ensures tags like &quot;latest&quot; are always current.</span>
+<div class="viewcode-block" id="ReservedProductTypeError">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.ReservedProductTypeError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReservedProductTypeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when attempting to create a product with a reserved type.</span>
+
+<span class="sd">    This error is raised when calling :meth:`Group.create_product` or the</span>
+<span class="sd">    low-level client ``create_product`` with a reserved product type such</span>
+<span class="sd">    as ``collection``.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        import kumiho</span>
+
+<span class="sd">        group = project.get_group(&quot;assets&quot;)</span>
+
+<span class="sd">        # This will raise ReservedProductTypeError</span>
+<span class="sd">        try:</span>
+<span class="sd">            group.create_product(&quot;my-bundle&quot;, &quot;collection&quot;)</span>
+<span class="sd">        except kumiho.ReservedProductTypeError as e:</span>
+<span class="sd">            print(f&quot;Error: {e}&quot;)</span>
+<span class="sd">            # Use create_collection instead</span>
+<span class="sd">            collection = group.create_collection(&quot;my-bundle&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="CollectionMember">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.CollectionMember">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CollectionMember</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A product that is a member of a collection.</span>
+
+<span class="sd">    Represents the membership relationship between a product and a collection,</span>
+<span class="sd">    including metadata about when and by whom the product was added.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        kref (Kref): The unique reference URI for this version.</span>
-<span class="sd">        product_kref (Kref): Reference to the parent product.</span>
-<span class="sd">        number (int): The version number (1-based).</span>
-<span class="sd">        latest (bool): Whether this is currently the latest version.</span>
-<span class="sd">        tags (List[str]): Tags applied to this version (auto-refreshes).</span>
+<span class="sd">        product_kref (Kref): The kref of the member product.</span>
+<span class="sd">        added_at (str): ISO timestamp when the product was added.</span>
+<span class="sd">        added_by (str): UUID of the user who added the product.</span>
+<span class="sd">        added_by_username (str): Display name of the user who added the product.</span>
+<span class="sd">        added_in_version (int): The collection version when this product was added.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        members = collection.get_members()</span>
+<span class="sd">        for member in members:</span>
+<span class="sd">            print(f&quot;Product: {member.product_kref}&quot;)</span>
+<span class="sd">            print(f&quot;Added by: {member.added_by_username}&quot;)</span>
+<span class="sd">            print(f&quot;Added at: {member.added_at}&quot;)</span>
+<span class="sd">            print(f&quot;In version: {member.added_in_version}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">product_kref</span><span class="p">:</span> <span class="n">Kref</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Kref: The kref of the member product.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_at</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: ISO timestamp when the product was added to the collection.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_by</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: UUID of the user who added the product.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_by_username</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: Display name of the user who added the product.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_in_version</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;int: The collection version number when this product was added.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="CollectionVersionHistory">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.CollectionVersionHistory">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CollectionVersionHistory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A historical change to a collection&#39;s membership.</span>
+
+<span class="sd">    Each entry captures a single add or remove operation, providing</span>
+<span class="sd">    an immutable audit trail of all membership changes. The metadata</span>
+<span class="sd">    is immutable once created, ensuring complete traceability.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        version_number (int): The collection version number for this change.</span>
+<span class="sd">        action (str): The action performed: ``&quot;CREATED&quot;``, ``&quot;ADDED&quot;``, or ``&quot;REMOVED&quot;``.</span>
+<span class="sd">        member_product_kref (Optional[Kref]): The product that was added/removed.</span>
+<span class="sd">            None for the initial ``&quot;CREATED&quot;`` action.</span>
+<span class="sd">        author (str): UUID of the user who made the change.</span>
+<span class="sd">        username (str): Display name of the user who made the change.</span>
+<span class="sd">        created_at (str): ISO timestamp of the change.</span>
+<span class="sd">        metadata (Dict[str, str]): Immutable metadata captured at the time of change.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        history = collection.get_history()</span>
+<span class="sd">        for entry in history:</span>
+<span class="sd">            print(f&quot;Version {entry.version_number}: {entry.action}&quot;)</span>
+<span class="sd">            if entry.member_product_kref:</span>
+<span class="sd">                print(f&quot;  Product: {entry.member_product_kref}&quot;)</span>
+<span class="sd">            print(f&quot;  By: {entry.username} at {entry.created_at}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">version_number</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;int: The collection version number for this change.&quot;&quot;&quot;</span>
+    
+    <span class="n">action</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: The action performed: ``&quot;CREATED&quot;``, ``&quot;ADDED&quot;``, or ``&quot;REMOVED&quot;``.&quot;&quot;&quot;</span>
+    
+    <span class="n">member_product_kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Kref</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional[Kref]: The product that was added/removed (None for CREATED).&quot;&quot;&quot;</span>
+    
+    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: UUID of the user who made the change.&quot;&quot;&quot;</span>
+    
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: Display name of the user who made the change.&quot;&quot;&quot;</span>
+    
+    <span class="n">created_at</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: ISO timestamp of when the change was made.&quot;&quot;&quot;</span>
+    
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dict[str, str]: Immutable metadata captured at the time of the change.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Collection">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.Collection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Collection</span><span class="p">(</span><span class="n">Product</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A special product type that aggregates other products.</span>
+
+<span class="sd">    Collections provide a way to group related products together. Unlike regular</span>
+<span class="sd">    products, collections cannot be created using the standard ``create_product``</span>
+<span class="sd">    method—the ``collection`` product type is reserved.</span>
+
+<span class="sd">    Use :meth:`Project.create_collection` or :meth:`Group.create_collection`</span>
+<span class="sd">    to create collections.</span>
+
+<span class="sd">    Key features:</span>
+<span class="sd">        - Aggregates products (not versions) via ``COLLECTS`` relationships.</span>
+<span class="sd">        - Each membership change creates a new version for audit trail.</span>
+<span class="sd">        - Version metadata is immutable, providing complete history.</span>
+<span class="sd">        - Cannot contain itself (self-reference protection).</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        kref (Kref): The unique identifier for this collection.</span>
+<span class="sd">        name (str): The combined name (e.g., &quot;my-bundle.collection&quot;).</span>
+<span class="sd">        product_name (str): The collection name (e.g., &quot;my-bundle&quot;).</span>
+<span class="sd">        product_type (str): Always &quot;collection&quot;.</span>
 <span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
-<span class="sd">        created_at (Optional[str]): ISO timestamp when the version was created.</span>
-<span class="sd">        author (str): The user ID who created the version.</span>
-<span class="sd">        deprecated (bool): Whether the version is deprecated.</span>
-<span class="sd">        published (bool): Whether the version is published.</span>
+<span class="sd">        created_at (str): ISO timestamp when the collection was created.</span>
+<span class="sd">        author (str): The user ID who created the collection.</span>
 <span class="sd">        username (str): Display name of the creator.</span>
-<span class="sd">        default_resource (Optional[str]): Name of the default resource.</span>
+<span class="sd">        deprecated (bool): Whether the collection is deprecated.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">        Creating and managing versions::</span>
+<span class="sd">    Example::</span>
 
-<span class="sd">            import kumiho</span>
+<span class="sd">        import kumiho</span>
 
-<span class="sd">            product = kumiho.get_product(&quot;kref://project/models/hero.model&quot;)</span>
+<span class="sd">        # Create a collection from a project</span>
+<span class="sd">        project = kumiho.get_project(&quot;film-2024&quot;)</span>
+<span class="sd">        bundle = project.create_collection(&quot;release-v1&quot;)</span>
 
-<span class="sd">            # Create a version with metadata</span>
-<span class="sd">            v1 = product.create_version(metadata={</span>
-<span class="sd">                &quot;artist&quot;: &quot;jane.doe&quot;,</span>
-<span class="sd">                &quot;software&quot;: &quot;maya-2024&quot;,</span>
-<span class="sd">                &quot;notes&quot;: &quot;Initial model&quot;</span>
-<span class="sd">            })</span>
+<span class="sd">        # Add products</span>
+<span class="sd">        model = kumiho.get_product(&quot;kref://film-2024/models/hero.model&quot;)</span>
+<span class="sd">        texture = kumiho.get_product(&quot;kref://film-2024/textures/hero.texture&quot;)</span>
+<span class="sd">        bundle.add_member(model)</span>
+<span class="sd">        bundle.add_member(texture)</span>
 
-<span class="sd">            # Add resources</span>
-<span class="sd">            mesh = v1.create_resource(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
-<span class="sd">            rig = v1.create_resource(&quot;rig&quot;, &quot;/assets/hero_rig.fbx&quot;)</span>
+<span class="sd">        # List current members</span>
+<span class="sd">        for member in bundle.get_members():</span>
+<span class="sd">            print(f&quot;{member.product_kref} added by {member.added_by_username}&quot;)</span>
 
-<span class="sd">            # Set default resource (for resolve)</span>
-<span class="sd">            v1.set_default_resource(&quot;mesh&quot;)</span>
+<span class="sd">        # Remove a member</span>
+<span class="sd">        bundle.remove_member(model)</span>
 
-<span class="sd">            # Tag the version</span>
-<span class="sd">            v1.tag(&quot;approved&quot;)</span>
+<span class="sd">        # View complete audit history</span>
+<span class="sd">        for entry in bundle.get_history():</span>
+<span class="sd">            print(f&quot;v{entry.version_number}: {entry.action}&quot;)</span>
 
-<span class="sd">            # Check tags</span>
-<span class="sd">            if v1.has_tag(&quot;approved&quot;):</span>
-<span class="sd">                print(&quot;Version is approved!&quot;)</span>
-
-<span class="sd">            # Get all resources</span>
-<span class="sd">            for r in v1.get_resources():</span>
-<span class="sd">                print(f&quot;  {r.name}: {r.location}&quot;)</span>
-
-<span class="sd">            # Link to dependencies</span>
-<span class="sd">            texture = kumiho.get_version(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
-<span class="sd">            v1.create_link(texture, kumiho.DEPENDS_ON)</span>
+<span class="sd">    See Also:</span>
+<span class="sd">        :meth:`Project.create_collection`: Create a collection in a project.</span>
+<span class="sd">        :meth:`Group.create_collection`: Create a collection in a group.</span>
+<span class="sd">        :class:`CollectionMember`: Data class for member information.</span>
+<span class="sd">        :class:`CollectionVersionHistory`: Data class for audit entries.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Version.__init__">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb_version</span><span class="p">:</span> <span class="n">VersionResponse</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a Version from a protobuf response.</span>
+<div class="viewcode-block" id="Collection.__init__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.Collection.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb</span><span class="p">:</span> <span class="s1">&#39;ProductResponse&#39;</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a Collection from a protobuf response.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            pb_version: The protobuf VersionResponse message.</span>
-<span class="sd">            client: The client instance for making API calls.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">pb_version</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">product_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">pb_version</span><span class="o">.</span><span class="n">product_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">number</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">latest</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">latest</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pb_version</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pb_version</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">author</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">deprecated</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">published</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">published</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">username</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_resource</span> <span class="o">=</span> <span class="n">pb_version</span><span class="o">.</span><span class="n">default_resource</span> <span class="ow">or</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
-
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_is_stale</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this version&#39;s data might be stale.</span>
-<span class="sd">        </span>
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the data is older than 5 seconds, indicating</span>
-<span class="sd">                that tags like &#39;latest&#39; might have changed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">5</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current tags for this version.</span>
-
-<span class="sd">        This property automatically refreshes from the server if the data</span>
-<span class="sd">        might be stale (older than 5 seconds), ensuring dynamic tags like</span>
-<span class="sd">        &quot;latest&quot; are always current.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[str]: The list of tags on this version.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version = product.get_version(1)</span>
-<span class="sd">            &gt;&gt;&gt; print(version.tags)  # [&#39;latest&#39;, &#39;approved&#39;]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stale</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span>
-
-    <span class="nd">@tags</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the cached tags (used internally).&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span> <span class="o">=</span> <span class="n">value</span>
-
-<div class="viewcode-block" id="Version.__repr__">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.__repr__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Version.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Version number=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&#39; kref=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&#39;&gt;&quot;</span></div>
-
-
-<div class="viewcode-block" id="Version.create_resource">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.create_resource">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Resource</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new resource for this version.</span>
-
-<span class="sd">        Resources are file references that point to actual assets on disk</span>
-<span class="sd">        or network storage. Kumiho tracks the path and metadata but does</span>
-<span class="sd">        not upload or copy the files.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name: The name of the resource (e.g., &quot;mesh&quot;, &quot;textures&quot;, &quot;rig&quot;).</span>
-<span class="sd">            location: The file path or URI where the resource is stored.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Resource: The newly created Resource object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; mesh = version.create_resource(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; textures = version.create_resource(&quot;textures&quot;, &quot;smb://server/tex/hero.zip&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_resource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.set_metadata">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.set_metadata">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;Version&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set or update metadata for this version.</span>
-
-<span class="sd">        Metadata is merged with existing metadata—existing keys are</span>
-<span class="sd">        overwritten and new keys are added.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            metadata: Dictionary of metadata key-value pairs.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Version: The updated Version object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.set_metadata({</span>
-<span class="sd">            ...     &quot;render_engine&quot;: &quot;arnold&quot;,</span>
-<span class="sd">            ...     &quot;frame_range&quot;: &quot;1-100&quot;,</span>
-<span class="sd">            ...     &quot;resolution&quot;: &quot;4K&quot;</span>
-<span class="sd">            ... })</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">update_version_metadata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.has_tag">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.has_tag">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">has_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this version currently has a specific tag.</span>
-
-<span class="sd">        This makes a server call to ensure the tag status is current.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            tag: The tag to check for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the version has the tag, False otherwise.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; if version.has_tag(&quot;approved&quot;):</span>
-<span class="sd">            ...     print(&quot;Ready for production!&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">has_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.tag">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.tag">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a tag to this version.</span>
-
-<span class="sd">        Tags are used to categorize versions and mark their status.</span>
-<span class="sd">        Common tags include &quot;latest&quot;, &quot;published&quot;, &quot;approved&quot;, etc.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            The &quot;latest&quot; tag is automatically managed—it always points</span>
-<span class="sd">            to the newest version.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            tag: The tag to apply.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.tag(&quot;approved&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; version.tag(&quot;ready-for-lighting&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">tag_version</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Version.untag">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.untag">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">untag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a tag from this version.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            tag: The tag to remove.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.untag(&quot;work-in-progress&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">untag_version</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Version.was_tagged">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.was_tagged">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">was_tagged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this version was ever tagged with a specific tag.</span>
-
-<span class="sd">        This checks the historical record, not just current tags.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            tag: The tag to check for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the version was ever tagged with this tag.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; if version.was_tagged(&quot;approved&quot;):</span>
-<span class="sd">            ...     print(&quot;Was approved at some point&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">was_tagged</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.get_resource">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_resource">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Resource</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a specific resource by name from this version.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name: The name of the resource.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Resource: The Resource object.</span>
+<span class="sd">            pb: The ProductResponse protobuf message.</span>
+<span class="sd">            client: The client instance for making subsequent calls.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            grpc.RpcError: If the resource is not found.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; mesh = version.get_resource(&quot;mesh&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; print(mesh.location)</span>
+<span class="sd">            ValueError: If the product_type is not &#39;collection&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_resource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">product_type</span> <span class="o">!=</span> <span class="s2">&quot;collection&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cannot create Collection from product_type &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">product_type</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                <span class="s2">&quot;Expected &#39;collection&#39;.&quot;</span>
+            <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Version.get_resources">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_resources">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_resources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Resource</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all resources associated with this version.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[Resource]: A list of Resource objects.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; for resource in version.get_resources():</span>
-<span class="sd">            ...     print(f&quot;{resource.name}: {resource.location}&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_resources</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.get_locations">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_locations">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the file locations of all resources in this version.</span>
-
-<span class="sd">        This is a convenience method to quickly get all file paths.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[str]: A list of file location strings.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; locations = version.get_locations()</span>
-<span class="sd">            &gt;&gt;&gt; for loc in locations:</span>
-<span class="sd">            ...     print(loc)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">location</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_resources</span><span class="p">()]</span></div>
-
-
-<div class="viewcode-block" id="Version.get_product">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_product">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_product</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Product&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the parent product of this version.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Product: The Product object that contains this version.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; product = version.get_product()</span>
-<span class="sd">            &gt;&gt;&gt; print(product.product_name)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_product_by_kref</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">product_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.get_group">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_group">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Group&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the group that contains this version&#39;s product.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Group: The Group object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; group = version.get_group()</span>
-<span class="sd">            &gt;&gt;&gt; print(group.path)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">group_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">product_kref</span><span class="o">.</span><span class="n">get_group</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">group_path</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.get_project">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_project">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Project&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the project that contains this version.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Project: The Project object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; project = version.get_project()</span>
-<span class="sd">            &gt;&gt;&gt; print(project.name)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_group</span><span class="p">()</span><span class="o">.</span><span class="n">get_project</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Version.refresh">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.refresh">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh this version&#39;s data from the server.</span>
-<span class="sd">        </span>
-<span class="sd">        This updates all properties to reflect the current state in the</span>
-<span class="sd">        database, including tags that may have changed (like &quot;latest&quot;).</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.refresh()</span>
-<span class="sd">            &gt;&gt;&gt; print(version.tags)  # Now shows current tags</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">fresh_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_version</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">number</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">latest</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">latest</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">tags</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">metadata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">created_at</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">author</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">deprecated</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">published</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">published</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">username</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_resource</span> <span class="o">=</span> <span class="n">fresh_version</span><span class="o">.</span><span class="n">default_resource</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Version.set_default_resource">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.set_default_resource">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_default_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resource_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the default resource for this version.</span>
-
-<span class="sd">        The default resource is used when resolving the version&#39;s kref</span>
-<span class="sd">        without specifying a resource name.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            resource_name: The name of the resource to set as default.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.set_default_resource(&quot;mesh&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; # Now kref://project/model.type?v=1 resolves to the mesh</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetDefaultResourceRequest</span>
-        <span class="n">req</span> <span class="o">=</span> <span class="n">SetDefaultResourceRequest</span><span class="p">(</span>
-            <span class="n">version_kref</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span>
-            <span class="n">resource_name</span><span class="o">=</span><span class="n">resource_name</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">SetDefaultResource</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_resource</span> <span class="o">=</span> <span class="n">resource_name</span></div>
-
-
-<div class="viewcode-block" id="Version.delete">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.delete">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete this version.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            force: If True, force deletion even if the version has</span>
-<span class="sd">                resources. If False (default), deletion may fail.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            grpc.RpcError: If deletion fails.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.delete()  # Fails if has resources</span>
-<span class="sd">            &gt;&gt;&gt; version.delete(force=True)  # Force delete</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_version</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.set_deprecated">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.set_deprecated">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the deprecated status of this version.</span>
-
-<span class="sd">        Deprecated versions are hidden from default queries but remain</span>
-<span class="sd">        accessible for historical reference.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            status: True to deprecate, False to restore.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.set_deprecated(True)  # Hide from queries</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">status</span></div>
-
-
-<div class="viewcode-block" id="Version.create_link">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.create_link">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_link</span><span class="p">(</span>
+<div class="viewcode-block" id="Collection.add_member">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.Collection.add_member">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_member</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">target_version</span><span class="p">:</span> <span class="s1">&#39;Version&#39;</span><span class="p">,</span>
-        <span class="n">link_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">member</span><span class="p">:</span> <span class="s1">&#39;Product&#39;</span><span class="p">,</span>
         <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Link&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a link from this version to another version.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;Version&#39;</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a product to this collection.</span>
 
-<span class="sd">        Links represent relationships between versions, such as dependencies,</span>
-<span class="sd">        references, or derivations. This is useful for tracking asset lineage.</span>
+<span class="sd">        Creates a new version of the collection to track the change.</span>
+<span class="sd">        The version metadata will include the action (``&quot;ADDED&quot;``) and</span>
+<span class="sd">        the member product kref for audit purposes.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            target_version: The target version to link to.</span>
-<span class="sd">            link_type: The type of link. Use constants from :class:`kumiho.LinkType`:</span>
-<span class="sd">                - ``kumiho.DEPENDS_ON``: This version depends on target.</span>
-<span class="sd">                - ``kumiho.DERIVED_FROM``: This version was derived from target.</span>
-<span class="sd">                - ``kumiho.REFERENCED``: This version references target.</span>
-<span class="sd">                - ``kumiho.CONTAINS``: This version contains target.</span>
-<span class="sd">            metadata: Optional metadata for the link.</span>
+<span class="sd">            member: The product to add to the collection.</span>
+<span class="sd">            metadata: Optional additional metadata to store in the version.</span>
+<span class="sd">                This metadata becomes part of the immutable audit trail.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Link: The created Link object.</span>
+<span class="sd">            Tuple[bool, str, Optional[Version]]: A tuple containing:</span>
+<span class="sd">                - success: Whether the operation succeeded.</span>
+<span class="sd">                - message: A status message.</span>
+<span class="sd">                - new_version: The new collection version created for this change.</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; import kumiho</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If trying to add the collection to itself.</span>
+<span class="sd">            grpc.RpcError: If the member is already in the collection</span>
+<span class="sd">                (status code ``ALREADY_EXISTS``).</span>
 
-<span class="sd">            &gt;&gt;&gt; # Link to a texture dependency</span>
-<span class="sd">            &gt;&gt;&gt; texture = kumiho.get_version(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; version.create_link(texture, kumiho.DEPENDS_ON)</span>
+<span class="sd">        Example::</span>
 
-<span class="sd">            &gt;&gt;&gt; # Link with metadata</span>
-<span class="sd">            &gt;&gt;&gt; base = kumiho.get_version(&quot;kref://project/models/base.model?v=1&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; version.create_link(base, kumiho.DERIVED_FROM, {</span>
-<span class="sd">            ...     &quot;modification&quot;: &quot;Added details&quot;</span>
-<span class="sd">            ... })</span>
+<span class="sd">            hero_model = kumiho.get_product(&quot;kref://project/models/hero.model&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Add with optional metadata</span>
+<span class="sd">            success, msg, version = collection.add_member(</span>
+<span class="sd">                hero_model,</span>
+<span class="sd">                metadata={&quot;reason&quot;: &quot;character bundle&quot;, &quot;approved_by&quot;: &quot;director&quot;}</span>
+<span class="sd">            )</span>
+<span class="sd">            </span>
+<span class="sd">            if success:</span>
+<span class="sd">                print(f&quot;Added in version {version.number}&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_version</span><span class="p">,</span> <span class="n">link_type</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.get_links">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_links">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_links</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">link_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Link&#39;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get links involving this version.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            link_type_filter: Optional filter for link type.</span>
-<span class="sd">            direction: The direction of links to retrieve:</span>
-<span class="sd">                - ``kumiho.OUTGOING`` (0): Links from this version.</span>
-<span class="sd">                - ``kumiho.INCOMING`` (1): Links to this version.</span>
-<span class="sd">                - ``kumiho.BOTH`` (2): Links in both directions.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[Link]: A list of Link objects.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; import kumiho</span>
-
-<span class="sd">            &gt;&gt;&gt; # Get all dependencies</span>
-<span class="sd">            &gt;&gt;&gt; deps = version.get_links(kumiho.DEPENDS_ON, kumiho.OUTGOING)</span>
-
-<span class="sd">            &gt;&gt;&gt; # Get all versions that depend on this one</span>
-<span class="sd">            &gt;&gt;&gt; dependents = version.get_links(kumiho.DEPENDS_ON, kumiho.INCOMING)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_links</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">link_type_filter</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Version.delete_link">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.delete_link">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_version</span><span class="p">:</span> <span class="s1">&#39;Version&#39;</span><span class="p">,</span> <span class="n">link_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a link from this version.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            target_version: The target version of the link.</span>
-<span class="sd">            link_type: The type of link to delete.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; version.delete_link(texture_version, kumiho.DEPENDS_ON)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_link</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">target_version</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">link_type</span><span class="p">)</span></div>
-
-
-    <span class="c1"># --- Graph Traversal Methods ---</span>
-
-<div class="viewcode-block" id="Version.get_all_dependencies">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_all_dependencies">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_dependencies</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">link_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TraversalResult&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all transitive dependencies of this version.</span>
-
-<span class="sd">        Traverses outgoing links to find all versions this version</span>
-<span class="sd">        depends on, directly or indirectly.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            link_type_filter: Filter by link types (e.g., [kumiho.DEPENDS_ON]).</span>
-<span class="sd">            max_depth: Maximum traversal depth (default: 10, max: 20).</span>
-<span class="sd">            limit: Maximum number of results (default: 100, max: 1000).</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            TraversalResult: Contains all discovered versions and paths.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; import kumiho</span>
-
-<span class="sd">            &gt;&gt;&gt; # Get all dependencies up to 5 hops</span>
-<span class="sd">            &gt;&gt;&gt; deps = version.get_all_dependencies(</span>
-<span class="sd">            ...     link_type_filter=[kumiho.DEPENDS_ON],</span>
-<span class="sd">            ...     max_depth=5</span>
-<span class="sd">            ... )</span>
-<span class="sd">            &gt;&gt;&gt; for kref in deps.version_krefs:</span>
-<span class="sd">            ...     print(f&quot;Depends on: {kref}&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinkDirection</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">traverse_links</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">add_collection_member</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
-            <span class="n">direction</span><span class="o">=</span><span class="n">LinkDirection</span><span class="o">.</span><span class="n">OUTGOING</span><span class="p">,</span>
-            <span class="n">link_type_filter</span><span class="o">=</span><span class="n">link_type_filter</span><span class="p">,</span>
-            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
-            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+            <span class="n">member</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Version.get_all_dependents">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.get_all_dependents">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_dependents</span><span class="p">(</span>
+<div class="viewcode-block" id="Collection.remove_member">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.Collection.remove_member">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_member</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">link_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TraversalResult&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all versions that transitively depend on this version.</span>
+        <span class="n">member</span><span class="p">:</span> <span class="s1">&#39;Product&#39;</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;Version&#39;</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a product from this collection.</span>
 
-<span class="sd">        Traverses incoming links to find all versions that depend on</span>
-<span class="sd">        this version, directly or indirectly. Useful for impact analysis.</span>
+<span class="sd">        Creates a new version of the collection to track the change.</span>
+<span class="sd">        The version metadata will include the action (``&quot;REMOVED&quot;``) and</span>
+<span class="sd">        the member product kref for audit purposes.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            link_type_filter: Filter by link types.</span>
-<span class="sd">            max_depth: Maximum traversal depth.</span>
-<span class="sd">            limit: Maximum number of results.</span>
+<span class="sd">            member: The product to remove from the collection.</span>
+<span class="sd">            metadata: Optional additional metadata to store in the version.</span>
+<span class="sd">                This metadata becomes part of the immutable audit trail.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            TraversalResult: Contains all dependent versions.</span>
+<span class="sd">            Tuple[bool, str, Optional[Version]]: A tuple containing:</span>
+<span class="sd">                - success: Whether the operation succeeded.</span>
+<span class="sd">                - message: A status message.</span>
+<span class="sd">                - new_version: The new collection version created for this change.</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; # Find everything that would be affected by changing this texture</span>
-<span class="sd">            &gt;&gt;&gt; dependents = texture_v1.get_all_dependents([kumiho.DEPENDS_ON])</span>
-<span class="sd">            &gt;&gt;&gt; print(f&quot;{len(dependents.version_krefs)} versions would be affected&quot;)</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the member is not in the collection</span>
+<span class="sd">                (status code ``NOT_FOUND``).</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            # Remove a product from the collection</span>
+<span class="sd">            success, msg, version = collection.remove_member(hero_model)</span>
+<span class="sd">            </span>
+<span class="sd">            if success:</span>
+<span class="sd">                print(f&quot;Removed in version {version.number}&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinkDirection</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">traverse_links</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">remove_collection_member</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
-            <span class="n">direction</span><span class="o">=</span><span class="n">LinkDirection</span><span class="o">.</span><span class="n">INCOMING</span><span class="p">,</span>
-            <span class="n">link_type_filter</span><span class="o">=</span><span class="n">link_type_filter</span><span class="p">,</span>
-            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
-            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+            <span class="n">member</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Version.find_path_to">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.find_path_to">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">find_path_to</span><span class="p">(</span>
+<div class="viewcode-block" id="Collection.get_members">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.Collection.get_members">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_members</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">target</span><span class="p">:</span> <span class="s1">&#39;Version&#39;</span><span class="p">,</span>
-        <span class="n">link_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="n">all_paths</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;VersionPath&#39;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the shortest path from this version to another.</span>
+        <span class="n">version_number</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CollectionMember</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all products that are members of this collection.</span>
 
-<span class="sd">        Uses graph traversal to find how two versions are connected.</span>
+<span class="sd">        Returns information about each member product, including when</span>
+<span class="sd">        it was added and by whom.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            target: The target version to find a path to.</span>
-<span class="sd">            link_type_filter: Filter by link types.</span>
-<span class="sd">            max_depth: Maximum path length to search.</span>
-<span class="sd">            all_paths: If True, returns all shortest paths via result.paths.</span>
+<span class="sd">            version_number: Optional specific version to query.</span>
+<span class="sd">                If not provided, returns current membership.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            VersionPath if a path exists, None otherwise.</span>
-<span class="sd">            Use all_paths=True and access result.paths for multiple paths.</span>
+<span class="sd">            List[CollectionMember]: List of member information objects.</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; path = model_v1.find_path_to(texture_v3)</span>
-<span class="sd">            &gt;&gt;&gt; if path:</span>
-<span class="sd">            ...     print(f&quot;Path length: {path.total_depth}&quot;)</span>
-<span class="sd">            ...     for step in path.steps:</span>
-<span class="sd">            ...         print(f&quot;  -&gt; {step.version_kref} via {step.link_type}&quot;)</span>
+<span class="sd">        Example::</span>
+
+<span class="sd">            # Get current members</span>
+<span class="sd">            members = collection.get_members()</span>
+<span class="sd">            for member in members:</span>
+<span class="sd">                print(f&quot;{member.product_kref}&quot;)</span>
+<span class="sd">                print(f&quot;  Added by: {member.added_by_username}&quot;)</span>
+<span class="sd">                print(f&quot;  In version: {member.added_in_version}&quot;)</span>
+
+<span class="sd">            # Get empty list if no members</span>
+<span class="sd">            if not members:</span>
+<span class="sd">                print(&quot;Collection is empty&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">find_shortest_path</span><span class="p">(</span>
+        <span class="n">members</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_collection_members</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
-            <span class="n">target</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
-            <span class="n">link_type_filter</span><span class="o">=</span><span class="n">link_type_filter</span><span class="p">,</span>
-            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
-            <span class="n">all_shortest</span><span class="o">=</span><span class="n">all_paths</span>
+            <span class="n">version_number</span><span class="o">=</span><span class="n">version_number</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">all_paths</span><span class="p">:</span>
-            <span class="c1"># Return the result object when all paths requested</span>
-            <span class="k">return</span> <span class="n">result</span>  <span class="c1"># type: ignore</span>
-        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">first_path</span></div>
+        <span class="k">return</span> <span class="n">members</span></div>
 
 
-<div class="viewcode-block" id="Version.analyze_impact">
-<a class="viewcode-back" href="../../api/version.html#kumiho.Version.analyze_impact">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_impact</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">link_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ImpactedVersion&#39;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze the impact of changes to this version.</span>
+<div class="viewcode-block" id="Collection.get_history">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.Collection.get_history">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CollectionVersionHistory</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the full history of membership changes.</span>
 
-<span class="sd">        Returns all versions that directly or indirectly depend on this</span>
-<span class="sd">        version, sorted by impact depth (closest dependencies first).</span>
+<span class="sd">        Returns all versions with their associated actions, providing</span>
+<span class="sd">        a complete and immutable audit trail of all adds and removes.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            link_type_filter: Link types to follow (default: all).</span>
-<span class="sd">            max_depth: How far to traverse (default: 10).</span>
-<span class="sd">            limit: Maximum results (default: 100).</span>
+<span class="sd">        The history is ordered by version number, starting with the</span>
+<span class="sd">        initial ``&quot;CREATED&quot;`` action.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[ImpactedVersion]: Versions that would be impacted.</span>
+<span class="sd">            List[CollectionVersionHistory]: List of history entries, ordered</span>
+<span class="sd">                by version number (oldest first).</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; # Before modifying a shared texture</span>
-<span class="sd">            &gt;&gt;&gt; impact = texture_v1.analyze_impact()</span>
-<span class="sd">            &gt;&gt;&gt; print(f&quot;{len(impact)} versions would need review&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; for iv in impact[:5]:</span>
-<span class="sd">            ...     print(f&quot;  {iv.version_kref} (depth {iv.impact_depth})&quot;)</span>
+<span class="sd">        Example::</span>
+
+<span class="sd">            history = collection.get_history()</span>
+<span class="sd">            </span>
+<span class="sd">            for entry in history:</span>
+<span class="sd">                print(f&quot;Version {entry.version_number}:&quot;)</span>
+<span class="sd">                print(f&quot;  Action: {entry.action}&quot;)</span>
+<span class="sd">                print(f&quot;  By: {entry.username}&quot;)</span>
+<span class="sd">                print(f&quot;  At: {entry.created_at}&quot;)</span>
+<span class="sd">                if entry.member_product_kref:</span>
+<span class="sd">                    print(f&quot;  Product: {entry.member_product_kref}&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">analyze_impact</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
-            <span class="n">link_type_filter</span><span class="o">=</span><span class="n">link_type_filter</span><span class="p">,</span>
-            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
-            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_collection_history</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Collection.__repr__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.collection.Collection.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Collection.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Collection(kref=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="si">!r}</span><span class="s2">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">)&quot;</span></div>
 </div>
 
 </pre></div>

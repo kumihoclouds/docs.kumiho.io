@@ -75,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../concepts.html#version">Version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../concepts.html#resource">Resource</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../concepts.html#link">Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#collection">Collection</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#metadata">Metadata</a><ul>
@@ -142,6 +143,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Project.allow_public"><code class="docutils literal notranslate"><span class="pre">Project.allow_public</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Project.__init__"><code class="docutils literal notranslate"><span class="pre">Project.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Project.__repr__"><code class="docutils literal notranslate"><span class="pre">Project.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Project.create_collection"><code class="docutils literal notranslate"><span class="pre">Project.create_collection()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Project.create_group"><code class="docutils literal notranslate"><span class="pre">Project.create_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Project.get_group"><code class="docutils literal notranslate"><span class="pre">Project.get_group()</span></code></a></li>
@@ -160,6 +162,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Group.username"><code class="docutils literal notranslate"><span class="pre">Group.username</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Group.__init__"><code class="docutils literal notranslate"><span class="pre">Group.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Group.__repr__"><code class="docutils literal notranslate"><span class="pre">Group.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Group.create_collection"><code class="docutils literal notranslate"><span class="pre">Group.create_collection()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Group.create_group"><code class="docutils literal notranslate"><span class="pre">Group.create_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Group.create_product"><code class="docutils literal notranslate"><span class="pre">Group.create_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Group.delete"><code class="docutils literal notranslate"><span class="pre">Group.delete()</span></code></a></li>
@@ -214,10 +217,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.default_resource"><code class="docutils literal notranslate"><span class="pre">Version.default_resource</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.__init__"><code class="docutils literal notranslate"><span class="pre">Version.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.__repr__"><code class="docutils literal notranslate"><span class="pre">Version.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.analyze_impact"><code class="docutils literal notranslate"><span class="pre">Version.analyze_impact()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.create_link"><code class="docutils literal notranslate"><span class="pre">Version.create_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.create_resource"><code class="docutils literal notranslate"><span class="pre">Version.create_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.delete"><code class="docutils literal notranslate"><span class="pre">Version.delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.delete_link"><code class="docutils literal notranslate"><span class="pre">Version.delete_link()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.find_path_to"><code class="docutils literal notranslate"><span class="pre">Version.find_path_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.get_all_dependencies"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependencies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.get_all_dependents"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependents()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.get_group"><code class="docutils literal notranslate"><span class="pre">Version.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.get_links"><code class="docutils literal notranslate"><span class="pre">Version.get_links()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Version.get_locations"><code class="docutils literal notranslate"><span class="pre">Version.get_locations()</span></code></a></li>
@@ -299,6 +306,57 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.ProjectLimitError"><code class="docutils literal notranslate"><span class="pre">ProjectLimitError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.Collection"><code class="docutils literal notranslate"><span class="pre">Collection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.kref"><code class="docutils literal notranslate"><span class="pre">Collection.kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.name"><code class="docutils literal notranslate"><span class="pre">Collection.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.product_name"><code class="docutils literal notranslate"><span class="pre">Collection.product_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.product_type"><code class="docutils literal notranslate"><span class="pre">Collection.product_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.metadata"><code class="docutils literal notranslate"><span class="pre">Collection.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.created_at"><code class="docutils literal notranslate"><span class="pre">Collection.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.author"><code class="docutils literal notranslate"><span class="pre">Collection.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.username"><code class="docutils literal notranslate"><span class="pre">Collection.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.deprecated"><code class="docutils literal notranslate"><span class="pre">Collection.deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.__init__"><code class="docutils literal notranslate"><span class="pre">Collection.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.__repr__"><code class="docutils literal notranslate"><span class="pre">Collection.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.add_member"><code class="docutils literal notranslate"><span class="pre">Collection.add_member()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.get_history"><code class="docutils literal notranslate"><span class="pre">Collection.get_history()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.get_members"><code class="docutils literal notranslate"><span class="pre">Collection.get_members()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Collection.remove_member"><code class="docutils literal notranslate"><span class="pre">Collection.remove_member()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.CollectionMember"><code class="docutils literal notranslate"><span class="pre">CollectionMember</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionMember.product_kref"><code class="docutils literal notranslate"><span class="pre">CollectionMember.product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionMember.added_at"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionMember.added_by"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionMember.added_by_username"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionMember.added_in_version"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_in_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionMember.__init__"><code class="docutils literal notranslate"><span class="pre">CollectionMember.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">CollectionMember.product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">CollectionMember.added_in_version</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.CollectionVersionHistory"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.version_number"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.version_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.action"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.member_product_kref"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.member_product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.author"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.username"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.created_at"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.metadata"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.CollectionVersionHistory.__init__"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.version_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.member_product_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory.metadata</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.ReservedProductTypeError"><code class="docutils literal notranslate"><span class="pre">ReservedProductTypeError</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.use_client"><code class="docutils literal notranslate"><span class="pre">use_client</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.use_client.__init__"><code class="docutils literal notranslate"><span class="pre">use_client.__init__()</span></code></a></li>
@@ -309,8 +367,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.LinkType"><code class="docutils literal notranslate"><span class="pre">LinkType</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkType.BELONGS_TO"><code class="docutils literal notranslate"><span class="pre">LinkType.BELONGS_TO</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkType.CREATED_FROM"><code class="docutils literal notranslate"><span class="pre">LinkType.CREATED_FROM</span></code></a></li>
@@ -318,21 +376,21 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkType.DEPENDS_ON"><code class="docutils literal notranslate"><span class="pre">LinkType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkType.DERIVED_FROM"><code class="docutils literal notranslate"><span class="pre">LinkType.DERIVED_FROM</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkType.CONTAINS"><code class="docutils literal notranslate"><span class="pre">LinkType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">LinkType.BELONGS_TO</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">LinkType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">LinkType.CREATED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">LinkType.DEPENDS_ON</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">LinkType.DERIVED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">LinkType.REFERENCED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">LinkType.BELONGS_TO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">LinkType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">LinkType.CREATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">LinkType.DEPENDS_ON</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">LinkType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">LinkType.REFERENCED</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.LinkDirection"><code class="docutils literal notranslate"><span class="pre">LinkDirection</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkDirection.OUTGOING"><code class="docutils literal notranslate"><span class="pre">LinkDirection.OUTGOING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkDirection.INCOMING"><code class="docutils literal notranslate"><span class="pre">LinkDirection.INCOMING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.LinkDirection.BOTH"><code class="docutils literal notranslate"><span class="pre">LinkDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">LinkDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">LinkDirection.INCOMING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">LinkDirection.OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">LinkDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">LinkDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">LinkDirection.OUTGOING</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
@@ -351,6 +409,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project.html">kumiho.project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="group.html">kumiho.group</a></li>
 <li class="toctree-l1"><a class="reference internal" href="product.html">kumiho.product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collection.html">kumiho.collection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html">kumiho.version</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resource.html">kumiho.resource</a></li>
 <li class="toctree-l1"><a class="reference internal" href="link.html">kumiho.link</a></li>
@@ -760,6 +819,57 @@ share assets publicly or restrict them to authenticated users.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Project.create_collection">
+<span class="sig-name descname"><span class="pre">create_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.create_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Project.create_collection" title="Link to this definition"></a></dt>
+<dd><p>Create a new collection within this project.</p>
+<p>Collections are special products that aggregate other products.
+They provide a way to group related products together and maintain
+an audit trail of membership changes through version history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the collection. Must be unique within
+the parent group.</p></li>
+<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional parent path for the collection. If not provided,
+creates the collection at the project root (<code class="docutils literal notranslate"><span class="pre">/{project_name}</span></code>).</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional key-value metadata for the collection.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created Collection object with type “collection”.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kumiho.Collection" title="kumiho.Collection">Collection</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the collection name is already taken or if there
+    is a connection error.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#kumiho.Collection" title="kumiho.collection.Collection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>: The Collection class.
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">create_collection()</span></code>: Create collection in a group.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create at project root</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span><span class="s2">&quot;release-bundle&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create in specific group</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;character-bundle&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/film-2024/assets&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Add products to the collection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hero</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="s2">&quot;models&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_product</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">hero</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="kumiho.Project.create_group">
 <span class="sig-name descname"><span class="pre">create_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.create_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Project.create_group" title="Link to this definition"></a></dt>
 <dd><p>Create a group within this project.</p>
@@ -1093,6 +1203,49 @@ and can store custom metadata.</p>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Group.create_collection">
+<span class="sig-name descname"><span class="pre">create_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/group.html#Group.create_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Group.create_collection" title="Link to this definition"></a></dt>
+<dd><p>Create a new collection within this group.</p>
+<p>Collections are special products that aggregate other products.
+They provide a way to group related products together and maintain
+an audit trail of membership changes through version history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the collection. Must be unique within
+the group.</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional key-value metadata for the collection.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created Collection object with type “collection”.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kumiho.Collection" title="kumiho.Collection">Collection</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the collection name is already taken or if there
+    is a connection error.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#kumiho.Collection" title="kumiho.collection.Collection"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>: The Collection class.
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">create_collection()</span></code>: Create collection in a project.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create a collection for a character bundle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assets</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="s2">&quot;assets&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span><span class="s2">&quot;character-bundle&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Add products to the collection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hero</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">get_product</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">hero</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -2116,6 +2269,39 @@ seconds). This ensures tags like “latest” are always current.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Version.analyze_impact">
+<span class="sig-name descname"><span class="pre">analyze_impact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link_type_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/version.html#Version.analyze_impact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Version.analyze_impact" title="Link to this definition"></a></dt>
+<dd><p>Analyze the impact of changes to this version.</p>
+<p>Returns all versions that directly or indirectly depend on this
+version, sorted by impact depth (closest dependencies first).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>link_type_filter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Link types to follow (default: all).</p></li>
+<li><p><strong>max_depth</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – How far to traverse (default: 10).</p></li>
+<li><p><strong>limit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum results (default: 100).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Versions that would be impacted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[ImpactedVersion]</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Before modifying a shared texture</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impact</span> <span class="o">=</span> <span class="n">texture_v1</span><span class="o">.</span><span class="n">analyze_impact</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">impact</span><span class="p">)</span><span class="si">}</span><span class="s2"> versions would need review&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">iv</span> <span class="ow">in</span> <span class="n">impact</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">iv</span><span class="o">.</span><span class="n">version_kref</span><span class="si">}</span><span class="s2"> (depth </span><span class="si">{</span><span class="n">iv</span><span class="o">.</span><span class="n">impact_depth</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="kumiho.Version.create_link">
 <span class="sig-name descname"><span class="pre">create_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/version.html#Version.create_link"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Version.create_link" title="Link to this definition"></a></dt>
 <dd><p>Create a link from this version to another version.</p>
@@ -2233,6 +2419,109 @@ resources. If False (default), deletion may fail.</p>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="o">.</span><span class="n">delete_link</span><span class="p">(</span><span class="n">texture_version</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Version.find_path_to">
+<span class="sig-name descname"><span class="pre">find_path_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_type_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/version.html#Version.find_path_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Version.find_path_to" title="Link to this definition"></a></dt>
+<dd><p>Find the shortest path from this version to another.</p>
+<p>Uses graph traversal to find how two versions are connected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#kumiho.Version" title="kumiho.version.Version"><code class="xref py py-class docutils literal notranslate"><span class="pre">Version</span></code></a></span>) – The target version to find a path to.</p></li>
+<li><p><strong>link_type_filter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Filter by link types.</p></li>
+<li><p><strong>max_depth</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum path length to search.</p></li>
+<li><p><strong>all_paths</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, returns all shortest paths via result.paths.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">VersionPath</span></code>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>VersionPath if a path exists, None otherwise.
+Use all_paths=True and access result.paths for multiple paths.</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">model_v1</span><span class="o">.</span><span class="n">find_path_to</span><span class="p">(</span><span class="n">texture_v3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path length: </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">total_depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  -&gt; </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">version_kref</span><span class="si">}</span><span class="s2"> via </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">link_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Version.get_all_dependencies">
+<span class="sig-name descname"><span class="pre">get_all_dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link_type_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/version.html#Version.get_all_dependencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Version.get_all_dependencies" title="Link to this definition"></a></dt>
+<dd><p>Get all transitive dependencies of this version.</p>
+<p>Traverses outgoing links to find all versions this version
+depends on, directly or indirectly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>link_type_filter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Filter by link types (e.g., [kumiho.DEPENDS_ON]).</p></li>
+<li><p><strong>max_depth</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum traversal depth (default: 10, max: 20).</p></li>
+<li><p><strong>limit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of results (default: 100, max: 1000).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Contains all discovered versions and paths.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TraversalResult</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get all dependencies up to 5 hops</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deps</span> <span class="o">=</span> <span class="n">version</span><span class="o">.</span><span class="n">get_all_dependencies</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">link_type_filter</span><span class="o">=</span><span class="p">[</span><span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="n">deps</span><span class="o">.</span><span class="n">version_krefs</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Depends on: </span><span class="si">{</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Version.get_all_dependents">
+<span class="sig-name descname"><span class="pre">get_all_dependents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link_type_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/version.html#Version.get_all_dependents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Version.get_all_dependents" title="Link to this definition"></a></dt>
+<dd><p>Get all versions that transitively depend on this version.</p>
+<p>Traverses incoming links to find all versions that depend on
+this version, directly or indirectly. Useful for impact analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>link_type_filter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Filter by link types.</p></li>
+<li><p><strong>max_depth</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum traversal depth.</p></li>
+<li><p><strong>limit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Contains all dependent versions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TraversalResult</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Find everything that would be affected by changing this texture</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dependents</span> <span class="o">=</span> <span class="n">texture_v1</span><span class="o">.</span><span class="n">get_all_dependents</span><span class="p">([</span><span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dependents</span><span class="o">.</span><span class="n">version_krefs</span><span class="p">)</span><span class="si">}</span><span class="s2"> versions would be affected&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -3555,6 +3844,718 @@ such as creating versions, applying tags, or deleting resources. Use
 <p>Raised when guardrails block project creation (e.g., max projects reached).</p>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.Collection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">Collection</span></span><a class="reference internal" href="../_modules/kumiho/collection.html#Collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Collection" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kumiho.Product" title="kumiho.product.Product"><code class="xref py py-class docutils literal notranslate"><span class="pre">Product</span></code></a></p>
+<p>A special product type that aggregates other products.</p>
+<p>Collections provide a way to group related products together. Unlike regular
+products, collections cannot be created using the standard <code class="docutils literal notranslate"><span class="pre">create_product</span></code>
+method—the <code class="docutils literal notranslate"><span class="pre">collection</span></code> product type is reserved.</p>
+<p>Use <a class="reference internal" href="#kumiho.Project.create_collection" title="kumiho.Project.create_collection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.create_collection()</span></code></a> or <a class="reference internal" href="#kumiho.Group.create_collection" title="kumiho.Group.create_collection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Group.create_collection()</span></code></a>
+to create collections.</p>
+<dl class="simple">
+<dt>Key features:</dt><dd><ul class="simple">
+<li><p>Aggregates products (not versions) via <code class="docutils literal notranslate"><span class="pre">COLLECTS</span></code> relationships.</p></li>
+<li><p>Each membership change creates a new version for audit trail.</p></li>
+<li><p>Version metadata is immutable, providing complete history.</p></li>
+<li><p>Cannot contain itself (self-reference protection).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.kref">
+<span class="sig-name descname"><span class="pre">kref</span></span><a class="headerlink" href="#kumiho.Collection.kref" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier for this collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#kumiho.Collection.name" title="Link to this definition"></a></dt>
+<dd><p>The combined name (e.g., “my-bundle.collection”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.product_name">
+<span class="sig-name descname"><span class="pre">product_name</span></span><a class="headerlink" href="#kumiho.Collection.product_name" title="Link to this definition"></a></dt>
+<dd><p>The collection name (e.g., “my-bundle”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.product_type">
+<span class="sig-name descname"><span class="pre">product_type</span></span><a class="headerlink" href="#kumiho.Collection.product_type" title="Link to this definition"></a></dt>
+<dd><p>Always “collection”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#kumiho.Collection.metadata" title="Link to this definition"></a></dt>
+<dd><p>Custom metadata key-value pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#kumiho.Collection.created_at" title="Link to this definition"></a></dt>
+<dd><p>ISO timestamp when the collection was created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.author">
+<span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#kumiho.Collection.author" title="Link to this definition"></a></dt>
+<dd><p>The user ID who created the collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.username">
+<span class="sig-name descname"><span class="pre">username</span></span><a class="headerlink" href="#kumiho.Collection.username" title="Link to this definition"></a></dt>
+<dd><p>Display name of the creator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Collection.deprecated">
+<span class="sig-name descname"><span class="pre">deprecated</span></span><a class="headerlink" href="#kumiho.Collection.deprecated" title="Link to this definition"></a></dt>
+<dd><p>Whether the collection is deprecated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="c1"># Create a collection from a project</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">)</span>
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span><span class="s2">&quot;release-v1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add products</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_product</span><span class="p">(</span><span class="s2">&quot;kref://film-2024/models/hero.model&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_product</span><span class="p">(</span><span class="s2">&quot;kref://film-2024/textures/hero.texture&quot;</span><span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">texture</span><span class="p">)</span>
+
+<span class="c1"># List current members</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">product_kref</span><span class="si">}</span><span class="s2"> added by </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_by_username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Remove a member</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">remove_member</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># View complete audit history</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_history</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v</span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">version_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#kumiho.Project.create_collection" title="kumiho.Project.create_collection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.create_collection()</span></code></a>: Create a collection in a project.
+<a class="reference internal" href="#kumiho.Group.create_collection" title="kumiho.Group.create_collection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Group.create_collection()</span></code></a>: Create a collection in a group.
+<a class="reference internal" href="#kumiho.CollectionMember" title="kumiho.CollectionMember"><code class="xref py py-class docutils literal notranslate"><span class="pre">CollectionMember</span></code></a>: Data class for member information.
+<a class="reference internal" href="#kumiho.CollectionVersionHistory" title="kumiho.CollectionVersionHistory"><code class="xref py py-class docutils literal notranslate"><span class="pre">CollectionVersionHistory</span></code></a>: Data class for audit entries.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Collection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/collection.html#Collection.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Collection.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a Collection from a protobuf response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pb</strong> (<span class="sphinx_autodoc_typehints-type">ProductResponse</span>) – The ProductResponse protobuf message.</p></li>
+<li><p><strong>client</strong> (<span class="sphinx_autodoc_typehints-type">_Client</span>) – The client instance for making subsequent calls.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the product_type is not ‘collection’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Collection.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/collection.html#Collection.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Collection.__repr__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of the Collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Collection.add_member">
+<span class="sig-name descname"><span class="pre">add_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/collection.html#Collection.add_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Collection.add_member" title="Link to this definition"></a></dt>
+<dd><p>Add a product to this collection.</p>
+<p>Creates a new version of the collection to track the change.
+The version metadata will include the action (<code class="docutils literal notranslate"><span class="pre">&quot;ADDED&quot;</span></code>) and
+the member product kref for audit purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>member</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#kumiho.Product" title="kumiho.product.Product"><code class="xref py py-class docutils literal notranslate"><span class="pre">Product</span></code></a></span>) – The product to add to the collection.</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional additional metadata to store in the version.
+This metadata becomes part of the immutable audit trail.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>success: Whether the operation succeeded.</p></li>
+<li><p>message: A status message.</p></li>
+<li><p>new_version: The new collection version created for this change.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Optional[<a class="reference internal" href="#kumiho.Version" title="kumiho.Version">Version</a>]]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If trying to add the collection to itself.</p></li>
+<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the member is already in the collection
+    (status code <code class="docutils literal notranslate"><span class="pre">ALREADY_EXISTS</span></code>).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hero_model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_product</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add with optional metadata</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span>
+    <span class="n">hero_model</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;character bundle&quot;</span><span class="p">,</span> <span class="s2">&quot;approved_by&quot;</span><span class="p">:</span> <span class="s2">&quot;director&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added in version </span><span class="si">{</span><span class="n">version</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Collection.get_history">
+<span class="sig-name descname"><span class="pre">get_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/collection.html#Collection.get_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Collection.get_history" title="Link to this definition"></a></dt>
+<dd><p>Get the full history of membership changes.</p>
+<p>Returns all versions with their associated actions, providing
+a complete and immutable audit trail of all adds and removes.</p>
+<p>The history is ordered by version number, starting with the
+initial <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code> action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>List of history entries, ordered</dt><dd><p>by version number (oldest first).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#kumiho.CollectionVersionHistory" title="kumiho.CollectionVersionHistory">CollectionVersionHistory</a>]</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">history</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Version </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">version_number</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Action: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  By: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  At: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">created_at</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">member_product_kref</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Product: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">member_product_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Collection.get_members">
+<span class="sig-name descname"><span class="pre">get_members</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/collection.html#Collection.get_members"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Collection.get_members" title="Link to this definition"></a></dt>
+<dd><p>Get all products that are members of this collection.</p>
+<p>Returns information about each member product, including when
+it was added and by whom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>version_number</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Optional specific version to query.
+If not provided, returns current membership.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of member information objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#kumiho.CollectionMember" title="kumiho.CollectionMember">CollectionMember</a>]</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get current members</span>
+<span class="n">members</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">product_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Added by: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_by_username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  In version: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_in_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get empty list if no members</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">members</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Collection is empty&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.Collection.remove_member">
+<span class="sig-name descname"><span class="pre">remove_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/collection.html#Collection.remove_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Collection.remove_member" title="Link to this definition"></a></dt>
+<dd><p>Remove a product from this collection.</p>
+<p>Creates a new version of the collection to track the change.
+The version metadata will include the action (<code class="docutils literal notranslate"><span class="pre">&quot;REMOVED&quot;</span></code>) and
+the member product kref for audit purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>member</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#kumiho.Product" title="kumiho.product.Product"><code class="xref py py-class docutils literal notranslate"><span class="pre">Product</span></code></a></span>) – The product to remove from the collection.</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional additional metadata to store in the version.
+This metadata becomes part of the immutable audit trail.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>success: Whether the operation succeeded.</p></li>
+<li><p>message: A status message.</p></li>
+<li><p>new_version: The new collection version created for this change.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Optional[<a class="reference internal" href="#kumiho.Version" title="kumiho.Version">Version</a>]]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the member is not in the collection
+    (status code <code class="docutils literal notranslate"><span class="pre">NOT_FOUND</span></code>).</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove a product from the collection</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">remove_member</span><span class="p">(</span><span class="n">hero_model</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed in version </span><span class="si">{</span><span class="n">version</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.CollectionMember">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">CollectionMember</span></span><a class="reference internal" href="../_modules/kumiho/collection.html#CollectionMember"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.CollectionMember" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A product that is a member of a collection.</p>
+<p>Represents the membership relationship between a product and a collection,
+including metadata about when and by whom the product was added.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionMember.product_kref">
+<span class="sig-name descname"><span class="pre">product_kref</span></span><a class="headerlink" href="#kumiho.CollectionMember.product_kref" title="Link to this definition"></a></dt>
+<dd><p>The kref of the member product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionMember.added_at">
+<span class="sig-name descname"><span class="pre">added_at</span></span><a class="headerlink" href="#kumiho.CollectionMember.added_at" title="Link to this definition"></a></dt>
+<dd><p>ISO timestamp when the product was added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionMember.added_by">
+<span class="sig-name descname"><span class="pre">added_by</span></span><a class="headerlink" href="#kumiho.CollectionMember.added_by" title="Link to this definition"></a></dt>
+<dd><p>UUID of the user who added the product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionMember.added_by_username">
+<span class="sig-name descname"><span class="pre">added_by_username</span></span><a class="headerlink" href="#kumiho.CollectionMember.added_by_username" title="Link to this definition"></a></dt>
+<dd><p>Display name of the user who added the product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionMember.added_in_version">
+<span class="sig-name descname"><span class="pre">added_in_version</span></span><a class="headerlink" href="#kumiho.CollectionMember.added_in_version" title="Link to this definition"></a></dt>
+<dd><p>The collection version when this product was added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">members</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Product: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">product_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added by: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_by_username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added at: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_at</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;In version: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_in_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.CollectionMember.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_by_username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_in_version</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.CollectionMember.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_kref</strong> (<a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a>)</p></li>
+<li><p><strong>added_at</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>added_by</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>added_by_username</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>added_in_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">product_kref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kref</span></code></a></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>The kref of the member product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">added_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>ISO timestamp when the product was added to the collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">added_by</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>UUID of the user who added the product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">added_by_username</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Display name of the user who added the product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">added_in_version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>The collection version number when this product was added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">CollectionVersionHistory</span></span><a class="reference internal" href="../_modules/kumiho/collection.html#CollectionVersionHistory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.CollectionVersionHistory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A historical change to a collection’s membership.</p>
+<p>Each entry captures a single add or remove operation, providing
+an immutable audit trail of all membership changes. The metadata
+is immutable once created, ensuring complete traceability.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.version_number">
+<span class="sig-name descname"><span class="pre">version_number</span></span><a class="headerlink" href="#kumiho.CollectionVersionHistory.version_number" title="Link to this definition"></a></dt>
+<dd><p>The collection version number for this change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.action">
+<span class="sig-name descname"><span class="pre">action</span></span><a class="headerlink" href="#kumiho.CollectionVersionHistory.action" title="Link to this definition"></a></dt>
+<dd><p>The action performed: <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;ADDED&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;REMOVED&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.member_product_kref">
+<span class="sig-name descname"><span class="pre">member_product_kref</span></span><a class="headerlink" href="#kumiho.CollectionVersionHistory.member_product_kref" title="Link to this definition"></a></dt>
+<dd><p>The product that was added/removed.
+None for the initial <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code> action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="#kumiho.Kref" title="kumiho.Kref">Kref</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.author">
+<span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#kumiho.CollectionVersionHistory.author" title="Link to this definition"></a></dt>
+<dd><p>UUID of the user who made the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.username">
+<span class="sig-name descname"><span class="pre">username</span></span><a class="headerlink" href="#kumiho.CollectionVersionHistory.username" title="Link to this definition"></a></dt>
+<dd><p>Display name of the user who made the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#kumiho.CollectionVersionHistory.created_at" title="Link to this definition"></a></dt>
+<dd><p>ISO timestamp of the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#kumiho.CollectionVersionHistory.metadata" title="Link to this definition"></a></dt>
+<dd><p>Immutable metadata captured at the time of change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">history</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Version </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">version_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">member_product_kref</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Product: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">member_product_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  By: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">created_at</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.CollectionVersionHistory.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_product_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">author</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.CollectionVersionHistory.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>version_number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>member_product_kref</strong> (<a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>author</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>username</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>created_at</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">version_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>The collection version number for this change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>The action performed: <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;ADDED&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;REMOVED&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">member_product_kref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kref</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>The product that was added/removed (None for CREATED).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="#kumiho.Kref" title="kumiho.Kref">Kref</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>UUID of the user who made the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">username</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Display name of the user who made the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>ISO timestamp of when the change was made.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Immutable metadata captured at the time of the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="kumiho.ReservedProductTypeError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">ReservedProductTypeError</span></span><a class="reference internal" href="../_modules/kumiho/collection.html#ReservedProductTypeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.ReservedProductTypeError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Raised when attempting to create a product with a reserved type.</p>
+<p>This error is raised when calling <a class="reference internal" href="#kumiho.Group.create_product" title="kumiho.Group.create_product"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Group.create_product()</span></code></a> or the
+low-level client <code class="docutils literal notranslate"><span class="pre">create_product</span></code> with a reserved product type such
+as <code class="docutils literal notranslate"><span class="pre">collection</span></code>.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="n">group</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="s2">&quot;assets&quot;</span><span class="p">)</span>
+
+<span class="c1"># This will raise ReservedProductTypeError</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">group</span><span class="o">.</span><span class="n">create_product</span><span class="p">(</span><span class="s2">&quot;my-bundle&quot;</span><span class="p">,</span> <span class="s2">&quot;collection&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">ReservedProductTypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Use create_collection instead</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span><span class="s2">&quot;my-bundle&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="kumiho.connect">
 <span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_auto_login</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_discovery</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho.html#connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.connect" title="Link to this definition"></a></dt>
@@ -3785,8 +4786,8 @@ for interactive login. Defaults to False for script safety.</p></li>
 </dd></dl>
 
 <dl class="py data">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">LATEST_TAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'latest'</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id14">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">LATEST_TAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'latest'</span></em><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
 <dd><p>Standard tag name indicating the latest version of a product.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -3796,8 +4797,8 @@ for interactive login. Defaults to False for script safety.</p></li>
 </dd></dl>
 
 <dl class="py data">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">PUBLISHED_TAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'published'</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id15">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">PUBLISHED_TAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'published'</span></em><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
 <dd><p>Standard tag name indicating a published/released version.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -3890,38 +4891,38 @@ versions. Use them when creating or querying links.</p>
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">BELONGS_TO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'belongs_to'</span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">BELONGS_TO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'belongs_to'</span></em><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
 <dd><p>Ownership or grouping relationship.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">CONTAINS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contains'</span></em><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">CONTAINS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'contains'</span></em><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
 <dd><p>Source contains or includes target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">CREATED_FROM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'created_from'</span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">CREATED_FROM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'created_from'</span></em><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
 <dd><p>Source was generated/created from target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">DEPENDS_ON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'depends_on'</span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">DEPENDS_ON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'depends_on'</span></em><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
 <dd><p>Source requires target to function.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">DERIVED_FROM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'derived_from'</span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">DERIVED_FROM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'derived_from'</span></em><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
 <dd><p>Source was derived or modified from target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">REFERENCED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'referenced'</span></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">REFERENCED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'referenced'</span></em><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
 <dd><p>Soft reference relationship.</p>
 </dd></dl>
 
@@ -3981,20 +4982,20 @@ outgoing links (from source), incoming links (to target), or both.</p>
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">BOTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">BOTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
 <dd><p>Links in either direction.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">INCOMING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">INCOMING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
 <dd><p>Links where the queried version is the target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">OUTGOING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">OUTGOING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
 <dd><p>Links where the queried version is the source.</p>
 </dd></dl>
 
