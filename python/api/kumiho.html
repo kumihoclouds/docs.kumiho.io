@@ -87,6 +87,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#kref-uri-scheme">Kref URI Scheme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#time-based-revision-queries">Time-Based Revision Queries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#why-time-based-queries-matter">Why Time-Based Queries Matter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#using-get-revision-by-time">Using <code class="docutils literal notranslate"><span class="pre">get_revision_by_time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#time-based-kref-uris">Time-Based Kref URIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#tags-and-time">Tags and Time</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#event-streaming">Event Streaming</a></li>
@@ -2201,19 +2209,26 @@ Custom tags can be applied to revisions using <a class="reference internal" href
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kumiho.Item.get_revision_by_time">
-<span class="sig-name descname"><span class="pre">get_revision_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/item.html#Item.get_revision_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Item.get_revision_by_time" title="Link to this definition"></a></dt>
-<dd><p>Get the revision that was active at a specific time.</p>
-<p>This finds the revision that was tagged as “latest” at the given
-time, useful for historical queries and reproducing past states.</p>
+<span class="sig-name descname"><span class="pre">get_revision_by_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/item.html#Item.get_revision_by_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Item.get_revision_by_time" title="Link to this definition"></a></dt>
+<dd><p>Get the revision that had a specific tag at a given time.</p>
+<p>This is essential for reproducible builds and historical queries.
+By combining a tag (like “published”) with a timestamp, you can
+answer questions like “What was the published version on June 1st?”</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>time</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code></a>]</span>) – The time as a datetime object, or a string in either
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code></a>]</span>) – The time as a datetime object, or a string in either
 YYYYMMDDHHMM format (e.g., “202312251430”) or RFC3339
-format (e.g., “2023-12-25T14:30:00Z”).</p>
+format (e.g., “2023-12-25T14:30:00Z”).</p></li>
+<li><p><strong>tag</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional tag to filter by. Common values:
+- “published”: Find the published revision at that time
+- “approved”: Find the approved revision at that time
+- None (default): Find the latest revision at that time</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
-<dt>The Revision that was current at that time,</dt><dd><p>or None if not found.</p>
+<dt>The Revision that had the specified tag</dt><dd><p>at that time, or None if not found.</p>
 </dd>
 </dl>
 </p>
@@ -2224,21 +2239,31 @@ format (e.g., “2023-12-25T14:30:00Z”).</p>
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using datetime object</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get the published revision as of June 1st, 2024</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">june_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">june_1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using string format</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="s2">&quot;202312251430&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get whatever was latest at a specific time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="s2">&quot;202312251430&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using RFC3339 format</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="s2">&quot;2023-12-25T14:30:00Z&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Using RFC3339 format with published tag</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;2024-06-01T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is particularly useful with the “published” tag since
+published revisions are immutable and represent stable,
+approved versions suitable for downstream consumption.</p>
 </div>
 </dd></dl>
 

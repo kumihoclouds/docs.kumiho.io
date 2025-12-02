@@ -87,6 +87,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kref-uri-scheme">Kref URI Scheme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#time-based-revision-queries">Time-Based Revision Queries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-time-based-queries-matter">Why Time-Based Queries Matter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-get-revision-by-time">Using <code class="docutils literal notranslate"><span class="pre">get_revision_by_time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-based-kref-uris">Time-Based Kref URIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#practical-examples">Practical Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tags-and-time">Tags and Time</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-streaming">Event Streaming</a></li>
@@ -837,14 +845,176 @@
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model</span></code></p></td>
 <td><p>Item (latest revision)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model?v=2</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model?r=2</span></code></p></td>
 <td><p>Specific revision</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model?v=2&amp;r=mesh.fbx</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model?r=2&amp;a=mesh</span></code></p></td>
 <td><p>Specific artifact</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model?t=published</span></code></p></td>
+<td><p>Latest published revision</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model?t=published&amp;a=mesh</span></code></p></td>
+<td><p>Latest published revision with specific artifact</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kref://my-project/chars/human/hero.model?t=published&amp;time=202406011330&amp;a=mesh</span></code></p></td>
+<td><p>Published revision at specific time with specific artifact</p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="time-based-revision-queries">
+<h2>Time-Based Revision Queries<a class="headerlink" href="#time-based-revision-queries" title="Link to this heading"></a></h2>
+<p>One of Kumiho’s most powerful features is <strong>time-based revision lookup</strong>. This enables
+reproducible builds, historical debugging, and auditing by answering questions like:
+“What was the published version of this asset on June 1st?”</p>
+<section id="why-time-based-queries-matter">
+<h3>Why Time-Based Queries Matter<a class="headerlink" href="#why-time-based-queries-matter" title="Link to this heading"></a></h3>
+<p>In production pipelines, you often need to:</p>
+<ol class="arabic simple">
+<li><p><strong>Reproduce past renders</strong>: Re-render a shot exactly as it was delivered months ago</p></li>
+<li><p><strong>Debug regressions</strong>: Compare current assets against a known-good state from a specific date</p></li>
+<li><p><strong>Audit changes</strong>: Understand what version was used when a decision was made</p></li>
+<li><p><strong>Compliance</strong>: Prove what asset versions were in use at a particular milestone</p></li>
+</ol>
+<p>Without time-based queries, you’d need to manually track revision numbers for every
+asset at every milestone—an error-prone and tedious process.</p>
+</section>
+<section id="using-get-revision-by-time">
+<h3>Using <code class="docutils literal notranslate"><span class="pre">get_revision_by_time</span></code><a class="headerlink" href="#using-get-revision-by-time" title="Link to this heading"></a></h3>
+<p>The SDK provides <code class="docutils literal notranslate"><span class="pre">get_revision_by_time()</span></code> to find the revision that was tagged with
+a specific tag at a given point in time:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+
+<span class="c1"># Get the &quot;published&quot; revision as of June 1st, 2024</span>
+<span class="n">june_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">revision</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span>
+    <span class="n">time</span><span class="o">=</span><span class="n">june_1</span><span class="p">,</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;On </span><span class="si">{</span><span class="n">june_1</span><span class="si">}</span><span class="s2">, published revision was r</span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">time</span></code> parameter accepts multiple formats:</p>
+<ul class="simple">
+<li><p><strong>datetime object</strong>: <code class="docutils literal notranslate"><span class="pre">datetime(2024,</span> <span class="pre">6,</span> <span class="pre">1,</span> <span class="pre">13,</span> <span class="pre">30,</span> <span class="pre">45,</span> <span class="pre">tzinfo=timezone.utc)</span></code> - full precision</p></li>
+<li><p><strong>ISO 8601 string</strong>: <code class="docutils literal notranslate"><span class="pre">&quot;2024-06-01T13:30:45+00:00&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;2024-06-01T13:30:45Z&quot;</span></code> - full precision</p></li>
+<li><p><strong>YYYYMMDDHHMM string</strong>: <code class="docutils literal notranslate"><span class="pre">&quot;202406011330&quot;</span></code> - minute-level precision (rounded to end of minute)</p></li>
+</ul>
+<p>For historical auditing where events may happen within the same minute, use datetime
+objects or ISO strings for sub-second precision.</p>
+<p>This is especially useful for the <code class="docutils literal notranslate"><span class="pre">published</span></code> tag, which marks revisions as immutable
+and approved for downstream consumption.</p>
+</section>
+<section id="time-based-kref-uris">
+<h3>Time-Based Kref URIs<a class="headerlink" href="#time-based-kref-uris" title="Link to this heading"></a></h3>
+<p>You can also use time-based queries directly in Kref URIs with the <code class="docutils literal notranslate"><span class="pre">t=</span></code> (tag) and
+<code class="docutils literal notranslate"><span class="pre">time=</span></code> parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get published revision at a specific time via Kref</span>
+<span class="c1"># Format: YYYYMMDDHHMM (e.g., 202406011330 = June 1, 2024 at 13:30)</span>
+<span class="n">kref</span> <span class="o">=</span> <span class="s2">&quot;kref://my-project/chars/hero.model?t=published&amp;time=202406011330&quot;</span>
+<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
+
+<span class="c1"># Resolve to artifact location at that point in time</span>
+<span class="n">location</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Kref time query parameters:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t=&lt;tag&gt;</span></code></p></td>
+<td><p>Find revision with this tag (e.g., <code class="docutils literal notranslate"><span class="pre">t=published</span></code>, <code class="docutils literal notranslate"><span class="pre">t=approved</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time=&lt;YYYYMMDDHHMM&gt;</span></code></p></td>
+<td><p>Point in time to query (e.g., <code class="docutils literal notranslate"><span class="pre">time=202406011330</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+<p>When both <code class="docutils literal notranslate"><span class="pre">t=</span></code> and <code class="docutils literal notranslate"><span class="pre">time=</span></code> are provided, Kumiho finds the revision that:</p>
+<ol class="arabic simple">
+<li><p>Had the specified tag at the given time</p></li>
+<li><p>Was the most recent such revision before or at that time</p></li>
+</ol>
+</section>
+<section id="practical-examples">
+<h3>Practical Examples<a class="headerlink" href="#practical-examples" title="Link to this heading"></a></h3>
+<p><strong>Reproduce a past delivery:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find all assets as they were for the Q2 delivery</span>
+<span class="n">delivery_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">space</span><span class="o">.</span><span class="n">get_items</span><span class="p">():</span>
+    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">delivery_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: r</span><span class="si">{</span><span class="n">rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">artifact</span> <span class="ow">in</span> <span class="n">rev</span><span class="o">.</span><span class="n">get_artifacts</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  -&gt; </span><span class="si">{</span><span class="n">artifact</span><span class="o">.</span><span class="n">location</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Compare current vs historical:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># What changed between two milestones?</span>
+<span class="n">alpha_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">beta_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+
+<span class="n">alpha_rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">alpha_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+<span class="n">beta_rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">beta_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">alpha_rev</span><span class="o">.</span><span class="n">number</span> <span class="o">!=</span> <span class="n">beta_rev</span><span class="o">.</span><span class="n">number</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Asset changed from r</span><span class="si">{</span><span class="n">alpha_rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2"> to r</span><span class="si">{</span><span class="n">beta_rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Pipeline integration with timestamps:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In a render farm job, record the exact time for reproducibility</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+
+<span class="n">render_manifest</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;render_time&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+    <span class="s2">&quot;assets&quot;</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">item_kref</span> <span class="ow">in</span> <span class="n">required_assets</span><span class="p">:</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
+    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+    <span class="n">render_manifest</span><span class="p">[</span><span class="s2">&quot;assets&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">&quot;kref&quot;</span><span class="p">:</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+        <span class="s2">&quot;revision&quot;</span><span class="p">:</span> <span class="n">rev</span><span class="o">.</span><span class="n">number</span>
+    <span class="p">})</span>
+
+<span class="c1"># Later, reproduce using the recorded timestamp</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;render_manifest.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+<span class="n">render_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;render_time&quot;</span><span class="p">])</span>
+<span class="c1"># Convert to YYYYMMDDHHMM format for kref</span>
+<span class="n">time_str</span> <span class="o">=</span> <span class="n">render_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;assets&quot;</span><span class="p">]:</span>
+    <span class="c1"># Get exactly what was published at render time</span>
+    <span class="n">kref</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">asset</span><span class="p">[</span><span class="s1">&#39;kref&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">?t=published&amp;time=</span><span class="si">{</span><span class="n">time_str</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="tags-and-time">
+<h3>Tags and Time<a class="headerlink" href="#tags-and-time" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">published</span></code> tag is especially important for time-based queries because:</p>
+<ol class="arabic simple">
+<li><p><strong>Immutability</strong>: Published revisions cannot be modified or deleted</p></li>
+<li><p><strong>Stability</strong>: Downstream consumers can rely on published revisions not changing</p></li>
+<li><p><strong>Audit trail</strong>: Tag history is preserved, so you can query what was published when</p></li>
+</ol>
+<p>Other common tags for time-based queries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">approved</span></code>: Supervisor-approved versions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">delivered</span></code>: Versions sent to clients</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">milestone-alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">milestone-beta</span></code>: Project milestone snapshots</p></li>
+</ul>
+</section>
 </section>
 <section id="byo-storage-philosophy">
 <h2>BYO Storage Philosophy<a class="headerlink" href="#byo-storage-philosophy" title="Link to this heading"></a></h2>
