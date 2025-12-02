@@ -506,8 +506,8 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <ul class="simple">
 <li><p>Comprehensive Google-style docstrings for all public APIs</p></li>
 <li><p>Sphinx documentation with ReadTheDocs theme</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">get_resource()</span></code> top-level function for fetching resources by Kref</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">get_resource_by_kref()</span></code> method in Client class</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code> top-level function for fetching artifacts by Kref</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_artifact_by_kref()</span></code> method in Client class</p></li>
 <li><p>Type hints throughout the codebase</p></li>
 </ul>
 </section>
@@ -521,7 +521,7 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <section id="fixed">
 <h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>Kref parsing for resource URIs with special characters</p></li>
+<li><p>Kref parsing for artifact URIs with special characters</p></li>
 </ul>
 </section>
 </section>
@@ -532,7 +532,7 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <ul class="simple">
 <li><p>Event streaming support with <code class="docutils literal notranslate"><span class="pre">stream_events()</span></code></p></li>
 <li><p>Link traversal for lineage tracking</p></li>
-<li><p>Batch operations for multiple resources</p></li>
+<li><p>Batch operations for multiple artifacts</p></li>
 </ul>
 </section>
 <section id="id3">
@@ -549,7 +549,7 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <h3>Added<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Initial release</p></li>
-<li><p>Core entity classes: Project, Group, Product, Version, Resource, Link</p></li>
+<li><p>Core entity classes: Project, Space, Item, Revision, Artifact, Edge</p></li>
 <li><p>Kref URI parsing and generation</p></li>
 <li><p>Discovery-based authentication</p></li>
 <li><p>CLI authentication tool (<code class="docutils literal notranslate"><span class="pre">kumiho-auth</span></code>)</p></li>

@@ -512,8 +512,8 @@
 <span class="sd">    import kumiho</span>
 
 <span class="sd">    # Get revisions</span>
-<span class="sd">    model = kumiho.get_revision(&quot;kref://project/models/hero.model?v=1&quot;)</span>
-<span class="sd">    texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+<span class="sd">    model = kumiho.get_revision(&quot;kref://project/models/hero.model?r=1&quot;)</span>
+<span class="sd">    texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?r=2&quot;)</span>
 
 <span class="sd">    # Create a dependency edge</span>
 <span class="sd">    edge = model.create_edge(texture, kumiho.DEPENDS_ON)</span>
@@ -720,8 +720,8 @@
 <span class="sd">        import kumiho</span>
 
 <span class="sd">        # Get revisions</span>
-<span class="sd">        model = kumiho.get_revision(&quot;kref://project/models/hero.model?v=1&quot;)</span>
-<span class="sd">        texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+<span class="sd">        model = kumiho.get_revision(&quot;kref://project/models/hero.model?r=1&quot;)</span>
+<span class="sd">        texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?r=2&quot;)</span>
 
 <span class="sd">        # Create edge with metadata</span>
 <span class="sd">        edge = model.create_edge(texture, kumiho.DEPENDS_ON, {</span>

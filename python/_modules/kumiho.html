@@ -581,7 +581,7 @@
 
 <span class="sd">        # Query by kref</span>
 <span class="sd">        item = kumiho.get_item(&quot;kref://my-project/assets/character.model&quot;)</span>
-<span class="sd">        revision = kumiho.get_revision(&quot;kref://my-project/assets/character.model?v=1&quot;)</span>
+<span class="sd">        revision = kumiho.get_revision(&quot;kref://my-project/assets/character.model?r=1&quot;)</span>
 
 <span class="sd">        # Search across project</span>
 <span class="sd">        models = kumiho.item_search(</span>
@@ -1061,7 +1061,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the revision</span>
-<span class="sd">            (e.g., &quot;kref://project/space/item.kind?v=1&quot;).</span>
+<span class="sd">            (e.g., &quot;kref://project/space/item.kind?r=1&quot;).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Revision: The Revision object.</span>
@@ -1071,7 +1071,7 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; revision = kumiho.get_revision(</span>
-<span class="sd">        ...     &quot;kref://film-project/characters/hero.model?v=3&quot;</span>
+<span class="sd">        ...     &quot;kref://film-project/characters/hero.model?r=3&quot;</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; artifacts = revision.get_artifacts()</span>
 <span class="sd">        &gt;&gt;&gt; for a in artifacts:</span>
@@ -1088,18 +1088,18 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the artifact</span>
-<span class="sd">            (e.g., &quot;kref://project/space/item.kind?v=1&amp;r=main&quot;).</span>
+<span class="sd">            (e.g., &quot;kref://project/space/item.kind?r=1&amp;a=main&quot;).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Artifact: The Artifact object.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        grpc.RpcError: If the artifact is not found.</span>
-<span class="sd">        ValueError: If the kref is missing the artifact name (&amp;r=).</span>
+<span class="sd">        ValueError: If the kref is missing the artifact name (&amp;a=).</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; artifact = kumiho.get_artifact(</span>
-<span class="sd">        ...     &quot;kref://film-project/characters/hero.model?v=3&amp;r=mesh&quot;</span>
+<span class="sd">        ...     &quot;kref://film-project/characters/hero.model?r=3&amp;a=mesh&quot;</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; print(artifact.location)</span>
 <span class="sd">        /projects/film/char/hero_v3.fbx</span>
@@ -1155,7 +1155,7 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; kumiho.set_attribute(</span>
-<span class="sd">        ...     &quot;kref://project/models/hero.model?v=1&quot;,</span>
+<span class="sd">        ...     &quot;kref://project/models/hero.model?r=1&quot;,</span>
 <span class="sd">        ...     &quot;render_engine&quot;,</span>
 <span class="sd">        ...     &quot;cycles&quot;</span>
 <span class="sd">        ... )</span>
@@ -1179,7 +1179,7 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; kumiho.get_attribute(</span>
-<span class="sd">        ...     &quot;kref://project/models/hero.model?v=1&quot;,</span>
+<span class="sd">        ...     &quot;kref://project/models/hero.model?r=1&quot;,</span>
 <span class="sd">        ...     &quot;render_engine&quot;</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &quot;cycles&quot;</span>
@@ -1205,7 +1205,7 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; kumiho.delete_attribute(</span>
-<span class="sd">        ...     &quot;kref://project/models/hero.model?v=1&quot;,</span>
+<span class="sd">        ...     &quot;kref://project/models/hero.model?r=1&quot;,</span>
 <span class="sd">        ...     &quot;old_field&quot;</span>
 <span class="sd">        ... )</span>
 <span class="sd">        True</span>
@@ -1269,14 +1269,14 @@
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; # Resolve a specific artifact</span>
 <span class="sd">        &gt;&gt;&gt; path = kumiho.resolve(</span>
-<span class="sd">        ...     &quot;kref://film-project/chars/hero.model?v=3&amp;r=mesh&quot;</span>
+<span class="sd">        ...     &quot;kref://film-project/chars/hero.model?r=3&amp;a=mesh&quot;</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; print(path)</span>
 <span class="sd">        /projects/film/char/hero_v3.fbx</span>
 
 <span class="sd">        &gt;&gt;&gt; # Resolve revision&#39;s default artifact</span>
 <span class="sd">        &gt;&gt;&gt; path = kumiho.resolve(</span>
-<span class="sd">        ...     &quot;kref://film-project/chars/hero.model?v=3&quot;</span>
+<span class="sd">        ...     &quot;kref://film-project/chars/hero.model?r=3&quot;</span>
 <span class="sd">        ... )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span></div>

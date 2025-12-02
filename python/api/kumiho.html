@@ -586,7 +586,7 @@ use a default client configured from your environment:</p>
 
 <span class="c1"># Query by kref</span>
 <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;kref://my-project/assets/character.model&quot;</span><span class="p">)</span>
-<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://my-project/assets/character.model?v=1&quot;</span><span class="p">)</span>
+<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://my-project/assets/character.model?r=1&quot;</span><span class="p">)</span>
 
 <span class="c1"># Search across project</span>
 <span class="n">models</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
@@ -2244,7 +2244,7 @@ overwritten and new keys are added.</p>
 revision can have multiple artifacts (file references), tags for
 categorization, and edges to other revisions for dependency tracking.</p>
 <p>The revision’s kref includes the revision number:
-<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?v=1</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?r=1</span></code></p>
 <p>Revisions support dynamic tag checking—the <code class="docutils literal notranslate"><span class="pre">tags</span></code> property automatically
 refreshes from the server if the local data might be stale (older than 5
 seconds). This ensures tags like “latest” are always current.</p>
@@ -2413,7 +2413,7 @@ seconds). This ensures tags like “latest” are always current.</p>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">location</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># Edge to dependencies</span>
-<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?v=2&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?r=2&quot;</span><span class="p">)</span>
 <span class="n">v1</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2540,12 +2540,12 @@ references, or derivations. This is useful for tracking asset lineage.</p>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Edge to a texture dependency</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?v=2&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?r=2&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">revision</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Edge with metadata</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/base.model?v=1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/base.model?r=1&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">revision</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DERIVED_FROM</span><span class="p">,</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s2">&quot;modification&quot;</span><span class="p">:</span> <span class="s2">&quot;Added details&quot;</span>
 <span class="gp">... </span><span class="p">})</span>
@@ -3015,7 +3015,7 @@ without specifying an artifact name.</p>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">revision</span><span class="o">.</span><span class="n">set_default_artifact</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now kref://project/model.kind?v=1 resolves to the mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now kref://project/model.kind?r=1 resolves to the mesh</span>
 </pre></div>
 </div>
 </div>
@@ -3180,7 +3180,7 @@ might be stale (older than 5 seconds), ensuring dynamic tags like
 actual files on local disk, network storage, or cloud URIs. Kumiho
 tracks the path and metadata but does not upload or modify the files.</p>
 <p>The artifact’s kref includes both revision and artifact name:
-<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?v=1&amp;r=artifact_name</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?r=1&amp;a=artifact_name</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="kumiho.Artifact.kref">
 <span class="sig-name descname"><span class="pre">kref</span></span><a class="headerlink" href="#kumiho.Artifact.kref" title="Link to this definition"></a></dt>
@@ -3285,7 +3285,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <p>Working with artifacts:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
-<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span>
+<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create artifacts</span>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">create_artifact</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;/assets/hero.fbx&quot;</span><span class="p">)</span>
@@ -3719,8 +3719,8 @@ They are directional (source -&gt; target) and typed.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
 <span class="c1"># Get revisions</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span>
-<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?v=2&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?r=2&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create edge with metadata</span>
 <span class="n">edge</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">,</span> <span class="p">{</span>
@@ -3796,7 +3796,7 @@ They are directional (source -&gt; target) and typed.</p>
 <p>Kref is a subclass of <code class="docutils literal notranslate"><span class="pre">str</span></code>, so it behaves like a string but provides
 utility methods for parsing and extracting components from the URI.</p>
 <p>The kref format is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kref://project/space/item.kind?v=REVISION&amp;r=ARTIFACT
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kref://project/space/item.kind?r=REVISION&amp;a=ARTIFACT
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -3814,17 +3814,17 @@ utility methods for parsing and extracting components from the URI.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">kumiho</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
 
 <span class="c1"># Create from string</span>
-<span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://my-project/assets/hero.model?v=2&quot;</span><span class="p">)</span>
+<span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://my-project/assets/hero.model?r=2&quot;</span><span class="p">)</span>
 
 <span class="c1"># Use as string (since Kref extends str)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>  <span class="c1"># kref://my-project/assets/hero.model?v=2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>  <span class="c1"># kref://my-project/assets/hero.model?r=2</span>
 
 <span class="c1"># Parse components</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">kref</span><span class="o">.</span><span class="n">get_space</span><span class="p">())</span>    <span class="c1"># &quot;my-project/assets&quot;</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">kref</span><span class="o">.</span><span class="n">get_revision</span><span class="p">())</span> <span class="c1"># 2</span>
 
 <span class="c1"># Compare with strings</span>
-<span class="k">if</span> <span class="n">kref</span> <span class="o">==</span> <span class="s2">&quot;kref://my-project/assets/hero.model?v=2&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">kref</span> <span class="o">==</span> <span class="s2">&quot;kref://my-project/assets/hero.model?r=2&quot;</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Match!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3882,7 +3882,7 @@ Set to False for trusted internal sources.</p></li>
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/group/product.type?v=1&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/space/item.kind?r=1&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
@@ -3933,9 +3933,9 @@ Set to False for trusted internal sources.</p></li>
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&amp;r=mesh&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_artifact_name</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=1&amp;a=mesh&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_artifact_name</span><span class="p">()</span>
 <span class="go">&#39;mesh&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_artifact_name</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_artifact_name</span><span class="p">()</span>
 <span class="go">None</span>
 </pre></div>
 </div>
@@ -3999,7 +3999,7 @@ Set to False for trusted internal sources.</p></li>
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
 <span class="go">&#39;project/models/hero.model&#39;</span>
 </pre></div>
 </div>
@@ -4020,7 +4020,7 @@ Set to False for trusted internal sources.</p></li>
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_revision</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_revision</span><span class="p">()</span>
 <span class="go">3</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Kref</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_revision</span><span class="p">()</span>
 <span class="go">1</span>
@@ -4951,7 +4951,7 @@ as <code class="docutils literal notranslate"><span class="pre">bundle</span></c
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_kref</span><span class="p">,</span> <span class="n">KrefValidationError</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">validate_kref</span><span class="p">(</span><span class="s2">&quot;kref://project/space/item.kind?v=1&quot;</span><span class="p">)</span>
+    <span class="n">validate_kref</span><span class="p">(</span><span class="s2">&quot;kref://project/space/item.kind?r=1&quot;</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">KrefValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid kref: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -5679,7 +5679,7 @@ patterns like <code class="docutils literal notranslate"><span class="pre">proje
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kref</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The kref URI of the revision
-(e.g., “kref://project/space/item.kind?v=1”).</p>
+(e.g., “kref://project/space/item.kind?r=1”).</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The Revision object.</p>
@@ -5694,7 +5694,7 @@ patterns like <code class="docutils literal notranslate"><span class="pre">proje
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/characters/hero.model?v=3&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/characters/hero.model?r=3&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">artifacts</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_artifacts</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">artifacts</span><span class="p">:</span>
@@ -5711,7 +5711,7 @@ patterns like <code class="docutils literal notranslate"><span class="pre">proje
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kref</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The kref URI of the artifact
-(e.g., “kref://project/space/item.kind?v=1&amp;r=main”).</p>
+(e.g., “kref://project/space/item.kind?r=1&amp;a=main”).</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The Artifact object.</p>
@@ -5722,14 +5722,14 @@ patterns like <code class="docutils literal notranslate"><span class="pre">proje
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the artifact is not found.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the kref is missing the artifact name (&amp;r=).</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the kref is missing the artifact name (&amp;a=).</p></li>
 </ul>
 </dd>
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">artifact</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/characters/hero.model?v=3&amp;r=mesh&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/characters/hero.model?r=3&amp;a=mesh&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">artifact</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
 <span class="go">/projects/film/char/hero_v3.fbx</span>
@@ -5795,7 +5795,7 @@ or Space) identified by kref.</p>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kumiho</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;render_engine&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;cycles&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
@@ -5826,7 +5826,7 @@ or Space) identified by kref.</p>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kumiho</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;render_engine&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="go">&quot;cycles&quot;</span>
@@ -5859,7 +5859,7 @@ or Space) identified by kref.</p>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kumiho</span><span class="o">.</span><span class="n">delete_attribute</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;old_field&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="go">True</span>
@@ -5931,7 +5931,7 @@ or the default artifact of a revision.</p>
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Resolve a specific artifact</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/chars/hero.model?v=3&amp;r=mesh&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/chars/hero.model?r=3&amp;a=mesh&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 <span class="go">/projects/film/char/hero_v3.fbx</span>
@@ -5939,7 +5939,7 @@ or the default artifact of a revision.</p>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Resolve revision&#39;s default artifact</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/chars/hero.model?v=3&quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;kref://film-project/chars/hero.model?r=3&quot;</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>

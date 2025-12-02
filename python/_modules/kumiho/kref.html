@@ -502,14 +502,14 @@
 <span class="sd">Kref Format:</span>
 <span class="sd">    The kref URI follows this pattern::</span>
 
-<span class="sd">        kref://project/space/item.kind?v=REVISION&amp;r=ARTIFACT</span>
+<span class="sd">        kref://project/space/item.kind?r=REVISION&amp;a=ARTIFACT</span>
 
 <span class="sd">    Components:</span>
 <span class="sd">        - ``project``: The project name</span>
 <span class="sd">        - ``space``: The space path (can be nested: ``space/subspace``)</span>
 <span class="sd">        - ``item.kind``: Item name and kind separated by dot</span>
-<span class="sd">        - ``?v=REVISION``: Optional revision number (default: 1)</span>
-<span class="sd">        - ``&amp;r=ARTIFACT``: Optional artifact name</span>
+<span class="sd">        - ``?r=REVISION``: Optional revision number (default: 1)</span>
+<span class="sd">        - ``&amp;a=ARTIFACT``: Optional artifact name</span>
 
 <span class="sd">Examples:</span>
 <span class="sd">    Item kref::</span>
@@ -518,11 +518,11 @@
 
 <span class="sd">    Revision kref::</span>
 
-<span class="sd">        kref://film-2024/characters/hero.model?v=3</span>
+<span class="sd">        kref://film-2024/characters/hero.model?r=3</span>
 
 <span class="sd">    Artifact kref::</span>
 
-<span class="sd">        kref://film-2024/characters/hero.model?v=3&amp;r=mesh</span>
+<span class="sd">        kref://film-2024/characters/hero.model?r=3&amp;a=mesh</span>
 
 <span class="sd">Usage::</span>
 
@@ -530,7 +530,7 @@
 <span class="sd">    from kumiho import Kref</span>
 
 <span class="sd">    # Parse a kref</span>
-<span class="sd">    kref = Kref(&quot;kref://project/models/hero.model?v=2&amp;r=mesh&quot;)</span>
+<span class="sd">    kref = Kref(&quot;kref://project/models/hero.model?r=2&amp;a=mesh&quot;)</span>
 
 <span class="sd">    # Extract components</span>
 <span class="sd">    print(kref.get_space())        # &quot;project/models&quot;</span>
@@ -558,7 +558,7 @@
 
 <span class="c1"># Regex for validating Kref URIs.</span>
 <span class="c1"># Valid formats:</span>
-<span class="c1">#   - Item: kref://project/space/item.kind?v=REVISION&amp;r=ARTIFACT</span>
+<span class="c1">#   - Item: kref://project/space/item.kind?r=REVISION&amp;a=ARTIFACT</span>
 <span class="c1">#   - Space: kref://project/space or kref:///space (root-level)</span>
 <span class="c1"># Each path segment must be alphanumeric with dots, underscores, or hyphens.</span>
 <span class="n">_KREF_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
@@ -568,7 +568,7 @@
     <span class="sa">r</span><span class="s1">&#39;|&#39;</span>                                           <span class="c1"># OR</span>
     <span class="sa">r</span><span class="s1">&#39;[a-zA-Z0-9][a-zA-Z0-9._-]*&#39;</span>                 <span class="c1"># project/item path segment</span>
     <span class="sa">r</span><span class="s1">&#39;(/[a-zA-Z0-9][a-zA-Z0-9._-]*)*)&#39;</span>            <span class="c1"># optional nested path segments</span>
-    <span class="sa">r</span><span class="s1">&#39;(\?v=\d+(&amp;r=[a-zA-Z0-9._-]+)?)?$&#39;</span>           <span class="c1"># optional version and resource</span>
+    <span class="sa">r</span><span class="s1">&#39;(\?r=\d+(&amp;a=[a-zA-Z0-9._-]+)?)?$&#39;</span>           <span class="c1"># optional revision and artifact</span>
 <span class="p">)</span>
 
 
@@ -594,7 +594,7 @@
 <span class="sd">        from kumiho.kref import validate_kref, KrefValidationError</span>
 <span class="sd">        </span>
 <span class="sd">        try:</span>
-<span class="sd">            validate_kref(&quot;kref://project/space/item.kind?v=1&quot;)</span>
+<span class="sd">            validate_kref(&quot;kref://project/space/item.kind?r=1&quot;)</span>
 <span class="sd">        except KrefValidationError as e:</span>
 <span class="sd">            print(f&quot;Invalid kref: {e}&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -657,7 +657,7 @@
 
 <span class="sd">    The kref format is::</span>
 
-<span class="sd">        kref://project/space/item.kind?v=REVISION&amp;r=ARTIFACT</span>
+<span class="sd">        kref://project/space/item.kind?r=REVISION&amp;a=ARTIFACT</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        uri (str): The URI string (for backward compatibility).</span>
@@ -667,17 +667,17 @@
 <span class="sd">        from kumiho import Kref</span>
 
 <span class="sd">        # Create from string</span>
-<span class="sd">        kref = Kref(&quot;kref://my-project/assets/hero.model?v=2&quot;)</span>
+<span class="sd">        kref = Kref(&quot;kref://my-project/assets/hero.model?r=2&quot;)</span>
 
 <span class="sd">        # Use as string (since Kref extends str)</span>
-<span class="sd">        print(kref)  # kref://my-project/assets/hero.model?v=2</span>
+<span class="sd">        print(kref)  # kref://my-project/assets/hero.model?r=2</span>
 
 <span class="sd">        # Parse components</span>
 <span class="sd">        print(kref.get_space())    # &quot;my-project/assets&quot;</span>
 <span class="sd">        print(kref.get_revision()) # 2</span>
 
 <span class="sd">        # Compare with strings</span>
-<span class="sd">        if kref == &quot;kref://my-project/assets/hero.model?v=2&quot;:</span>
+<span class="sd">        if kref == &quot;kref://my-project/assets/hero.model?r=2&quot;:</span>
 <span class="sd">            print(&quot;Match!&quot;)</span>
 
 <span class="sd">    Note:</span>
@@ -702,7 +702,7 @@
 <span class="sd">            KrefValidationError: If validate=True and the URI is invalid.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; kref = Kref(&quot;kref://project/group/product.type?v=1&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; kref = Kref(&quot;kref://project/space/item.kind?r=1&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; isinstance(kref, str)</span>
 <span class="sd">            True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -765,7 +765,7 @@
 <span class="sd">            str: The path (e.g., &quot;project/space/item.kind&quot;).</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?v=1&quot;).get_path()</span>
+<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?r=1&quot;).get_path()</span>
 <span class="sd">            &#39;project/models/hero.model&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -838,12 +838,12 @@
 <span class="sd">            int: The revision number, or 1 if not specified.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?v=3&quot;).get_revision()</span>
+<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?r=3&quot;).get_revision()</span>
 <span class="sd">            3</span>
 <span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model&quot;).get_revision()</span>
 <span class="sd">            1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\?v=(\d+)&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\?r=(\d+)&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="mi">1</span></div>
 
 
@@ -856,12 +856,12 @@
 <span class="sd">            Optional[str]: The artifact name if present, None otherwise.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?v=1&amp;r=mesh&quot;).get_artifact_name()</span>
+<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?r=1&amp;a=mesh&quot;).get_artifact_name()</span>
 <span class="sd">            &#39;mesh&#39;</span>
-<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?v=1&quot;).get_artifact_name()</span>
+<span class="sd">            &gt;&gt;&gt; Kref(&quot;kref://project/models/hero.model?r=1&quot;).get_artifact_name()</span>
 <span class="sd">            None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&amp;r=([^&amp;]+)&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&amp;a=([^&amp;]+)&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 

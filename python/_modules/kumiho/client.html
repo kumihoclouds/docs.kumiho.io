@@ -1379,7 +1379,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an artifact by its kref URI.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            kref_uri: The kref URI of the artifact (e.g., &quot;kref://space/item.kind?v=1&amp;r=artifact_name&quot;).</span>
+<span class="sd">            kref_uri: The kref URI of the artifact (e.g., &quot;kref://space/item.kind?r=1&amp;a=artifact_name&quot;).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The Artifact object.</span>
@@ -1390,10 +1390,10 @@
         <span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">artifact_name</span> <span class="o">=</span> <span class="n">kref</span><span class="o">.</span><span class="n">get_artifact_name</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">artifact_name</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid artifact kref format: </span><span class="si">{</span><span class="n">kref_uri</span><span class="si">}</span><span class="s2"> (missing &amp;r=artifact_name)&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid artifact kref format: </span><span class="si">{</span><span class="n">kref_uri</span><span class="si">}</span><span class="s2"> (missing &amp;a=artifact_name)&quot;</span><span class="p">)</span>
         
         <span class="c1"># Build the revision kref by removing the artifact part</span>
-        <span class="n">revision_kref_uri</span> <span class="o">=</span> <span class="n">kref_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&amp;r=&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">revision_kref_uri</span> <span class="o">=</span> <span class="n">kref_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&amp;a=&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">revision_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">revision_kref_uri</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">,</span> <span class="n">artifact_name</span><span class="p">)</span>
@@ -1473,7 +1473,7 @@
 <span class="sd">        Resolves a Kref to a file location using the server-side ResolveLocation RPC.</span>
 <span class="sd">        </span>
 <span class="sd">        Args:</span>
-<span class="sd">            kref: The Kref URI to resolve. Can include query parameters like ?v=, ?t=, ?time=.</span>
+<span class="sd">            kref: The Kref URI to resolve. Can include query parameters like ?r=, ?t=, ?time=.</span>
 <span class="sd">            </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            The resolved file location string, or None if resolution fails.</span>

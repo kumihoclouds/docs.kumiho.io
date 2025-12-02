@@ -506,7 +506,7 @@ and metadata, and can be linked to other revisions to track dependencies.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
 <span class="c1"># Get a revision</span>
-<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span>
+<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">)</span>
 
 <span class="c1"># Add artifacts</span>
 <span class="n">revision</span><span class="o">.</span><span class="n">create_artifact</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;/assets/hero.fbx&quot;</span><span class="p">)</span>
@@ -517,7 +517,7 @@ and metadata, and can be linked to other revisions to track dependencies.</p>
 <span class="n">revision</span><span class="o">.</span><span class="n">tag</span><span class="p">(</span><span class="s2">&quot;ready-for-lighting&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create edges to dependencies</span>
-<span class="n">texture_revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/textures/skin.texture?v=3&quot;</span><span class="p">)</span>
+<span class="n">texture_revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/textures/skin.texture?r=3&quot;</span><span class="p">)</span>
 <span class="n">revision</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture_revision</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -531,7 +531,7 @@ and metadata, and can be linked to other revisions to track dependencies.</p>
 revision can have multiple artifacts (file references), tags for
 categorization, and edges to other revisions for dependency tracking.</p>
 <p>The revision’s kref includes the revision number:
-<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?v=1</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?r=1</span></code></p>
 <p>Revisions support dynamic tag checking—the <code class="docutils literal notranslate"><span class="pre">tags</span></code> property automatically
 refreshes from the server if the local data might be stale (older than 5
 seconds). This ensures tags like “latest” are always current.</p>
@@ -700,7 +700,7 @@ seconds). This ensures tags like “latest” are always current.</p>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">location</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># Edge to dependencies</span>
-<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?v=2&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?r=2&quot;</span><span class="p">)</span>
 <span class="n">v1</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1162,7 +1162,7 @@ without specifying an artifact name.</p>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">revision</span><span class="o">.</span><span class="n">set_default_artifact</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now kref://project/model.kind?v=1 resolves to the mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now kref://project/model.kind?r=1 resolves to the mesh</span>
 </pre></div>
 </div>
 </div>
@@ -1246,12 +1246,12 @@ references, or derivations. This is useful for tracking asset lineage.</p>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Edge to a texture dependency</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?v=2&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?r=2&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">revision</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Edge with metadata</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/base.model?v=1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/base.model?r=1&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">revision</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DERIVED_FROM</span><span class="p">,</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s2">&quot;modification&quot;</span><span class="p">:</span> <span class="s2">&quot;Added details&quot;</span>
 <span class="gp">... </span><span class="p">})</span>

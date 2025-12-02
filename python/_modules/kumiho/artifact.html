@@ -509,7 +509,7 @@
 
 <span class="sd">        # Get an artifact</span>
 <span class="sd">        artifact = kumiho.get_artifact(</span>
-<span class="sd">            &quot;kref://project/models/hero.model?v=1&amp;r=mesh&quot;</span>
+<span class="sd">            &quot;kref://project/models/hero.model?r=1&amp;a=mesh&quot;</span>
 <span class="sd">        )</span>
 
 <span class="sd">        # Check the file location</span>
@@ -552,7 +552,7 @@
 <span class="sd">    tracks the path and metadata but does not upload or modify the files.</span>
 
 <span class="sd">    The artifact&#39;s kref includes both revision and artifact name:</span>
-<span class="sd">    ``kref://project/space/item.kind?v=1&amp;r=artifact_name``</span>
+<span class="sd">    ``kref://project/space/item.kind?r=1&amp;a=artifact_name``</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        kref (Kref): The unique reference URI for this artifact.</span>
@@ -570,7 +570,7 @@
 
 <span class="sd">            import kumiho</span>
 
-<span class="sd">            revision = kumiho.get_revision(&quot;kref://project/models/hero.model?v=1&quot;)</span>
+<span class="sd">            revision = kumiho.get_revision(&quot;kref://project/models/hero.model?r=1&quot;)</span>
 
 <span class="sd">            # Create artifacts</span>
 <span class="sd">            mesh = revision.create_artifact(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
@@ -638,7 +638,7 @@
 <span class="sd">            &gt;&gt;&gt; artifact = revision.get_artifact(&quot;mesh&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; print(artifact.name)  # &quot;mesh&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&amp;r=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&amp;a=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Artifact.set_metadata">
 <a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.set_metadata">[docs]</a>

@@ -505,7 +505,7 @@
 <span class="sd">        import kumiho</span>
 
 <span class="sd">        # Get a revision</span>
-<span class="sd">        revision = kumiho.get_revision(&quot;kref://project/models/hero.model?v=1&quot;)</span>
+<span class="sd">        revision = kumiho.get_revision(&quot;kref://project/models/hero.model?r=1&quot;)</span>
 
 <span class="sd">        # Add artifacts</span>
 <span class="sd">        revision.create_artifact(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
@@ -516,7 +516,7 @@
 <span class="sd">        revision.tag(&quot;ready-for-lighting&quot;)</span>
 
 <span class="sd">        # Create edges to dependencies</span>
-<span class="sd">        texture_revision = kumiho.get_revision(&quot;kref://project/textures/skin.texture?v=3&quot;)</span>
+<span class="sd">        texture_revision = kumiho.get_revision(&quot;kref://project/textures/skin.texture?r=3&quot;)</span>
 <span class="sd">        revision.create_edge(texture_revision, kumiho.DEPENDS_ON)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -547,7 +547,7 @@
 <span class="sd">    categorization, and edges to other revisions for dependency tracking.</span>
 
 <span class="sd">    The revision&#39;s kref includes the revision number:</span>
-<span class="sd">    ``kref://project/space/item.kind?v=1``</span>
+<span class="sd">    ``kref://project/space/item.kind?r=1``</span>
 
 <span class="sd">    Revisions support dynamic tag checking—the ``tags`` property automatically</span>
 <span class="sd">    refreshes from the server if the local data might be stale (older than 5</span>
@@ -600,7 +600,7 @@
 <span class="sd">                print(f&quot;  {r.name}: {r.location}&quot;)</span>
 
 <span class="sd">            # Edge to dependencies</span>
-<span class="sd">            texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+<span class="sd">            texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?r=2&quot;)</span>
 <span class="sd">            v1.create_edge(texture, kumiho.DEPENDS_ON)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1001,7 +1001,7 @@
 
 <span class="sd">        Example:</span>
 <span class="sd">            &gt;&gt;&gt; revision.set_default_artifact(&quot;mesh&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; # Now kref://project/model.kind?v=1 resolves to the mesh</span>
+<span class="sd">            &gt;&gt;&gt; # Now kref://project/model.kind?r=1 resolves to the mesh</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetDefaultArtifactRequest</span>
         <span class="n">req</span> <span class="o">=</span> <span class="n">SetDefaultArtifactRequest</span><span class="p">(</span>
@@ -1078,11 +1078,11 @@
 <span class="sd">            &gt;&gt;&gt; import kumiho</span>
 
 <span class="sd">            &gt;&gt;&gt; # Edge to a texture dependency</span>
-<span class="sd">            &gt;&gt;&gt; texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?r=2&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; revision.create_edge(texture, kumiho.DEPENDS_ON)</span>
 
 <span class="sd">            &gt;&gt;&gt; # Edge with metadata</span>
-<span class="sd">            &gt;&gt;&gt; base = kumiho.get_revision(&quot;kref://project/models/base.model?v=1&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; base = kumiho.get_revision(&quot;kref://project/models/base.model?r=1&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; revision.create_edge(base, kumiho.DERIVED_FROM, {</span>
 <span class="sd">            ...     &quot;modification&quot;: &quot;Added details&quot;</span>
 <span class="sd">            ... })</span>

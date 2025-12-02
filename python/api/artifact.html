@@ -509,7 +509,7 @@ file paths and metadata but does not upload or copy files.</p>
 
 <span class="c1"># Get an artifact</span>
 <span class="n">artifact</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span>
-    <span class="s2">&quot;kref://project/models/hero.model?v=1&amp;r=mesh&quot;</span>
+    <span class="s2">&quot;kref://project/models/hero.model?r=1&amp;a=mesh&quot;</span>
 <span class="p">)</span>
 
 <span class="c1"># Check the file location</span>
@@ -537,7 +537,7 @@ file paths and metadata but does not upload or copy files.</p>
 actual files on local disk, network storage, or cloud URIs. Kumiho
 tracks the path and metadata but does not upload or modify the files.</p>
 <p>The artifact’s kref includes both revision and artifact name:
-<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?v=1&amp;r=artifact_name</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?r=1&amp;a=artifact_name</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">kref</span></span></dt>
@@ -642,7 +642,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <p>Working with artifacts:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
-<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span>
+<span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?r=1&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create artifacts</span>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">create_artifact</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="s2">&quot;/assets/hero.fbx&quot;</span><span class="p">)</span>
