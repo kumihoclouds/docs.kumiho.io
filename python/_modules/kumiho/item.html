@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.base &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.item &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -483,7 +483,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.base</li>
+      <li class="breadcrumb-item active">kumiho.item</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -492,70 +492,485 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Base classes and utilities for Kumiho objects.</span>
+  <h1>Source code for kumiho.item</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Item module for Kumiho asset management.</span>
 
-<span class="sd">This module provides the base classes used by all Kumiho domain objects,</span>
-<span class="sd">including :class:`KumihoObject` (the base for all high-level objects) and</span>
-<span class="sd">:class:`KumihoError` (the base exception class).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides the :class:`Item` class, which represents a versioned</span>
+<span class="sd">asset in the Kumiho system. Items are the core entities that get versioned,</span>
+<span class="sd">and each revision can have multiple artifacts (file references).</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
-
-<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
-
-
-<div class="viewcode-block" id="KumihoError">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base exception class for all Kumiho errors.</span>
-
-<span class="sd">    All custom exceptions raised by the Kumiho SDK inherit from this class,</span>
-<span class="sd">    making it easy to catch all Kumiho-related errors.</span>
-
-<span class="sd">    Example::</span>
+<span class="sd">Example:</span>
+<span class="sd">    Working with items and revisions::</span>
 
 <span class="sd">        import kumiho</span>
 
-<span class="sd">        try:</span>
-<span class="sd">            project = kumiho.get_project(&quot;nonexistent&quot;)</span>
-<span class="sd">        except kumiho.KumihoError as e:</span>
-<span class="sd">            print(f&quot;Kumiho error: {e}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">        # Get an item</span>
+<span class="sd">        item = kumiho.get_item(&quot;kref://my-project/models/hero.model&quot;)</span>
+
+<span class="sd">        # Create a new revision</span>
+<span class="sd">        v1 = item.create_revision(metadata={&quot;artist&quot;: &quot;john&quot;})</span>
+
+<span class="sd">        # Add artifacts to the revision</span>
+<span class="sd">        v1.create_artifact(&quot;mesh&quot;, &quot;/assets/hero_v1.fbx&quot;)</span>
+<span class="sd">        v1.create_artifact(&quot;rig&quot;, &quot;/assets/hero_v1_rig.fbx&quot;)</span>
+
+<span class="sd">        # Tag the revision</span>
+<span class="sd">        v1.tag(&quot;approved&quot;)</span>
+
+<span class="sd">        # Get all revisions</span>
+<span class="sd">        for revision in item.get_revisions():</span>
+<span class="sd">            print(f&quot;v{revision.number}: {revision.tags}&quot;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">grpc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ItemResponse</span><span class="p">,</span> <span class="n">ResolveKrefRequest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
 
 
+<div class="viewcode-block" id="Item">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Item</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A versioned asset in the Kumiho system.</span>
 
-<div class="viewcode-block" id="KumihoObject">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoObject</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all high-level Kumiho domain objects.</span>
+<span class="sd">    Items represent assets that can have multiple revisions, such as 3D models,</span>
+<span class="sd">    textures, workflows, or any other type of creative content. Each item</span>
+<span class="sd">    belongs to a space and is identified by a combination of name and kind.</span>
 
-<span class="sd">    This abstract base class provides common functionality shared by all</span>
-<span class="sd">    Kumiho objects, including access to the client for making API calls.</span>
-
-<span class="sd">    All domain objects (:class:`Project`, :class:`Space`, :class:`Item`,</span>
-<span class="sd">    :class:`Revision`, :class:`Artifact`, :class:`Edge`) inherit from this class.</span>
+<span class="sd">    The item&#39;s kref (Kumiho Reference) is a URI that uniquely identifies it:</span>
+<span class="sd">    ``kref://project/space/item.kind``</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        _client: The client instance for making API calls (internal).</span>
+<span class="sd">        kref (Kref): The unique reference URI for this item.</span>
+<span class="sd">        name (str): The full name including kind (e.g., &quot;hero.model&quot;).</span>
+<span class="sd">        item_name (str): The base name of the item (e.g., &quot;hero&quot;).</span>
+<span class="sd">        kind (str): The kind of item (e.g., &quot;model&quot;, &quot;texture&quot;).</span>
+<span class="sd">        created_at (Optional[str]): ISO timestamp when the item was created.</span>
+<span class="sd">        author (str): The user ID who created the item.</span>
+<span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
+<span class="sd">        deprecated (bool): Whether the item is deprecated.</span>
+<span class="sd">        username (str): Display name of the creator.</span>
 
-<span class="sd">    Note:</span>
-<span class="sd">        This is an internal base class. Users typically interact with</span>
-<span class="sd">        concrete subclasses like :class:`Project` or :class:`Version`.</span>
+<span class="sd">    Example:</span>
+<span class="sd">        Basic item operations::</span>
+
+<span class="sd">            import kumiho</span>
+
+<span class="sd">            # Get item by kref</span>
+<span class="sd">            item = kumiho.get_item(&quot;kref://film/chars/hero.model&quot;)</span>
+
+<span class="sd">            # Create revisions</span>
+<span class="sd">            v1 = item.create_revision()</span>
+<span class="sd">            v2 = item.create_revision(metadata={&quot;notes&quot;: &quot;Updated mesh&quot;})</span>
+
+<span class="sd">            # Get specific revision</span>
+<span class="sd">            v1 = item.get_revision(1)</span>
+<span class="sd">            latest = item.get_latest_revision()</span>
+
+<span class="sd">            # Get revision by tag</span>
+<span class="sd">            approved = item.get_revision_by_tag(&quot;approved&quot;)</span>
+
+<span class="sd">            # Get revision at a specific time</span>
+<span class="sd">            historical = item.get_revision_by_time(&quot;202312011200&quot;)</span>
+
+<span class="sd">            # Set metadata</span>
+<span class="sd">            item.set_metadata({&quot;status&quot;: &quot;final&quot;, &quot;priority&quot;: &quot;high&quot;})</span>
+
+<span class="sd">            # Deprecate the item</span>
+<span class="sd">            item.set_deprecated(True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="KumihoObject.__init__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Kumiho object with a client reference.</span>
+<div class="viewcode-block" id="Item.__init__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb_item</span><span class="p">:</span> <span class="n">ItemResponse</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an Item from a protobuf response.</span>
 
 <span class="sd">        Args:</span>
+<span class="sd">            pb_item: The protobuf ItemResponse message.</span>
 <span class="sd">            client: The client instance for making API calls.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span></div>
-</div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">pb_item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">pb_item</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item_name</span> <span class="o">=</span> <span class="n">pb_item</span><span class="o">.</span><span class="n">item_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="n">pb_item</span><span class="o">.</span><span class="n">kind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb_item</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">pb_item</span><span class="o">.</span><span class="n">author</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pb_item</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">pb_item</span><span class="o">.</span><span class="n">deprecated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">pb_item</span><span class="o">.</span><span class="n">username</span></div>
 
+
+<div class="viewcode-block" id="Item.__repr__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Item.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Item kref=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&#39;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Item.create_revision">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.create_revision">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_revision</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Revision</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new revision of this item.</span>
+
+<span class="sd">        Revisions are automatically numbered sequentially. Each revision starts</span>
+<span class="sd">        with the &quot;latest&quot; tag, which moves to the newest revision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata: Optional metadata for the revision (e.g., artist notes,</span>
+<span class="sd">                render settings, software versions).</span>
+<span class="sd">            number: Specific revision number to use. If 0 (default), auto-assigns</span>
+<span class="sd">                the next available number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Revision: The newly created Revision object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Auto-numbered revision</span>
+<span class="sd">            &gt;&gt;&gt; v1 = item.create_revision()</span>
+<span class="sd">            &gt;&gt;&gt; v2 = item.create_revision(metadata={&quot;artist&quot;: &quot;jane&quot;})</span>
+
+<span class="sd">            &gt;&gt;&gt; # Specific revision number (use with caution)</span>
+<span class="sd">            &gt;&gt;&gt; v5 = item.create_revision(number=5)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.get_revisions">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_revisions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_revisions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Revision</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all revisions of this item.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Revision]: A list of Revision objects, ordered by revision number.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revisions = item.get_revisions()</span>
+<span class="sd">            &gt;&gt;&gt; for v in revisions:</span>
+<span class="sd">            ...     print(f&quot;v{v.number}: created {v.created_at}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_revisions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.get_revision">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_revision">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">revision_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Revision</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a specific revision by its number.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            revision_number: The revision number to retrieve (1-based).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Revision]: The Revision object if found, None otherwise.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; v3 = item.get_revision(3)</span>
+<span class="sd">            &gt;&gt;&gt; if v3:</span>
+<span class="sd">            ...     artifacts = v3.get_artifacts()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kref_uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">?v=</span><span class="si">{</span><span class="n">revision_number</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref_uri</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.get_latest_revision">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_latest_revision">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_latest_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Revision</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the latest revision of this item.</span>
+
+<span class="sd">        The latest revision is the one with the &quot;latest&quot; tag, or if none</span>
+<span class="sd">        exists, the revision with the highest number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Revision]: The latest Revision object, or None if no</span>
+<span class="sd">                revisions exist.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; latest = item.get_latest_revision()</span>
+<span class="sd">            &gt;&gt;&gt; if latest:</span>
+<span class="sd">            ...     print(f&quot;Latest: v{latest.number}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">revisions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_revisions</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">revisions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="c1"># Find the revision with latest=True, or fallback to highest number</span>
+        <span class="n">latest_revisions</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">revisions</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;latest&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">latest</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">latest_revisions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">latest_revisions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">revisions</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">number</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.get_space">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_space">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_space</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Space&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the space that contains this item.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Space: The parent Space object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; item = kumiho.get_item(&quot;kref://project/chars/hero.model&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; space = item.get_space()</span>
+<span class="sd">            &gt;&gt;&gt; print(space.path)  # &quot;/project/chars&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">space_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">get_space</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.get_project">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Project&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the project that contains this item.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Project: The parent Project object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; project = item.get_project()</span>
+<span class="sd">            &gt;&gt;&gt; print(project.name)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_space</span><span class="p">()</span><span class="o">.</span><span class="n">get_project</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Item.get_revision_by_tag">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_revision_by_tag">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_revision_by_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Revision</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a revision by its tag.</span>
+
+<span class="sd">        Common tags include &quot;latest&quot;, &quot;published&quot;, &quot;approved&quot;, etc.</span>
+<span class="sd">        Custom tags can be applied to revisions using :meth:`Revision.tag`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tag: The tag to search for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Revision]: The Revision object if found, None otherwise.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; approved = item.get_revision_by_tag(&quot;approved&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; published = item.get_revision_by_tag(&quot;published&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">ResolveKrefRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ResolveKref</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Revision</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">grpc</span><span class="o">.</span><span class="n">RpcError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span><span class="p">()</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="Item.get_revision_by_time">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_revision_by_time">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_revision_by_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Revision</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the revision that was active at a specific time.</span>
+
+<span class="sd">        This finds the revision that was tagged as &quot;latest&quot; at the given</span>
+<span class="sd">        time, useful for historical queries and reproducing past states.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            time: The time as a datetime object, or a string in either</span>
+<span class="sd">                YYYYMMDDHHMM format (e.g., &quot;202312251430&quot;) or RFC3339</span>
+<span class="sd">                format (e.g., &quot;2023-12-25T14:30:00Z&quot;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Revision]: The Revision that was current at that time,</span>
+<span class="sd">                or None if not found.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from datetime import datetime</span>
+
+<span class="sd">            &gt;&gt;&gt; # Using datetime object</span>
+<span class="sd">            &gt;&gt;&gt; v = item.get_revision_by_time(datetime(2023, 12, 25, 14, 30))</span>
+
+<span class="sd">            &gt;&gt;&gt; # Using string format</span>
+<span class="sd">            &gt;&gt;&gt; v = item.get_revision_by_time(&quot;202312251430&quot;)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Using RFC3339 format</span>
+<span class="sd">            &gt;&gt;&gt; v = item.get_revision_by_time(&quot;2023-12-25T14:30:00Z&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+            <span class="n">time_str</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># Check if it&#39;s RFC3339 format (contains T and ends with Z or timezone)</span>
+            <span class="k">if</span> <span class="s1">&#39;T&#39;</span> <span class="ow">in</span> <span class="n">time</span> <span class="ow">and</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;+&#39;</span> <span class="ow">in</span> <span class="n">time</span> <span class="ow">or</span> <span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:]):</span>
+                <span class="c1"># Parse RFC3339 and convert to YYYYMMDDHHMM</span>
+                <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;+00:00&#39;</span><span class="p">))</span>
+                <span class="n">time_str</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Assume it&#39;s already in YYYYMMDDHHMM format</span>
+                <span class="n">time_str</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;time must be a datetime object or string&quot;</span><span class="p">)</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">ResolveKrefRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time_str</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ResolveKref</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Revision</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">grpc</span><span class="o">.</span><span class="n">RpcError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span><span class="p">()</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="Item.peek_next_revision">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.peek_next_revision">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">peek_next_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the next revision number that would be assigned.</span>
+
+<span class="sd">        This is useful for previewing revision numbers before creating</span>
+<span class="sd">        revisions, such as for naming files or planning workflows.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The next revision number.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; next_num = item.peek_next_revision()</span>
+<span class="sd">            &gt;&gt;&gt; print(f&quot;Next revision will be v{next_num}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">peek_next_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.set_metadata">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.set_metadata">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;Item&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set or update metadata for this item.</span>
+
+<span class="sd">        Metadata is merged with existing metadata—existing keys are</span>
+<span class="sd">        overwritten and new keys are added.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata: Dictionary of metadata key-value pairs.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Item: The updated Item object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; item.set_metadata({</span>
+<span class="sd">            ...     &quot;status&quot;: &quot;final&quot;,</span>
+<span class="sd">            ...     &quot;department&quot;: &quot;modeling&quot;,</span>
+<span class="sd">            ...     &quot;complexity&quot;: &quot;high&quot;</span>
+<span class="sd">            ... })</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">update_item_metadata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.set_attribute">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.set_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a single metadata attribute.</span>
+
+<span class="sd">        This allows granular updates to metadata without replacing the entire</span>
+<span class="sd">        metadata map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to set.</span>
+<span class="sd">            value: The attribute value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was set successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; item.set_attribute(&quot;status&quot;, &quot;final&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="Item.get_attribute">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.get_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The attribute value if it exists, None otherwise.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; item.get_attribute(&quot;status&quot;)</span>
+<span class="sd">            &quot;final&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.delete_attribute">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.delete_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was deleted successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; item.delete_attribute(&quot;old_field&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="Item.delete">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete this item.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force: If True, permanently delete the item and all its</span>
+<span class="sd">                revisions. If False (default), deletion may fail if the</span>
+<span class="sd">                item has revisions.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If deletion fails.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Delete item (fails if has revisions)</span>
+<span class="sd">            &gt;&gt;&gt; item.delete()</span>
+
+<span class="sd">            &gt;&gt;&gt; # Force delete with all revisions</span>
+<span class="sd">            &gt;&gt;&gt; item.delete(force=True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Item.set_deprecated">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.item.Item.set_deprecated">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the deprecated status of this item.</span>
+
+<span class="sd">        Deprecated items are hidden from default searches but remain</span>
+<span class="sd">        accessible for historical reference.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            status: True to deprecate, False to restore.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; item.set_deprecated(True)  # Hide from searches</span>
+<span class="sd">            &gt;&gt;&gt; item.set_deprecated(False)  # Restore visibility</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">status</span></div>
+</div>
 
 </pre></div>
 

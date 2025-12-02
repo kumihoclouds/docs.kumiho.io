@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.base &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.space &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -483,7 +483,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.base</li>
+      <li class="breadcrumb-item active">kumiho.space</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -492,71 +492,511 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Base classes and utilities for Kumiho objects.</span>
+  <h1>Source code for kumiho.space</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Space module for Kumiho asset management.</span>
 
-<span class="sd">This module provides the base classes used by all Kumiho domain objects,</span>
-<span class="sd">including :class:`KumihoObject` (the base for all high-level objects) and</span>
-<span class="sd">:class:`KumihoError` (the base exception class).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides the :class:`Space` class, which represents hierarchical</span>
+<span class="sd">containers for organizing items within a project. Spaces form the folder</span>
+<span class="sd">structure of the Kumiho asset hierarchy.</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
-
-<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
-
-
-<div class="viewcode-block" id="KumihoError">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base exception class for all Kumiho errors.</span>
-
-<span class="sd">    All custom exceptions raised by the Kumiho SDK inherit from this class,</span>
-<span class="sd">    making it easy to catch all Kumiho-related errors.</span>
-
-<span class="sd">    Example::</span>
+<span class="sd">Example:</span>
+<span class="sd">    Working with spaces::</span>
 
 <span class="sd">        import kumiho</span>
 
-<span class="sd">        try:</span>
-<span class="sd">            project = kumiho.get_project(&quot;nonexistent&quot;)</span>
-<span class="sd">        except kumiho.KumihoError as e:</span>
-<span class="sd">            print(f&quot;Kumiho error: {e}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">        project = kumiho.get_project(&quot;film-2024&quot;)</span>
+
+<span class="sd">        # Create space hierarchy</span>
+<span class="sd">        chars = project.create_space(&quot;characters&quot;)</span>
+<span class="sd">        heroes = chars.create_space(&quot;heroes&quot;)</span>
+<span class="sd">        villains = chars.create_space(&quot;villains&quot;)</span>
+
+<span class="sd">        # Create items in spaces</span>
+<span class="sd">        hero_model = heroes.create_item(&quot;main-hero&quot;, &quot;model&quot;)</span>
+
+<span class="sd">        # Navigate space hierarchy</span>
+<span class="sd">        parent = heroes.get_parent_space()  # Returns chars</span>
+<span class="sd">        children = chars.get_child_spaces()  # Returns [heroes, villains]</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.bundle</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bundle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpaceResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.item</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.bundle</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bundle</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
 
 
+<div class="viewcode-block" id="Space">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Space</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A hierarchical container for organizing items in Kumiho.</span>
 
-<div class="viewcode-block" id="KumihoObject">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoObject</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all high-level Kumiho domain objects.</span>
+<span class="sd">    Spaces form the folder structure within a project. They can contain</span>
+<span class="sd">    other spaces (subspaces) and items, allowing you to organize assets</span>
+<span class="sd">    in a meaningful hierarchy.</span>
 
-<span class="sd">    This abstract base class provides common functionality shared by all</span>
-<span class="sd">    Kumiho objects, including access to the client for making API calls.</span>
-
-<span class="sd">    All domain objects (:class:`Project`, :class:`Space`, :class:`Item`,</span>
-<span class="sd">    :class:`Revision`, :class:`Artifact`, :class:`Edge`) inherit from this class.</span>
+<span class="sd">    Spaces are identified by their full path (e.g., &quot;/project/characters/heroes&quot;)</span>
+<span class="sd">    and can store custom metadata.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        _client: The client instance for making API calls (internal).</span>
+<span class="sd">        path (str): The full path of the space (e.g., &quot;/project/assets&quot;).</span>
+<span class="sd">        name (str): The name of this space (last component of path).</span>
+<span class="sd">        type (str): The type of space (&quot;root&quot; for project-level, &quot;sub&quot; for nested).</span>
+<span class="sd">        created_at (Optional[str]): ISO timestamp when the space was created.</span>
+<span class="sd">        author (str): The user ID who created the space.</span>
+<span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
+<span class="sd">        username (str): Display name of the creator.</span>
 
-<span class="sd">    Note:</span>
-<span class="sd">        This is an internal base class. Users typically interact with</span>
-<span class="sd">        concrete subclasses like :class:`Project` or :class:`Version`.</span>
+<span class="sd">    Example:</span>
+<span class="sd">        Creating and navigating spaces::</span>
+
+<span class="sd">            import kumiho</span>
+
+<span class="sd">            project = kumiho.get_project(&quot;my-project&quot;)</span>
+
+<span class="sd">            # Create a space</span>
+<span class="sd">            assets = project.create_space(&quot;assets&quot;)</span>
+
+<span class="sd">            # Create subspaces</span>
+<span class="sd">            models = assets.create_space(&quot;models&quot;)</span>
+<span class="sd">            textures = assets.create_space(&quot;textures&quot;)</span>
+
+<span class="sd">            # Create items</span>
+<span class="sd">            chair = models.create_item(&quot;chair&quot;, &quot;model&quot;)</span>
+
+<span class="sd">            # List items with filters</span>
+<span class="sd">            all_models = models.get_items()</span>
+<span class="sd">            wood_textures = textures.get_items(name_filter=&quot;wood*&quot;)</span>
+
+<span class="sd">            # Navigate hierarchy</span>
+<span class="sd">            parent = models.get_parent_space()  # Returns assets</span>
+<span class="sd">            project = models.get_project()  # Returns my-project</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="KumihoObject.__init__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Kumiho object with a client reference.</span>
+<div class="viewcode-block" id="Space.__init__">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb_space</span><span class="p">:</span> <span class="n">SpaceResponse</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a Space from a protobuf response.</span>
 
 <span class="sd">        Args:</span>
+<span class="sd">            pb_space: The protobuf SpaceResponse message.</span>
 <span class="sd">            client: The client instance for making API calls.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">pb_space</span><span class="o">.</span><span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">pb_space</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">pb_space</span><span class="o">.</span><span class="n">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb_space</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">pb_space</span><span class="o">.</span><span class="n">author</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pb_space</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">pb_space</span><span class="o">.</span><span class="n">username</span></div>
+
+
+<div class="viewcode-block" id="Space.__repr__">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Space.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;kumiho.Space path=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Space.create_space">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.create_space">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Space&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new subspace within this space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: The name of the new subspace.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Space: The newly created Space object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; assets = project.create_space(&quot;assets&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; models = assets.create_space(&quot;models&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; textures = assets.create_space(&quot;textures&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">parent_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">space_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_space">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_space">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Space&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an existing subspace by name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: The name of the subspace (not full path).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Space: The Space object.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the space is not found.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; assets = project.get_space(&quot;assets&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; models = assets.get_space(&quot;models&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_spaces">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_spaces">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_spaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Space&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List child spaces under this space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            recursive: If True, include all nested spaces. If False (default),</span>
+<span class="sd">                only direct children.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Space]: A list of Space objects.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Direct children only</span>
+<span class="sd">            &gt;&gt;&gt; children = space.get_spaces()</span>
+
+<span class="sd">            &gt;&gt;&gt; # All nested spaces</span>
+<span class="sd">            &gt;&gt;&gt; all_spaces = space.get_spaces(recursive=True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_child_spaces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.create_item">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.create_item">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new item within this space.</span>
+
+<span class="sd">        Items are versioned assets that can contain multiple artifacts.</span>
+<span class="sd">        The combination of name and kind must be unique within the space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item_name: The name of the item (e.g., &quot;hero-character&quot;).</span>
+<span class="sd">            kind: The kind of item (e.g., &quot;model&quot;, &quot;texture&quot;, &quot;workflow&quot;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Item: The newly created Item object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; models = project.get_space(&quot;models&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; chair = models.create_item(&quot;office-chair&quot;, &quot;model&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; wood = textures.create_item(&quot;oak-wood&quot;, &quot;texture&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item_name</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.create_bundle">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.create_bundle">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_bundle</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bundle_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bundle</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new bundle within this space.</span>
+
+<span class="sd">        Bundles are special items that aggregate other items.</span>
+<span class="sd">        They provide a way to group related items together and maintain</span>
+<span class="sd">        an audit trail of membership changes through revision history.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bundle_name: The name of the bundle. Must be unique within</span>
+<span class="sd">                the space.</span>
+<span class="sd">            metadata: Optional key-value metadata for the bundle.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Bundle: The newly created Bundle object with kind &quot;bundle&quot;.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the bundle name is already taken or if there</span>
+<span class="sd">                is a connection error.</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            :class:`~kumiho.bundle.Bundle`: The Bundle class.</span>
+<span class="sd">            :meth:`~kumiho.project.Project.create_bundle`: Create bundle in a project.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            &gt;&gt;&gt; # Create a bundle for a character bundle</span>
+<span class="sd">            &gt;&gt;&gt; assets = project.get_space(&quot;assets&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; bundle = assets.create_bundle(&quot;character-bundle&quot;)</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # Add items to the bundle</span>
+<span class="sd">            &gt;&gt;&gt; hero = assets.get_item(&quot;hero&quot;, &quot;model&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; bundle.add_member(hero)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span>
+            <span class="n">parent_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+            <span class="n">bundle_name</span><span class="o">=</span><span class="n">bundle_name</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_items">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_items">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_items</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List items within this space with optional filtering.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item_name_filter: Filter by item name. Supports wildcards.</span>
+<span class="sd">            kind_filter: Filter by item kind.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Item]: A list of Item objects matching the filters.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # All items in space</span>
+<span class="sd">            &gt;&gt;&gt; items = space.get_items()</span>
+
+<span class="sd">            &gt;&gt;&gt; # Only models</span>
+<span class="sd">            &gt;&gt;&gt; models = space.get_items(kind_filter=&quot;model&quot;)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Items starting with &quot;hero&quot;</span>
+<span class="sd">            &gt;&gt;&gt; heroes = space.get_items(item_name_filter=&quot;hero*&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item_name_filter</span><span class="p">,</span> <span class="n">kind_filter</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_item">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_item">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a specific item by name and kind.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item_name: The name of the item.</span>
+<span class="sd">            kind: The kind of the item.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Item: The Item object.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the item is not found.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; chair = models.get_item(&quot;office-chair&quot;, &quot;model&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; revisions = chair.get_revisions()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">item_name</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.set_metadata">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.set_metadata">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;Space&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set or update metadata for this space.</span>
+
+<span class="sd">        Metadata is a dictionary of string key-value pairs that can store</span>
+<span class="sd">        any custom information about the space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata: Dictionary of metadata to set. Existing keys are</span>
+<span class="sd">                overwritten, new keys are added.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Space: The updated Space object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; space.set_metadata({</span>
+<span class="sd">            ...     &quot;department&quot;: &quot;modeling&quot;,</span>
+<span class="sd">            ...     &quot;supervisor&quot;: &quot;jane.doe&quot;,</span>
+<span class="sd">            ...     &quot;status&quot;: &quot;active&quot;</span>
+<span class="sd">            ... })</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For spaces, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">UpdateMetadataRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">UpdateMetadataRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateSpaceMetadata</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Space</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.set_attribute">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.set_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a single metadata attribute.</span>
+
+<span class="sd">        This allows granular updates to metadata without replacing the entire</span>
+<span class="sd">        metadata map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to set.</span>
+<span class="sd">            value: The attribute value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was set successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; space.set_attribute(&quot;department&quot;, &quot;modeling&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For spaces, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">SetAttributeRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">SetAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">SetAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span></div>
+
+
+<div class="viewcode-block" id="Space.get_attribute">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The attribute value if it exists, None otherwise.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; space.get_attribute(&quot;department&quot;)</span>
+<span class="sd">            &quot;modeling&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For spaces, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">GetAttributeRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">GetAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">exists</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Space.delete_attribute">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.delete_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was deleted successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; space.delete_attribute(&quot;old_field&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For spaces, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">DeleteAttributeRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">DeleteAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span></div>
+
+
+<div class="viewcode-block" id="Space.delete">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete this space.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force: If True, force deletion even if the space contains</span>
+<span class="sd">                items. If False (default), deletion fails if space</span>
+<span class="sd">                is not empty.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If deletion fails (e.g., space not empty</span>
+<span class="sd">                and force=False).</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Delete empty space</span>
+<span class="sd">            &gt;&gt;&gt; empty_space.delete()</span>
+
+<span class="sd">            &gt;&gt;&gt; # Force delete space with contents</span>
+<span class="sd">            &gt;&gt;&gt; old_space.delete(force=True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_space</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_parent_space">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_parent_space">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_parent_space</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;Space&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the parent space of this space.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Space]: The parent Space object, or None if this is</span>
+<span class="sd">                a project-level root space.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; heroes = project.get_space(&quot;characters/heroes&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; chars = heroes.get_parent_space()  # Returns &quot;characters&quot; space</span>
+<span class="sd">            &gt;&gt;&gt; root = chars.get_parent_space()  # Returns None (project root)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="c1"># Split path and remove the last component</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="p">]</span>  <span class="c1"># Remove empty strings</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># This is a root-level space</span>
+        <span class="n">parent_parts</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_parts</span><span class="p">:</span>
+            <span class="n">parent_path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parent_path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_parts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">parent_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_child_spaces">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_child_spaces">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_child_spaces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Space&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get immediate child spaces of this space.</span>
+
+<span class="sd">        This is a convenience method equivalent to ``get_spaces(recursive=False)``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Space]: A list of direct child Space objects.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; assets = project.get_space(&quot;assets&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; children = assets.get_child_spaces()</span>
+<span class="sd">            &gt;&gt;&gt; for child in children:</span>
+<span class="sd">            ...     print(child.name)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_child_spaces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_project">
+<a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Project&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the project that contains this space.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Project: The parent Project object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; space = kumiho.get_item(&quot;kref://my-project/assets/hero.model&quot;).get_space()</span>
+<span class="sd">            &gt;&gt;&gt; project = space.get_project()</span>
+<span class="sd">            &gt;&gt;&gt; print(project.name)</span>
+<span class="sd">            my-project</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The project name is the first component of the path</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Root space has no project&quot;</span><span class="p">)</span>
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Project &#39;</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">project</span></div>
 </div>
 
 
+
+<span class="c1"># Backwards compatibility aliases</span>
+<span class="n">Group</span> <span class="o">=</span> <span class="n">Space</span>
+<span class="sd">&quot;&quot;&quot;Alias for Space (backwards compatibility).&quot;&quot;&quot;</span>
 </pre></div>
 
            </div>

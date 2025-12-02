@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.project &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.bundle &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="kumiho.space" href="space.html" />
-    <link rel="prev" title="kumiho" href="kumiho.html" /> 
+    <link rel="next" title="kumiho.revision" href="revision.html" />
+    <link rel="prev" title="kumiho.item" href="item.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -430,10 +430,10 @@
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">kumiho.project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project.html">kumiho.project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="space.html">kumiho.space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="item.html">kumiho.item</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bundle.html">kumiho.bundle</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">kumiho.bundle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="revision.html">kumiho.revision</a></li>
 <li class="toctree-l1"><a class="reference internal" href="artifact.html">kumiho.artifact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edge.html">kumiho.edge</a></li>
@@ -484,9 +484,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">kumiho.project</li>
+      <li class="breadcrumb-item active">kumiho.bundle</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/project.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/bundle.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -494,47 +494,114 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="kumiho-project">
-<h1>kumiho.project<a class="headerlink" href="#kumiho-project" title="Link to this heading"></a></h1>
-<p>Project module for Kumiho asset management.</p>
-<p>This module provides the <a class="reference internal" href="kumiho.html#kumiho.Project" title="kumiho.project.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a> class, which represents the top-level
-container for organizing assets in Kumiho. Projects serve as namespaces that
-contain spaces, items, revisions, and artifacts.</p>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<p>Creating and working with projects:</p>
+  <section id="kumiho-bundle">
+<h1>kumiho.bundle<a class="headerlink" href="#kumiho-bundle" title="Link to this heading"></a></h1>
+<p>Bundle module for Kumiho asset management.</p>
+<p>This module provides the <a class="reference internal" href="kumiho.html#kumiho.Bundle" title="kumiho.bundle.Bundle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bundle</span></code></a> class, which represents a special
+type of item that aggregates other items. Bundles are used to group
+related items together and maintain an audit trail of membership changes.</p>
+<dl class="simple">
+<dt>Bundles are unique in that:</dt><dd><ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">bundle</span></code> kind is reserved and cannot be created manually.</p></li>
+<li><p>Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.create_bundle()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">Space.create_bundle()</span></code>.</p></li>
+<li><p>Each membership change (add/remove) creates a new revision for audit trail.</p></li>
+<li><p>Revision metadata is immutable, providing complete change history.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
-<span class="c1"># Create a new project</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">,</span> <span class="s2">&quot;Feature film VFX assets&quot;</span><span class="p">)</span>
+<span class="c1"># Create a bundle from a project or space</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;my-project&quot;</span><span class="p">)</span>
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">&quot;asset-bundle&quot;</span><span class="p">)</span>
 
-<span class="c1"># Create space structure</span>
-<span class="n">chars</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
-<span class="n">envs</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;environments&quot;</span><span class="p">)</span>
+<span class="c1"># Add items to the bundle</span>
+<span class="n">hero_model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;kref://my-project/models/hero.model&quot;</span><span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">hero_model</span><span class="p">)</span>
 
-<span class="c1"># Create items within spaces</span>
-<span class="n">hero</span> <span class="o">=</span> <span class="n">chars</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
+<span class="c1"># Get all members</span>
+<span class="n">members</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Item: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1"># List all spaces</span>
-<span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+<span class="c1"># View history of changes (immutable audit trail)</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_history</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v</span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">revision_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">member_item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="kumiho.html#kumiho.BundleMember" title="kumiho.bundle.BundleMember"><code class="xref py py-class docutils literal notranslate"><span class="pre">BundleMember</span></code></a>: Data class for bundle members.</p></li>
+<li><p><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory" title="kumiho.bundle.BundleRevisionHistory"><code class="xref py py-class docutils literal notranslate"><span class="pre">BundleRevisionHistory</span></code></a>: Data class for audit trail entries.</p></li>
+<li><p><a class="reference internal" href="kumiho.html#kumiho.ReservedKindError" title="kumiho.bundle.ReservedKindError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ReservedKindError</span></code></a>: Error for reserved kind violations.</p></li>
+</ul>
 </div>
+<dl class="py data">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">kumiho.bundle.</span></span><span class="sig-name descname"><span class="pre">RESERVED_KINDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'bundle'})</span></em></dt>
+<dd><p>Item kinds that are reserved and cannot be created via create_item.</p>
+<dl class="simple">
+<dt>Currently includes:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bundle</span></code>: Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.create_bundle()</span></code> or
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Space.create_bundle()</span></code> instead.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.14)">frozenset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.bundle.</span></span><span class="sig-name descname"><span class="pre">ReservedKindError</span></span><a class="reference internal" href="../_modules/kumiho/bundle.html#ReservedKindError"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Raised when attempting to create an item with a reserved kind.</p>
+<p>This error is raised when calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">Space.create_item()</span></code> or the
+low-level client <code class="docutils literal notranslate"><span class="pre">create_item</span></code> with a reserved kind such
+as <code class="docutils literal notranslate"><span class="pre">bundle</span></code>.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;assets&quot;</span><span class="p">)</span>
+
+<span class="c1"># This will raise ReservedKindError</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">space</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span><span class="s2">&quot;my-bundle&quot;</span><span class="p">,</span> <span class="s2">&quot;bundle&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">ReservedKindError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Use create_bundle instead</span>
+    <span class="n">bundle</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">&quot;my-bundle&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.project.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><a class="reference internal" href="../_modules/kumiho/project.html#Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <a class="reference internal" href="kumiho.html#kumiho.KumihoObject" title="kumiho.base.KumihoObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">KumihoObject</span></code></a></p>
-<p>A Kumiho project—the top-level container for assets.</p>
-<p>Projects are the root of the Kumiho hierarchy. Each project has its own
-namespace for spaces and items, and manages access control and settings
-independently.</p>
-<p>Projects support both public and private access modes, allowing you to
-share assets publicly or restrict them to authenticated users.</p>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.bundle.</span></span><span class="sig-name descname"><span class="pre">BundleMember</span></span><a class="reference internal" href="../_modules/kumiho/bundle.html#BundleMember"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An item that is a member of a bundle.</p>
+<p>Represents the membership relationship between an item and a bundle,
+including metadata about when and by whom the item was added.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">project_id</span></span></dt>
-<dd><p>The unique identifier for this project.</p>
+<span class="sig-name descname"><span class="pre">item_kref</span></span></dt>
+<dd><p>The kref of the member item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">added_at</span></span></dt>
+<dd><p>ISO timestamp when the item was added.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
@@ -544,8 +611,8 @@ share assets publicly or restrict them to authenticated users.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">name</span></span></dt>
-<dd><p>The URL-safe name of the project (e.g., “film-2024”).</p>
+<span class="sig-name descname"><span class="pre">added_by</span></span></dt>
+<dd><p>UUID of the user who added the item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
@@ -555,8 +622,168 @@ share assets publicly or restrict them to authenticated users.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">description</span></span></dt>
-<dd><p>Human-readable description of the project.</p>
+<span class="sig-name descname"><span class="pre">added_by_username</span></span></dt>
+<dd><p>Display name of the user who added the item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">added_in_revision</span></span></dt>
+<dd><p>The bundle revision when this item was added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">members</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Item: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added by: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_by_username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added at: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_at</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;In revision: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_in_revision</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">item_kref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kref</span></code></a></em></dt>
+<dd><p>The kref of the member item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">added_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd><p>ISO timestamp when the item was added to the bundle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">added_by</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd><p>UUID of the user who added the item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">added_by_username</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd><p>Display name of the user who added the item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">added_in_revision</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em></dt>
+<dd><p>The bundle revision number when this item was added.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_by_username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added_in_revision</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item_kref</strong> (<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a>)</p></li>
+<li><p><strong>added_at</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>added_by</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>added_by_username</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>added_in_revision</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.bundle.</span></span><span class="sig-name descname"><span class="pre">BundleRevisionHistory</span></span><a class="reference internal" href="../_modules/kumiho/bundle.html#BundleRevisionHistory"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A historical change to a bundle’s membership.</p>
+<p>Each entry captures a single add or remove operation, providing
+an immutable audit trail of all membership changes. The metadata
+is immutable once created, ensuring complete traceability.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revision_number</span></span></dt>
+<dd><p>The bundle revision number for this change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">action</span></span></dt>
+<dd><p>The action performed: <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;ADDED&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;REMOVED&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">member_item_kref</span></span></dt>
+<dd><p>The item that was added/removed.
+None for the initial <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code> action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span></dt>
+<dd><p>UUID of the user who made the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">username</span></span></dt>
+<dd><p>Display name of the user who made the change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
@@ -567,87 +794,91 @@ share assets publicly or restrict them to authenticated users.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">created_at</span></span></dt>
-<dd><p>ISO timestamp when the project was created.</p>
+<dd><p>ISO timestamp of the change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">updated_at</span></span></dt>
-<dd><p>ISO timestamp of the last update.</p>
+<span class="sig-name descname"><span class="pre">metadata</span></span></dt>
+<dd><p>Immutable metadata captured at the time of change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">deprecated</span></span></dt>
-<dd><p>Whether the project is deprecated (soft-deleted).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">allow_public</span></span></dt>
-<dd><p>Whether anonymous read access is enabled.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<p>Basic project operations:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
-
-<span class="c1"># Get existing project</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;my-project&quot;</span><span class="p">)</span>
-
-<span class="c1"># Create spaces</span>
-<span class="n">assets</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;assets&quot;</span><span class="p">)</span>
-<span class="n">shots</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;shots&quot;</span><span class="p">)</span>
-
-<span class="c1"># Navigate to nested spaces</span>
-<span class="n">char_space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;assets/characters&quot;</span><span class="p">)</span>
-
-<span class="c1"># List all spaces recursively</span>
-<span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1"># Update project settings</span>
-<span class="n">project</span><span class="o">.</span><span class="n">set_public</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Enable public access</span>
-<span class="n">project</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Updated description&quot;</span><span class="p">)</span>
-
-<span class="c1"># Soft delete (deprecate)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-
-<span class="c1"># Hard delete (permanent)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">history</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Revision </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">revision_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">member_item_kref</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Item: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">member_item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  By: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">created_at</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revision_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em></dt>
+<dd><p>The bundle revision number for this change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd><p>The action performed: <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;ADDED&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;REMOVED&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">member_item_kref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kref</span></code></a><span class="pre">]</span></em></dt>
+<dd><p>The item that was added/removed (None for CREATED).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd><p>UUID of the user who made the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Initialize a Project from a protobuf response.</p>
-<dl class="field-list simple">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_item_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">author</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pb</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectResponse</span></code></span>) – The protobuf ProjectResponse message.</p></li>
-<li><p><strong>client</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">_Client</span></code></span>) – The client instance for making API calls.</p></li>
+<li><p><strong>revision_number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>member_item_kref</strong> (<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>author</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>username</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>created_at</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -656,258 +887,383 @@ share assets publicly or restrict them to authenticated users.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">username</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd><p>Display name of the user who made the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd><p>ISO timestamp of when the change was made.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em></dt>
+<dd><p>Immutable metadata captured at the time of the change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.bundle.</span></span><span class="sig-name descname"><span class="pre">Bundle</span></span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="kumiho.html#kumiho.Item" title="kumiho.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a></p>
+<p>A special item type that aggregates other items.</p>
+<p>Bundles provide a way to group related items together. Unlike regular
+items, bundles cannot be created using the standard <code class="docutils literal notranslate"><span class="pre">create_item</span></code>
+method—the <code class="docutils literal notranslate"><span class="pre">bundle</span></code> kind is reserved.</p>
+<p>Use <code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.create_bundle()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">Space.create_bundle()</span></code>
+to create bundles.</p>
+<dl class="simple">
+<dt>Key features:</dt><dd><ul class="simple">
+<li><p>Aggregates items (not revisions) via <code class="docutils literal notranslate"><span class="pre">COLLECTS</span></code> relationships.</p></li>
+<li><p>Each membership change creates a new revision for audit trail.</p></li>
+<li><p>Revision metadata is immutable, providing complete history.</p></li>
+<li><p>Cannot contain itself (self-reference protection).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">kref</span></span></dt>
+<dd><p>The unique identifier for this bundle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">name</span></span></dt>
+<dd><p>The combined name (e.g., “my-bundle.bundle”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">item_name</span></span></dt>
+<dd><p>The bundle name (e.g., “my-bundle”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">kind</span></span></dt>
+<dd><p>Always “bundle”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">metadata</span></span></dt>
+<dd><p>Custom metadata key-value pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">created_at</span></span></dt>
+<dd><p>ISO timestamp when the bundle was created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">author</span></span></dt>
+<dd><p>The user ID who created the bundle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">username</span></span></dt>
+<dd><p>Display name of the creator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">deprecated</span></span></dt>
+<dd><p>Whether the bundle is deprecated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="c1"># Create a bundle from a project</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">)</span>
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">&quot;release-v1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add items</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;kref://film-2024/models/hero.model&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;kref://film-2024/textures/hero.texture&quot;</span><span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">texture</span><span class="p">)</span>
+
+<span class="c1"># List current members</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2"> added by </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_by_username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Remove a member</span>
+<span class="n">bundle</span><span class="o">.</span><span class="n">remove_member</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># View complete audit history</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_history</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v</span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">revision_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.create_bundle()</span></code>: Create a bundle in a project.
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Space.create_bundle()</span></code>: Create a bundle in a space.
+<a class="reference internal" href="kumiho.html#kumiho.BundleMember" title="kumiho.bundle.BundleMember"><code class="xref py py-class docutils literal notranslate"><span class="pre">BundleMember</span></code></a>: Data class for member information.
+<a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory" title="kumiho.bundle.BundleRevisionHistory"><code class="xref py py-class docutils literal notranslate"><span class="pre">BundleRevisionHistory</span></code></a>: Data class for audit entries.</p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Return a string representation of the Project.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Initialize a Bundle from a protobuf response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pb</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItemResponse</span></code></span>) – The ItemResponse protobuf message.</p></li>
+<li><p><strong>client</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">_Client</span></code></span>) – The client instance for making subsequent calls.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the kind is not ‘bundle’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">add_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle.add_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Add an item to this bundle.</p>
+<p>Creates a new revision of the bundle to track the change.
+The revision metadata will include the action (<code class="docutils literal notranslate"><span class="pre">&quot;ADDED&quot;</span></code>) and
+the member item kref for audit purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>member</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="kumiho.html#kumiho.Item" title="kumiho.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a></span>) – The item to add to the bundle.</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional additional metadata to store in the revision.
+This metadata becomes part of the immutable audit trail.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>success: Whether the operation succeeded.</p></li>
+<li><p>message: A status message.</p></li>
+<li><p>new_revision: The new bundle revision created for this change.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Optional[<a class="reference internal" href="kumiho.html#kumiho.Revision" title="kumiho.Revision">Revision</a>]]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If trying to add the bundle to itself.</p></li>
+<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the member is already in the bundle
+    (status code <code class="docutils literal notranslate"><span class="pre">ALREADY_EXISTS</span></code>).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hero_model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add with optional metadata</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">revision</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span>
+    <span class="n">hero_model</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;character bundle&quot;</span><span class="p">,</span> <span class="s2">&quot;approved_by&quot;</span><span class="p">:</span> <span class="s2">&quot;director&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added in revision </span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">remove_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle.remove_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Remove an item from this bundle.</p>
+<p>Creates a new revision of the bundle to track the change.
+The revision metadata will include the action (<code class="docutils literal notranslate"><span class="pre">&quot;REMOVED&quot;</span></code>) and
+the member item kref for audit purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>member</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="kumiho.html#kumiho.Item" title="kumiho.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a></span>) – The item to remove from the bundle.</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional additional metadata to store in the revision.
+This metadata becomes part of the immutable audit trail.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>success: Whether the operation succeeded.</p></li>
+<li><p>message: A status message.</p></li>
+<li><p>new_revision: The new bundle revision created for this change.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Optional[<a class="reference internal" href="kumiho.html#kumiho.Revision" title="kumiho.Revision">Revision</a>]]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the member is not in the bundle
+    (status code <code class="docutils literal notranslate"><span class="pre">NOT_FOUND</span></code>).</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove an item from the bundle</span>
+<span class="n">success</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">revision</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">remove_member</span><span class="p">(</span><span class="n">hero_model</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed in revision </span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_members</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle.get_members"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Get all items that are members of this bundle.</p>
+<p>Returns information about each member item, including when
+it was added and by whom.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>revision_number</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Optional specific revision to query.
+If not provided, returns current membership.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of member information objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="kumiho.html#kumiho.BundleMember" title="kumiho.bundle.BundleMember">BundleMember</a>]</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get current members</span>
+<span class="n">members</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Added by: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_by_username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  In revision: </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">added_in_revision</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get empty list if no members</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">members</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bundle is empty&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle.get_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Get the full history of membership changes.</p>
+<p>Returns all revisions with their associated actions, providing
+a complete and immutable audit trail of all adds and removes.</p>
+<p>The history is ordered by revision number, starting with the
+initial <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code> action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>List of history entries, ordered</dt><dd><p>by revision number (oldest first).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory" title="kumiho.bundle.BundleRevisionHistory">BundleRevisionHistory</a>]</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">history</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Revision </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">revision_number</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Action: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  By: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  At: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">created_at</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">member_item_kref</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Item: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">member_item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Return a string representation of the Bundle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">create_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.create_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Create a space within this project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the space to create.</p></li>
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional parent path. If not provided, creates
-the space at the project root (e.g., “/project-name”).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The newly created Space object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Space" title="kumiho.Space">Space</a></p>
-</dd>
-</dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create at root</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chars</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create nested space</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">heroes</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;heroes&quot;</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/film-2024/characters&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">create_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.create_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Create a new bundle within this project.</p>
-<p>Bundles are special items that aggregate other items.
-They provide a way to group related items together and maintain
-an audit trail of membership changes through revision history.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the bundle. Must be unique within
-the parent space.</p></li>
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional parent path for the bundle. If not provided,
-creates the bundle at the project root (<code class="docutils literal notranslate"><span class="pre">/{project_name}</span></code>).</p></li>
-<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional key-value metadata for the bundle.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The newly created Bundle object with kind “bundle”.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Bundle" title="kumiho.Bundle">Bundle</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the bundle name is already taken or if there
-    is a connection error.</p>
-</dd>
-</dl>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="kumiho.html#kumiho.Bundle" title="kumiho.bundle.Bundle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bundle</span></code></a>: The Bundle class.
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">create_bundle()</span></code>: Create bundle in a space.</p>
-</div>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create at project root</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">&quot;release-bundle&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create in specific space</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;character-bundle&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/film-2024/assets&quot;</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Add items to the bundle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hero</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;models&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">hero</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Delete or deprecate this project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>force</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, permanently delete the project and all its
-contents. If False (default), mark as deprecated.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Response indicating success or failure.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>StatusResponse</p>
-</dd>
-</dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Force deletion is irreversible and removes all spaces, items,
-revisions, artifacts, and edges within the project.</p>
-</div>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;old-project&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Soft delete (can be recovered)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Hard delete (permanent)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_public</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.set_public"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set whether this project allows anonymous read access.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>public</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – True to enable public access, False to require
-authentication for all access.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The updated Project object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Project" title="kumiho.project.Project">Project</a></p>
-</dd>
-</dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">set_public</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Enable public access</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">set_public</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># Require authentication</span>
-</pre></div>
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Update project properties.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – New description for the project.</p></li>
-<li><p><strong>allow_public</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]</span>) – New public access setting.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The updated Project object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Project" title="kumiho.project.Project">Project</a></p>
-</dd>
-</dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Updated project description&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">allow_public</span><span class="o">=</span><span class="kc">True</span>
-<span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.get_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Get an existing space within this project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the space, or an absolute path starting with “/”.</p></li>
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional parent path if name is a relative name.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The Space object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Space" title="kumiho.Space">Space</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the space is not found.</p>
-</dd>
-</dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get by absolute path</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;/film-2024/characters&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get by relative name (from project root)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get nested space with parent path</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">heroes</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;heroes&quot;</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/film-2024/characters&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>List spaces within this project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional path to start from. Defaults to project root.</p></li>
-<li><p><strong>recursive</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, include all nested spaces. If False (default),
-only direct children.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of Space objects.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="kumiho.html#kumiho.Space" title="kumiho.Space">Space</a>]</p>
-</dd>
-</dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># List direct children only</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spaces</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spaces</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># List all spaces recursively</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">all_spaces</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">all_spaces</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
 </dd></dl>
 
 </dd></dl>
@@ -918,8 +1274,8 @@ only direct children.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="kumiho.html" class="btn btn-neutral float-left" title="kumiho" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="space.html" class="btn btn-neutral float-right" title="kumiho.space" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="item.html" class="btn btn-neutral float-left" title="kumiho.item" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="revision.html" class="btn btn-neutral float-right" title="kumiho.revision" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

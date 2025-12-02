@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.project &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.revision &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -483,7 +483,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.project</li>
+      <li class="breadcrumb-item active">kumiho.revision</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -492,338 +492,807 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.project</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Project module for Kumiho asset management.</span>
+  <h1>Source code for kumiho.revision</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Revision module for Kumiho asset management.</span>
 
-<span class="sd">This module provides the :class:`Project` class, which represents the top-level</span>
-<span class="sd">container for organizing assets in Kumiho. Projects serve as namespaces that</span>
-<span class="sd">contain spaces, items, revisions, and artifacts.</span>
+<span class="sd">This module provides the :class:`Revision` class, which represents a specific</span>
+<span class="sd">iteration of an item. Revisions contain artifacts (file references), tags,</span>
+<span class="sd">and metadata, and can be linked to other revisions to track dependencies.</span>
 
 <span class="sd">Example:</span>
-<span class="sd">    Creating and working with projects::</span>
+<span class="sd">    Working with revisions::</span>
 
 <span class="sd">        import kumiho</span>
 
-<span class="sd">        # Create a new project</span>
-<span class="sd">        project = kumiho.create_project(&quot;film-2024&quot;, &quot;Feature film VFX assets&quot;)</span>
+<span class="sd">        # Get a revision</span>
+<span class="sd">        revision = kumiho.get_revision(&quot;kref://project/models/hero.model?v=1&quot;)</span>
 
-<span class="sd">        # Create space structure</span>
-<span class="sd">        chars = project.create_space(&quot;characters&quot;)</span>
-<span class="sd">        envs = project.create_space(&quot;environments&quot;)</span>
+<span class="sd">        # Add artifacts</span>
+<span class="sd">        revision.create_artifact(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
+<span class="sd">        revision.create_artifact(&quot;textures&quot;, &quot;/assets/hero_tex.zip&quot;)</span>
 
-<span class="sd">        # Create items within spaces</span>
-<span class="sd">        hero = chars.create_item(&quot;hero&quot;, &quot;model&quot;)</span>
+<span class="sd">        # Tag the revision</span>
+<span class="sd">        revision.tag(&quot;approved&quot;)</span>
+<span class="sd">        revision.tag(&quot;ready-for-lighting&quot;)</span>
 
-<span class="sd">        # List all spaces</span>
-<span class="sd">        for space in project.get_spaces(recursive=True):</span>
-<span class="sd">            print(space.path)</span>
+<span class="sd">        # Create edges to dependencies</span>
+<span class="sd">        texture_revision = kumiho.get_revision(&quot;kref://project/textures/skin.texture?v=3&quot;)</span>
+<span class="sd">        revision.create_edge(texture_revision, kumiho.DEPENDS_ON)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RevisionResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.artifact</span><span class="w"> </span><span class="kn">import</span> <span class="n">Artifact</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.edge</span><span class="w"> </span><span class="kn">import</span> <span class="n">Edge</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.bundle</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bundle</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.item</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.edge</span><span class="w"> </span><span class="kn">import</span> <span class="n">TraversalResult</span><span class="p">,</span> <span class="n">RevisionPath</span><span class="p">,</span> <span class="n">ImpactedRevision</span>
 
 
-<div class="viewcode-block" id="Project">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Project</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Kumiho project—the top-level container for assets.</span>
+<div class="viewcode-block" id="Revision">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Revision</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A specific iteration of an item in the Kumiho system.</span>
 
-<span class="sd">    Projects are the root of the Kumiho hierarchy. Each project has its own</span>
-<span class="sd">    namespace for spaces and items, and manages access control and settings</span>
-<span class="sd">    independently.</span>
+<span class="sd">    Revisions are immutable snapshots of an item at a point in time. Each</span>
+<span class="sd">    revision can have multiple artifacts (file references), tags for</span>
+<span class="sd">    categorization, and edges to other revisions for dependency tracking.</span>
 
-<span class="sd">    Projects support both public and private access modes, allowing you to</span>
-<span class="sd">    share assets publicly or restrict them to authenticated users.</span>
+<span class="sd">    The revision&#39;s kref includes the revision number:</span>
+<span class="sd">    ``kref://project/space/item.kind?v=1``</span>
+
+<span class="sd">    Revisions support dynamic tag checking—the ``tags`` property automatically</span>
+<span class="sd">    refreshes from the server if the local data might be stale (older than 5</span>
+<span class="sd">    seconds). This ensures tags like &quot;latest&quot; are always current.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        project_id (str): The unique identifier for this project.</span>
-<span class="sd">        name (str): The URL-safe name of the project (e.g., &quot;film-2024&quot;).</span>
-<span class="sd">        description (str): Human-readable description of the project.</span>
-<span class="sd">        created_at (Optional[str]): ISO timestamp when the project was created.</span>
-<span class="sd">        updated_at (Optional[str]): ISO timestamp of the last update.</span>
-<span class="sd">        deprecated (bool): Whether the project is deprecated (soft-deleted).</span>
-<span class="sd">        allow_public (bool): Whether anonymous read access is enabled.</span>
+<span class="sd">        kref (Kref): The unique reference URI for this revision.</span>
+<span class="sd">        item_kref (Kref): Reference to the parent item.</span>
+<span class="sd">        number (int): The revision number (1-based).</span>
+<span class="sd">        latest (bool): Whether this is currently the latest revision.</span>
+<span class="sd">        tags (List[str]): Tags applied to this revision (auto-refreshes).</span>
+<span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
+<span class="sd">        created_at (Optional[str]): ISO timestamp when the revision was created.</span>
+<span class="sd">        author (str): The user ID who created the revision.</span>
+<span class="sd">        deprecated (bool): Whether the revision is deprecated.</span>
+<span class="sd">        published (bool): Whether the revision is published.</span>
+<span class="sd">        username (str): Display name of the creator.</span>
+<span class="sd">        default_artifact (Optional[str]): Name of the default artifact.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        Basic project operations::</span>
+<span class="sd">        Creating and managing revisions::</span>
 
 <span class="sd">            import kumiho</span>
 
-<span class="sd">            # Get existing project</span>
-<span class="sd">            project = kumiho.get_project(&quot;my-project&quot;)</span>
+<span class="sd">            item = kumiho.get_item(&quot;kref://project/models/hero.model&quot;)</span>
 
-<span class="sd">            # Create spaces</span>
-<span class="sd">            assets = project.create_space(&quot;assets&quot;)</span>
-<span class="sd">            shots = project.create_space(&quot;shots&quot;)</span>
+<span class="sd">            # Create a revision with metadata</span>
+<span class="sd">            v1 = item.create_revision(metadata={</span>
+<span class="sd">                &quot;artist&quot;: &quot;jane.doe&quot;,</span>
+<span class="sd">                &quot;software&quot;: &quot;maya-2024&quot;,</span>
+<span class="sd">                &quot;notes&quot;: &quot;Initial model&quot;</span>
+<span class="sd">            })</span>
 
-<span class="sd">            # Navigate to nested spaces</span>
-<span class="sd">            char_space = project.get_space(&quot;assets/characters&quot;)</span>
+<span class="sd">            # Add artifacts</span>
+<span class="sd">            mesh = v1.create_artifact(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
+<span class="sd">            rig = v1.create_artifact(&quot;rig&quot;, &quot;/assets/hero_rig.fbx&quot;)</span>
 
-<span class="sd">            # List all spaces recursively</span>
-<span class="sd">            for space in project.get_spaces(recursive=True):</span>
-<span class="sd">                print(f&quot;  {space.path}&quot;)</span>
+<span class="sd">            # Set default artifact (for resolve)</span>
+<span class="sd">            v1.set_default_artifact(&quot;mesh&quot;)</span>
 
-<span class="sd">            # Update project settings</span>
-<span class="sd">            project.set_public(True)  # Enable public access</span>
-<span class="sd">            project.update(description=&quot;Updated description&quot;)</span>
+<span class="sd">            # Tag the revision</span>
+<span class="sd">            v1.tag(&quot;approved&quot;)</span>
 
-<span class="sd">            # Soft delete (deprecate)</span>
-<span class="sd">            project.delete()</span>
+<span class="sd">            # Check tags</span>
+<span class="sd">            if v1.has_tag(&quot;approved&quot;):</span>
+<span class="sd">                print(&quot;Revision is approved!&quot;)</span>
 
-<span class="sd">            # Hard delete (permanent)</span>
-<span class="sd">            project.delete(force=True)</span>
+<span class="sd">            # Get all artifacts</span>
+<span class="sd">            for r in v1.get_artifacts():</span>
+<span class="sd">                print(f&quot;  {r.name}: {r.location}&quot;)</span>
+
+<span class="sd">            # Edge to dependencies</span>
+<span class="sd">            texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+<span class="sd">            v1.create_edge(texture, kumiho.DEPENDS_ON)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Project.__init__">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb</span><span class="p">:</span> <span class="n">ProjectResponse</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s2">&quot;_Client&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a Project from a protobuf response.</span>
+<div class="viewcode-block" id="Revision.__init__">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb_revision</span><span class="p">:</span> <span class="n">RevisionResponse</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a Revision from a protobuf response.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            pb: The protobuf ProjectResponse message.</span>
+<span class="sd">            pb_revision: The protobuf RevisionResponse message.</span>
 <span class="sd">            client: The client instance for making API calls.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">project_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">description</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">updated_at</span> <span class="ow">or</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">deprecated</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">allow_public</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="n">allow_public</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">pb_revision</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">pb_revision</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latest</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">latest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pb_revision</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pb_revision</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">author</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">deprecated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">published</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">published</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_artifact</span> <span class="o">=</span> <span class="n">pb_revision</span><span class="o">.</span><span class="n">default_artifact</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="Project.__repr__">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.__repr__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Project.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;kumiho.Project id=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="si">}</span><span class="s2">&#39; name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&gt;&quot;</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_stale</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this revision&#39;s data might be stale.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the data is older than 5 seconds, indicating</span>
+<span class="sd">                that tags like &#39;latest&#39; might have changed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">5</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current tags for this revision.</span>
 
-<div class="viewcode-block" id="Project.create_space">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.create_space">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Space</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a space within this project.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name: The name of the space to create.</span>
-<span class="sd">            parent_path: Optional parent path. If not provided, creates</span>
-<span class="sd">                the space at the project root (e.g., &quot;/project-name&quot;).</span>
+<span class="sd">        This property automatically refreshes from the server if the data</span>
+<span class="sd">        might be stale (older than 5 seconds), ensuring dynamic tags like</span>
+<span class="sd">        &quot;latest&quot; are always current.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Space: The newly created Space object.</span>
+<span class="sd">            List[str]: The list of tags on this revision.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; project = kumiho.get_project(&quot;film-2024&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; # Create at root</span>
-<span class="sd">            &gt;&gt;&gt; chars = project.create_space(&quot;characters&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; # Create nested space</span>
-<span class="sd">            &gt;&gt;&gt; heroes = project.create_space(&quot;heroes&quot;, parent_path=&quot;/film-2024/characters&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; revision = item.get_revision(1)</span>
+<span class="sd">            &gt;&gt;&gt; print(revision.tags)  # [&#39;latest&#39;, &#39;approved&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base_parent</span> <span class="o">=</span> <span class="n">parent_path</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">parent_path</span><span class="o">=</span><span class="n">base_parent</span><span class="p">,</span> <span class="n">space_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stale</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span>
+
+    <span class="nd">@tags</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the cached tags (used internally).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="Revision.__repr__">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Revision.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Revision number=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&#39; kref=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&#39;&gt;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Project.create_bundle">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.create_bundle">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_bundle</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">bundle_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">parent_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Bundle&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new bundle within this project.</span>
+<div class="viewcode-block" id="Revision.create_artifact">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.create_artifact">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_artifact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Artifact</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new artifact for this revision.</span>
 
-<span class="sd">        Bundles are special items that aggregate other items.</span>
-<span class="sd">        They provide a way to group related items together and maintain</span>
-<span class="sd">        an audit trail of membership changes through revision history.</span>
+<span class="sd">        Artifacts are file references that point to actual assets on disk</span>
+<span class="sd">        or network storage. Kumiho tracks the path and metadata but does</span>
+<span class="sd">        not upload or copy the files.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            bundle_name: The name of the bundle. Must be unique within</span>
-<span class="sd">                the parent space.</span>
-<span class="sd">            parent_path: Optional parent path for the bundle. If not provided,</span>
-<span class="sd">                creates the bundle at the project root (``/{project_name}``).</span>
-<span class="sd">            metadata: Optional key-value metadata for the bundle.</span>
+<span class="sd">            name: The name of the artifact (e.g., &quot;mesh&quot;, &quot;textures&quot;, &quot;rig&quot;).</span>
+<span class="sd">            location: The file path or URI where the artifact is stored.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Bundle: The newly created Bundle object with kind &quot;bundle&quot;.</span>
+<span class="sd">            Artifact: The newly created Artifact object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; mesh = revision.create_artifact(&quot;mesh&quot;, &quot;/assets/hero.fbx&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; textures = revision.create_artifact(&quot;textures&quot;, &quot;smb://server/tex/hero.zip&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_artifact</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.set_metadata">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.set_metadata">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;Revision&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set or update metadata for this revision.</span>
+
+<span class="sd">        Metadata is merged with existing metadata—existing keys are</span>
+<span class="sd">        overwritten and new keys are added.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata: Dictionary of metadata key-value pairs.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Revision: The updated Revision object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.set_metadata({</span>
+<span class="sd">            ...     &quot;render_engine&quot;: &quot;arnold&quot;,</span>
+<span class="sd">            ...     &quot;frame_range&quot;: &quot;1-100&quot;,</span>
+<span class="sd">            ...     &quot;resolution&quot;: &quot;4K&quot;</span>
+<span class="sd">            ... })</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">update_revision_metadata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.set_attribute">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.set_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a single metadata attribute.</span>
+
+<span class="sd">        This allows granular updates to metadata without replacing the entire</span>
+<span class="sd">        metadata map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to set.</span>
+<span class="sd">            value: The attribute value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was set successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.set_attribute(&quot;render_engine&quot;, &quot;cycles&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="Revision.get_attribute">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The attribute value if it exists, None otherwise.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.get_attribute(&quot;render_engine&quot;)</span>
+<span class="sd">            &quot;cycles&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.delete_attribute">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.delete_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was deleted successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.delete_attribute(&quot;old_field&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="Revision.has_tag">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.has_tag">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">has_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this revision currently has a specific tag.</span>
+
+<span class="sd">        This makes a server call to ensure the tag status is current.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tag: The tag to check for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the revision has the tag, False otherwise.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; if revision.has_tag(&quot;approved&quot;):</span>
+<span class="sd">            ...     print(&quot;Ready for production!&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">has_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.tag">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.tag">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a tag to this revision.</span>
+
+<span class="sd">        Tags are used to categorize revisions and mark their status.</span>
+<span class="sd">        Common tags include &quot;latest&quot;, &quot;published&quot;, &quot;approved&quot;, etc.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The &quot;latest&quot; tag is automatically managed—it always points</span>
+<span class="sd">            to the newest revision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tag: The tag to apply.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.tag(&quot;approved&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; revision.tag(&quot;ready-for-lighting&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">tag_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Revision.untag">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.untag">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">untag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a tag from this revision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tag: The tag to remove.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.untag(&quot;work-in-progress&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">untag_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Revision.was_tagged">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.was_tagged">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">was_tagged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this revision was ever tagged with a specific tag.</span>
+
+<span class="sd">        This checks the historical record, not just current tags.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tag: The tag to check for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the revision was ever tagged with this tag.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; if revision.was_tagged(&quot;approved&quot;):</span>
+<span class="sd">            ...     print(&quot;Was approved at some point&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">was_tagged</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.get_artifact">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_artifact">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_artifact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Artifact</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a specific artifact by name from this revision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: The name of the artifact.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Artifact: The Artifact object.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            grpc.RpcError: If the bundle name is already taken or if there</span>
-<span class="sd">                is a connection error.</span>
-
-<span class="sd">        See Also:</span>
-<span class="sd">            :class:`~kumiho.bundle.Bundle`: The Bundle class.</span>
-<span class="sd">            :meth:`~kumiho.space.Space.create_bundle`: Create bundle in a space.</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            &gt;&gt;&gt; project = kumiho.get_project(&quot;film-2024&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; # Create at project root</span>
-<span class="sd">            &gt;&gt;&gt; bundle = project.create_bundle(&quot;release-bundle&quot;)</span>
-<span class="sd">            &gt;&gt;&gt;</span>
-<span class="sd">            &gt;&gt;&gt; # Create in specific space</span>
-<span class="sd">            &gt;&gt;&gt; bundle = project.create_bundle(</span>
-<span class="sd">            ...     &quot;character-bundle&quot;,</span>
-<span class="sd">            ...     parent_path=&quot;/film-2024/assets&quot;</span>
-<span class="sd">            ... )</span>
-<span class="sd">            &gt;&gt;&gt;</span>
-<span class="sd">            &gt;&gt;&gt; # Add items to the bundle</span>
-<span class="sd">            &gt;&gt;&gt; hero = project.get_space(&quot;models&quot;).get_item(&quot;hero&quot;, &quot;model&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; bundle.add_member(hero)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base_parent</span> <span class="o">=</span> <span class="n">parent_path</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span>
-            <span class="n">parent_path</span><span class="o">=</span><span class="n">base_parent</span><span class="p">,</span>
-            <span class="n">bundle_name</span><span class="o">=</span><span class="n">bundle_name</span><span class="p">,</span>
-            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
-        <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Project.delete">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.delete">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete or deprecate this project.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            force: If True, permanently delete the project and all its</span>
-<span class="sd">                contents. If False (default), mark as deprecated.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            StatusResponse: Response indicating success or failure.</span>
-
-<span class="sd">        Warning:</span>
-<span class="sd">            Force deletion is irreversible and removes all spaces, items,</span>
-<span class="sd">            revisions, artifacts, and edges within the project.</span>
+<span class="sd">            grpc.RpcError: If the artifact is not found.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; project = kumiho.get_project(&quot;old-project&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; # Soft delete (can be recovered)</span>
-<span class="sd">            &gt;&gt;&gt; project.delete()</span>
-<span class="sd">            &gt;&gt;&gt; # Hard delete (permanent)</span>
-<span class="sd">            &gt;&gt;&gt; project.delete(force=True)</span>
+<span class="sd">            &gt;&gt;&gt; mesh = revision.get_artifact(&quot;mesh&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; print(mesh.location)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_project</span><span class="p">(</span><span class="n">project_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Project.set_public">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.set_public">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_public</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">public</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set whether this project allows anonymous read access.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            public: True to enable public access, False to require</span>
-<span class="sd">                authentication for all access.</span>
+<div class="viewcode-block" id="Revision.get_artifacts">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_artifacts">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_artifacts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Artifact</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all artifacts associated with this revision.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Project: The updated Project object.</span>
+<span class="sd">            List[Artifact]: A list of Artifact objects.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; project.set_public(True)  # Enable public access</span>
-<span class="sd">            &gt;&gt;&gt; project.set_public(False)  # Require authentication</span>
+<span class="sd">            &gt;&gt;&gt; for artifact in revision.get_artifacts():</span>
+<span class="sd">            ...     print(f&quot;{artifact.name}: {artifact.location}&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">update_project</span><span class="p">(</span><span class="n">project_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span> <span class="n">allow_public</span><span class="o">=</span><span class="n">public</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_artifacts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Project.update">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.update">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">allow_public</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update project properties.</span>
+<div class="viewcode-block" id="Revision.get_locations">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_locations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_locations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the file locations of all artifacts in this revision.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            description: New description for the project.</span>
-<span class="sd">            allow_public: New public access setting.</span>
+<span class="sd">        This is a convenience method to quickly get all file paths.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Project: The updated Project object.</span>
+<span class="sd">            List[str]: A list of file location strings.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; project.update(</span>
-<span class="sd">            ...     description=&quot;Updated project description&quot;,</span>
-<span class="sd">            ...     allow_public=True</span>
-<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; locations = revision.get_locations()</span>
+<span class="sd">            &gt;&gt;&gt; for loc in locations:</span>
+<span class="sd">            ...     print(loc)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">update_project</span><span class="p">(</span>
-            <span class="n">project_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
-            <span class="n">allow_public</span><span class="o">=</span><span class="n">allow_public</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">location</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_artifacts</span><span class="p">()]</span></div>
 
 
-<div class="viewcode-block" id="Project.get_space">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.get_space">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Space</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an existing space within this project.</span>
+<div class="viewcode-block" id="Revision.get_item">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_item">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Item&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the parent item of this revision.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            name: The name of the space, or an absolute path starting with &quot;/&quot;.</span>
-<span class="sd">            parent_path: Optional parent path if name is a relative name.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Item: The Item object that contains this revision.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; item = revision.get_item()</span>
+<span class="sd">            &gt;&gt;&gt; print(item.item_name)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_item_by_kref</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.get_space">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_space">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_space</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Space&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the space that contains this revision&#39;s item.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Space: The Space object.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            grpc.RpcError: If the space is not found.</span>
-
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; # Get by absolute path</span>
-<span class="sd">            &gt;&gt;&gt; space = project.get_space(&quot;/film-2024/characters&quot;)</span>
-
-<span class="sd">            &gt;&gt;&gt; # Get by relative name (from project root)</span>
-<span class="sd">            &gt;&gt;&gt; space = project.get_space(&quot;characters&quot;)</span>
-
-<span class="sd">            &gt;&gt;&gt; # Get nested space with parent path</span>
-<span class="sd">            &gt;&gt;&gt; heroes = project.get_space(&quot;heroes&quot;, parent_path=&quot;/film-2024/characters&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; space = revision.get_space()</span>
+<span class="sd">            &gt;&gt;&gt; print(space.path)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">base_parent</span> <span class="o">=</span> <span class="n">parent_path</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_parent</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+        <span class="n">space_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">get_space</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Project.get_spaces">
-<a class="viewcode-back" href="../../api/project.html#kumiho.Project.get_spaces">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_spaces</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">parent_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Space</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List spaces within this project.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            parent_path: Optional path to start from. Defaults to project root.</span>
-<span class="sd">            recursive: If True, include all nested spaces. If False (default),</span>
-<span class="sd">                only direct children.</span>
+<div class="viewcode-block" id="Revision.get_project">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_project">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Project&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the project that contains this revision.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[Space]: A list of Space objects.</span>
+<span class="sd">            Project: The Project object.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; # List direct children only</span>
-<span class="sd">            &gt;&gt;&gt; spaces = project.get_spaces()</span>
-<span class="sd">            &gt;&gt;&gt; for s in spaces:</span>
-<span class="sd">            ...     print(s.name)</span>
-
-<span class="sd">            &gt;&gt;&gt; # List all spaces recursively</span>
-<span class="sd">            &gt;&gt;&gt; all_spaces = project.get_spaces(recursive=True)</span>
-<span class="sd">            &gt;&gt;&gt; for s in all_spaces:</span>
-<span class="sd">            ...     print(s.path)</span>
+<span class="sd">            &gt;&gt;&gt; project = revision.get_project()</span>
+<span class="sd">            &gt;&gt;&gt; print(project.name)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base_parent</span> <span class="o">=</span> <span class="n">parent_path</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_child_spaces</span><span class="p">(</span><span class="n">base_parent</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_space</span><span class="p">()</span><span class="o">.</span><span class="n">get_project</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Revision.refresh">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.refresh">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh this revision&#39;s data from the server.</span>
+<span class="sd">        </span>
+<span class="sd">        This updates all properties to reflect the current state in the</span>
+<span class="sd">        database, including tags that may have changed (like &quot;latest&quot;).</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.refresh()</span>
+<span class="sd">            &gt;&gt;&gt; print(revision.tags)  # Now shows current tags</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fresh_revision</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latest</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">latest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_tags</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">tags</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">created_at</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">author</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">deprecated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">published</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">published</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_artifact</span> <span class="o">=</span> <span class="n">fresh_revision</span><span class="o">.</span><span class="n">default_artifact</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fetched_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Revision.set_default_artifact">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.set_default_artifact">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_default_artifact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">artifact_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the default artifact for this revision.</span>
+
+<span class="sd">        The default artifact is used when resolving the revision&#39;s kref</span>
+<span class="sd">        without specifying an artifact name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            artifact_name: The name of the artifact to set as default.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.set_default_artifact(&quot;mesh&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; # Now kref://project/model.kind?v=1 resolves to the mesh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetDefaultArtifactRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">SetDefaultArtifactRequest</span><span class="p">(</span>
+            <span class="n">revision_kref</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span>
+            <span class="n">artifact_name</span><span class="o">=</span><span class="n">artifact_name</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">SetDefaultArtifact</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_artifact</span> <span class="o">=</span> <span class="n">artifact_name</span></div>
+
+
+<div class="viewcode-block" id="Revision.delete">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete this revision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force: If True, force deletion even if the revision has</span>
+<span class="sd">                artifacts. If False (default), deletion may fail.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If deletion fails.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.delete()  # Fails if has artifacts</span>
+<span class="sd">            &gt;&gt;&gt; revision.delete(force=True)  # Force delete</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.set_deprecated">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.set_deprecated">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the deprecated status of this revision.</span>
+
+<span class="sd">        Deprecated revisions are hidden from default queries but remain</span>
+<span class="sd">        accessible for historical reference.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            status: True to deprecate, False to restore.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.set_deprecated(True)  # Hide from queries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">status</span></div>
+
+
+<div class="viewcode-block" id="Revision.create_edge">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.create_edge">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_edge</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">target_revision</span><span class="p">:</span> <span class="s1">&#39;Revision&#39;</span><span class="p">,</span>
+        <span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Edge&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an edge from this revision to another revision.</span>
+
+<span class="sd">        Edges represent relationships between revisions, such as dependencies,</span>
+<span class="sd">        references, or derivations. This is useful for tracking asset lineage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            target_revision: The target revision to link to.</span>
+<span class="sd">            edge_type: The type of edge. Use constants from :class:`kumiho.EdgeType`:</span>
+<span class="sd">                - ``kumiho.DEPENDS_ON``: This revision depends on target.</span>
+<span class="sd">                - ``kumiho.DERIVED_FROM``: This revision was derived from target.</span>
+<span class="sd">                - ``kumiho.REFERENCED``: This revision references target.</span>
+<span class="sd">                - ``kumiho.CONTAINS``: This revision contains target.</span>
+<span class="sd">            metadata: Optional metadata for the edge.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Edge: The created Edge object.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; import kumiho</span>
+
+<span class="sd">            &gt;&gt;&gt; # Edge to a texture dependency</span>
+<span class="sd">            &gt;&gt;&gt; texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; revision.create_edge(texture, kumiho.DEPENDS_ON)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Edge with metadata</span>
+<span class="sd">            &gt;&gt;&gt; base = kumiho.get_revision(&quot;kref://project/models/base.model?v=1&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; revision.create_edge(base, kumiho.DERIVED_FROM, {</span>
+<span class="sd">            ...     &quot;modification&quot;: &quot;Added details&quot;</span>
+<span class="sd">            ... })</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_revision</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.get_edges">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_edges">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_edges</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Edge&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get edges involving this revision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_type_filter: Optional filter for edge type.</span>
+<span class="sd">            direction: The direction of edges to retrieve:</span>
+<span class="sd">                - ``kumiho.OUTGOING`` (0): Edges from this revision.</span>
+<span class="sd">                - ``kumiho.INCOMING`` (1): Edges to this revision.</span>
+<span class="sd">                - ``kumiho.BOTH`` (2): Edges in both directions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Edge]: A list of Edge objects.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; import kumiho</span>
+
+<span class="sd">            &gt;&gt;&gt; # Get all dependencies</span>
+<span class="sd">            &gt;&gt;&gt; deps = revision.get_edges(kumiho.DEPENDS_ON, kumiho.OUTGOING)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Get all revisions that depend on this one</span>
+<span class="sd">            &gt;&gt;&gt; dependents = revision.get_edges(kumiho.DEPENDS_ON, kumiho.INCOMING)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">edge_type_filter</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.delete_edge">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.delete_edge">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_revision</span><span class="p">:</span> <span class="s1">&#39;Revision&#39;</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete an edge from this revision.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            target_revision: The target revision of the edge.</span>
+<span class="sd">            edge_type: The type of edge to delete.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; revision.delete_edge(texture_revision, kumiho.DEPENDS_ON)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">target_revision</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">)</span></div>
+
+
+    <span class="c1"># --- Graph Traversal Methods ---</span>
+
+<div class="viewcode-block" id="Revision.get_all_dependencies">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_all_dependencies">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_dependencies</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TraversalResult&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all transitive dependencies of this revision.</span>
+
+<span class="sd">        Traverses outgoing edges to find all revisions this revision</span>
+<span class="sd">        depends on, directly or indirectly.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_type_filter: Filter by edge types (e.g., [kumiho.DEPENDS_ON]).</span>
+<span class="sd">            max_depth: Maximum traversal depth (default: 10, max: 20).</span>
+<span class="sd">            limit: Maximum number of results (default: 100, max: 1000).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TraversalResult: Contains all discovered revisions and paths.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; import kumiho</span>
+
+<span class="sd">            &gt;&gt;&gt; # Get all dependencies up to 5 hops</span>
+<span class="sd">            &gt;&gt;&gt; deps = revision.get_all_dependencies(</span>
+<span class="sd">            ...     edge_type_filter=[kumiho.DEPENDS_ON],</span>
+<span class="sd">            ...     max_depth=5</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; for kref in deps.revision_krefs:</span>
+<span class="sd">            ...     print(f&quot;Depends on: {kref}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.edge</span><span class="w"> </span><span class="kn">import</span> <span class="n">EdgeDirection</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">traverse_edges</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">EdgeDirection</span><span class="o">.</span><span class="n">OUTGOING</span><span class="p">,</span>
+            <span class="n">edge_type_filter</span><span class="o">=</span><span class="n">edge_type_filter</span><span class="p">,</span>
+            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.get_all_dependents">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.get_all_dependents">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_dependents</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TraversalResult&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all revisions that transitively depend on this revision.</span>
+
+<span class="sd">        Traverses incoming edges to find all revisions that depend on</span>
+<span class="sd">        this revision, directly or indirectly. Useful for impact analysis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_type_filter: Filter by edge types.</span>
+<span class="sd">            max_depth: Maximum traversal depth.</span>
+<span class="sd">            limit: Maximum number of results.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TraversalResult: Contains all dependent revisions.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Find everything that would be affected by changing this texture</span>
+<span class="sd">            &gt;&gt;&gt; dependents = texture_v1.get_all_dependents([kumiho.DEPENDS_ON])</span>
+<span class="sd">            &gt;&gt;&gt; print(f&quot;{len(dependents.revision_krefs)} revisions would be affected&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.edge</span><span class="w"> </span><span class="kn">import</span> <span class="n">EdgeDirection</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">traverse_edges</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">EdgeDirection</span><span class="o">.</span><span class="n">INCOMING</span><span class="p">,</span>
+            <span class="n">edge_type_filter</span><span class="o">=</span><span class="n">edge_type_filter</span><span class="p">,</span>
+            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Revision.find_path_to">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.find_path_to">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_path_to</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="s1">&#39;Revision&#39;</span><span class="p">,</span>
+        <span class="n">edge_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">all_paths</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;RevisionPath&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the shortest path from this revision to another.</span>
+
+<span class="sd">        Uses graph traversal to find how two revisions are connected.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            target: The target revision to find a path to.</span>
+<span class="sd">            edge_type_filter: Filter by edge types.</span>
+<span class="sd">            max_depth: Maximum path length to search.</span>
+<span class="sd">            all_paths: If True, returns all shortest paths via result.paths.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RevisionPath if a path exists, None otherwise.</span>
+<span class="sd">            Use all_paths=True and access result.paths for multiple paths.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; path = model_v1.find_path_to(texture_v3)</span>
+<span class="sd">            &gt;&gt;&gt; if path:</span>
+<span class="sd">            ...     print(f&quot;Path length: {path.total_depth}&quot;)</span>
+<span class="sd">            ...     for step in path.steps:</span>
+<span class="sd">            ...         print(f&quot;  -&gt; {step.revision_kref} via {step.edge_type}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">find_shortest_path</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">edge_type_filter</span><span class="o">=</span><span class="n">edge_type_filter</span><span class="p">,</span>
+            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+            <span class="n">all_shortest</span><span class="o">=</span><span class="n">all_paths</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">all_paths</span><span class="p">:</span>
+            <span class="c1"># Return the result object when all paths requested</span>
+            <span class="k">return</span> <span class="n">result</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">first_path</span></div>
+
+
+<div class="viewcode-block" id="Revision.analyze_impact">
+<a class="viewcode-back" href="../../api/revision.html#kumiho.Revision.analyze_impact">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze_impact</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ImpactedRevision&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze the impact of changes to this revision.</span>
+
+<span class="sd">        Returns all revisions that directly or indirectly depend on this</span>
+<span class="sd">        revision, sorted by impact depth (closest dependencies first).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_type_filter: Edge types to follow (default: all).</span>
+<span class="sd">            max_depth: How far to traverse (default: 10).</span>
+<span class="sd">            limit: Maximum results (default: 100).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[ImpactedRevision]: Revisions that would be impacted.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Before modifying a shared texture</span>
+<span class="sd">            &gt;&gt;&gt; impact = texture_v1.analyze_impact()</span>
+<span class="sd">            &gt;&gt;&gt; print(f&quot;{len(impact)} revisions would need review&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; for iv in impact[:5]:</span>
+<span class="sd">            ...     print(f&quot;  {iv.revision_kref} (depth {iv.impact_depth})&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">analyze_impact</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">edge_type_filter</span><span class="o">=</span><span class="n">edge_type_filter</span><span class="p">,</span>
+            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">limit</span>
+        <span class="p">)</span></div>
 </div>
 
 </pre></div>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.project &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.edge &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="kumiho.space" href="space.html" />
-    <link rel="prev" title="kumiho" href="kumiho.html" /> 
+    <link rel="next" title="kumiho.kref" href="kref.html" />
+    <link rel="prev" title="kumiho.artifact" href="artifact.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -430,13 +430,13 @@
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">kumiho.project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project.html">kumiho.project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="space.html">kumiho.space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="item.html">kumiho.item</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bundle.html">kumiho.bundle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="revision.html">kumiho.revision</a></li>
 <li class="toctree-l1"><a class="reference internal" href="artifact.html">kumiho.artifact</a></li>
-<li class="toctree-l1"><a class="reference internal" href="edge.html">kumiho.edge</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">kumiho.edge</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kref.html">kumiho.kref</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
@@ -484,9 +484,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">kumiho.project</li>
+      <li class="breadcrumb-item active">kumiho.edge</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/project.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/edge.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -494,47 +494,331 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="kumiho-project">
-<h1>kumiho.project<a class="headerlink" href="#kumiho-project" title="Link to this heading"></a></h1>
-<p>Project module for Kumiho asset management.</p>
-<p>This module provides the <a class="reference internal" href="kumiho.html#kumiho.Project" title="kumiho.project.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a> class, which represents the top-level
-container for organizing assets in Kumiho. Projects serve as namespaces that
-contain spaces, items, revisions, and artifacts.</p>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<p>Creating and working with projects:</p>
+  <section id="kumiho-edge">
+<h1>kumiho.edge<a class="headerlink" href="#kumiho-edge" title="Link to this heading"></a></h1>
+<p>Edge module for Kumiho asset management.</p>
+<p>This module provides the <a class="reference internal" href="kumiho.html#kumiho.Edge" title="kumiho.edge.Edge"><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></a> class and related constants for
+tracking relationships between revisions. Edges enable dependency tracking,
+lineage visualization, and impact analysis.</p>
+<dl class="simple">
+<dt>Edge Types:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DEPENDS_ON</span></code>: Source depends on target (e.g., model uses texture).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DERIVED_FROM</span></code>: Source was created from target (e.g., LOD from highpoly).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">REFERENCED</span></code>: Source references target (soft dependency).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CONTAINS</span></code>: Source contains target (composition).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CREATED_FROM</span></code>: Source was generated from target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BELONGS_TO</span></code>: Source belongs to target (grouping).</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
-<span class="c1"># Create a new project</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">,</span> <span class="s2">&quot;Feature film VFX assets&quot;</span><span class="p">)</span>
+<span class="c1"># Get revisions</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?v=2&quot;</span><span class="p">)</span>
 
-<span class="c1"># Create space structure</span>
-<span class="n">chars</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
-<span class="n">envs</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;environments&quot;</span><span class="p">)</span>
+<span class="c1"># Create a dependency edge</span>
+<span class="n">edge</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
 
-<span class="c1"># Create items within spaces</span>
-<span class="n">hero</span> <span class="o">=</span> <span class="n">chars</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
-
-<span class="c1"># List all spaces</span>
-<span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+<span class="c1"># Query edges</span>
+<span class="n">deps</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">OUTGOING</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dep</span><span class="o">.</span><span class="n">source_kref</span><span class="si">}</span><span class="s2"> depends on </span><span class="si">{</span><span class="n">dep</span><span class="o">.</span><span class="n">target_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<dl class="py exception">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">EdgeTypeValidationError</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#EdgeTypeValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></p>
+<p>Raised when an edge type is invalid or potentially malicious.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">validate_edge_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#validate_edge_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Validate an edge type for security and correctness.</p>
+<p>Edge types must:
+- Start with an uppercase letter
+- Contain only uppercase letters, digits, and underscores
+- Be 1-50 characters long</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>edge_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The edge type to validate.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="kumiho.html#kumiho.EdgeTypeValidationError" title="kumiho.edge.EdgeTypeValidationError"><strong>EdgeTypeValidationError</strong></a> – If the edge type is invalid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.edge</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_edge_type</span><span class="p">,</span> <span class="n">EdgeTypeValidationError</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">validate_edge_type</span><span class="p">(</span><span class="s2">&quot;DEPENDS_ON&quot;</span><span class="p">)</span>  <span class="c1"># OK</span>
+    <span class="n">validate_edge_type</span><span class="p">(</span><span class="s2">&quot;depends_on&quot;</span><span class="p">)</span>  <span class="c1"># Raises error</span>
+<span class="k">except</span> <span class="n">EdgeTypeValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid edge type: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">is_valid_edge_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#is_valid_edge_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Check if an edge type is valid without raising exceptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>edge_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The edge type to validate.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the edge type is valid, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.project.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><a class="reference internal" href="../_modules/kumiho/project.html#Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">EdgeType</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#EdgeType"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Standard edge types for Kumiho relationships.</p>
+<p>These constants define the semantic meaning of relationships between
+revisions. Use them when creating or querying edges.</p>
+<p>All edge types use UPPERCASE format as required by the Neo4j graph database.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">BELONGS_TO</span></span></dt>
+<dd><p>Indicates ownership or grouping relationship.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CREATED_FROM</span></span></dt>
+<dd><p>Indicates the source was generated from target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">REFERENCED</span></span></dt>
+<dd><p>Indicates a soft reference relationship.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEPENDS_ON</span></span></dt>
+<dd><p>Indicates the source requires the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DERIVED_FROM</span></span></dt>
+<dd><p>Indicates the source was derived/modified from target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CONTAINS</span></span></dt>
+<dd><p>Indicates the source contains or includes the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="c1"># Model depends on texture</span>
+<span class="n">model_v1</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture_v2</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
+
+<span class="c1"># LOD derived from high-poly</span>
+<span class="n">lod_v1</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">highpoly_v1</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DERIVED_FROM</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">BELONGS_TO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BELONGS_TO'</span></em></dt>
+<dd><p>Ownership or grouping relationship.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CREATED_FROM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CREATED_FROM'</span></em></dt>
+<dd><p>Source was generated/created from target.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">REFERENCED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'REFERENCED'</span></em></dt>
+<dd><p>Soft reference relationship.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEPENDS_ON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEPENDS_ON'</span></em></dt>
+<dd><p>Source requires target to function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DERIVED_FROM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DERIVED_FROM'</span></em></dt>
+<dd><p>Source was derived or modified from target.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">CONTAINS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CONTAINS'</span></em></dt>
+<dd><p>Source contains or includes target.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">EdgeDirection</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#EdgeDirection"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Direction constants for edge traversal queries.</p>
+<p>When querying edges, you can specify which direction to traverse:
+outgoing edges (from source), incoming edges (to target), or both.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OUTGOING</span></span></dt>
+<dd><p>Edges where the queried revision is the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">INCOMING</span></span></dt>
+<dd><p>Edges where the queried revision is the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">BOTH</span></span></dt>
+<dd><p>Edges in either direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="c1"># Get dependencies (what this revision depends on)</span>
+<span class="n">deps</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">OUTGOING</span><span class="p">)</span>
+
+<span class="c1"># Get dependents (what depends on this revision)</span>
+<span class="n">dependents</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">INCOMING</span><span class="p">)</span>
+
+<span class="c1"># Get all relationships</span>
+<span class="n">all_edges</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">kumiho</span><span class="o">.</span><span class="n">BOTH</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OUTGOING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em></dt>
+<dd><p>Edges where the queried revision is the source.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">INCOMING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em></dt>
+<dd><p>Edges where the queried revision is the target.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">BOTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em></dt>
+<dd><p>Edges in either direction.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">Edge</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#Edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <a class="reference internal" href="kumiho.html#kumiho.KumihoObject" title="kumiho.base.KumihoObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">KumihoObject</span></code></a></p>
-<p>A Kumiho project—the top-level container for assets.</p>
-<p>Projects are the root of the Kumiho hierarchy. Each project has its own
-namespace for spaces and items, and manages access control and settings
-independently.</p>
-<p>Projects support both public and private access modes, allowing you to
-share assets publicly or restrict them to authenticated users.</p>
+<p>A relationship between two revisions in the Kumiho system.</p>
+<p>Edges represent semantic relationships between revisions, enabling
+dependency tracking, lineage visualization, and impact analysis.
+They are directional (source -&gt; target) and typed.</p>
+<dl class="simple">
+<dt>Common use cases:</dt><dd><ul class="simple">
+<li><p>Track which textures a model uses (DEPENDS_ON)</p></li>
+<li><p>Record that a LOD was created from a high-poly model (DERIVED_FROM)</p></li>
+<li><p>Link a render to the scene file that created it (CREATED_FROM)</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">project_id</span></span></dt>
-<dd><p>The unique identifier for this project.</p>
+<span class="sig-name descname"><span class="pre">source_kref</span></span></dt>
+<dd><p>Reference to the source revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">target_kref</span></span></dt>
+<dd><p>Reference to the target revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">edge_type</span></span></dt>
+<dd><p>The type of relationship (see <a class="reference internal" href="kumiho.html#kumiho.EdgeType" title="kumiho.edge.EdgeType"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeType</span></code></a>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
@@ -544,22 +828,11 @@ share assets publicly or restrict them to authenticated users.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">name</span></span></dt>
-<dd><p>The URL-safe name of the project (e.g., “film-2024”).</p>
+<span class="sig-name descname"><span class="pre">metadata</span></span></dt>
+<dd><p>Custom metadata key-value pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">description</span></span></dt>
-<dd><p>Human-readable description of the project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -567,7 +840,7 @@ share assets publicly or restrict them to authenticated users.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">created_at</span></span></dt>
-<dd><p>ISO timestamp when the project was created.</p>
+<dd><p>ISO timestamp when the edge was created.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
@@ -577,76 +850,56 @@ share assets publicly or restrict them to authenticated users.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">updated_at</span></span></dt>
-<dd><p>ISO timestamp of the last update.</p>
+<span class="sig-name descname"><span class="pre">author</span></span></dt>
+<dd><p>The user ID who created the edge.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">deprecated</span></span></dt>
-<dd><p>Whether the project is deprecated (soft-deleted).</p>
+<span class="sig-name descname"><span class="pre">username</span></span></dt>
+<dd><p>Display name of the creator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">allow_public</span></span></dt>
-<dd><p>Whether anonymous read access is enabled.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<p>Basic project operations:</p>
+<p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
-<span class="c1"># Get existing project</span>
-<span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;my-project&quot;</span><span class="p">)</span>
+<span class="c1"># Get revisions</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/models/hero.model?v=1&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://project/tex/skin.texture?v=2&quot;</span><span class="p">)</span>
 
-<span class="c1"># Create spaces</span>
-<span class="n">assets</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;assets&quot;</span><span class="p">)</span>
-<span class="n">shots</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;shots&quot;</span><span class="p">)</span>
+<span class="c1"># Create edge with metadata</span>
+<span class="n">edge</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;diffuse&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uv_set&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span>
+<span class="p">})</span>
 
-<span class="c1"># Navigate to nested spaces</span>
-<span class="n">char_space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;assets/characters&quot;</span><span class="p">)</span>
+<span class="c1"># Inspect edge</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type: </span><span class="si">{</span><span class="n">edge</span><span class="o">.</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;From: </span><span class="si">{</span><span class="n">edge</span><span class="o">.</span><span class="n">source_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;To: </span><span class="si">{</span><span class="n">edge</span><span class="o">.</span><span class="n">target_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1"># List all spaces recursively</span>
-<span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="c1"># Update project settings</span>
-<span class="n">project</span><span class="o">.</span><span class="n">set_public</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Enable public access</span>
-<span class="n">project</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Updated description&quot;</span><span class="p">)</span>
-
-<span class="c1"># Soft delete (deprecate)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-
-<span class="c1"># Hard delete (permanent)</span>
-<span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Delete edge</span>
+<span class="n">edge</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
 </pre></div>
-</div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Initialize a Project from a protobuf response.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pb_edge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#Edge.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Initialize an Edge from a protobuf message.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pb</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectResponse</span></code></span>) – The protobuf ProjectResponse message.</p></li>
+<li><p><strong>pb_edge</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Edge</span></code></span>) – The protobuf Edge message.</p></li>
 <li><p><strong>client</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">_Client</span></code></span>) – The client instance for making API calls.</p></li>
 </ul>
 </dd>
@@ -658,8 +911,8 @@ share assets publicly or restrict them to authenticated users.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Return a string representation of the Project.</p>
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#Edge.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Return a string representation of the Edge.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
@@ -669,245 +922,458 @@ share assets publicly or restrict them to authenticated users.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">create_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.create_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Create a space within this project.</p>
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#Edge.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Delete this edge.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the space to create.</p></li>
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional parent path. If not provided, creates
-the space at the project root (e.g., “/project-name”).</p></li>
-</ul>
+<dd class="field-odd"><p><strong>force</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Reserved for future use.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The newly created Space object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Space" title="kumiho.Space">Space</a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create at root</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chars</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create nested space</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">heroes</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;heroes&quot;</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/film-2024/characters&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">edge</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span><span class="n">texture</span><span class="p">,</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edge</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>  <span class="c1"># Remove the relationship</span>
 </pre></div>
 </div>
 </div>
 </dd></dl>
 
-<dl class="py method">
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">create_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.create_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Create a new bundle within this project.</p>
-<p>Bundles are special items that aggregate other items.
-They provide a way to group related items together and maintain
-an audit trail of membership changes through revision history.</p>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">PathStep</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#PathStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A single step in a traversal path.</p>
+<p>Represents one hop in a graph traversal, including the revision
+reached and the edge type used to reach it.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revision_kref</span></span></dt>
+<dd><p>The revision at this step.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>bundle_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the bundle. Must be unique within
-the parent space.</p></li>
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional parent path for the bundle. If not provided,
-creates the bundle at the project root (<code class="docutils literal notranslate"><span class="pre">/{project_name}</span></code>).</p></li>
-<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional key-value metadata for the bundle.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The newly created Bundle object with kind “bundle”.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Bundle" title="kumiho.Bundle">Bundle</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the bundle name is already taken or if there
-    is a connection error.</p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
 </dd>
 </dl>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="kumiho.html#kumiho.Bundle" title="kumiho.bundle.Bundle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bundle</span></code></a>: The Bundle class.
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">create_bundle()</span></code>: Create bundle in a space.</p>
-</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">edge_type</span></span></dt>
+<dd><p>The relationship type used to reach this revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">depth</span></span></dt>
+<dd><p>Distance from the origin (0 = origin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;film-2024&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create at project root</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">&quot;release-bundle&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create in specific space</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;character-bundle&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/film-2024/assets&quot;</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Add items to the bundle</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hero</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;models&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">hero</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">depth</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">revision_kref</span><span class="si">}</span><span class="s2"> via </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revision_kref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kref</span></code></a></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">edge_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">depth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Delete or deprecate this project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>force</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, permanently delete the project and all its
-contents. If False (default), mark as deprecated.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Response indicating success or failure.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>StatusResponse</p>
-</dd>
-</dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Force deletion is irreversible and removes all spaces, items,
-revisions, artifacts, and edges within the project.</p>
-</div>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="s2">&quot;old-project&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Soft delete (can be recovered)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Hard delete (permanent)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">set_public</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.set_public"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set whether this project allows anonymous read access.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>public</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – True to enable public access, False to require
-authentication for all access.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The updated Project object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Project" title="kumiho.project.Project">Project</a></p>
-</dd>
-</dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">set_public</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Enable public access</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">set_public</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># Require authentication</span>
-</pre></div>
-</div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Update project properties.</p>
-<dl class="field-list simple">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – New description for the project.</p></li>
-<li><p><strong>allow_public</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]</span>) – New public access setting.</p></li>
+<li><p><strong>revision_kref</strong> (<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a>)</p></li>
+<li><p><strong>edge_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The updated Project object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Project" title="kumiho.project.Project">Project</a></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Updated project description&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">allow_public</span><span class="o">=</span><span class="kc">True</span>
-<span class="gp">... </span><span class="p">)</span>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">RevisionPath</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#RevisionPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A complete path between revisions.</p>
+<p>Represents a sequence of steps from one revision to another,
+used in traversal and shortest-path queries.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">steps</span></span></dt>
+<dd><p>The sequence of steps in the path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[PathStep]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">total_depth</span></span></dt>
+<dd><p>Total length of the path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">source_revision</span><span class="o">.</span><span class="n">find_path_to</span><span class="p">(</span><span class="n">target_revision</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path length: </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">total_depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  -&gt; </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">revision_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">PathStep</span></code><span class="pre">]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">total_depth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_depth=0</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><em>PathStep</em><em>]</em>)</p></li>
+<li><p><strong>total_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">ImpactedRevision</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#ImpactedRevision"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A revision impacted by changes to another revision.</p>
+<p>Represents a revision that directly or indirectly depends on
+a target revision, used in impact analysis.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revision_kref</span></span></dt>
+<dd><p>The impacted revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">item_kref</span></span></dt>
+<dd><p>The item containing the impacted revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">impact_depth</span></span></dt>
+<dd><p>How many hops away from the target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">impact_path_types</span></span></dt>
+<dd><p>Edge types in the impact chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">impact</span> <span class="o">=</span> <span class="n">texture_v1</span><span class="o">.</span><span class="n">analyze_impact</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">iv</span> <span class="ow">in</span> <span class="n">impact</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">iv</span><span class="o">.</span><span class="n">revision_kref</span><span class="si">}</span><span class="s2"> at depth </span><span class="si">{</span><span class="n">iv</span><span class="o">.</span><span class="n">impact_depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
 </div>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revision_kref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kref</span></code></a></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">item_kref</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a><span class="pre">[</span><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kref</span></code></a><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">impact_depth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">impact_path_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_kref=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_depth=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impact_path_types=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a>)</p></li>
+<li><p><strong>item_kref</strong> (<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>impact_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>impact_path_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">TraversalResult</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#TraversalResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Result of a graph traversal query.</p>
+<p>Contains all revisions discovered during a multi-hop traversal,
+along with optional path information.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">revision_krefs</span></span></dt>
+<dd><p>Flat list of discovered revision references.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.Kref">Kref</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">paths</span></span></dt>
+<dd><p>Path information if requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[RevisionPath]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">edges</span></span></dt>
+<dd><p>All traversed edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="kumiho.html#kumiho.Edge" title="kumiho.edge.Edge">Edge</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">total_count</span></span></dt>
+<dd><p>Total number of discovered revisions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">truncated</span></span></dt>
+<dd><p>True if results were limited by max_depth or limit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get all transitive dependencies</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_all_dependencies</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">total_count</span><span class="si">}</span><span class="s2"> dependencies&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">truncated</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results were truncated&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">revision_krefs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_krefs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#TraversalResult.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>revision_krefs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference internal" href="kumiho.html#kumiho.Kref" title="kumiho.kref.Kref"><em>Kref</em></a><em>]</em>)</p></li>
+<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><em>RevisionPath</em><em>]</em>)</p></li>
+<li><p><strong>edges</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference internal" href="kumiho.html#kumiho.Edge" title="kumiho.edge.Edge"><em>Edge</em></a><em>]</em>)</p></li>
+<li><p><strong>total_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>truncated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>client</strong> (<em>_Client</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.get_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Get an existing space within this project.</p>
+<span class="sig-name descname"><span class="pre">get_revisions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#TraversalResult.get_revisions"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Fetch full Revision objects for all discovered revisions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the space, or an absolute path starting with “/”.</p></li>
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional parent path if name is a relative name.</p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of Revision objects.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The Space object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Space" title="kumiho.Space">Space</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the space is not found.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="kumiho.html#kumiho.Revision" title="kumiho.Revision">Revision</a>]</p>
 </dd>
 </dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get by absolute path</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;/film-2024/characters&quot;</span><span class="p">)</span>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_all_dependencies</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">get_revisions</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get by relative name (from project root)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get nested space with parent path</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">heroes</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;heroes&quot;</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/film-2024/characters&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 </div>
 </dd></dl>
 
-<dl class="py method">
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>List spaces within this project.</p>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.edge.</span></span><span class="sig-name descname"><span class="pre">ShortestPathResult</span></span><a class="reference internal" href="../_modules/kumiho/edge.html#ShortestPathResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Result of a shortest path query.</p>
+<p>Contains path(s) between two revisions if found.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">paths</span></span></dt>
+<dd><p>One or more shortest paths found.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional path to start from. Defaults to project root.</p></li>
-<li><p><strong>recursive</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, include all nested spaces. If False (default),
-only direct children.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of Space objects.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="kumiho.html#kumiho.Space" title="kumiho.Space">Space</a>]</p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[RevisionPath]</p>
 </dd>
 </dl>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># List direct children only</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spaces</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spaces</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">path_exists</span></span></dt>
+<dd><p>True if any path was found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">path_length</span></span></dt>
+<dd><p>Length of the shortest path(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">source_revision</span><span class="o">.</span><span class="n">find_path_to</span><span class="p">(</span><span class="n">target_revision</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">path_exists</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found path of length </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">path_length</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">paths</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">depth</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">revision_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># List all spaces recursively</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">all_spaces</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">all_spaces</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_exists</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/edge.html#ShortestPathResult.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>paths</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><em>RevisionPath</em><em>]</em>)</p></li>
+<li><p><strong>path_exists</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>path_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">first_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RevisionPath</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em></dt>
+<dd><p>Get the first (or only) shortest path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RevisionPath if a path exists, None otherwise.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -918,8 +1384,8 @@ only direct children.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="kumiho.html" class="btn btn-neutral float-left" title="kumiho" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="space.html" class="btn btn-neutral float-right" title="kumiho.space" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="artifact.html" class="btn btn-neutral float-left" title="kumiho.artifact" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kref.html" class="btn btn-neutral float-right" title="kumiho.kref" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

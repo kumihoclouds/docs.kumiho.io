@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.base &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.bundle &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -483,7 +483,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.base</li>
+      <li class="breadcrumb-item active">kumiho.bundle</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -492,70 +492,436 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Base classes and utilities for Kumiho objects.</span>
+  <h1>Source code for kumiho.bundle</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Bundle module for Kumiho asset management.</span>
 
-<span class="sd">This module provides the base classes used by all Kumiho domain objects,</span>
-<span class="sd">including :class:`KumihoObject` (the base for all high-level objects) and</span>
-<span class="sd">:class:`KumihoError` (the base exception class).</span>
+<span class="sd">This module provides the :class:`Bundle` class, which represents a special</span>
+<span class="sd">type of item that aggregates other items. Bundles are used to group</span>
+<span class="sd">related items together and maintain an audit trail of membership changes.</span>
+
+<span class="sd">Bundles are unique in that:</span>
+<span class="sd">    - The ``bundle`` kind is reserved and cannot be created manually.</span>
+<span class="sd">    - Use :meth:`Project.create_bundle` or :meth:`Space.create_bundle`.</span>
+<span class="sd">    - Each membership change (add/remove) creates a new revision for audit trail.</span>
+<span class="sd">    - Revision metadata is immutable, providing complete change history.</span>
+
+<span class="sd">Example::</span>
+
+<span class="sd">    import kumiho</span>
+
+<span class="sd">    # Create a bundle from a project or space</span>
+<span class="sd">    project = kumiho.get_project(&quot;my-project&quot;)</span>
+<span class="sd">    bundle = project.create_bundle(&quot;asset-bundle&quot;)</span>
+
+<span class="sd">    # Add items to the bundle</span>
+<span class="sd">    hero_model = kumiho.get_item(&quot;kref://my-project/models/hero.model&quot;)</span>
+<span class="sd">    bundle.add_member(hero_model)</span>
+
+<span class="sd">    # Get all members</span>
+<span class="sd">    members = bundle.get_members()</span>
+<span class="sd">    for member in members:</span>
+<span class="sd">        print(f&quot;Item: {member.item_kref}&quot;)</span>
+
+<span class="sd">    # View history of changes (immutable audit trail)</span>
+<span class="sd">    for entry in bundle.get_history():</span>
+<span class="sd">        print(f&quot;v{entry.revision_number}: {entry.action} {entry.member_item_kref}&quot;)</span>
+
+<span class="sd">See Also:</span>
+<span class="sd">    - :class:`BundleMember`: Data class for bundle members.</span>
+<span class="sd">    - :class:`BundleRevisionHistory`: Data class for audit trail entries.</span>
+<span class="sd">    - :exc:`ReservedKindError`: Error for reserved kind violations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.item</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ItemResponse</span>
 
 
-<div class="viewcode-block" id="KumihoError">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base exception class for all Kumiho errors.</span>
+<span class="c1"># Reserved item kinds that cannot be created manually</span>
+<span class="n">RESERVED_KINDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s2">&quot;bundle&quot;</span><span class="p">])</span>
+<span class="sd">&quot;&quot;&quot;frozenset: Item kinds that are reserved and cannot be created via create_item.</span>
 
-<span class="sd">    All custom exceptions raised by the Kumiho SDK inherit from this class,</span>
-<span class="sd">    making it easy to catch all Kumiho-related errors.</span>
+<span class="sd">Currently includes:</span>
+<span class="sd">    - ``bundle``: Use :meth:`Project.create_bundle` or </span>
+<span class="sd">      :meth:`Space.create_bundle` instead.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ReservedKindError">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.ReservedKindError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReservedKindError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when attempting to create an item with a reserved kind.</span>
+
+<span class="sd">    This error is raised when calling :meth:`Space.create_item` or the</span>
+<span class="sd">    low-level client ``create_item`` with a reserved kind such</span>
+<span class="sd">    as ``bundle``.</span>
 
 <span class="sd">    Example::</span>
 
 <span class="sd">        import kumiho</span>
 
+<span class="sd">        space = project.get_space(&quot;assets&quot;)</span>
+
+<span class="sd">        # This will raise ReservedKindError</span>
 <span class="sd">        try:</span>
-<span class="sd">            project = kumiho.get_project(&quot;nonexistent&quot;)</span>
-<span class="sd">        except kumiho.KumihoError as e:</span>
-<span class="sd">            print(f&quot;Kumiho error: {e}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">            space.create_item(&quot;my-bundle&quot;, &quot;bundle&quot;)</span>
+<span class="sd">        except kumiho.ReservedKindError as e:</span>
+<span class="sd">            print(f&quot;Error: {e}&quot;)</span>
+<span class="sd">            # Use create_bundle instead</span>
+<span class="sd">            bundle = space.create_bundle(&quot;my-bundle&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
 
 
 
-<div class="viewcode-block" id="KumihoObject">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoObject</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all high-level Kumiho domain objects.</span>
+<div class="viewcode-block" id="BundleMember">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.BundleMember">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BundleMember</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An item that is a member of a bundle.</span>
 
-<span class="sd">    This abstract base class provides common functionality shared by all</span>
-<span class="sd">    Kumiho objects, including access to the client for making API calls.</span>
-
-<span class="sd">    All domain objects (:class:`Project`, :class:`Space`, :class:`Item`,</span>
-<span class="sd">    :class:`Revision`, :class:`Artifact`, :class:`Edge`) inherit from this class.</span>
+<span class="sd">    Represents the membership relationship between an item and a bundle,</span>
+<span class="sd">    including metadata about when and by whom the item was added.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        _client: The client instance for making API calls (internal).</span>
+<span class="sd">        item_kref (Kref): The kref of the member item.</span>
+<span class="sd">        added_at (str): ISO timestamp when the item was added.</span>
+<span class="sd">        added_by (str): UUID of the user who added the item.</span>
+<span class="sd">        added_by_username (str): Display name of the user who added the item.</span>
+<span class="sd">        added_in_revision (int): The bundle revision when this item was added.</span>
 
-<span class="sd">    Note:</span>
-<span class="sd">        This is an internal base class. Users typically interact with</span>
-<span class="sd">        concrete subclasses like :class:`Project` or :class:`Version`.</span>
+<span class="sd">    Example::</span>
+
+<span class="sd">        members = bundle.get_members()</span>
+<span class="sd">        for member in members:</span>
+<span class="sd">            print(f&quot;Item: {member.item_kref}&quot;)</span>
+<span class="sd">            print(f&quot;Added by: {member.added_by_username}&quot;)</span>
+<span class="sd">            print(f&quot;Added at: {member.added_at}&quot;)</span>
+<span class="sd">            print(f&quot;In revision: {member.added_in_revision}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">item_kref</span><span class="p">:</span> <span class="n">Kref</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Kref: The kref of the member item.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_at</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: ISO timestamp when the item was added to the bundle.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_by</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: UUID of the user who added the item.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_by_username</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: Display name of the user who added the item.&quot;&quot;&quot;</span>
+    
+    <span class="n">added_in_revision</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;int: The bundle revision number when this item was added.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="BundleRevisionHistory">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.BundleRevisionHistory">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BundleRevisionHistory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A historical change to a bundle&#39;s membership.</span>
+
+<span class="sd">    Each entry captures a single add or remove operation, providing</span>
+<span class="sd">    an immutable audit trail of all membership changes. The metadata</span>
+<span class="sd">    is immutable once created, ensuring complete traceability.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        revision_number (int): The bundle revision number for this change.</span>
+<span class="sd">        action (str): The action performed: ``&quot;CREATED&quot;``, ``&quot;ADDED&quot;``, or ``&quot;REMOVED&quot;``.</span>
+<span class="sd">        member_item_kref (Optional[Kref]): The item that was added/removed.</span>
+<span class="sd">            None for the initial ``&quot;CREATED&quot;`` action.</span>
+<span class="sd">        author (str): UUID of the user who made the change.</span>
+<span class="sd">        username (str): Display name of the user who made the change.</span>
+<span class="sd">        created_at (str): ISO timestamp of the change.</span>
+<span class="sd">        metadata (Dict[str, str]): Immutable metadata captured at the time of change.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        history = bundle.get_history()</span>
+<span class="sd">        for entry in history:</span>
+<span class="sd">            print(f&quot;Revision {entry.revision_number}: {entry.action}&quot;)</span>
+<span class="sd">            if entry.member_item_kref:</span>
+<span class="sd">                print(f&quot;  Item: {entry.member_item_kref}&quot;)</span>
+<span class="sd">            print(f&quot;  By: {entry.username} at {entry.created_at}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">revision_number</span><span class="p">:</span> <span class="nb">int</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;int: The bundle revision number for this change.&quot;&quot;&quot;</span>
+    
+    <span class="n">action</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: The action performed: ``&quot;CREATED&quot;``, ``&quot;ADDED&quot;``, or ``&quot;REMOVED&quot;``.&quot;&quot;&quot;</span>
+    
+    <span class="n">member_item_kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Kref</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional[Kref]: The item that was added/removed (None for CREATED).&quot;&quot;&quot;</span>
+    
+    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: UUID of the user who made the change.&quot;&quot;&quot;</span>
+    
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: Display name of the user who made the change.&quot;&quot;&quot;</span>
+    
+    <span class="n">created_at</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: ISO timestamp of when the change was made.&quot;&quot;&quot;</span>
+    
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dict[str, str]: Immutable metadata captured at the time of the change.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Bundle">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.Bundle">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Bundle</span><span class="p">(</span><span class="n">Item</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A special item type that aggregates other items.</span>
+
+<span class="sd">    Bundles provide a way to group related items together. Unlike regular</span>
+<span class="sd">    items, bundles cannot be created using the standard ``create_item``</span>
+<span class="sd">    method—the ``bundle`` kind is reserved.</span>
+
+<span class="sd">    Use :meth:`Project.create_bundle` or :meth:`Space.create_bundle`</span>
+<span class="sd">    to create bundles.</span>
+
+<span class="sd">    Key features:</span>
+<span class="sd">        - Aggregates items (not revisions) via ``COLLECTS`` relationships.</span>
+<span class="sd">        - Each membership change creates a new revision for audit trail.</span>
+<span class="sd">        - Revision metadata is immutable, providing complete history.</span>
+<span class="sd">        - Cannot contain itself (self-reference protection).</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        kref (Kref): The unique identifier for this bundle.</span>
+<span class="sd">        name (str): The combined name (e.g., &quot;my-bundle.bundle&quot;).</span>
+<span class="sd">        item_name (str): The bundle name (e.g., &quot;my-bundle&quot;).</span>
+<span class="sd">        kind (str): Always &quot;bundle&quot;.</span>
+<span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
+<span class="sd">        created_at (str): ISO timestamp when the bundle was created.</span>
+<span class="sd">        author (str): The user ID who created the bundle.</span>
+<span class="sd">        username (str): Display name of the creator.</span>
+<span class="sd">        deprecated (bool): Whether the bundle is deprecated.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        import kumiho</span>
+
+<span class="sd">        # Create a bundle from a project</span>
+<span class="sd">        project = kumiho.get_project(&quot;film-2024&quot;)</span>
+<span class="sd">        bundle = project.create_bundle(&quot;release-v1&quot;)</span>
+
+<span class="sd">        # Add items</span>
+<span class="sd">        model = kumiho.get_item(&quot;kref://film-2024/models/hero.model&quot;)</span>
+<span class="sd">        texture = kumiho.get_item(&quot;kref://film-2024/textures/hero.texture&quot;)</span>
+<span class="sd">        bundle.add_member(model)</span>
+<span class="sd">        bundle.add_member(texture)</span>
+
+<span class="sd">        # List current members</span>
+<span class="sd">        for member in bundle.get_members():</span>
+<span class="sd">            print(f&quot;{member.item_kref} added by {member.added_by_username}&quot;)</span>
+
+<span class="sd">        # Remove a member</span>
+<span class="sd">        bundle.remove_member(model)</span>
+
+<span class="sd">        # View complete audit history</span>
+<span class="sd">        for entry in bundle.get_history():</span>
+<span class="sd">            print(f&quot;v{entry.revision_number}: {entry.action}&quot;)</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :meth:`Project.create_bundle`: Create a bundle in a project.</span>
+<span class="sd">        :meth:`Space.create_bundle`: Create a bundle in a space.</span>
+<span class="sd">        :class:`BundleMember`: Data class for member information.</span>
+<span class="sd">        :class:`BundleRevisionHistory`: Data class for audit entries.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="KumihoObject.__init__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Kumiho object with a client reference.</span>
+<div class="viewcode-block" id="Bundle.__init__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.Bundle.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb</span><span class="p">:</span> <span class="s1">&#39;ItemResponse&#39;</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a Bundle from a protobuf response.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            client: The client instance for making API calls.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span></div>
-</div>
+<span class="sd">            pb: The ItemResponse protobuf message.</span>
+<span class="sd">            client: The client instance for making subsequent calls.</span>
 
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the kind is not &#39;bundle&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="s2">&quot;bundle&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cannot create Bundle from kind &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kind</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                <span class="s2">&quot;Expected &#39;bundle&#39;.&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Bundle.add_member">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.Bundle.add_member">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_member</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">member</span><span class="p">:</span> <span class="s1">&#39;Item&#39;</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;Revision&#39;</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an item to this bundle.</span>
+
+<span class="sd">        Creates a new revision of the bundle to track the change.</span>
+<span class="sd">        The revision metadata will include the action (``&quot;ADDED&quot;``) and</span>
+<span class="sd">        the member item kref for audit purposes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            member: The item to add to the bundle.</span>
+<span class="sd">            metadata: Optional additional metadata to store in the revision.</span>
+<span class="sd">                This metadata becomes part of the immutable audit trail.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[bool, str, Optional[Revision]]: A tuple containing:</span>
+<span class="sd">                - success: Whether the operation succeeded.</span>
+<span class="sd">                - message: A status message.</span>
+<span class="sd">                - new_revision: The new bundle revision created for this change.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If trying to add the bundle to itself.</span>
+<span class="sd">            grpc.RpcError: If the member is already in the bundle</span>
+<span class="sd">                (status code ``ALREADY_EXISTS``).</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            hero_model = kumiho.get_item(&quot;kref://project/models/hero.model&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Add with optional metadata</span>
+<span class="sd">            success, msg, revision = bundle.add_member(</span>
+<span class="sd">                hero_model,</span>
+<span class="sd">                metadata={&quot;reason&quot;: &quot;character bundle&quot;, &quot;approved_by&quot;: &quot;director&quot;}</span>
+<span class="sd">            )</span>
+<span class="sd">            </span>
+<span class="sd">            if success:</span>
+<span class="sd">                print(f&quot;Added in revision {revision.number}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">add_bundle_member</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">member</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Bundle.remove_member">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.Bundle.remove_member">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_member</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">member</span><span class="p">:</span> <span class="s1">&#39;Item&#39;</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;Revision&#39;</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an item from this bundle.</span>
+
+<span class="sd">        Creates a new revision of the bundle to track the change.</span>
+<span class="sd">        The revision metadata will include the action (``&quot;REMOVED&quot;``) and</span>
+<span class="sd">        the member item kref for audit purposes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            member: The item to remove from the bundle.</span>
+<span class="sd">            metadata: Optional additional metadata to store in the revision.</span>
+<span class="sd">                This metadata becomes part of the immutable audit trail.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[bool, str, Optional[Revision]]: A tuple containing:</span>
+<span class="sd">                - success: Whether the operation succeeded.</span>
+<span class="sd">                - message: A status message.</span>
+<span class="sd">                - new_revision: The new bundle revision created for this change.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the member is not in the bundle</span>
+<span class="sd">                (status code ``NOT_FOUND``).</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            # Remove an item from the bundle</span>
+<span class="sd">            success, msg, revision = bundle.remove_member(hero_model)</span>
+<span class="sd">            </span>
+<span class="sd">            if success:</span>
+<span class="sd">                print(f&quot;Removed in revision {revision.number}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">remove_bundle_member</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">member</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Bundle.get_members">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.Bundle.get_members">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_members</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">revision_number</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BundleMember</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all items that are members of this bundle.</span>
+
+<span class="sd">        Returns information about each member item, including when</span>
+<span class="sd">        it was added and by whom.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            revision_number: Optional specific revision to query.</span>
+<span class="sd">                If not provided, returns current membership.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[BundleMember]: List of member information objects.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            # Get current members</span>
+<span class="sd">            members = bundle.get_members()</span>
+<span class="sd">            for member in members:</span>
+<span class="sd">                print(f&quot;{member.item_kref}&quot;)</span>
+<span class="sd">                print(f&quot;  Added by: {member.added_by_username}&quot;)</span>
+<span class="sd">                print(f&quot;  In revision: {member.added_in_revision}&quot;)</span>
+
+<span class="sd">            # Get empty list if no members</span>
+<span class="sd">            if not members:</span>
+<span class="sd">                print(&quot;Bundle is empty&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">members</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_bundle_members</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+            <span class="n">revision_number</span><span class="o">=</span><span class="n">revision_number</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">members</span></div>
+
+
+<div class="viewcode-block" id="Bundle.get_history">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.Bundle.get_history">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BundleRevisionHistory</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the full history of membership changes.</span>
+
+<span class="sd">        Returns all revisions with their associated actions, providing</span>
+<span class="sd">        a complete and immutable audit trail of all adds and removes.</span>
+
+<span class="sd">        The history is ordered by revision number, starting with the</span>
+<span class="sd">        initial ``&quot;CREATED&quot;`` action.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[BundleRevisionHistory]: List of history entries, ordered</span>
+<span class="sd">                by revision number (oldest first).</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            history = bundle.get_history()</span>
+<span class="sd">            </span>
+<span class="sd">            for entry in history:</span>
+<span class="sd">                print(f&quot;Revision {entry.revision_number}:&quot;)</span>
+<span class="sd">                print(f&quot;  Action: {entry.action}&quot;)</span>
+<span class="sd">                print(f&quot;  By: {entry.username}&quot;)</span>
+<span class="sd">                print(f&quot;  At: {entry.created_at}&quot;)</span>
+<span class="sd">                if entry.member_item_kref:</span>
+<span class="sd">                    print(f&quot;  Item: {entry.member_item_kref}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_bundle_history</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Bundle.__repr__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.bundle.Bundle.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Bundle.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Bundle(kref=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="si">!r}</span><span class="s2">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">)&quot;</span></div>
+</div>
 
 </pre></div>
 

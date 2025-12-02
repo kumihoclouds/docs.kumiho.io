@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.base &mdash; Kumiho Python SDK v0.3.0</title>
+  <title>kumiho.edge &mdash; Kumiho Python SDK v0.3.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -483,7 +483,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.base</li>
+      <li class="breadcrumb-item active">kumiho.edge</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -492,70 +492,496 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Base classes and utilities for Kumiho objects.</span>
+  <h1>Source code for kumiho.edge</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Edge module for Kumiho asset management.</span>
 
-<span class="sd">This module provides the base classes used by all Kumiho domain objects,</span>
-<span class="sd">including :class:`KumihoObject` (the base for all high-level objects) and</span>
-<span class="sd">:class:`KumihoError` (the base exception class).</span>
+<span class="sd">This module provides the :class:`Edge` class and related constants for</span>
+<span class="sd">tracking relationships between revisions. Edges enable dependency tracking,</span>
+<span class="sd">lineage visualization, and impact analysis.</span>
+
+<span class="sd">Edge Types:</span>
+<span class="sd">    - ``DEPENDS_ON``: Source depends on target (e.g., model uses texture).</span>
+<span class="sd">    - ``DERIVED_FROM``: Source was created from target (e.g., LOD from highpoly).</span>
+<span class="sd">    - ``REFERENCED``: Source references target (soft dependency).</span>
+<span class="sd">    - ``CONTAINS``: Source contains target (composition).</span>
+<span class="sd">    - ``CREATED_FROM``: Source was generated from target.</span>
+<span class="sd">    - ``BELONGS_TO``: Source belongs to target (grouping).</span>
+
+<span class="sd">Example::</span>
+
+<span class="sd">    import kumiho</span>
+
+<span class="sd">    # Get revisions</span>
+<span class="sd">    model = kumiho.get_revision(&quot;kref://project/models/hero.model?v=1&quot;)</span>
+<span class="sd">    texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+
+<span class="sd">    # Create a dependency edge</span>
+<span class="sd">    edge = model.create_edge(texture, kumiho.DEPENDS_ON)</span>
+
+<span class="sd">    # Query edges</span>
+<span class="sd">    deps = model.get_edges(kumiho.DEPENDS_ON, kumiho.OUTGOING)</span>
+<span class="sd">    for dep in deps:</span>
+<span class="sd">        print(f&quot;{dep.source_kref} depends on {dep.target_kref}&quot;)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Edge</span> <span class="k">as</span> <span class="n">PbEdge</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
 
 
-<div class="viewcode-block" id="KumihoError">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base exception class for all Kumiho errors.</span>
+<div class="viewcode-block" id="EdgeTypeValidationError">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.EdgeTypeValidationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EdgeTypeValidationError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when an edge type is invalid or potentially malicious.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
 
-<span class="sd">    All custom exceptions raised by the Kumiho SDK inherit from this class,</span>
-<span class="sd">    making it easy to catch all Kumiho-related errors.</span>
+
+
+<span class="c1"># Regex for validating edge types - must match Rust server validation</span>
+<span class="n">_EDGE_TYPE_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[A-Z][A-Z0-9_]{0,49}$&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="validate_edge_type">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.validate_edge_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_edge_type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate an edge type for security and correctness.</span>
+<span class="sd">    </span>
+<span class="sd">    Edge types must:</span>
+<span class="sd">    - Start with an uppercase letter</span>
+<span class="sd">    - Contain only uppercase letters, digits, and underscores</span>
+<span class="sd">    - Be 1-50 characters long</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        edge_type: The edge type to validate.</span>
+<span class="sd">        </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        EdgeTypeValidationError: If the edge type is invalid.</span>
+<span class="sd">        </span>
+<span class="sd">    Example::</span>
+<span class="sd">    </span>
+<span class="sd">        from kumiho.edge import validate_edge_type, EdgeTypeValidationError</span>
+<span class="sd">        </span>
+<span class="sd">        try:</span>
+<span class="sd">            validate_edge_type(&quot;DEPENDS_ON&quot;)  # OK</span>
+<span class="sd">            validate_edge_type(&quot;depends_on&quot;)  # Raises error</span>
+<span class="sd">        except EdgeTypeValidationError as e:</span>
+<span class="sd">            print(f&quot;Invalid edge type: {e}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">EdgeTypeValidationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Edge type must be a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_EDGE_TYPE_PATTERN</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">edge_type</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">EdgeTypeValidationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid edge_type &#39;</span><span class="si">{</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&#39;. Must start with uppercase letter, &quot;</span>
+            <span class="s2">&quot;contain only uppercase letters, digits, underscores, and be 1-50 chars.&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_valid_edge_type">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.is_valid_edge_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_valid_edge_type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if an edge type is valid without raising exceptions.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        edge_type: The edge type to validate.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        True if the edge type is valid, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">validate_edge_type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="n">EdgeTypeValidationError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="EdgeType">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.EdgeType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EdgeType</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standard edge types for Kumiho relationships.</span>
+
+<span class="sd">    These constants define the semantic meaning of relationships between</span>
+<span class="sd">    revisions. Use them when creating or querying edges.</span>
+<span class="sd">    </span>
+<span class="sd">    All edge types use UPPERCASE format as required by the Neo4j graph database.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        BELONGS_TO (str): Indicates ownership or grouping relationship.</span>
+<span class="sd">        CREATED_FROM (str): Indicates the source was generated from target.</span>
+<span class="sd">        REFERENCED (str): Indicates a soft reference relationship.</span>
+<span class="sd">        DEPENDS_ON (str): Indicates the source requires the target.</span>
+<span class="sd">        DERIVED_FROM (str): Indicates the source was derived/modified from target.</span>
+<span class="sd">        CONTAINS (str): Indicates the source contains or includes the target.</span>
 
 <span class="sd">    Example::</span>
 
 <span class="sd">        import kumiho</span>
 
-<span class="sd">        try:</span>
-<span class="sd">            project = kumiho.get_project(&quot;nonexistent&quot;)</span>
-<span class="sd">        except kumiho.KumihoError as e:</span>
-<span class="sd">            print(f&quot;Kumiho error: {e}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">        # Model depends on texture</span>
+<span class="sd">        model_v1.create_edge(texture_v2, kumiho.DEPENDS_ON)</span>
 
-
-
-<div class="viewcode-block" id="KumihoObject">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">KumihoObject</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all high-level Kumiho domain objects.</span>
-
-<span class="sd">    This abstract base class provides common functionality shared by all</span>
-<span class="sd">    Kumiho objects, including access to the client for making API calls.</span>
-
-<span class="sd">    All domain objects (:class:`Project`, :class:`Space`, :class:`Item`,</span>
-<span class="sd">    :class:`Revision`, :class:`Artifact`, :class:`Edge`) inherit from this class.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        _client: The client instance for making API calls (internal).</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        This is an internal base class. Users typically interact with</span>
-<span class="sd">        concrete subclasses like :class:`Project` or :class:`Version`.</span>
+<span class="sd">        # LOD derived from high-poly</span>
+<span class="sd">        lod_v1.create_edge(highpoly_v1, kumiho.DERIVED_FROM)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="KumihoObject.__init__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.KumihoObject.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Kumiho object with a client reference.</span>
+    <span class="n">BELONGS_TO</span> <span class="o">=</span> <span class="s2">&quot;BELONGS_TO&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ownership or grouping relationship.&quot;&quot;&quot;</span>
+
+    <span class="n">CREATED_FROM</span> <span class="o">=</span> <span class="s2">&quot;CREATED_FROM&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source was generated/created from target.&quot;&quot;&quot;</span>
+
+    <span class="n">REFERENCED</span> <span class="o">=</span> <span class="s2">&quot;REFERENCED&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft reference relationship.&quot;&quot;&quot;</span>
+
+    <span class="n">DEPENDS_ON</span> <span class="o">=</span> <span class="s2">&quot;DEPENDS_ON&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source requires target to function.&quot;&quot;&quot;</span>
+
+    <span class="n">DERIVED_FROM</span> <span class="o">=</span> <span class="s2">&quot;DERIVED_FROM&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source was derived or modified from target.&quot;&quot;&quot;</span>
+
+    <span class="n">CONTAINS</span> <span class="o">=</span> <span class="s2">&quot;CONTAINS&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source contains or includes target.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="EdgeDirection">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.EdgeDirection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EdgeDirection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Direction constants for edge traversal queries.</span>
+
+<span class="sd">    When querying edges, you can specify which direction to traverse:</span>
+<span class="sd">    outgoing edges (from source), incoming edges (to target), or both.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        OUTGOING (int): Edges where the queried revision is the source.</span>
+<span class="sd">        INCOMING (int): Edges where the queried revision is the target.</span>
+<span class="sd">        BOTH (int): Edges in either direction.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        import kumiho</span>
+
+<span class="sd">        # Get dependencies (what this revision depends on)</span>
+<span class="sd">        deps = revision.get_edges(kumiho.DEPENDS_ON, kumiho.OUTGOING)</span>
+
+<span class="sd">        # Get dependents (what depends on this revision)</span>
+<span class="sd">        dependents = revision.get_edges(kumiho.DEPENDS_ON, kumiho.INCOMING)</span>
+
+<span class="sd">        # Get all relationships</span>
+<span class="sd">        all_edges = revision.get_edges(direction=kumiho.BOTH)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">OUTGOING</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edges where the queried revision is the source.&quot;&quot;&quot;</span>
+
+    <span class="n">INCOMING</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edges where the queried revision is the target.&quot;&quot;&quot;</span>
+
+    <span class="n">BOTH</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edges in either direction.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Edge">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Edge</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A relationship between two revisions in the Kumiho system.</span>
+
+<span class="sd">    Edges represent semantic relationships between revisions, enabling</span>
+<span class="sd">    dependency tracking, lineage visualization, and impact analysis.</span>
+<span class="sd">    They are directional (source -&gt; target) and typed.</span>
+
+<span class="sd">    Common use cases:</span>
+<span class="sd">        - Track which textures a model uses (DEPENDS_ON)</span>
+<span class="sd">        - Record that a LOD was created from a high-poly model (DERIVED_FROM)</span>
+<span class="sd">        - Link a render to the scene file that created it (CREATED_FROM)</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        source_kref (Kref): Reference to the source revision.</span>
+<span class="sd">        target_kref (Kref): Reference to the target revision.</span>
+<span class="sd">        edge_type (str): The type of relationship (see :class:`EdgeType`).</span>
+<span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
+<span class="sd">        created_at (Optional[str]): ISO timestamp when the edge was created.</span>
+<span class="sd">        author (str): The user ID who created the edge.</span>
+<span class="sd">        username (str): Display name of the creator.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        import kumiho</span>
+
+<span class="sd">        # Get revisions</span>
+<span class="sd">        model = kumiho.get_revision(&quot;kref://project/models/hero.model?v=1&quot;)</span>
+<span class="sd">        texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?v=2&quot;)</span>
+
+<span class="sd">        # Create edge with metadata</span>
+<span class="sd">        edge = model.create_edge(texture, kumiho.DEPENDS_ON, {</span>
+<span class="sd">            &quot;channel&quot;: &quot;diffuse&quot;,</span>
+<span class="sd">            &quot;uv_set&quot;: &quot;0&quot;</span>
+<span class="sd">        })</span>
+
+<span class="sd">        # Inspect edge</span>
+<span class="sd">        print(f&quot;Type: {edge.edge_type}&quot;)</span>
+<span class="sd">        print(f&quot;From: {edge.source_kref}&quot;)</span>
+<span class="sd">        print(f&quot;To: {edge.target_kref}&quot;)</span>
+
+<span class="sd">        # Delete edge</span>
+<span class="sd">        edge.delete()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Edge.__init__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb_edge</span><span class="p">:</span> <span class="n">PbEdge</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an Edge from a protobuf message.</span>
 
 <span class="sd">        Args:</span>
+<span class="sd">            pb_edge: The protobuf Edge message.</span>
 <span class="sd">            client: The client instance for making API calls.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">pb_edge</span><span class="o">.</span><span class="n">source_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">pb_edge</span><span class="o">.</span><span class="n">target_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_type</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">edge_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pb_edge</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">author</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">username</span></div>
+
+
+<div class="viewcode-block" id="Edge.__repr__">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Edge.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Edge </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">target_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Edge.delete">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge.delete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete this edge.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force: Reserved for future use.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; edge = model.create_edge(texture, kumiho.DEPENDS_ON)</span>
+<span class="sd">            &gt;&gt;&gt; edge.delete()  # Remove the relationship</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_kref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_kref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_type</span><span class="p">)</span></div>
 </div>
 
+
+
+<span class="c1"># --- Graph Traversal Result Classes ---</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+
+
+<div class="viewcode-block" id="PathStep">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.PathStep">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PathStep</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A single step in a traversal path.</span>
+
+<span class="sd">    Represents one hop in a graph traversal, including the revision</span>
+<span class="sd">    reached and the edge type used to reach it.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        revision_kref (Kref): The revision at this step.</span>
+<span class="sd">        edge_type (str): The relationship type used to reach this revision.</span>
+<span class="sd">        depth (int): Distance from the origin (0 = origin).</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        for step in path.steps:</span>
+<span class="sd">            print(f&quot;Step {step.depth}: {step.revision_kref} via {step.edge_type}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">revision_kref</span><span class="p">:</span> <span class="n">Kref</span>
+    <span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="RevisionPath">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.RevisionPath">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RevisionPath</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A complete path between revisions.</span>
+
+<span class="sd">    Represents a sequence of steps from one revision to another,</span>
+<span class="sd">    used in traversal and shortest-path queries.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        steps (List[PathStep]): The sequence of steps in the path.</span>
+<span class="sd">        total_depth (int): Total length of the path.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        path = source_revision.find_path_to(target_revision)</span>
+<span class="sd">        if path:</span>
+<span class="sd">            print(f&quot;Path length: {path.total_depth}&quot;)</span>
+<span class="sd">            for step in path.steps:</span>
+<span class="sd">                print(f&quot;  -&gt; {step.revision_kref}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PathStep</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">total_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="ImpactedRevision">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.ImpactedRevision">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImpactedRevision</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A revision impacted by changes to another revision.</span>
+
+<span class="sd">    Represents a revision that directly or indirectly depends on</span>
+<span class="sd">    a target revision, used in impact analysis.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        revision_kref (Kref): The impacted revision.</span>
+<span class="sd">        item_kref (Kref): The item containing the impacted revision.</span>
+<span class="sd">        impact_depth (int): How many hops away from the target.</span>
+<span class="sd">        impact_path_types (List[str]): Edge types in the impact chain.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        impact = texture_v1.analyze_impact()</span>
+<span class="sd">        for iv in impact:</span>
+<span class="sd">            print(f&quot;{iv.revision_kref} at depth {iv.impact_depth}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">revision_kref</span><span class="p">:</span> <span class="n">Kref</span>
+    <span class="n">item_kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Kref</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">impact_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">impact_path_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="TraversalResult">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.TraversalResult">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TraversalResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a graph traversal query.</span>
+
+<span class="sd">    Contains all revisions discovered during a multi-hop traversal,</span>
+<span class="sd">    along with optional path information.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        revision_krefs (List[Kref]): Flat list of discovered revision references.</span>
+<span class="sd">        paths (List[RevisionPath]): Path information if requested.</span>
+<span class="sd">        edges (List[Edge]): All traversed edges.</span>
+<span class="sd">        total_count (int): Total number of discovered revisions.</span>
+<span class="sd">        truncated (bool): True if results were limited by max_depth or limit.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        # Get all transitive dependencies</span>
+<span class="sd">        result = revision.get_all_dependencies(max_depth=5)</span>
+<span class="sd">        </span>
+<span class="sd">        print(f&quot;Found {result.total_count} dependencies&quot;)</span>
+<span class="sd">        if result.truncated:</span>
+<span class="sd">            print(&quot;Results were truncated&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        for kref in result.revision_krefs:</span>
+<span class="sd">            print(f&quot;  - {kref}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TraversalResult.__init__">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.TraversalResult.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Kref</span><span class="p">],</span>
+        <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RevisionPath</span><span class="p">],</span>
+        <span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Edge&#39;</span><span class="p">],</span>
+        <span class="n">total_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">truncated</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">revision_krefs</span> <span class="o">=</span> <span class="n">revision_krefs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_count</span> <span class="o">=</span> <span class="n">total_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span> <span class="o">=</span> <span class="n">truncated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;TraversalResult count=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_count</span><span class="si">}</span><span class="s2"> truncated=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">truncated</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+
+<div class="viewcode-block" id="TraversalResult.get_revisions">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.TraversalResult.get_revisions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_revisions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Revision&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch full Revision objects for all discovered revisions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Revision]: List of Revision objects.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            result = revision.get_all_dependencies()</span>
+<span class="sd">            for v in result.get_revisions():</span>
+<span class="sd">                print(f&quot;{v.kref} - {v.metadata}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span> <span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">revision_krefs</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ShortestPathResult">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.ShortestPathResult">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShortestPathResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a shortest path query.</span>
+
+<span class="sd">    Contains path(s) between two revisions if found.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        paths (List[RevisionPath]): One or more shortest paths found.</span>
+<span class="sd">        path_exists (bool): True if any path was found.</span>
+<span class="sd">        path_length (int): Length of the shortest path(s).</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        result = source_revision.find_path_to(target_revision)</span>
+<span class="sd">        if result.path_exists:</span>
+<span class="sd">            print(f&quot;Found path of length {result.path_length}&quot;)</span>
+<span class="sd">            for path in result.paths:</span>
+<span class="sd">                for step in path.steps:</span>
+<span class="sd">                    print(f&quot;  {step.depth}: {step.revision_kref}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ShortestPathResult.__init__">
+<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.ShortestPathResult.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RevisionPath</span><span class="p">],</span>
+        <span class="n">path_exists</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">path_length</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_exists</span> <span class="o">=</span> <span class="n">path_exists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_length</span> <span class="o">=</span> <span class="n">path_length</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;ShortestPathResult exists=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path_exists</span><span class="si">}</span><span class="s2"> length=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path_length</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">first_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RevisionPath</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the first (or only) shortest path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RevisionPath if a path exists, None otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 </pre></div>
 
