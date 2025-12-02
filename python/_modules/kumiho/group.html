@@ -72,11 +72,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#version">Version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#resource">Resource</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#link">Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#graph-traversal">Graph Traversal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#collection">Collection</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#metadata">Metadata</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#setting-metadata">Setting Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#granular-attribute-operations">Granular Attribute Operations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#common-metadata-patterns">Common Metadata Patterns</a></li>
 </ul>
 </li>
@@ -163,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_group"><code class="docutils literal notranslate"><span class="pre">Group.create_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_product"><code class="docutils literal notranslate"><span class="pre">Group.create_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.delete"><code class="docutils literal notranslate"><span class="pre">Group.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Group.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_attribute"><code class="docutils literal notranslate"><span class="pre">Group.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_child_groups"><code class="docutils literal notranslate"><span class="pre">Group.get_child_groups()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_group"><code class="docutils literal notranslate"><span class="pre">Group.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_groups"><code class="docutils literal notranslate"><span class="pre">Group.get_groups()</span></code></a></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_product"><code class="docutils literal notranslate"><span class="pre">Group.get_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_products"><code class="docutils literal notranslate"><span class="pre">Group.get_products()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_project"><code class="docutils literal notranslate"><span class="pre">Group.get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.set_attribute"><code class="docutils literal notranslate"><span class="pre">Group.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.set_metadata"><code class="docutils literal notranslate"><span class="pre">Group.set_metadata()</span></code></a></li>
 </ul>
 </li>
@@ -187,6 +192,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.__repr__"><code class="docutils literal notranslate"><span class="pre">Product.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.create_version"><code class="docutils literal notranslate"><span class="pre">Product.create_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.delete"><code class="docutils literal notranslate"><span class="pre">Product.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Product.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_attribute"><code class="docutils literal notranslate"><span class="pre">Product.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_group"><code class="docutils literal notranslate"><span class="pre">Product.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_latest_version"><code class="docutils literal notranslate"><span class="pre">Product.get_latest_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_project"><code class="docutils literal notranslate"><span class="pre">Product.get_project()</span></code></a></li>
@@ -195,6 +202,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_version_by_time"><code class="docutils literal notranslate"><span class="pre">Product.get_version_by_time()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_versions"><code class="docutils literal notranslate"><span class="pre">Product.get_versions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.peek_next_version"><code class="docutils literal notranslate"><span class="pre">Product.peek_next_version()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_attribute"><code class="docutils literal notranslate"><span class="pre">Product.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Product.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_metadata"><code class="docutils literal notranslate"><span class="pre">Product.set_metadata()</span></code></a></li>
 </ul>
@@ -218,10 +226,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_link"><code class="docutils literal notranslate"><span class="pre">Version.create_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_resource"><code class="docutils literal notranslate"><span class="pre">Version.create_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete"><code class="docutils literal notranslate"><span class="pre">Version.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Version.delete_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete_link"><code class="docutils literal notranslate"><span class="pre">Version.delete_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.find_path_to"><code class="docutils literal notranslate"><span class="pre">Version.find_path_to()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependencies"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependencies()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependents"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_attribute"><code class="docutils literal notranslate"><span class="pre">Version.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_group"><code class="docutils literal notranslate"><span class="pre">Version.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_links"><code class="docutils literal notranslate"><span class="pre">Version.get_links()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_locations"><code class="docutils literal notranslate"><span class="pre">Version.get_locations()</span></code></a></li>
@@ -231,6 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_resources"><code class="docutils literal notranslate"><span class="pre">Version.get_resources()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.has_tag"><code class="docutils literal notranslate"><span class="pre">Version.has_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.refresh"><code class="docutils literal notranslate"><span class="pre">Version.refresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_attribute"><code class="docutils literal notranslate"><span class="pre">Version.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_default_resource"><code class="docutils literal notranslate"><span class="pre">Version.set_default_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Version.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_metadata"><code class="docutils literal notranslate"><span class="pre">Version.set_metadata()</span></code></a></li>
@@ -253,11 +264,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.__init__"><code class="docutils literal notranslate"><span class="pre">Resource.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.__repr__"><code class="docutils literal notranslate"><span class="pre">Resource.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.delete"><code class="docutils literal notranslate"><span class="pre">Resource.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_group"><code class="docutils literal notranslate"><span class="pre">Resource.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_product"><code class="docutils literal notranslate"><span class="pre">Resource.get_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_project"><code class="docutils literal notranslate"><span class="pre">Resource.get_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_version"><code class="docutils literal notranslate"><span class="pre">Resource.get_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.name"><code class="docutils literal notranslate"><span class="pre">Resource.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_default"><code class="docutils literal notranslate"><span class="pre">Resource.set_default()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Resource.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_metadata"><code class="docutils literal notranslate"><span class="pre">Resource.set_metadata()</span></code></a></li>
@@ -282,6 +296,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__hash__"><code class="docutils literal notranslate"><span class="pre">Kref.__hash__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__new__"><code class="docutils literal notranslate"><span class="pre">Kref.__new__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__repr__"><code class="docutils literal notranslate"><span class="pre">Kref.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.from_pb"><code class="docutils literal notranslate"><span class="pre">Kref.from_pb()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_group"><code class="docutils literal notranslate"><span class="pre">Kref.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_path"><code class="docutils literal notranslate"><span class="pre">Kref.get_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_product_name"><code class="docutils literal notranslate"><span class="pre">Kref.get_product_name()</span></code></a></li>
@@ -354,6 +369,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.ReservedProductTypeError"><code class="docutils literal notranslate"><span class="pre">ReservedProductTypeError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.KrefValidationError"><code class="docutils literal notranslate"><span class="pre">KrefValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkTypeValidationError"><code class="docutils literal notranslate"><span class="pre">LinkTypeValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.validate_kref"><code class="docutils literal notranslate"><span class="pre">validate_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.validate_link_type"><code class="docutils literal notranslate"><span class="pre">validate_link_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.is_valid_kref"><code class="docutils literal notranslate"><span class="pre">is_valid_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.is_valid_link_type"><code class="docutils literal notranslate"><span class="pre">is_valid_link_type()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client"><code class="docutils literal notranslate"><span class="pre">use_client</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client.__init__"><code class="docutils literal notranslate"><span class="pre">use_client.__init__()</span></code></a></li>
@@ -399,6 +420,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_version"><code class="docutils literal notranslate"><span class="pre">get_version()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_resource"><code class="docutils literal notranslate"><span class="pre">get_resource()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_resources_by_location"><code class="docutils literal notranslate"><span class="pre">get_resources_by_location()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.set_attribute"><code class="docutils literal notranslate"><span class="pre">set_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
@@ -498,6 +522,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.collection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Collection</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.product</span><span class="w"> </span><span class="kn">import</span> <span class="n">Product</span>
@@ -673,7 +698,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Collection&#39;</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new collection within this group.</span>
 
 <span class="sd">        Collections are special products that aggregate other products.</span>
@@ -706,13 +731,11 @@
 <span class="sd">            &gt;&gt;&gt; hero = assets.get_product(&quot;hero&quot;, &quot;model&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; bundle.add_member(hero)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.collection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Collection</span>
-        <span class="n">product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
             <span class="n">parent_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
             <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
             <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">Collection</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">_pb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">)</span></div>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Group.get_products">
@@ -788,7 +811,89 @@
 <span class="sd">            ...     &quot;status&quot;: &quot;active&quot;</span>
 <span class="sd">            ... })</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">update_group_metadata</span><span class="p">(</span><span class="n">Kref</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">metadata</span><span class="p">)</span></div>
+        <span class="c1"># For groups, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">UpdateMetadataRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">UpdateMetadataRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateGroupMetadata</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Group</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Group.set_attribute">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.group.Group.set_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a single metadata attribute.</span>
+
+<span class="sd">        This allows granular updates to metadata without replacing the entire</span>
+<span class="sd">        metadata map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to set.</span>
+<span class="sd">            value: The attribute value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was set successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; group.set_attribute(&quot;department&quot;, &quot;modeling&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For groups, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">SetAttributeRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">SetAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">SetAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span></div>
+
+
+<div class="viewcode-block" id="Group.get_attribute">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.group.Group.get_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The attribute value if it exists, None otherwise.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; group.get_attribute(&quot;department&quot;)</span>
+<span class="sd">            &quot;modeling&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For groups, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">GetAttributeRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">GetAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">exists</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Group.delete_attribute">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.group.Group.delete_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a single metadata attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: The attribute key to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the attribute was deleted successfully.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; group.delete_attribute(&quot;old_field&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For groups, the server expects the path directly in the kref uri field.</span>
+        <span class="c1"># We bypass the Kref class validation since paths don&#39;t match kref:// format.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span><span class="p">,</span> <span class="n">DeleteAttributeRequest</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">DeleteAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span></div>
 
 
 <div class="viewcode-block" id="Group.delete">
@@ -881,7 +986,10 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Root group has no project&quot;</span><span class="p">)</span>
         <span class="n">project_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span></div>
+        <span class="n">project</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Project &#39;</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">project</span></div>
 </div>
 
 </pre></div>

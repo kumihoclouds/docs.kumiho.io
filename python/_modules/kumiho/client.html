@@ -72,11 +72,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#version">Version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#resource">Resource</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#link">Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#graph-traversal">Graph Traversal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#collection">Collection</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#metadata">Metadata</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#setting-metadata">Setting Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#granular-attribute-operations">Granular Attribute Operations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#common-metadata-patterns">Common Metadata Patterns</a></li>
 </ul>
 </li>
@@ -163,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_group"><code class="docutils literal notranslate"><span class="pre">Group.create_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_product"><code class="docutils literal notranslate"><span class="pre">Group.create_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.delete"><code class="docutils literal notranslate"><span class="pre">Group.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Group.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_attribute"><code class="docutils literal notranslate"><span class="pre">Group.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_child_groups"><code class="docutils literal notranslate"><span class="pre">Group.get_child_groups()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_group"><code class="docutils literal notranslate"><span class="pre">Group.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_groups"><code class="docutils literal notranslate"><span class="pre">Group.get_groups()</span></code></a></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_product"><code class="docutils literal notranslate"><span class="pre">Group.get_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_products"><code class="docutils literal notranslate"><span class="pre">Group.get_products()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_project"><code class="docutils literal notranslate"><span class="pre">Group.get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.set_attribute"><code class="docutils literal notranslate"><span class="pre">Group.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.set_metadata"><code class="docutils literal notranslate"><span class="pre">Group.set_metadata()</span></code></a></li>
 </ul>
 </li>
@@ -187,6 +192,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.__repr__"><code class="docutils literal notranslate"><span class="pre">Product.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.create_version"><code class="docutils literal notranslate"><span class="pre">Product.create_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.delete"><code class="docutils literal notranslate"><span class="pre">Product.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Product.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_attribute"><code class="docutils literal notranslate"><span class="pre">Product.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_group"><code class="docutils literal notranslate"><span class="pre">Product.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_latest_version"><code class="docutils literal notranslate"><span class="pre">Product.get_latest_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_project"><code class="docutils literal notranslate"><span class="pre">Product.get_project()</span></code></a></li>
@@ -195,6 +202,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_version_by_time"><code class="docutils literal notranslate"><span class="pre">Product.get_version_by_time()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_versions"><code class="docutils literal notranslate"><span class="pre">Product.get_versions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.peek_next_version"><code class="docutils literal notranslate"><span class="pre">Product.peek_next_version()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_attribute"><code class="docutils literal notranslate"><span class="pre">Product.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Product.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_metadata"><code class="docutils literal notranslate"><span class="pre">Product.set_metadata()</span></code></a></li>
 </ul>
@@ -218,10 +226,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_link"><code class="docutils literal notranslate"><span class="pre">Version.create_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_resource"><code class="docutils literal notranslate"><span class="pre">Version.create_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete"><code class="docutils literal notranslate"><span class="pre">Version.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Version.delete_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete_link"><code class="docutils literal notranslate"><span class="pre">Version.delete_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.find_path_to"><code class="docutils literal notranslate"><span class="pre">Version.find_path_to()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependencies"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependencies()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependents"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_attribute"><code class="docutils literal notranslate"><span class="pre">Version.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_group"><code class="docutils literal notranslate"><span class="pre">Version.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_links"><code class="docutils literal notranslate"><span class="pre">Version.get_links()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_locations"><code class="docutils literal notranslate"><span class="pre">Version.get_locations()</span></code></a></li>
@@ -231,6 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_resources"><code class="docutils literal notranslate"><span class="pre">Version.get_resources()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.has_tag"><code class="docutils literal notranslate"><span class="pre">Version.has_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.refresh"><code class="docutils literal notranslate"><span class="pre">Version.refresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_attribute"><code class="docutils literal notranslate"><span class="pre">Version.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_default_resource"><code class="docutils literal notranslate"><span class="pre">Version.set_default_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Version.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_metadata"><code class="docutils literal notranslate"><span class="pre">Version.set_metadata()</span></code></a></li>
@@ -253,11 +264,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.__init__"><code class="docutils literal notranslate"><span class="pre">Resource.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.__repr__"><code class="docutils literal notranslate"><span class="pre">Resource.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.delete"><code class="docutils literal notranslate"><span class="pre">Resource.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_group"><code class="docutils literal notranslate"><span class="pre">Resource.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_product"><code class="docutils literal notranslate"><span class="pre">Resource.get_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_project"><code class="docutils literal notranslate"><span class="pre">Resource.get_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_version"><code class="docutils literal notranslate"><span class="pre">Resource.get_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.name"><code class="docutils literal notranslate"><span class="pre">Resource.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_default"><code class="docutils literal notranslate"><span class="pre">Resource.set_default()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Resource.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_metadata"><code class="docutils literal notranslate"><span class="pre">Resource.set_metadata()</span></code></a></li>
@@ -282,6 +296,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__hash__"><code class="docutils literal notranslate"><span class="pre">Kref.__hash__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__new__"><code class="docutils literal notranslate"><span class="pre">Kref.__new__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__repr__"><code class="docutils literal notranslate"><span class="pre">Kref.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.from_pb"><code class="docutils literal notranslate"><span class="pre">Kref.from_pb()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_group"><code class="docutils literal notranslate"><span class="pre">Kref.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_path"><code class="docutils literal notranslate"><span class="pre">Kref.get_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_product_name"><code class="docutils literal notranslate"><span class="pre">Kref.get_product_name()</span></code></a></li>
@@ -354,6 +369,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.ReservedProductTypeError"><code class="docutils literal notranslate"><span class="pre">ReservedProductTypeError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.KrefValidationError"><code class="docutils literal notranslate"><span class="pre">KrefValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkTypeValidationError"><code class="docutils literal notranslate"><span class="pre">LinkTypeValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.validate_kref"><code class="docutils literal notranslate"><span class="pre">validate_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.validate_link_type"><code class="docutils literal notranslate"><span class="pre">validate_link_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.is_valid_kref"><code class="docutils literal notranslate"><span class="pre">is_valid_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.is_valid_link_type"><code class="docutils literal notranslate"><span class="pre">is_valid_link_type()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client"><code class="docutils literal notranslate"><span class="pre">use_client</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client.__init__"><code class="docutils literal notranslate"><span class="pre">use_client.__init__()</span></code></a></li>
@@ -399,6 +420,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_version"><code class="docutils literal notranslate"><span class="pre">get_version()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_resource"><code class="docutils literal notranslate"><span class="pre">get_resource()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_resources_by_location"><code class="docutils literal notranslate"><span class="pre">get_resources_by_location()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.set_attribute"><code class="docutils literal notranslate"><span class="pre">set_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
@@ -510,8 +534,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">grpc</span>
@@ -538,7 +561,9 @@
     <span class="n">DeleteResourceRequest</span><span class="p">,</span>
     <span class="n">DeleteVersionRequest</span><span class="p">,</span>
     <span class="n">DeleteProjectRequest</span><span class="p">,</span>
+    <span class="n">DeleteAttributeRequest</span><span class="p">,</span>
     <span class="n">EventStreamRequest</span><span class="p">,</span>
+    <span class="n">GetAttributeRequest</span><span class="p">,</span>
     <span class="n">GetChildGroupsRequest</span><span class="p">,</span>
     <span class="n">GetGroupRequest</span><span class="p">,</span>
     <span class="n">GetLinksRequest</span><span class="p">,</span>
@@ -553,10 +578,12 @@
     <span class="n">HasTagRequest</span><span class="p">,</span>
     <span class="n">KrefRequest</span><span class="p">,</span>
     <span class="n">Link</span> <span class="k">as</span> <span class="n">PbLink</span><span class="p">,</span>
+    <span class="n">LinkDirection</span><span class="p">,</span>
     <span class="n">PeekNextVersionRequest</span><span class="p">,</span>
     <span class="n">ProductSearchRequest</span><span class="p">,</span>
     <span class="n">ResolveKrefRequest</span><span class="p">,</span>
     <span class="n">ResolveLocationRequest</span><span class="p">,</span>
+    <span class="n">SetAttributeRequest</span><span class="p">,</span>
     <span class="n">SetDefaultResourceRequest</span><span class="p">,</span>
     <span class="n">TagVersionRequest</span><span class="p">,</span>
     <span class="n">UnTagVersionRequest</span><span class="p">,</span>
@@ -572,23 +599,27 @@
     <span class="n">GetCollectionMembersRequest</span><span class="p">,</span>
     <span class="n">GetCollectionHistoryRequest</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">Link</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">Link</span><span class="p">,</span> <span class="n">TraversalResult</span><span class="p">,</span> <span class="n">ImpactedVersion</span><span class="p">,</span> <span class="n">ShortestPathResult</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectResponse</span><span class="p">,</span> <span class="n">StatusResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.product</span><span class="w"> </span><span class="kn">import</span> <span class="n">Product</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.resource</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resource</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">Version</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.collection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">CollectionMember</span><span class="p">,</span> <span class="n">CollectionVersionHistory</span>
+
+
+<span class="n">_LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.client&quot;</span><span class="p">)</span>
+<span class="n">_DISCOVERY_DISABLE_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_DISABLE_AUTO_DISCOVERY&quot;</span>
+<span class="n">_FORCE_REFRESH_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_FORCE_DISCOVERY_REFRESH&quot;</span>
+
 
 <div class="viewcode-block" id="ProjectLimitError">
 <a class="viewcode-back" href="../../api/kumiho.html#kumiho.ProjectLimitError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ProjectLimitError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when guardrails block project creation (e.g., max projects reached).&quot;&quot;&quot;</span></div>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.product</span><span class="w"> </span><span class="kn">import</span> <span class="n">Product</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.resource</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resource</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">Version</span>
-
-
-<span class="n">_LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.client&quot;</span><span class="p">)</span>
-<span class="n">_DISCOVERY_DISABLE_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_DISABLE_AUTO_DISCOVERY&quot;</span>
-<span class="n">_FORCE_REFRESH_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_FORCE_DISCOVERY_REFRESH&quot;</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_Client</span><span class="p">:</span>
@@ -905,11 +936,12 @@
         <span class="n">allow_public</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Project</span><span class="p">:</span>
-        <span class="n">req</span> <span class="o">=</span> <span class="n">kumiho_pb2</span><span class="o">.</span><span class="n">UpdateProjectRequest</span><span class="p">(</span>
-            <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
-            <span class="n">allow_public</span><span class="o">=</span><span class="n">allow_public</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="n">description</span>
-        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;project_id&quot;</span><span class="p">:</span> <span class="n">project_id</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">allow_public</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;allow_public&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">allow_public</span>
+        <span class="k">if</span> <span class="n">description</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">kumiho_pb2</span><span class="o">.</span><span class="n">UpdateProjectRequest</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateProject</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Project</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
@@ -1467,6 +1499,76 @@
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
+    <span class="c1"># Attribute methods (granular metadata operations)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a single metadata attribute on any entity.</span>
+
+<span class="sd">        This allows granular updates to metadata without replacing the entire</span>
+<span class="sd">        metadata map. The attribute key cannot be a reserved system field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            kref: The kref of the entity (Version, Product, Resource, or Group).</span>
+<span class="sd">            key: The attribute key to set.</span>
+<span class="sd">            value: The attribute value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the attribute was set successfully.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the entity is not found or the key is reserved.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; client.set_attribute(version.kref, &quot;render_engine&quot;, &quot;cycles&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">SetAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">SetAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a single metadata attribute from any entity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            kref: The kref of the entity (Version, Product, Resource, or Group).</span>
+<span class="sd">            key: The attribute key to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The attribute value if it exists, None otherwise.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the entity is not found.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; client.get_attribute(version.kref, &quot;render_engine&quot;)</span>
+<span class="sd">            &quot;cycles&quot;</span>
+<span class="sd">            &gt;&gt;&gt; client.get_attribute(version.kref, &quot;nonexistent&quot;)</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">GetAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">exists</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a single metadata attribute from any entity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            kref: The kref of the entity (Version, Product, Resource, or Group).</span>
+<span class="sd">            key: The attribute key to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the attribute was deleted successfully.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If the entity is not found or the key is reserved.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; client.delete_attribute(version.kref, &quot;deprecated_field&quot;)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">DeleteAttributeRequest</span><span class="p">(</span><span class="n">kref</span><span class="o">=</span><span class="n">kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteAttribute</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">success</span>
+
     <span class="c1"># Link methods</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_link</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1482,11 +1584,18 @@
 <span class="sd">            target_version: The target version of the link.</span>
 <span class="sd">            link_type: The type of relationship (e.g., kumiho.LinkType.DEPENDS_ON).</span>
 <span class="sd">                       See kumiho.LinkType for standard types.</span>
+<span class="sd">                       Must be UPPERCASE with letters, digits, underscores only.</span>
 <span class="sd">            metadata: Optional metadata for the link.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The created Link object.</span>
+<span class="sd">            </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            LinkTypeValidationError: If link_type is invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_link_type</span>
+        <span class="n">validate_link_type</span><span class="p">(</span><span class="n">link_type</span><span class="p">)</span>
+        
         <span class="n">req</span> <span class="o">=</span> <span class="n">CreateLinkRequest</span><span class="p">(</span>
             <span class="n">source_version_kref</span><span class="o">=</span><span class="n">source_version</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span>
             <span class="n">target_version_kref</span><span class="o">=</span><span class="n">target_version</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span>
@@ -1526,7 +1635,13 @@
 <span class="sd">            source_kref: The source version kref.</span>
 <span class="sd">            target_kref: The target version kref.</span>
 <span class="sd">            link_type: The type of link to delete.</span>
+<span class="sd">            </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            LinkTypeValidationError: If link_type is invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.link</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_link_type</span>
+        <span class="n">validate_link_type</span><span class="p">(</span><span class="n">link_type</span><span class="p">)</span>
+        
         <span class="n">req</span> <span class="o">=</span> <span class="n">DeleteLinkRequest</span><span class="p">(</span>
             <span class="n">source_kref</span><span class="o">=</span><span class="n">source_kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span>
             <span class="n">target_kref</span><span class="o">=</span><span class="n">target_kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span>
@@ -1685,7 +1800,7 @@
         <span class="n">parent_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Product</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Collection&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new collection product.</span>
 
 <span class="sd">        Collections are special products that aggregate other products.</span>
@@ -1704,18 +1819,19 @@
 <span class="sd">            metadata: Optional key-value metadata for the collection.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Product: The created Product object with ``product_type=&#39;collection&#39;``.</span>
+<span class="sd">            Collection: The created Collection object with ``product_type=&#39;collection&#39;``.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            grpc.RpcError: If the collection name is already taken or connection fails.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.collection</span><span class="w"> </span><span class="kn">import</span> <span class="n">Collection</span>
         <span class="n">req</span> <span class="o">=</span> <span class="n">CreateCollectionRequest</span><span class="p">(</span>
             <span class="n">parent_path</span><span class="o">=</span><span class="n">parent_path</span><span class="p">,</span>
             <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
             <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateCollection</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Product</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Collection</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_collection_member</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1917,7 +2033,9 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]],</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">tuple</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">)</span> <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">credentials</span> <span class="o">=</span> <span class="n">credentials</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_ready</span> <span class="o">=</span> <span class="n">wait_for_ready</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compression</span> <span class="o">=</span> <span class="n">compression</span>
@@ -1927,7 +2045,14 @@
     <span class="n">client_call_details</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ClientCallDetails</span><span class="p">,</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ClientCallDetails</span><span class="p">:</span>
-    <span class="n">existing</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">client_call_details</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">[])</span>
+    <span class="n">existing</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">client_call_details</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">[]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">existing</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+            <span class="n">existing</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">existing</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)))</span>
     <span class="n">existing</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_ClientCallDetails</span><span class="p">(</span>
         <span class="n">method</span><span class="o">=</span><span class="n">client_call_details</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
@@ -1989,7 +2114,15 @@
                         <span class="n">new_token</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">auth_cli</span><span class="o">.</span><span class="n">ensure_token</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                         
                         <span class="c1"># Update the authorization header with the new token</span>
-                        <span class="n">existing_metadata</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">client_call_details</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">[])</span>
+                        <span class="n">existing_metadata</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">client_call_details</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">[]):</span>
+                            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                                <span class="n">existing_metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+                                <span class="n">existing_metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)))</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="c1"># memoryview or other buffer-like object</span>
+                                <span class="n">existing_metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)))</span>
                         <span class="c1"># Remove old authorization header</span>
                         <span class="n">existing_metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">existing_metadata</span> <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;authorization&quot;</span><span class="p">]</span>
                         <span class="c1"># Add new token</span>

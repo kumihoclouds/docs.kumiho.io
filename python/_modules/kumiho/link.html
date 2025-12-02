@@ -72,11 +72,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#version">Version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#resource">Resource</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#link">Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#graph-traversal">Graph Traversal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#collection">Collection</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#metadata">Metadata</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#setting-metadata">Setting Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#granular-attribute-operations">Granular Attribute Operations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#common-metadata-patterns">Common Metadata Patterns</a></li>
 </ul>
 </li>
@@ -163,6 +165,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_group"><code class="docutils literal notranslate"><span class="pre">Group.create_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.create_product"><code class="docutils literal notranslate"><span class="pre">Group.create_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.delete"><code class="docutils literal notranslate"><span class="pre">Group.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Group.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_attribute"><code class="docutils literal notranslate"><span class="pre">Group.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_child_groups"><code class="docutils literal notranslate"><span class="pre">Group.get_child_groups()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_group"><code class="docutils literal notranslate"><span class="pre">Group.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_groups"><code class="docutils literal notranslate"><span class="pre">Group.get_groups()</span></code></a></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_product"><code class="docutils literal notranslate"><span class="pre">Group.get_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_products"><code class="docutils literal notranslate"><span class="pre">Group.get_products()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.get_project"><code class="docutils literal notranslate"><span class="pre">Group.get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.set_attribute"><code class="docutils literal notranslate"><span class="pre">Group.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Group.set_metadata"><code class="docutils literal notranslate"><span class="pre">Group.set_metadata()</span></code></a></li>
 </ul>
 </li>
@@ -187,6 +192,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.__repr__"><code class="docutils literal notranslate"><span class="pre">Product.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.create_version"><code class="docutils literal notranslate"><span class="pre">Product.create_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.delete"><code class="docutils literal notranslate"><span class="pre">Product.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Product.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_attribute"><code class="docutils literal notranslate"><span class="pre">Product.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_group"><code class="docutils literal notranslate"><span class="pre">Product.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_latest_version"><code class="docutils literal notranslate"><span class="pre">Product.get_latest_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_project"><code class="docutils literal notranslate"><span class="pre">Product.get_project()</span></code></a></li>
@@ -195,6 +202,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_version_by_time"><code class="docutils literal notranslate"><span class="pre">Product.get_version_by_time()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.get_versions"><code class="docutils literal notranslate"><span class="pre">Product.get_versions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.peek_next_version"><code class="docutils literal notranslate"><span class="pre">Product.peek_next_version()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_attribute"><code class="docutils literal notranslate"><span class="pre">Product.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Product.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Product.set_metadata"><code class="docutils literal notranslate"><span class="pre">Product.set_metadata()</span></code></a></li>
 </ul>
@@ -218,10 +226,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_link"><code class="docutils literal notranslate"><span class="pre">Version.create_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.create_resource"><code class="docutils literal notranslate"><span class="pre">Version.create_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete"><code class="docutils literal notranslate"><span class="pre">Version.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Version.delete_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.delete_link"><code class="docutils literal notranslate"><span class="pre">Version.delete_link()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.find_path_to"><code class="docutils literal notranslate"><span class="pre">Version.find_path_to()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependencies"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependencies()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_all_dependents"><code class="docutils literal notranslate"><span class="pre">Version.get_all_dependents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_attribute"><code class="docutils literal notranslate"><span class="pre">Version.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_group"><code class="docutils literal notranslate"><span class="pre">Version.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_links"><code class="docutils literal notranslate"><span class="pre">Version.get_links()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_locations"><code class="docutils literal notranslate"><span class="pre">Version.get_locations()</span></code></a></li>
@@ -231,6 +241,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.get_resources"><code class="docutils literal notranslate"><span class="pre">Version.get_resources()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.has_tag"><code class="docutils literal notranslate"><span class="pre">Version.has_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.refresh"><code class="docutils literal notranslate"><span class="pre">Version.refresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_attribute"><code class="docutils literal notranslate"><span class="pre">Version.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_default_resource"><code class="docutils literal notranslate"><span class="pre">Version.set_default_resource()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Version.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Version.set_metadata"><code class="docutils literal notranslate"><span class="pre">Version.set_metadata()</span></code></a></li>
@@ -253,11 +264,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.__init__"><code class="docutils literal notranslate"><span class="pre">Resource.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.__repr__"><code class="docutils literal notranslate"><span class="pre">Resource.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.delete"><code class="docutils literal notranslate"><span class="pre">Resource.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.get_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_group"><code class="docutils literal notranslate"><span class="pre">Resource.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_product"><code class="docutils literal notranslate"><span class="pre">Resource.get_product()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_project"><code class="docutils literal notranslate"><span class="pre">Resource.get_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.get_version"><code class="docutils literal notranslate"><span class="pre">Resource.get_version()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.name"><code class="docutils literal notranslate"><span class="pre">Resource.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_attribute"><code class="docutils literal notranslate"><span class="pre">Resource.set_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_default"><code class="docutils literal notranslate"><span class="pre">Resource.set_default()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Resource.set_deprecated()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Resource.set_metadata"><code class="docutils literal notranslate"><span class="pre">Resource.set_metadata()</span></code></a></li>
@@ -282,6 +296,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__hash__"><code class="docutils literal notranslate"><span class="pre">Kref.__hash__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__new__"><code class="docutils literal notranslate"><span class="pre">Kref.__new__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.__repr__"><code class="docutils literal notranslate"><span class="pre">Kref.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.from_pb"><code class="docutils literal notranslate"><span class="pre">Kref.from_pb()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_group"><code class="docutils literal notranslate"><span class="pre">Kref.get_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_path"><code class="docutils literal notranslate"><span class="pre">Kref.get_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Kref.get_product_name"><code class="docutils literal notranslate"><span class="pre">Kref.get_product_name()</span></code></a></li>
@@ -354,6 +369,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.ReservedProductTypeError"><code class="docutils literal notranslate"><span class="pre">ReservedProductTypeError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.KrefValidationError"><code class="docutils literal notranslate"><span class="pre">KrefValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.LinkTypeValidationError"><code class="docutils literal notranslate"><span class="pre">LinkTypeValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.validate_kref"><code class="docutils literal notranslate"><span class="pre">validate_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.validate_link_type"><code class="docutils literal notranslate"><span class="pre">validate_link_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.is_valid_kref"><code class="docutils literal notranslate"><span class="pre">is_valid_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.is_valid_link_type"><code class="docutils literal notranslate"><span class="pre">is_valid_link_type()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client"><code class="docutils literal notranslate"><span class="pre">use_client</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_client.__init__"><code class="docutils literal notranslate"><span class="pre">use_client.__init__()</span></code></a></li>
@@ -399,6 +420,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_version"><code class="docutils literal notranslate"><span class="pre">get_version()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_resource"><code class="docutils literal notranslate"><span class="pre">get_resource()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_resources_by_location"><code class="docutils literal notranslate"><span class="pre">get_resources_by_location()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.set_attribute"><code class="docutils literal notranslate"><span class="pre">set_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
@@ -502,6 +526,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
@@ -511,6 +536,76 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
 
 
+<div class="viewcode-block" id="LinkTypeValidationError">
+<a class="viewcode-back" href="../../api/link.html#kumiho.LinkTypeValidationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LinkTypeValidationError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when a link type is invalid or potentially malicious.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<span class="c1"># Regex for validating link types - must match Rust server validation</span>
+<span class="n">_LINK_TYPE_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[A-Z][A-Z0-9_]{0,49}$&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="validate_link_type">
+<a class="viewcode-back" href="../../api/link.html#kumiho.validate_link_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_link_type</span><span class="p">(</span><span class="n">link_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a link type for security and correctness.</span>
+<span class="sd">    </span>
+<span class="sd">    Link types must:</span>
+<span class="sd">    - Start with an uppercase letter</span>
+<span class="sd">    - Contain only uppercase letters, digits, and underscores</span>
+<span class="sd">    - Be 1-50 characters long</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        link_type: The link type to validate.</span>
+<span class="sd">        </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        LinkTypeValidationError: If the link type is invalid.</span>
+<span class="sd">        </span>
+<span class="sd">    Example::</span>
+<span class="sd">    </span>
+<span class="sd">        from kumiho.link import validate_link_type, LinkTypeValidationError</span>
+<span class="sd">        </span>
+<span class="sd">        try:</span>
+<span class="sd">            validate_link_type(&quot;DEPENDS_ON&quot;)  # OK</span>
+<span class="sd">            validate_link_type(&quot;depends_on&quot;)  # Raises error</span>
+<span class="sd">        except LinkTypeValidationError as e:</span>
+<span class="sd">            print(f&quot;Invalid link type: {e}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">link_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">LinkTypeValidationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Link type must be a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">link_type</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_LINK_TYPE_PATTERN</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">link_type</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">LinkTypeValidationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid link_type &#39;</span><span class="si">{</span><span class="n">link_type</span><span class="si">}</span><span class="s2">&#39;. Must start with uppercase letter, &quot;</span>
+            <span class="s2">&quot;contain only uppercase letters, digits, underscores, and be 1-50 chars.&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_valid_link_type">
+<a class="viewcode-back" href="../../api/link.html#kumiho.is_valid_link_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_valid_link_type</span><span class="p">(</span><span class="n">link_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a link type is valid without raising exceptions.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        link_type: The link type to validate.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        True if the link type is valid, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">validate_link_type</span><span class="p">(</span><span class="n">link_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="n">LinkTypeValidationError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
 <div class="viewcode-block" id="LinkType">
 <a class="viewcode-back" href="../../api/link.html#kumiho.LinkType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LinkType</span><span class="p">:</span>
@@ -518,6 +613,8 @@
 
 <span class="sd">    These constants define the semantic meaning of relationships between</span>
 <span class="sd">    versions. Use them when creating or querying links.</span>
+<span class="sd">    </span>
+<span class="sd">    All link types use UPPERCASE format as required by the Neo4j graph database.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        BELONGS_TO (str): Indicates ownership or grouping relationship.</span>
@@ -538,24 +635,23 @@
 <span class="sd">        lod_v1.create_link(highpoly_v1, kumiho.DERIVED_FROM)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">BELONGS_TO</span> <span class="o">=</span> <span class="s2">&quot;belongs_to&quot;</span>
+    <span class="n">BELONGS_TO</span> <span class="o">=</span> <span class="s2">&quot;BELONGS_TO&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Ownership or grouping relationship.&quot;&quot;&quot;</span>
 
-    <span class="n">CREATED_FROM</span> <span class="o">=</span> <span class="s2">&quot;created_from&quot;</span>
+    <span class="n">CREATED_FROM</span> <span class="o">=</span> <span class="s2">&quot;CREATED_FROM&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Source was generated/created from target.&quot;&quot;&quot;</span>
 
-    <span class="n">REFERENCED</span> <span class="o">=</span> <span class="s2">&quot;referenced&quot;</span>
+    <span class="n">REFERENCED</span> <span class="o">=</span> <span class="s2">&quot;REFERENCED&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft reference relationship.&quot;&quot;&quot;</span>
 
-    <span class="n">DEPENDS_ON</span> <span class="o">=</span> <span class="s2">&quot;depends_on&quot;</span>
+    <span class="n">DEPENDS_ON</span> <span class="o">=</span> <span class="s2">&quot;DEPENDS_ON&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Source requires target to function.&quot;&quot;&quot;</span>
 
-    <span class="n">DERIVED_FROM</span> <span class="o">=</span> <span class="s2">&quot;derived_from&quot;</span>
+    <span class="n">DERIVED_FROM</span> <span class="o">=</span> <span class="s2">&quot;DERIVED_FROM&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Source was derived or modified from target.&quot;&quot;&quot;</span>
 
-    <span class="n">CONTAINS</span> <span class="o">=</span> <span class="s2">&quot;contains&quot;</span>
+    <span class="n">CONTAINS</span> <span class="o">=</span> <span class="s2">&quot;CONTAINS&quot;</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Source contains or includes target.&quot;&quot;&quot;</span></div>
-
 
 
 <div class="viewcode-block" id="LinkDirection">
