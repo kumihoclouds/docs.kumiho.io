@@ -58,6 +58,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../getting-started.html#revisions">Revisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../getting-started.html#artifacts">Artifacts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../getting-started.html#edges">Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#bundles">Bundles</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started.html#kref-uris">Kref URIs</a></li>
@@ -146,8 +147,11 @@
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.__init__"><code class="docutils literal notranslate"><span class="pre">Project.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.__repr__"><code class="docutils literal notranslate"><span class="pre">Project.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.create_bundle"><code class="docutils literal notranslate"><span class="pre">Project.create_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.create_item"><code class="docutils literal notranslate"><span class="pre">Project.create_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.create_space"><code class="docutils literal notranslate"><span class="pre">Project.create_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_bundle"><code class="docutils literal notranslate"><span class="pre">Project.get_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_item"><code class="docutils literal notranslate"><span class="pre">Project.get_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_space"><code class="docutils literal notranslate"><span class="pre">Project.get_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_spaces"><code class="docutils literal notranslate"><span class="pre">Project.get_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.set_public"><code class="docutils literal notranslate"><span class="pre">Project.set_public()</span></code></a></li>
@@ -170,6 +174,7 @@
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.delete"><code class="docutils literal notranslate"><span class="pre">Space.delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Space.delete_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_attribute"><code class="docutils literal notranslate"><span class="pre">Space.get_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_bundle"><code class="docutils literal notranslate"><span class="pre">Space.get_bundle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_child_spaces"><code class="docutils literal notranslate"><span class="pre">Space.get_child_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_item"><code class="docutils literal notranslate"><span class="pre">Space.get_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_items"><code class="docutils literal notranslate"><span class="pre">Space.get_items()</span></code></a></li>
@@ -420,6 +425,7 @@
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.item_search"><code class="docutils literal notranslate"><span class="pre">item_search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_item"><code class="docutils literal notranslate"><span class="pre">get_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_bundle"><code class="docutils literal notranslate"><span class="pre">get_bundle()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_revision"><code class="docutils literal notranslate"><span class="pre">get_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_artifact"><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_artifacts_by_location"><code class="docutils literal notranslate"><span class="pre">get_artifacts_by_location()</span></code></a></li>
@@ -877,6 +883,38 @@ the space.</p></li>
 <p class="admonition-title">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chair</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;office-chair&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">revisions</span> <span class="o">=</span> <span class="n">chair</span><span class="o">.</span><span class="n">get_revisions</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/space.html#Space.get_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Get a bundle by name from this space.</p>
+<p>This is a convenience method that fetches a bundle item and returns
+it as a Bundle object with bundle-specific methods like add_member(),
+get_members(), etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bundle_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The name of the bundle.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Bundle object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kumiho.html#kumiho.Bundle" title="kumiho.Bundle">Bundle</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.76.0)"><strong>grpc.RpcError</strong></a> – If the bundle is not found.</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bundle</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="s2">&quot;character-bundle&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">members</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

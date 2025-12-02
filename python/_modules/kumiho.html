@@ -55,6 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../getting-started.html#revisions">Revisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../getting-started.html#artifacts">Artifacts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../getting-started.html#edges">Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#bundles">Bundles</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../getting-started.html#kref-uris">Kref URIs</a></li>
@@ -143,8 +144,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.__init__"><code class="docutils literal notranslate"><span class="pre">Project.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.__repr__"><code class="docutils literal notranslate"><span class="pre">Project.__repr__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.create_bundle"><code class="docutils literal notranslate"><span class="pre">Project.create_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.create_item"><code class="docutils literal notranslate"><span class="pre">Project.create_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.create_space"><code class="docutils literal notranslate"><span class="pre">Project.create_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_bundle"><code class="docutils literal notranslate"><span class="pre">Project.get_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_item"><code class="docutils literal notranslate"><span class="pre">Project.get_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_space"><code class="docutils literal notranslate"><span class="pre">Project.get_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_spaces"><code class="docutils literal notranslate"><span class="pre">Project.get_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.set_public"><code class="docutils literal notranslate"><span class="pre">Project.set_public()</span></code></a></li>
@@ -167,6 +171,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Space.delete"><code class="docutils literal notranslate"><span class="pre">Space.delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Space.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Space.delete_attribute()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Space.get_attribute"><code class="docutils literal notranslate"><span class="pre">Space.get_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Space.get_bundle"><code class="docutils literal notranslate"><span class="pre">Space.get_bundle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Space.get_child_spaces"><code class="docutils literal notranslate"><span class="pre">Space.get_child_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Space.get_item"><code class="docutils literal notranslate"><span class="pre">Space.get_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Space.get_items"><code class="docutils literal notranslate"><span class="pre">Space.get_items()</span></code></a></li>
@@ -417,6 +422,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.item_search"><code class="docutils literal notranslate"><span class="pre">item_search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_item"><code class="docutils literal notranslate"><span class="pre">get_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_bundle"><code class="docutils literal notranslate"><span class="pre">get_bundle()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_revision"><code class="docutils literal notranslate"><span class="pre">get_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_artifact"><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_artifacts_by_location"><code class="docutils literal notranslate"><span class="pre">get_artifacts_by_location()</span></code></a></li>
@@ -1054,6 +1060,34 @@
 
 
 
+<div class="viewcode-block" id="get_bundle">
+<a class="viewcode-back" href="../api/kumiho.html#kumiho.get_bundle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_bundle</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bundle</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a bundle by its kref URI.</span>
+
+<span class="sd">    This is a convenience function that gets an item and verifies it&#39;s a bundle.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        kref: The kref URI of the bundle item</span>
+<span class="sd">            (e.g., &quot;kref://project/space/bundle-name.bundle&quot;).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Bundle: The Bundle object.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the item exists but is not a bundle.</span>
+<span class="sd">        grpc.RpcError: If the bundle is not found.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; bundle = kumiho.get_bundle(</span>
+<span class="sd">        ...     &quot;kref://film-project/shots/shot001.bundle&quot;</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; members = bundle.get_members()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_bundle_by_kref</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="get_revision">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_revision">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Revision</span><span class="p">:</span>
@@ -1406,6 +1440,7 @@
     <span class="s2">&quot;delete_project&quot;</span><span class="p">,</span>
     <span class="s2">&quot;item_search&quot;</span><span class="p">,</span>
     <span class="s2">&quot;get_item&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_bundle&quot;</span><span class="p">,</span>
     <span class="s2">&quot;get_revision&quot;</span><span class="p">,</span>
     <span class="s2">&quot;get_artifact&quot;</span><span class="p">,</span>
     <span class="s2">&quot;get_artifacts_by_location&quot;</span><span class="p">,</span>
