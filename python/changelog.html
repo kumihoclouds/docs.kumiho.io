@@ -101,7 +101,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concepts.html#event-streaming">Event Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html#event-streaming">Event Streaming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#event-object">Event Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#event-types-routing-keys">Event Types (Routing Keys)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#tier-based-capabilities">Tier-Based Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#query-tier-capabilities">Query Tier Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#resumable-streaming-coming-soon-creator">Resumable Streaming (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#replay-from-beginning-coming-soon-creator">Replay from Beginning (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#feature-gated-streaming">Feature-Gated Streaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concepts.html#use-cases-by-tier">Use Cases by Tier</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -375,6 +386,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.timestamp"><code class="docutils literal notranslate"><span class="pre">Event.timestamp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.author"><code class="docutils literal notranslate"><span class="pre">Event.author</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.details"><code class="docutils literal notranslate"><span class="pre">Event.details</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.cursor"><code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.__init__"><code class="docutils literal notranslate"><span class="pre">Event.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.__repr__"><code class="docutils literal notranslate"><span class="pre">Event.__repr__()</span></code></a></li>
 </ul>
@@ -487,6 +499,23 @@
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_event_capabilities"><code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities"><code class="docutils literal notranslate"><span class="pre">EventCapabilities</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.supports_replay"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.supports_cursor"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.supports_consumer_groups"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
 </li>
@@ -548,19 +577,25 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[0.4.0] - 2025-12-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -605,10 +640,42 @@
 <p>All notable changes to this project will be documented in this file.</p>
 <p>The format is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
 and this project adheres to <a class="reference external" href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
-<section id="xx-xx">
-<h2>[0.3.0] - 2024-XX-XX<a class="headerlink" href="#xx-xx" title="Link to this heading"></a></h2>
+<section id="id1">
+<h2>[0.4.0] - 2025-12-03<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <section id="added">
 <h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Event streaming cursor support</strong>: <code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code> attribute for resumable streaming</p></li>
+<li><p><strong>EventCapabilities API</strong>: <code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code> to query tier-based streaming features</p></li>
+<li><p><strong>New event_stream() parameters</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cursor</span></code>: Resume from last position (Creator+ tiers, Coming Soon)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">consumer_group</span></code>: Load-balanced consumption (Enterprise tier, Coming Soon)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">from_beginning</span></code>: Replay entire buffer (Creator+ tiers, Coming Soon)</p></li>
+</ul>
+</li>
+<li><p>Tier capability documentation with Coming Soon markers</p></li>
+</ul>
+</section>
+<section id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Updated event streaming documentation with tier matrix</p></li>
+<li><p>Event object now includes <code class="docutils literal notranslate"><span class="pre">cursor</span></code> attribute (None for Free tier)</p></li>
+</ul>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Creator tier and above streaming features are planned but not yet deployed</p></li>
+<li><p>Free tier provides real-time streaming without persistence</p></li>
+</ul>
+</section>
+</section>
+<section id="xx-xx">
+<h2>[0.3.0] - 2024-XX-XX<a class="headerlink" href="#xx-xx" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>Added<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Comprehensive Google-style docstrings for all public APIs</p></li>
 <li><p>Sphinx documentation with ReadTheDocs theme</p></li>
@@ -617,8 +684,8 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <li><p>Type hints throughout the codebase</p></li>
 </ul>
 </section>
-<section id="changed">
-<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<section id="id3">
+<h3>Changed<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> with full PyPI metadata</p></li>
 <li><p>Improved error messages with more context</p></li>
@@ -631,28 +698,28 @@ and this project adheres to <a class="reference external" href="https://semver.o
 </ul>
 </section>
 </section>
-<section id="id1">
-<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
-<section id="id2">
-<h3>Added<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<section id="id4">
+<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h3>Added<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Event streaming support with <code class="docutils literal notranslate"><span class="pre">stream_events()</span></code></p></li>
 <li><p>Link traversal for lineage tracking</p></li>
 <li><p>Batch operations for multiple artifacts</p></li>
 </ul>
 </section>
-<section id="id3">
-<h3>Changed<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="id6">
+<h3>Changed<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Switched to context-variable-based client management</p></li>
 <li><p>Improved connection pooling for gRPC channels</p></li>
 </ul>
 </section>
 </section>
-<section id="id4">
-<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
-<section id="id5">
-<h3>Added<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="id7">
+<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>Added<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Initial release</p></li>
 <li><p>Core entity classes: Project, Space, Item, Revision, Artifact, Edge</p></li>

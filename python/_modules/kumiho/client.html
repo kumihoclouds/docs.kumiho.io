@@ -98,7 +98,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../concepts.html#event-streaming">Event Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts.html#event-streaming">Event Streaming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#event-object">Event Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#event-types-routing-keys">Event Types (Routing Keys)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#tier-based-capabilities">Tier-Based Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#query-tier-capabilities">Query Tier Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#resumable-streaming-coming-soon-creator">Resumable Streaming (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#replay-from-beginning-coming-soon-creator">Replay from Beginning (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#feature-gated-streaming">Feature-Gated Streaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts.html#use-cases-by-tier">Use Cases by Tier</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -372,6 +383,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Event.timestamp"><code class="docutils literal notranslate"><span class="pre">Event.timestamp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Event.author"><code class="docutils literal notranslate"><span class="pre">Event.author</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Event.details"><code class="docutils literal notranslate"><span class="pre">Event.details</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Event.cursor"><code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Event.__init__"><code class="docutils literal notranslate"><span class="pre">Event.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Event.__repr__"><code class="docutils literal notranslate"><span class="pre">Event.__repr__()</span></code></a></li>
 </ul>
@@ -484,6 +496,23 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_event_capabilities"><code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities"><code class="docutils literal notranslate"><span class="pre">EventCapabilities</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities.supports_replay"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities.supports_cursor"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities.supports_consumer_groups"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
 </li>
@@ -545,19 +574,25 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.4.0] - 2025-12-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id2">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id2">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -681,6 +716,7 @@
     <span class="n">GetArtifactsByLocationRequest</span><span class="p">,</span>
     <span class="n">GetTenantUsageRequest</span><span class="p">,</span>
     <span class="n">GetRevisionsRequest</span><span class="p">,</span>
+    <span class="n">GetEventCapabilitiesRequest</span><span class="p">,</span>
     <span class="n">HasTagRequest</span><span class="p">,</span>
     <span class="n">KrefRequest</span><span class="p">,</span>
     <span class="n">Edge</span> <span class="k">as</span> <span class="n">PbEdge</span><span class="p">,</span>
@@ -2156,7 +2192,14 @@
         <span class="p">]</span>
 
     <span class="c1"># Event Streaming</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">event_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">routing_key_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kref_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">event_stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">routing_key_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">kref_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">consumer_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">from_beginning</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Subscribe to the event stream from the Kumiho server.</span>
 
 <span class="sd">        Args:</span>
@@ -2164,13 +2207,86 @@
 <span class="sd">                                Supports wildcards, e.g., &quot;item.model.*&quot;</span>
 <span class="sd">            kref_filter: A filter for the kref URIs to receive events for.</span>
 <span class="sd">                        Supports wildcards, e.g., &quot;kref://projectA/**/*.model&quot;</span>
+<span class="sd">            cursor: Resume from a previous cursor position (Creator tier+).</span>
+<span class="sd">                    Pass the cursor from the last received event to continue</span>
+<span class="sd">                    from that point after reconnection.</span>
+<span class="sd">            consumer_group: Consumer group name for load-balanced delivery</span>
+<span class="sd">                           (Enterprise tier only). Multiple consumers in the</span>
+<span class="sd">                           same group each receive different events.</span>
+<span class="sd">            from_beginning: Start from earliest available events instead of</span>
+<span class="sd">                           live-only (Creator tier+, subject to retention).</span>
 
 <span class="sd">        Yields:</span>
-<span class="sd">            Event objects representing changes in the database.</span>
+<span class="sd">            Event objects representing changes in the database. Each event</span>
+<span class="sd">            includes a ``cursor`` field that can be saved for resumption.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            last_cursor = load_cursor_from_disk()  # Load previous position</span>
+<span class="sd">            try:</span>
+<span class="sd">                for event in client.event_stream(</span>
+<span class="sd">                    routing_key_filter=&quot;revision.*&quot;,</span>
+<span class="sd">                    cursor=last_cursor</span>
+<span class="sd">                ):</span>
+<span class="sd">                    process_event(event)</span>
+<span class="sd">                    save_cursor_to_disk(event.cursor)  # Save for next run</span>
+<span class="sd">            except grpc.RpcError:</span>
+<span class="sd">                pass  # Reconnect with saved cursor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">req</span> <span class="o">=</span> <span class="n">EventStreamRequest</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="n">routing_key_filter</span><span class="p">,</span> <span class="n">kref_filter</span><span class="o">=</span><span class="n">kref_filter</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">EventStreamRequest</span><span class="p">(</span>
+            <span class="n">routing_key_filter</span><span class="o">=</span><span class="n">routing_key_filter</span><span class="p">,</span>
+            <span class="n">kref_filter</span><span class="o">=</span><span class="n">kref_filter</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">req</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">cursor</span>
+        <span class="k">if</span> <span class="n">consumer_group</span><span class="p">:</span>
+            <span class="n">req</span><span class="o">.</span><span class="n">consumer_group</span> <span class="o">=</span> <span class="n">consumer_group</span>
+        <span class="k">if</span> <span class="n">from_beginning</span><span class="p">:</span>
+            <span class="n">req</span><span class="o">.</span><span class="n">from_beginning</span> <span class="o">=</span> <span class="kc">True</span>
+        
         <span class="k">for</span> <span class="n">pb_event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">EventStream</span><span class="p">(</span><span class="n">req</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">Event</span><span class="p">(</span><span class="n">pb_event</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_event_capabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EventCapabilities&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get event streaming capabilities for the current tenant tier.</span>
+
+<span class="sd">        Returns the capabilities available based on the authenticated tenant&#39;s</span>
+<span class="sd">        subscription tier. Use this to determine which features are available</span>
+<span class="sd">        before using cursor-based resume or consumer groups.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            EventCapabilities with the following attributes:</span>
+<span class="sd">                - supports_replay: Can replay past events</span>
+<span class="sd">                - supports_cursor: Can resume from cursor</span>
+<span class="sd">                - supports_consumer_groups: Can use consumer groups (Enterprise)</span>
+<span class="sd">                - max_retention_hours: Event retention period (-1 = unlimited)</span>
+<span class="sd">                - max_buffer_size: Max events in buffer (-1 = unlimited)</span>
+<span class="sd">                - tier: Tier name (free, creator, studio, enterprise)</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            caps = client.get_event_capabilities()</span>
+<span class="sd">            if caps.supports_cursor:</span>
+<span class="sd">                # Use cursor-based streaming</span>
+<span class="sd">                last_cursor = load_saved_cursor()</span>
+<span class="sd">                for event in client.event_stream(cursor=last_cursor):</span>
+<span class="sd">                    ...</span>
+<span class="sd">            else:</span>
+<span class="sd">                # Free tier - no cursor support</span>
+<span class="sd">                for event in client.event_stream():</span>
+<span class="sd">                    ...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventCapabilities</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">GetEventCapabilitiesRequest</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetEventCapabilities</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">EventCapabilities</span><span class="p">(</span>
+            <span class="n">supports_replay</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">supports_replay</span><span class="p">,</span>
+            <span class="n">supports_cursor</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">supports_cursor</span><span class="p">,</span>
+            <span class="n">supports_consumer_groups</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">supports_consumer_groups</span><span class="p">,</span>
+            <span class="n">max_retention_hours</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">max_retention_hours</span><span class="p">,</span>
+            <span class="n">max_buffer_size</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">max_buffer_size</span><span class="p">,</span>
+            <span class="n">tier</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">tier</span><span class="p">,</span>
+        <span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_ClientCallDetails</span><span class="p">(</span><span class="n">grpc</span><span class="o">.</span><span class="n">ClientCallDetails</span><span class="p">):</span>

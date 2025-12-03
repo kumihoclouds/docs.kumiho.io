@@ -101,7 +101,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../concepts.html#event-streaming">Event Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#event-streaming">Event Streaming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#event-object">Event Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#event-types-routing-keys">Event Types (Routing Keys)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#tier-based-capabilities">Tier-Based Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#query-tier-capabilities">Query Tier Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#resumable-streaming-coming-soon-creator">Resumable Streaming (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#replay-from-beginning-coming-soon-creator">Replay from Beginning (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#feature-gated-streaming">Feature-Gated Streaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#use-cases-by-tier">Use Cases by Tier</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../concepts.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -375,6 +386,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Event.timestamp"><code class="docutils literal notranslate"><span class="pre">Event.timestamp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Event.author"><code class="docutils literal notranslate"><span class="pre">Event.author</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Event.details"><code class="docutils literal notranslate"><span class="pre">Event.details</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.Event.cursor"><code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Event.__init__"><code class="docutils literal notranslate"><span class="pre">Event.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Event.__repr__"><code class="docutils literal notranslate"><span class="pre">Event.__repr__()</span></code></a></li>
 </ul>
@@ -487,6 +499,23 @@
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.get_event_capabilities"><code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.EventCapabilities"><code class="docutils literal notranslate"><span class="pre">EventCapabilities</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.supports_replay"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.supports_cursor"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.supports_consumer_groups"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
 </li>
@@ -548,19 +577,25 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.4.0] - 2025-12-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id2">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id2">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id7">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -4423,15 +4458,38 @@ such as creating versions, applying tags, or deleting resources. Use
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.Event.cursor">
+<span class="sig-name descname"><span class="pre">cursor</span></span><a class="headerlink" href="#kumiho.Event.cursor" title="Link to this definition"></a></dt>
+<dd><p>Opaque cursor for resumable streaming.
+Save this value and pass it to <code class="docutils literal notranslate"><span class="pre">event_stream(cursor=...)</span></code> to
+resume from this event after reconnection. Only available on
+Creator tier and above.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
-<span class="c1"># React to revision creation</span>
-<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.created&quot;</span><span class="p">):</span>
-    <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New revision: </span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2"> v</span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Created by: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  At: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># React to revision creation with cursor tracking</span>
+<span class="n">last_cursor</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span>
+        <span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.created&quot;</span><span class="p">,</span>
+        <span class="n">cursor</span><span class="o">=</span><span class="n">last_cursor</span>
+    <span class="p">):</span>
+        <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New revision: </span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2"> v</span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Created by: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  At: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">last_cursor</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">cursor</span>  <span class="c1"># Save cursor</span>
+<span class="k">except</span> <span class="ne">ConnectionError</span><span class="p">:</span>
+    <span class="c1"># Reconnect using saved cursor</span>
+    <span class="k">pass</span>
 
 <span class="c1"># Filter by kref pattern</span>
 <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span>
@@ -6178,21 +6236,33 @@ or Space) identified by kref.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kumiho.event_stream">
-<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">event_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routing_key_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kref_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho.html#event_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.event_stream" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">event_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routing_key_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kref_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consumer_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_beginning</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho.html#event_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.event_stream" title="Link to this definition"></a></dt>
 <dd><p>Subscribe to real-time events from the Kumiho server.</p>
 <p>Events are streamed as they occur, allowing you to react to changes
 in the database such as new revisions, tag changes, or deletions.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>routing_key_filter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Filter events by routing key pattern.
 Supports wildcards (e.g., <code class="docutils literal notranslate"><span class="pre">item.model.*</span></code>, <code class="docutils literal notranslate"><span class="pre">revision.#</span></code>).</p></li>
 <li><p><strong>kref_filter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Filter events by kref pattern.
 Supports glob patterns (e.g., <code class="docutils literal notranslate"><span class="pre">kref://projectA/**/*.model</span></code>).</p></li>
+<li><p><strong>cursor</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Resume from a previous cursor position (Creator tier+).
+Pass the cursor from the last received event to continue
+from that point after reconnection.</p></li>
+<li><p><strong>consumer_group</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Consumer group name for load-balanced delivery
+(Enterprise tier only). Multiple consumers in the same group
+each receive different events.</p></li>
+<li><p><strong>from_beginning</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Start from earliest available events instead of
+live-only (Creator tier+, subject to retention limits).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Yields<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>Event</em> – Event objects as they occur.</p>
+<dd class="field-even"><p><em>Event</em> –</p>
+<dl class="simple">
+<dt>Event objects as they occur. Each event includes a <code class="docutils literal notranslate"><span class="pre">cursor</span></code></dt><dd><p>field that can be saved for resumption.</p>
+</dd>
+</dl>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a>[<a class="reference internal" href="#kumiho.Event" title="kumiho.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">Event</span></code></a>]</span></p>
@@ -6200,14 +6270,21 @@ Supports glob patterns (e.g., <code class="docutils literal notranslate"><span c
 </dl>
 <div class="admonition-example admonition">
 <p class="admonition-title">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Watch for all revision events in a project</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.*&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">kref_filter</span><span class="o">=</span><span class="s2">&quot;kref://film-project/**&quot;</span>
-<span class="gp">... </span><span class="p">):</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">routing_key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">routing_key</span> <span class="o">==</span> <span class="s2">&quot;revision.tagged&quot;</span><span class="p">:</span>
-<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Tag: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Watch for all revision events with cursor tracking</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">last_cursor</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.*&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">kref_filter</span><span class="o">=</span><span class="s2">&quot;kref://film-project/**&quot;</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">cursor</span><span class="o">=</span><span class="n">last_cursor</span>
+<span class="gp">... </span>    <span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">routing_key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">last_cursor</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">cursor</span>  <span class="c1"># Save for reconnection</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">routing_key</span> <span class="o">==</span> <span class="s2">&quot;revision.tagged&quot;</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Tag: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">except</span> <span class="ne">ConnectionError</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="c1"># Reconnect using saved cursor</span>
+<span class="gp">... </span>    <span class="k">pass</span>
 </pre></div>
 </div>
 </div>
@@ -6215,7 +6292,148 @@ Supports glob patterns (e.g., <code class="docutils literal notranslate"><span c
 <p class="admonition-title">Note</p>
 <p>This is a blocking iterator. Use in a separate thread or
 async context for production applications.</p>
+<p>Cursor-based resume requires Creator tier or above. Use
+<a class="reference internal" href="#kumiho.get_event_capabilities" title="kumiho.get_event_capabilities"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code></a> to check your tier’s capabilities.</p>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.get_event_capabilities">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">get_event_capabilities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho.html#get_event_capabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.get_event_capabilities" title="Link to this definition"></a></dt>
+<dd><p>Get event streaming capabilities for the current tenant tier.</p>
+<p>Returns the capabilities available based on the authenticated tenant’s
+subscription tier. Use this to determine which features (cursor resume,
+consumer groups, replay) are available before using them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>Object with capability flags and limits:</dt><dd><ul class="simple">
+<li><p>supports_replay: Can replay past events</p></li>
+<li><p>supports_cursor: Can resume from cursor</p></li>
+<li><p>supports_consumer_groups: Can use consumer groups (Enterprise)</p></li>
+<li><p>max_retention_hours: Event retention period (-1 = unlimited)</p></li>
+<li><p>max_buffer_size: Max events in buffer (-1 = unlimited)</p></li>
+<li><p>tier: Tier name (free, creator, studio, enterprise)</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#kumiho.EventCapabilities" title="kumiho.EventCapabilities">EventCapabilities</a></p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">caps</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_event_capabilities</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tier: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">tier</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Tier: creator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">caps</span><span class="o">.</span><span class="n">supports_cursor</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="c1"># Use cursor-based streaming</span>
+<span class="gp">... </span>    <span class="n">last_cursor</span> <span class="o">=</span> <span class="n">load_saved_cursor</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="n">last_cursor</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">process</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">save_cursor</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">cursor</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="c1"># Free tier - no cursor support</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">():</span>
+<span class="gp">... </span>        <span class="n">process</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">EventCapabilities</span></span><a class="reference internal" href="../_modules/kumiho/event.html#EventCapabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.EventCapabilities" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Event streaming capabilities for the current tenant tier.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities.supports_replay">
+<span class="sig-name descname"><span class="pre">supports_replay</span></span><a class="headerlink" href="#kumiho.EventCapabilities.supports_replay" title="Link to this definition"></a></dt>
+<dd><p>Whether this tier supports replaying past events.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities.supports_cursor">
+<span class="sig-name descname"><span class="pre">supports_cursor</span></span><a class="headerlink" href="#kumiho.EventCapabilities.supports_cursor" title="Link to this definition"></a></dt>
+<dd><p>Whether cursor-based resume is supported.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities.supports_consumer_groups">
+<span class="sig-name descname"><span class="pre">supports_consumer_groups</span></span><a class="headerlink" href="#kumiho.EventCapabilities.supports_consumer_groups" title="Link to this definition"></a></dt>
+<dd><p>Whether consumer groups are supported (Enterprise only).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities.max_retention_hours">
+<span class="sig-name descname"><span class="pre">max_retention_hours</span></span><a class="headerlink" href="#kumiho.EventCapabilities.max_retention_hours" title="Link to this definition"></a></dt>
+<dd><p>Maximum event retention in hours (0 = none, -1 = unlimited).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities.max_buffer_size">
+<span class="sig-name descname"><span class="pre">max_buffer_size</span></span><a class="headerlink" href="#kumiho.EventCapabilities.max_buffer_size" title="Link to this definition"></a></dt>
+<dd><p>Maximum events in buffer (0 = none, -1 = unlimited).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities.tier">
+<span class="sig-name descname"><span class="pre">tier</span></span><a class="headerlink" href="#kumiho.EventCapabilities.tier" title="Link to this definition"></a></dt>
+<dd><p>Tier identifier (free, creator, studio, enterprise).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.EventCapabilities.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">supports_replay</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports_cursor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports_consumer_groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retention_hours</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_buffer_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tier</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.EventCapabilities.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>supports_replay</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>supports_cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>supports_consumer_groups</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+<li><p><strong>max_retention_hours</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>max_buffer_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>tier</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">supports_replay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">supports_cursor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">supports_consumer_groups</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">max_retention_hours</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">max_buffer_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">tier</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">

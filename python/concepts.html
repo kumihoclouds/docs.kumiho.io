@@ -101,7 +101,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#event-streaming">Event Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event-streaming">Event Streaming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#event-object">Event Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#event-types-routing-keys">Event Types (Routing Keys)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tier-based-capabilities">Tier-Based Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#query-tier-capabilities">Query Tier Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resumable-streaming-coming-soon-creator">Resumable Streaming (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replay-from-beginning-coming-soon-creator">Replay from Beginning (Coming Soon - Creator+)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-gated-streaming">Feature-Gated Streaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-cases-by-tier">Use Cases by Tier</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -375,6 +386,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.timestamp"><code class="docutils literal notranslate"><span class="pre">Event.timestamp</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.author"><code class="docutils literal notranslate"><span class="pre">Event.author</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.details"><code class="docutils literal notranslate"><span class="pre">Event.details</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.cursor"><code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.__init__"><code class="docutils literal notranslate"><span class="pre">Event.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Event.__repr__"><code class="docutils literal notranslate"><span class="pre">Event.__repr__()</span></code></a></li>
 </ul>
@@ -487,6 +499,23 @@
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_event_capabilities"><code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities"><code class="docutils literal notranslate"><span class="pre">EventCapabilities</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.supports_replay"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.supports_cursor"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.supports_consumer_groups"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
 </ul>
 </li>
@@ -548,19 +577,25 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.4.0] - 2025-12-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id2">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id2">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id6">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id8">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -1149,19 +1184,272 @@ and approved for downstream consumption.</p>
 </section>
 <section id="event-streaming">
 <h2>Event Streaming<a class="headerlink" href="#event-streaming" title="Link to this heading"></a></h2>
-<p>Kumiho supports real-time event streaming for reactive workflows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stream events from a project</span>
-<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">stream_events</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;revision.created&quot;</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New revision: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">payload</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<p>Kumiho supports real-time event streaming for reactive workflows. Events are emitted whenever assets change, enabling live dashboards, automated pipelines, and integrations.</p>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="c1"># Stream all events</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">routing_key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Filter by routing key (wildcards supported)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.*&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;created&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New revision: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Filter by kref pattern (glob syntax)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">kref_filter</span><span class="o">=</span><span class="s2">&quot;kref://my-project/**/*.model&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model changed: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Event types:</strong></p>
+</section>
+<section id="event-object">
+<h3>Event Object<a class="headerlink" href="#event-object" title="Link to this heading"></a></h3>
+<p>Each event contains:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">routing_key</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Event type (e.g., <code class="docutils literal notranslate"><span class="pre">revision.created</span></code>, <code class="docutils literal notranslate"><span class="pre">artifact.added</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kref</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Kref URI of the affected resource</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">action</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Action performed (<code class="docutils literal notranslate"><span class="pre">created</span></code>, <code class="docutils literal notranslate"><span class="pre">updated</span></code>, <code class="docutils literal notranslate"><span class="pre">deleted</span></code>, <code class="docutils literal notranslate"><span class="pre">tagged</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">datetime</span></code></p></td>
+<td><p>When the event occurred</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metadata</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p>Additional event metadata</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cursor</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Cursor for resumable streaming (Creator+ tiers)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="event-types-routing-keys">
+<h3>Event Types (Routing Keys)<a class="headerlink" href="#event-types-routing-keys" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Routing Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">space.created</span></code></p></td>
+<td><p>New space was created</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">space.updated</span></code></p></td>
+<td><p>Space metadata was updated</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">space.deleted</span></code></p></td>
+<td><p>Space was deleted</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">item.created</span></code></p></td>
+<td><p>New item was created</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">item.updated</span></code></p></td>
+<td><p>Item metadata was updated</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">item.deleted</span></code></p></td>
+<td><p>Item was deleted</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">revision.created</span></code></p></td>
+<td><p>New revision was published</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">revision.tagged</span></code></p></td>
+<td><p>Revision was tagged (e.g., “published”)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">revision.untagged</span></code></p></td>
+<td><p>Tag was removed from revision</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">artifact.added</span></code></p></td>
+<td><p>Artifact was added to a revision</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">artifact.deleted</span></code></p></td>
+<td><p>Artifact was removed</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">edge.created</span></code></p></td>
+<td><p>New relationship was created</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">edge.deleted</span></code></p></td>
+<td><p>Relationship was removed</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tier-based-capabilities">
+<h3>Tier-Based Capabilities<a class="headerlink" href="#tier-based-capabilities" title="Link to this heading"></a></h3>
+<p>Event streaming capabilities vary by subscription tier:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Free</p></th>
+<th class="head"><p>Creator</p></th>
+<th class="head"><p>Studio</p></th>
+<th class="head"><p>Enterprise</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Real-time streaming</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>Routing key filters</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>Kref glob filters</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>Event persistence</p></td>
+<td><p>❌</p></td>
+<td><p>1 hour</p></td>
+<td><p>24 hours</p></td>
+<td><p>30 days</p></td>
+</tr>
+<tr class="row-even"><td><p>Cursor-based resume</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>Replay from buffer</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>Consumer groups</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>BYO Kafka bridge</p></td>
+<td><p>❌</p></td>
+<td><p>❌</p></td>
+<td><p>✅ Pro</p></td>
+<td><p>✅</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p><strong>Note</strong>: Creator tier and above features are <strong>Coming Soon</strong>. Currently only Free tier (real-time streaming) is available.</p>
+</div></blockquote>
+</section>
+<section id="query-tier-capabilities">
+<h3>Query Tier Capabilities<a class="headerlink" href="#query-tier-capabilities" title="Link to this heading"></a></h3>
+<p>Check your tenant’s streaming capabilities at runtime:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">kumiho</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_event_capabilities</span>
+
+<span class="n">caps</span> <span class="o">=</span> <span class="n">get_event_capabilities</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tier: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">tier</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Supports replay: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">supports_replay</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Supports cursor: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">supports_cursor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max retention: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">max_retention_hours</span><span class="si">}</span><span class="s2"> hours&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Buffer size: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">max_buffer_size</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="resumable-streaming-coming-soon-creator">
+<h3>Resumable Streaming (Coming Soon - Creator+)<a class="headerlink" href="#resumable-streaming-coming-soon-creator" title="Link to this heading"></a></h3>
+<p>For Creator tier and above, you can resume from where you left off:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="c1"># Save cursor for recovery</span>
+<span class="n">last_cursor</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.*&quot;</span><span class="p">):</span>
+    <span class="n">process_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+    <span class="n">last_cursor</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">cursor</span>  <span class="c1"># Persist this</span>
+    
+<span class="c1"># Later, resume from last position</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="n">last_cursor</span><span class="p">):</span>
+    <span class="n">process_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="replay-from-beginning-coming-soon-creator">
+<h3>Replay from Beginning (Coming Soon - Creator+)<a class="headerlink" href="#replay-from-beginning-coming-soon-creator" title="Link to this heading"></a></h3>
+<p>Replay all events in the buffer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Replay entire buffer (useful for initial sync)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">from_beginning</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">sync_to_local_db</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="feature-gated-streaming">
+<h3>Feature-Gated Streaming<a class="headerlink" href="#feature-gated-streaming" title="Link to this heading"></a></h3>
+<p>Write code that adapts to your tier:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+
+<span class="n">caps</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_event_capabilities</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">caps</span><span class="o">.</span><span class="n">supports_cursor</span><span class="p">:</span>
+    <span class="c1"># Creator+ tier: use cursor for reliability</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">load_saved_cursor</span><span class="p">()</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># Free tier: real-time only</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+    <span class="n">process_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">cursor</span><span class="p">:</span>
+        <span class="n">save_cursor</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">cursor</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="use-cases-by-tier">
+<h3>Use Cases by Tier<a class="headerlink" href="#use-cases-by-tier" title="Link to this heading"></a></h3>
+<p><strong>Free Tier</strong> (Available Now):</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">revision.created</span></code>: New revision was published</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">edge.created</span></code>: New relationship was created</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">artifact.added</span></code>: Artifact was added to a revision</p></li>
+<li><p>Live dashboard updates</p></li>
+<li><p>Real-time notifications during active sessions</p></li>
+<li><p>Development and testing</p></li>
 </ul>
+<p><strong>Creator Tier</strong> (Coming Soon):</p>
+<ul class="simple">
+<li><p>Overnight batch processing with morning resume</p></li>
+<li><p>Intermittent connectivity scenarios</p></li>
+<li><p>Small team collaboration with reliable delivery</p></li>
+</ul>
+<p><strong>Studio Tier</strong> (Coming Soon):</p>
+<ul class="simple">
+<li><p>Integration with existing Kafka pipelines (BYO Kafka)</p></li>
+<li><p>Render farm job triggering</p></li>
+<li><p>Data warehouse ingestion</p></li>
+</ul>
+<p><strong>Enterprise Tier</strong> (Coming Soon):</p>
+<ul class="simple">
+<li><p>Mission-critical production pipelines</p></li>
+<li><p>Parallel processing with consumer groups</p></li>
+<li><p>Full audit trail with 30-day retention</p></li>
+</ul>
+</section>
 </section>
 <section id="next-steps">
 <h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
