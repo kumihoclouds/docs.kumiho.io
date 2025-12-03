@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="kumiho" href="api/kumiho.html" />
+    <link rel="next" title="MCP Server Integration" href="mcp.html" />
     <link rel="prev" title="Core Concepts" href="concepts.html" /> 
 </head>
 
@@ -64,6 +64,10 @@
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#kref-uris">Kref URIs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#error-handling">Error Handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#ai-assistant-integration-mcp">AI Assistant Integration (MCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#quick-setup">Quick Setup</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -129,6 +133,48 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP Server Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#what-is-mcp">What is MCP?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#running-the-mcp-server">Running the MCP Server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#standalone-mode">Standalone Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#vs-code-github-copilot-integration">VS Code / GitHub Copilot Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#claude-desktop-integration">Claude Desktop Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#available-tools">Available Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#read-operations-14-tools">Read Operations (14 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#graph-traversal-5-tools">Graph Traversal (5 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#create-operations-8-tools">Create Operations (8 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#delete-operations-6-tools">Delete Operations (6 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#update-operations-6-tools">Update Operations (6 tools)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#example-conversations">Example Conversations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#exploring-assets">Exploring Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#dependency-analysis">Dependency Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#asset-management">Asset Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#ai-lineage-tracking">AI Lineage Tracking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#kref-uri-format">Kref URI Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#edge-types">Edge Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#mcp-resources-and-prompts">MCP Resources and Prompts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#resources">Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#prompts">Prompts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#server-won-t-start">Server won’t start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#tools-not-appearing-in-ai-assistant">Tools not appearing in AI assistant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcp.html#authentication-errors">Authentication errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mcp.html#api-reference">API Reference</a></li>
 </ul>
 </li>
 </ul>
@@ -452,6 +498,52 @@
 <li class="toctree-l1"><a class="reference internal" href="api/artifact.html">kumiho.artifact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/edge.html">kumiho.edge</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/kref.html">kumiho.kref</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/mcp_server.html">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_list_projects"><code class="docutils literal notranslate"><span class="pre">tool_list_projects()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_project"><code class="docutils literal notranslate"><span class="pre">tool_get_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_spaces"><code class="docutils literal notranslate"><span class="pre">tool_get_spaces()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_space"><code class="docutils literal notranslate"><span class="pre">tool_get_space()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_item"><code class="docutils literal notranslate"><span class="pre">tool_get_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_revision"><code class="docutils literal notranslate"><span class="pre">tool_get_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_artifacts"><code class="docutils literal notranslate"><span class="pre">tool_get_artifacts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_artifact"><code class="docutils literal notranslate"><span class="pre">tool_get_artifact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_bundle"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_search_items"><code class="docutils literal notranslate"><span class="pre">tool_search_items()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_dependencies"><code class="docutils literal notranslate"><span class="pre">tool_get_dependencies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_dependents"><code class="docutils literal notranslate"><span class="pre">tool_get_dependents()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_analyze_impact"><code class="docutils literal notranslate"><span class="pre">tool_analyze_impact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_find_path"><code class="docutils literal notranslate"><span class="pre">tool_find_path()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_edges"><code class="docutils literal notranslate"><span class="pre">tool_get_edges()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_resolve_kref"><code class="docutils literal notranslate"><span class="pre">tool_resolve_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_artifacts_by_location"><code class="docutils literal notranslate"><span class="pre">tool_get_artifacts_by_location()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_item_revisions"><code class="docutils literal notranslate"><span class="pre">tool_get_item_revisions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_by_tag()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_revision"><code class="docutils literal notranslate"><span class="pre">tool_create_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_tag_revision"><code class="docutils literal notranslate"><span class="pre">tool_tag_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_edge"><code class="docutils literal notranslate"><span class="pre">tool_create_edge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_project"><code class="docutils literal notranslate"><span class="pre">tool_create_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_space"><code class="docutils literal notranslate"><span class="pre">tool_create_space()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_item"><code class="docutils literal notranslate"><span class="pre">tool_create_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_artifact"><code class="docutils literal notranslate"><span class="pre">tool_create_artifact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_bundle"><code class="docutils literal notranslate"><span class="pre">tool_create_bundle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_delete_project"><code class="docutils literal notranslate"><span class="pre">tool_delete_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_delete_space"><code class="docutils literal notranslate"><span class="pre">tool_delete_space()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_delete_item"><code class="docutils literal notranslate"><span class="pre">tool_delete_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_delete_revision"><code class="docutils literal notranslate"><span class="pre">tool_delete_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_delete_artifact"><code class="docutils literal notranslate"><span class="pre">tool_delete_artifact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_delete_edge"><code class="docutils literal notranslate"><span class="pre">tool_delete_edge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_untag_revision"><code class="docutils literal notranslate"><span class="pre">tool_untag_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_set_metadata"><code class="docutils literal notranslate"><span class="pre">tool_set_metadata()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_deprecate_item"><code class="docutils literal notranslate"><span class="pre">tool_deprecate_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_add_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_add_bundle_member()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_remove_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_remove_bundle_member()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_bundle_members"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle_members()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.create_mcp_server"><code class="docutils literal notranslate"><span class="pre">create_mcp_server()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.run_server"><code class="docutils literal notranslate"><span class="pre">run_server()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#tool-definitions">Tool Definitions</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
@@ -731,7 +823,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="concepts.html" class="btn btn-neutral float-left" title="Core Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api/kumiho.html" class="btn btn-neutral float-right" title="kumiho" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="mcp.html" class="btn btn-neutral float-right" title="MCP Server Integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

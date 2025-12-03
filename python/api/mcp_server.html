@@ -1,0 +1,1404 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCP Server &mdash; Kumiho Python SDK v0.3.0</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Changelog" href="../changelog.html" />
+    <link rel="prev" title="kumiho.kref" href="kref.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Kumiho Python SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#authentication">Authentication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#using-the-cli">Using the CLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#programmatic-authentication">Programmatic Authentication</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#basic-concepts">Basic Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#projects">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#spaces">Spaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#items">Items</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#revisions">Revisions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#artifacts">Artifacts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#edges">Edges</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#bundles">Bundles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#kref-uris">Kref URIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#ai-assistant-integration-mcp">AI Assistant Integration (MCP)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#quick-setup">Quick Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#graph-native-architecture">Graph-Native Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#entity-hierarchy">Entity Hierarchy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#project">Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#space">Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#item">Item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#revision">Revision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#artifact">Artifact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#edge">Edge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#graph-traversal">Graph Traversal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#bundle">Bundle</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#metadata">Metadata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#setting-metadata">Setting Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#granular-attribute-operations">Granular Attribute Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#common-metadata-patterns">Common Metadata Patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#kref-uri-scheme">Kref URI Scheme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#time-based-revision-queries">Time-Based Revision Queries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#why-time-based-queries-matter">Why Time-Based Queries Matter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#using-get-revision-by-time">Using <code class="docutils literal notranslate"><span class="pre">get_revision_by_time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#time-based-kref-uris">Time-Based Kref URIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#practical-examples">Practical Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#tags-and-time">Tags and Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#byo-storage-philosophy">BYO Storage Philosophy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#event-streaming">Event Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication.html">Authentication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#cli-authentication">CLI Authentication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#cached-credentials">Cached Credentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#refreshing-tokens">Refreshing Tokens</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#programmatic-authentication">Programmatic Authentication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#with-firebase-id-token">With Firebase ID Token</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#with-environment-variables">With Environment Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#future-authentication-methods">Future Authentication Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#discovery-flow">Discovery Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#discovery-response">Discovery Response</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#token-refresh">Token Refresh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#multiple-tenants">Multiple Tenants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#security-best-practices">Security Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#token-expired">Token Expired</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#invalid-tenant">Invalid Tenant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../authentication.html#connection-failed">Connection Failed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../authentication.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mcp.html">MCP Server Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#what-is-mcp">What is MCP?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#authentication">Authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#running-the-mcp-server">Running the MCP Server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#standalone-mode">Standalone Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#vs-code-github-copilot-integration">VS Code / GitHub Copilot Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#claude-desktop-integration">Claude Desktop Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#available-tools">Available Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#read-operations-14-tools">Read Operations (14 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#graph-traversal-5-tools">Graph Traversal (5 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#create-operations-8-tools">Create Operations (8 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#delete-operations-6-tools">Delete Operations (6 tools)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#update-operations-6-tools">Update Operations (6 tools)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#example-conversations">Example Conversations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#exploring-assets">Exploring Assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#dependency-analysis">Dependency Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#asset-management">Asset Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#ai-lineage-tracking">AI Lineage Tracking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#kref-uri-format">Kref URI Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#edge-types">Edge Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#mcp-resources-and-prompts">MCP Resources and Prompts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#resources">Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#prompts">Prompts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#server-won-t-start">Server won’t start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#tools-not-appearing-in-ai-assistant">Tools not appearing in AI assistant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mcp.html#authentication-errors">Authentication errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mcp.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="kumiho.html">kumiho</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.LATEST_TAG"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.PUBLISHED_TAG"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.KumihoObject"><code class="docutils literal notranslate"><span class="pre">KumihoObject</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.KumihoObject._client"><code class="docutils literal notranslate"><span class="pre">KumihoObject._client</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.KumihoObject.__init__"><code class="docutils literal notranslate"><span class="pre">KumihoObject.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.KumihoError"><code class="docutils literal notranslate"><span class="pre">KumihoError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.project_id"><code class="docutils literal notranslate"><span class="pre">Project.project_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.description"><code class="docutils literal notranslate"><span class="pre">Project.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.created_at"><code class="docutils literal notranslate"><span class="pre">Project.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.updated_at"><code class="docutils literal notranslate"><span class="pre">Project.updated_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.deprecated"><code class="docutils literal notranslate"><span class="pre">Project.deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.allow_public"><code class="docutils literal notranslate"><span class="pre">Project.allow_public</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.__init__"><code class="docutils literal notranslate"><span class="pre">Project.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.__repr__"><code class="docutils literal notranslate"><span class="pre">Project.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.create_bundle"><code class="docutils literal notranslate"><span class="pre">Project.create_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.create_item"><code class="docutils literal notranslate"><span class="pre">Project.create_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.create_space"><code class="docutils literal notranslate"><span class="pre">Project.create_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_bundle"><code class="docutils literal notranslate"><span class="pre">Project.get_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_item"><code class="docutils literal notranslate"><span class="pre">Project.get_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_space"><code class="docutils literal notranslate"><span class="pre">Project.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.get_spaces"><code class="docutils literal notranslate"><span class="pre">Project.get_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.set_public"><code class="docutils literal notranslate"><span class="pre">Project.set_public()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Project.update"><code class="docutils literal notranslate"><span class="pre">Project.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.path"><code class="docutils literal notranslate"><span class="pre">Space.path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.name"><code class="docutils literal notranslate"><span class="pre">Space.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.type"><code class="docutils literal notranslate"><span class="pre">Space.type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.created_at"><code class="docutils literal notranslate"><span class="pre">Space.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.author"><code class="docutils literal notranslate"><span class="pre">Space.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.metadata"><code class="docutils literal notranslate"><span class="pre">Space.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.username"><code class="docutils literal notranslate"><span class="pre">Space.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.__init__"><code class="docutils literal notranslate"><span class="pre">Space.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.__repr__"><code class="docutils literal notranslate"><span class="pre">Space.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.create_bundle"><code class="docutils literal notranslate"><span class="pre">Space.create_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.create_item"><code class="docutils literal notranslate"><span class="pre">Space.create_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.create_space"><code class="docutils literal notranslate"><span class="pre">Space.create_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.delete"><code class="docutils literal notranslate"><span class="pre">Space.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Space.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_attribute"><code class="docutils literal notranslate"><span class="pre">Space.get_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_bundle"><code class="docutils literal notranslate"><span class="pre">Space.get_bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_child_spaces"><code class="docutils literal notranslate"><span class="pre">Space.get_child_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_item"><code class="docutils literal notranslate"><span class="pre">Space.get_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_items"><code class="docutils literal notranslate"><span class="pre">Space.get_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_parent_space"><code class="docutils literal notranslate"><span class="pre">Space.get_parent_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_project"><code class="docutils literal notranslate"><span class="pre">Space.get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_space"><code class="docutils literal notranslate"><span class="pre">Space.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.get_spaces"><code class="docutils literal notranslate"><span class="pre">Space.get_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.set_attribute"><code class="docutils literal notranslate"><span class="pre">Space.set_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Space.set_metadata"><code class="docutils literal notranslate"><span class="pre">Space.set_metadata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Item"><code class="docutils literal notranslate"><span class="pre">Item</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.kref"><code class="docutils literal notranslate"><span class="pre">Item.kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.name"><code class="docutils literal notranslate"><span class="pre">Item.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.item_name"><code class="docutils literal notranslate"><span class="pre">Item.item_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.kind"><code class="docutils literal notranslate"><span class="pre">Item.kind</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.created_at"><code class="docutils literal notranslate"><span class="pre">Item.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.author"><code class="docutils literal notranslate"><span class="pre">Item.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.metadata"><code class="docutils literal notranslate"><span class="pre">Item.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.deprecated"><code class="docutils literal notranslate"><span class="pre">Item.deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.username"><code class="docutils literal notranslate"><span class="pre">Item.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.__init__"><code class="docutils literal notranslate"><span class="pre">Item.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.__repr__"><code class="docutils literal notranslate"><span class="pre">Item.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.create_revision"><code class="docutils literal notranslate"><span class="pre">Item.create_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.delete"><code class="docutils literal notranslate"><span class="pre">Item.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Item.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_attribute"><code class="docutils literal notranslate"><span class="pre">Item.get_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_latest_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_project"><code class="docutils literal notranslate"><span class="pre">Item.get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_revision_by_time"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_revisions"><code class="docutils literal notranslate"><span class="pre">Item.get_revisions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.get_space"><code class="docutils literal notranslate"><span class="pre">Item.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.peek_next_revision"><code class="docutils literal notranslate"><span class="pre">Item.peek_next_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.set_attribute"><code class="docutils literal notranslate"><span class="pre">Item.set_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Item.set_deprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.set_metadata"><code class="docutils literal notranslate"><span class="pre">Item.set_metadata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Revision"><code class="docutils literal notranslate"><span class="pre">Revision</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.kref"><code class="docutils literal notranslate"><span class="pre">Revision.kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.item_kref"><code class="docutils literal notranslate"><span class="pre">Revision.item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.number"><code class="docutils literal notranslate"><span class="pre">Revision.number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.latest"><code class="docutils literal notranslate"><span class="pre">Revision.latest</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.tags"><code class="docutils literal notranslate"><span class="pre">Revision.tags</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.metadata"><code class="docutils literal notranslate"><span class="pre">Revision.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.created_at"><code class="docutils literal notranslate"><span class="pre">Revision.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.author"><code class="docutils literal notranslate"><span class="pre">Revision.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.deprecated"><code class="docutils literal notranslate"><span class="pre">Revision.deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.published"><code class="docutils literal notranslate"><span class="pre">Revision.published</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.username"><code class="docutils literal notranslate"><span class="pre">Revision.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.default_artifact"><code class="docutils literal notranslate"><span class="pre">Revision.default_artifact</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.__init__"><code class="docutils literal notranslate"><span class="pre">Revision.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.__repr__"><code class="docutils literal notranslate"><span class="pre">Revision.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.analyze_impact"><code class="docutils literal notranslate"><span class="pre">Revision.analyze_impact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.create_artifact"><code class="docutils literal notranslate"><span class="pre">Revision.create_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.create_edge"><code class="docutils literal notranslate"><span class="pre">Revision.create_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.delete"><code class="docutils literal notranslate"><span class="pre">Revision.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Revision.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.delete_edge"><code class="docutils literal notranslate"><span class="pre">Revision.delete_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.find_path_to"><code class="docutils literal notranslate"><span class="pre">Revision.find_path_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_all_dependencies"><code class="docutils literal notranslate"><span class="pre">Revision.get_all_dependencies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_all_dependents"><code class="docutils literal notranslate"><span class="pre">Revision.get_all_dependents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_artifact"><code class="docutils literal notranslate"><span class="pre">Revision.get_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_artifacts"><code class="docutils literal notranslate"><span class="pre">Revision.get_artifacts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_attribute"><code class="docutils literal notranslate"><span class="pre">Revision.get_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_edges"><code class="docutils literal notranslate"><span class="pre">Revision.get_edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_item"><code class="docutils literal notranslate"><span class="pre">Revision.get_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_locations"><code class="docutils literal notranslate"><span class="pre">Revision.get_locations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_project"><code class="docutils literal notranslate"><span class="pre">Revision.get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.get_space"><code class="docutils literal notranslate"><span class="pre">Revision.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.has_tag"><code class="docutils literal notranslate"><span class="pre">Revision.has_tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.refresh"><code class="docutils literal notranslate"><span class="pre">Revision.refresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.set_attribute"><code class="docutils literal notranslate"><span class="pre">Revision.set_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.set_default_artifact"><code class="docutils literal notranslate"><span class="pre">Revision.set_default_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Revision.set_deprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.set_metadata"><code class="docutils literal notranslate"><span class="pre">Revision.set_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.tag"><code class="docutils literal notranslate"><span class="pre">Revision.tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id0"><code class="docutils literal notranslate"><span class="pre">Revision.tags</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.untag"><code class="docutils literal notranslate"><span class="pre">Revision.untag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Revision.was_tagged"><code class="docutils literal notranslate"><span class="pre">Revision.was_tagged()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Artifact"><code class="docutils literal notranslate"><span class="pre">Artifact</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.kref"><code class="docutils literal notranslate"><span class="pre">Artifact.kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.location"><code class="docutils literal notranslate"><span class="pre">Artifact.location</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.revision_kref"><code class="docutils literal notranslate"><span class="pre">Artifact.revision_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.item_kref"><code class="docutils literal notranslate"><span class="pre">Artifact.item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.created_at"><code class="docutils literal notranslate"><span class="pre">Artifact.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.author"><code class="docutils literal notranslate"><span class="pre">Artifact.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.metadata"><code class="docutils literal notranslate"><span class="pre">Artifact.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.deprecated"><code class="docutils literal notranslate"><span class="pre">Artifact.deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.username"><code class="docutils literal notranslate"><span class="pre">Artifact.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.__init__"><code class="docutils literal notranslate"><span class="pre">Artifact.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.__repr__"><code class="docutils literal notranslate"><span class="pre">Artifact.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.delete"><code class="docutils literal notranslate"><span class="pre">Artifact.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.delete_attribute"><code class="docutils literal notranslate"><span class="pre">Artifact.delete_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.get_attribute"><code class="docutils literal notranslate"><span class="pre">Artifact.get_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.get_item"><code class="docutils literal notranslate"><span class="pre">Artifact.get_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.get_project"><code class="docutils literal notranslate"><span class="pre">Artifact.get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.get_revision"><code class="docutils literal notranslate"><span class="pre">Artifact.get_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.get_space"><code class="docutils literal notranslate"><span class="pre">Artifact.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.name"><code class="docutils literal notranslate"><span class="pre">Artifact.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.set_attribute"><code class="docutils literal notranslate"><span class="pre">Artifact.set_attribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.set_default"><code class="docutils literal notranslate"><span class="pre">Artifact.set_default()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.set_deprecated"><code class="docutils literal notranslate"><span class="pre">Artifact.set_deprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Artifact.set_metadata"><code class="docutils literal notranslate"><span class="pre">Artifact.set_metadata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Edge"><code class="docutils literal notranslate"><span class="pre">Edge</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.source_kref"><code class="docutils literal notranslate"><span class="pre">Edge.source_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.target_kref"><code class="docutils literal notranslate"><span class="pre">Edge.target_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.edge_type"><code class="docutils literal notranslate"><span class="pre">Edge.edge_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.metadata"><code class="docutils literal notranslate"><span class="pre">Edge.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.created_at"><code class="docutils literal notranslate"><span class="pre">Edge.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.author"><code class="docutils literal notranslate"><span class="pre">Edge.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.username"><code class="docutils literal notranslate"><span class="pre">Edge.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.__init__"><code class="docutils literal notranslate"><span class="pre">Edge.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.__repr__"><code class="docutils literal notranslate"><span class="pre">Edge.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Edge.delete"><code class="docutils literal notranslate"><span class="pre">Edge.delete()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Kref"><code class="docutils literal notranslate"><span class="pre">Kref</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.uri"><code class="docutils literal notranslate"><span class="pre">Kref.uri</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.__eq__"><code class="docutils literal notranslate"><span class="pre">Kref.__eq__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.__hash__"><code class="docutils literal notranslate"><span class="pre">Kref.__hash__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.__new__"><code class="docutils literal notranslate"><span class="pre">Kref.__new__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.__repr__"><code class="docutils literal notranslate"><span class="pre">Kref.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.from_pb"><code class="docutils literal notranslate"><span class="pre">Kref.from_pb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.get_artifact_name"><code class="docutils literal notranslate"><span class="pre">Kref.get_artifact_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.get_item_name"><code class="docutils literal notranslate"><span class="pre">Kref.get_item_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.get_kind"><code class="docutils literal notranslate"><span class="pre">Kref.get_kind()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.get_path"><code class="docutils literal notranslate"><span class="pre">Kref.get_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.get_revision"><code class="docutils literal notranslate"><span class="pre">Kref.get_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.get_space"><code class="docutils literal notranslate"><span class="pre">Kref.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Kref.to_pb"><code class="docutils literal notranslate"><span class="pre">Kref.to_pb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id1"><code class="docutils literal notranslate"><span class="pre">Kref.uri</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Event.routing_key"><code class="docutils literal notranslate"><span class="pre">Event.routing_key</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Event.kref"><code class="docutils literal notranslate"><span class="pre">Event.kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Event.timestamp"><code class="docutils literal notranslate"><span class="pre">Event.timestamp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Event.author"><code class="docutils literal notranslate"><span class="pre">Event.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Event.details"><code class="docutils literal notranslate"><span class="pre">Event.details</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Event.__init__"><code class="docutils literal notranslate"><span class="pre">Event.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Event.__repr__"><code class="docutils literal notranslate"><span class="pre">Event.__repr__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.ProjectLimitError"><code class="docutils literal notranslate"><span class="pre">ProjectLimitError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.Bundle"><code class="docutils literal notranslate"><span class="pre">Bundle</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.kref"><code class="docutils literal notranslate"><span class="pre">Bundle.kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.name"><code class="docutils literal notranslate"><span class="pre">Bundle.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.item_name"><code class="docutils literal notranslate"><span class="pre">Bundle.item_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.kind"><code class="docutils literal notranslate"><span class="pre">Bundle.kind</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.metadata"><code class="docutils literal notranslate"><span class="pre">Bundle.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.created_at"><code class="docutils literal notranslate"><span class="pre">Bundle.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.author"><code class="docutils literal notranslate"><span class="pre">Bundle.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.username"><code class="docutils literal notranslate"><span class="pre">Bundle.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.deprecated"><code class="docutils literal notranslate"><span class="pre">Bundle.deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.__init__"><code class="docutils literal notranslate"><span class="pre">Bundle.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.__repr__"><code class="docutils literal notranslate"><span class="pre">Bundle.__repr__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.add_member"><code class="docutils literal notranslate"><span class="pre">Bundle.add_member()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.get_history"><code class="docutils literal notranslate"><span class="pre">Bundle.get_history()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.get_members"><code class="docutils literal notranslate"><span class="pre">Bundle.get_members()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Bundle.remove_member"><code class="docutils literal notranslate"><span class="pre">Bundle.remove_member()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.BundleMember"><code class="docutils literal notranslate"><span class="pre">BundleMember</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleMember.item_kref"><code class="docutils literal notranslate"><span class="pre">BundleMember.item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleMember.added_at"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleMember.added_by"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleMember.added_by_username"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleMember.added_in_revision"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_in_revision</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleMember.__init__"><code class="docutils literal notranslate"><span class="pre">BundleMember.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id2"><code class="docutils literal notranslate"><span class="pre">BundleMember.item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id3"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id4"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id5"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id6"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_in_revision</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.revision_number"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.revision_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.action"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.member_item_kref"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.member_item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.author"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.username"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.created_at"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.metadata"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.BundleRevisionHistory.__init__"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id7"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.revision_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id8"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id9"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.member_item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id10"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id11"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id12"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id13"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.metadata</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.ReservedKindError"><code class="docutils literal notranslate"><span class="pre">ReservedKindError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.KrefValidationError"><code class="docutils literal notranslate"><span class="pre">KrefValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.EdgeTypeValidationError"><code class="docutils literal notranslate"><span class="pre">EdgeTypeValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.validate_kref"><code class="docutils literal notranslate"><span class="pre">validate_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.validate_edge_type"><code class="docutils literal notranslate"><span class="pre">validate_edge_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.is_valid_kref"><code class="docutils literal notranslate"><span class="pre">is_valid_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.is_valid_edge_type"><code class="docutils literal notranslate"><span class="pre">is_valid_edge_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.use_client"><code class="docutils literal notranslate"><span class="pre">use_client</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.use_client.__init__"><code class="docutils literal notranslate"><span class="pre">use_client.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.use_client.__enter__"><code class="docutils literal notranslate"><span class="pre">use_client.__enter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.use_client.__exit__"><code class="docutils literal notranslate"><span class="pre">use_client.__exit__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#id14"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#id15"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeType.BELONGS_TO"><code class="docutils literal notranslate"><span class="pre">EdgeType.BELONGS_TO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeType.CREATED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.CREATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeType.REFERENCED"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeType.DEPENDS_ON"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeType.DERIVED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeType.CONTAINS"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id16"><code class="docutils literal notranslate"><span class="pre">EdgeType.BELONGS_TO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id17"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id18"><code class="docutils literal notranslate"><span class="pre">EdgeType.CREATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id19"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id20"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id21"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.EdgeDirection"><code class="docutils literal notranslate"><span class="pre">EdgeDirection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeDirection.OUTGOING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeDirection.INCOMING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.EdgeDirection.BOTH"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id22"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_projects"><code class="docutils literal notranslate"><span class="pre">get_projects()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.item_search"><code class="docutils literal notranslate"><span class="pre">item_search()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_item"><code class="docutils literal notranslate"><span class="pre">get_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_bundle"><code class="docutils literal notranslate"><span class="pre">get_bundle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_revision"><code class="docutils literal notranslate"><span class="pre">get_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_artifact"><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_artifacts_by_location"><code class="docutils literal notranslate"><span class="pre">get_artifacts_by_location()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.set_attribute"><code class="docutils literal notranslate"><span class="pre">set_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.get_attribute"><code class="docutils literal notranslate"><span class="pre">get_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.delete_attribute"><code class="docutils literal notranslate"><span class="pre">delete_attribute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.event_stream"><code class="docutils literal notranslate"><span class="pre">event_stream()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="project.html">kumiho.project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="space.html">kumiho.space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item.html">kumiho.item</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bundle.html">kumiho.bundle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="revision.html">kumiho.revision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="artifact.html">kumiho.artifact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edge.html">kumiho.edge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kref.html">kumiho.kref</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MCP Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_list_projects"><code class="docutils literal notranslate"><span class="pre">tool_list_projects()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_project"><code class="docutils literal notranslate"><span class="pre">tool_get_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_spaces"><code class="docutils literal notranslate"><span class="pre">tool_get_spaces()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_space"><code class="docutils literal notranslate"><span class="pre">tool_get_space()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_item"><code class="docutils literal notranslate"><span class="pre">tool_get_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_revision"><code class="docutils literal notranslate"><span class="pre">tool_get_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_artifacts"><code class="docutils literal notranslate"><span class="pre">tool_get_artifacts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_artifact"><code class="docutils literal notranslate"><span class="pre">tool_get_artifact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_bundle"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_search_items"><code class="docutils literal notranslate"><span class="pre">tool_search_items()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_dependencies"><code class="docutils literal notranslate"><span class="pre">tool_get_dependencies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_dependents"><code class="docutils literal notranslate"><span class="pre">tool_get_dependents()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_analyze_impact"><code class="docutils literal notranslate"><span class="pre">tool_analyze_impact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_find_path"><code class="docutils literal notranslate"><span class="pre">tool_find_path()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_edges"><code class="docutils literal notranslate"><span class="pre">tool_get_edges()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_resolve_kref"><code class="docutils literal notranslate"><span class="pre">tool_resolve_kref()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_artifacts_by_location"><code class="docutils literal notranslate"><span class="pre">tool_get_artifacts_by_location()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_item_revisions"><code class="docutils literal notranslate"><span class="pre">tool_get_item_revisions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_by_tag()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_create_revision"><code class="docutils literal notranslate"><span class="pre">tool_create_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_tag_revision"><code class="docutils literal notranslate"><span class="pre">tool_tag_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_create_edge"><code class="docutils literal notranslate"><span class="pre">tool_create_edge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_create_project"><code class="docutils literal notranslate"><span class="pre">tool_create_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_create_space"><code class="docutils literal notranslate"><span class="pre">tool_create_space()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_create_item"><code class="docutils literal notranslate"><span class="pre">tool_create_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_create_artifact"><code class="docutils literal notranslate"><span class="pre">tool_create_artifact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_create_bundle"><code class="docutils literal notranslate"><span class="pre">tool_create_bundle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_delete_project"><code class="docutils literal notranslate"><span class="pre">tool_delete_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_delete_space"><code class="docutils literal notranslate"><span class="pre">tool_delete_space()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_delete_item"><code class="docutils literal notranslate"><span class="pre">tool_delete_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_delete_revision"><code class="docutils literal notranslate"><span class="pre">tool_delete_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_delete_artifact"><code class="docutils literal notranslate"><span class="pre">tool_delete_artifact()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_delete_edge"><code class="docutils literal notranslate"><span class="pre">tool_delete_edge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_untag_revision"><code class="docutils literal notranslate"><span class="pre">tool_untag_revision()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_set_metadata"><code class="docutils literal notranslate"><span class="pre">tool_set_metadata()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_deprecate_item"><code class="docutils literal notranslate"><span class="pre">tool_deprecate_item()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_add_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_add_bundle_member()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_remove_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_remove_bundle_member()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_bundle_members"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle_members()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.create_mcp_server"><code class="docutils literal notranslate"><span class="pre">create_mcp_server()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.run_server"><code class="docutils literal notranslate"><span class="pre">run_server()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tool-definitions">Tool Definitions</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id2">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Kumiho Python SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MCP Server</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/mcp_server.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mcp-server">
+<h1>MCP Server<a class="headerlink" href="#mcp-server" title="Link to this heading"></a></h1>
+<p>The MCP (Model Context Protocol) server module enables AI assistants to interact
+with Kumiho Cloud.</p>
+<p>For usage documentation, see <a class="reference internal" href="../mcp.html"><span class="doc">MCP Server Integration</span></a>.</p>
+<p id="module-kumiho.mcp_server">Kumiho MCP Server - Model Context Protocol integration for Kumiho Cloud.</p>
+<p>This module provides an MCP (Model Context Protocol) server that exposes
+Kumiho Cloud functionality to AI assistants like GitHub Copilot, Claude,
+and other MCP-compatible clients.</p>
+<p>The server enables AI assistants to:
+- Query and navigate asset graphs
+- Analyze dependencies and impact
+- Search for items across projects
+- Track AI lineage and provenance
+- Manage revisions and artifacts</p>
+<dl>
+<dt>Usage:</dt><dd><p>Run as a standalone server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">mcp_server</span>
+</pre></div>
+</div>
+<p>Or use the CLI entry point:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kumiho</span><span class="o">-</span><span class="n">mcp</span>
+</pre></div>
+</div>
+</dd>
+<dt>Configuration:</dt><dd><p>The MCP server uses the same authentication as the Kumiho SDK.
+Run <code class="docutils literal notranslate"><span class="pre">kumiho-auth</span> <span class="pre">login</span></code> first to cache credentials.</p>
+</dd>
+<dt>Environment Variables:</dt><dd><p>KUMIHO_MCP_LOG_LEVEL: Log level (DEBUG, INFO, WARNING, ERROR). Default: INFO</p>
+</dd>
+</dl>
+<p>Example MCP client configuration (VS Code settings.json):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;mcp&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;servers&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;kumiho&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;kumiho-mcp&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_list_projects">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_list_projects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_list_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_list_projects" title="Link to this definition"></a></dt>
+<dd><p>List all projects accessible to the current user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_project">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_project" title="Link to this definition"></a></dt>
+<dd><p>Get a project by name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_spaces">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_spaces" title="Link to this definition"></a></dt>
+<dd><p>Get spaces within a project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>project_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>recursive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_space">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_space" title="Link to this definition"></a></dt>
+<dd><p>Get a space by its path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>space_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_item">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_item" title="Link to this definition"></a></dt>
+<dd><p>Get an item by its kref URI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_revision">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_revision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_revision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_revision" title="Link to this definition"></a></dt>
+<dd><p>Get a revision by its kref URI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_artifacts">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_artifacts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_artifacts" title="Link to this definition"></a></dt>
+<dd><p>Get all artifacts for a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_artifact">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifact_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_artifact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_artifact" title="Link to this definition"></a></dt>
+<dd><p>Get a single artifact by its kref URI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>artifact_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_bundle">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_bundle" title="Link to this definition"></a></dt>
+<dd><p>Get a bundle by its kref URI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>bundle_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_search_items">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_search_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_search_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_search_items" title="Link to this definition"></a></dt>
+<dd><p>Search for items across projects and spaces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>context_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>name_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>kind_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_dependencies">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_dependencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_dependencies" title="Link to this definition"></a></dt>
+<dd><p>Get all dependencies of a revision (what it depends on).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>edge_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_dependents">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_dependents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_dependents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_dependents" title="Link to this definition"></a></dt>
+<dd><p>Get all dependents of a revision (what depends on it).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>edge_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_analyze_impact">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_analyze_impact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_analyze_impact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_analyze_impact" title="Link to this definition"></a></dt>
+<dd><p>Analyze the impact of changes to a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>edge_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_find_path">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_find_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_find_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_find_path" title="Link to this definition"></a></dt>
+<dd><p>Find the shortest path between two revisions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>source_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>target_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>edge_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_edges">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_edges" title="Link to this definition"></a></dt>
+<dd><p>Get edges for a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>edge_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_resolve_kref">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_resolve_kref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_resolve_kref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_resolve_kref" title="Link to this definition"></a></dt>
+<dd><p>Resolve a kref URI to a file location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_artifacts_by_location">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_artifacts_by_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_artifacts_by_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_artifacts_by_location" title="Link to this definition"></a></dt>
+<dd><p>Find all artifacts at a specific file location (reverse lookup).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_item_revisions">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_item_revisions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_item_revisions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_item_revisions" title="Link to this definition"></a></dt>
+<dd><p>Get all revisions for an item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_revision_by_tag">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_revision_by_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_revision_by_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_revision_by_tag" title="Link to this definition"></a></dt>
+<dd><p>Get a revision by tag (e.g., ‘latest’, ‘published’, ‘approved’).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_create_revision">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_create_revision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_create_revision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_create_revision" title="Link to this definition"></a></dt>
+<dd><p>Create a new revision for an item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_tag_revision">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_tag_revision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_tag_revision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_tag_revision" title="Link to this definition"></a></dt>
+<dd><p>Apply a tag to a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_create_edge">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_create_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_create_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_create_edge" title="Link to this definition"></a></dt>
+<dd><p>Create an edge between two revisions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>source_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>target_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>edge_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_create_project">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_create_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_create_project" title="Link to this definition"></a></dt>
+<dd><p>Create a new Kumiho project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>allow_public</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_create_space">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_create_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_create_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_create_space" title="Link to this definition"></a></dt>
+<dd><p>Create a new space within a project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>project_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>space_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>parent_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_create_item">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_create_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_create_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_create_item" title="Link to this definition"></a></dt>
+<dd><p>Create a new item within a space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>space_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>item_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_create_artifact">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_create_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_create_artifact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_create_artifact" title="Link to this definition"></a></dt>
+<dd><p>Create an artifact for a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>location</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_create_bundle">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_create_bundle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bundle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_create_bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_create_bundle" title="Link to this definition"></a></dt>
+<dd><p>Create a new bundle within a space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>space_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>bundle_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_delete_project">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_delete_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_delete_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_delete_project" title="Link to this definition"></a></dt>
+<dd><p>Delete a project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>project_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_delete_space">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_delete_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_delete_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_delete_space" title="Link to this definition"></a></dt>
+<dd><p>Delete a space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>space_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_delete_item">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_delete_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_delete_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_delete_item" title="Link to this definition"></a></dt>
+<dd><p>Delete an item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_delete_revision">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_delete_revision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_delete_revision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_delete_revision" title="Link to this definition"></a></dt>
+<dd><p>Delete a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_delete_artifact">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_delete_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifact_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_delete_artifact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_delete_artifact" title="Link to this definition"></a></dt>
+<dd><p>Delete an artifact.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>artifact_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_delete_edge">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_delete_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_delete_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_delete_edge" title="Link to this definition"></a></dt>
+<dd><p>Delete an edge between two revisions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>source_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>target_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>edge_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_untag_revision">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_untag_revision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_untag_revision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_untag_revision" title="Link to this definition"></a></dt>
+<dd><p>Remove a tag from a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>tag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_set_metadata">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_set_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_set_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_set_metadata" title="Link to this definition"></a></dt>
+<dd><p>Set metadata on an item or revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_deprecate_item">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_deprecate_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deprecated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_deprecate_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_deprecate_item" title="Link to this definition"></a></dt>
+<dd><p>Set the deprecated status of an item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>deprecated</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_add_bundle_member">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_add_bundle_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_add_bundle_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_add_bundle_member" title="Link to this definition"></a></dt>
+<dd><p>Add an item to a bundle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>bundle_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_remove_bundle_member">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_remove_bundle_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_remove_bundle_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_remove_bundle_member" title="Link to this definition"></a></dt>
+<dd><p>Remove an item from a bundle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>bundle_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_bundle_members">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_bundle_members</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bundle_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_bundle_members"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_bundle_members" title="Link to this definition"></a></dt>
+<dd><p>Get all members of a bundle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>bundle_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.create_mcp_server">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">create_mcp_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#create_mcp_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.create_mcp_server" title="Link to this definition"></a></dt>
+<dd><p>Create and configure the Kumiho MCP server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.run_server">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">run_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#run_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.run_server" title="Link to this definition"></a></dt>
+<dd><p>Run the MCP server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.main">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.main" title="Link to this definition"></a></dt>
+<dd><p>Entry point for the MCP server CLI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="tool-definitions">
+<h2>Tool Definitions<a class="headerlink" href="#tool-definitions" title="Link to this heading"></a></h2>
+<p>The MCP server exposes 39 tools for interacting with Kumiho Cloud:</p>
+<p><strong>Read Operations:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_list_projects</span></code> - List all accessible projects</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_project</span></code> - Get project by name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_spaces</span></code> - Get spaces in a project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_space</span></code> - Get a space by path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_item</span></code> - Get item by kref</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_search_items</span></code> - Search items with filters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_item_revisions</span></code> - Get all revisions for an item</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_revision</span></code> - Get revision by kref</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_revision_by_tag</span></code> - Get revision by tag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_artifacts</span></code> - Get artifacts for a revision</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_artifact</span></code> - Get artifact by kref</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_bundle</span></code> - Get bundle by kref</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_resolve_kref</span></code> - Resolve kref to file location</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_artifacts_by_location</span></code> - Reverse lookup by file path</p></li>
+</ul>
+<p><strong>Graph Operations:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_dependencies</span></code> - Get what a revision depends on</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_dependents</span></code> - Get what depends on a revision</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_analyze_impact</span></code> - Analyze downstream impact</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_find_path</span></code> - Find path between revisions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_edges</span></code> - Get edges for a revision</p></li>
+</ul>
+<p><strong>Create Operations:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_create_project</span></code> - Create a new project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_create_space</span></code> - Create a space</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_create_item</span></code> - Create an item</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_create_revision</span></code> - Create a revision</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_create_artifact</span></code> - Create an artifact</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_create_bundle</span></code> - Create a bundle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_create_edge</span></code> - Create a relationship</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_tag_revision</span></code> - Tag a revision</p></li>
+</ul>
+<p><strong>Delete Operations:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_delete_project</span></code> - Delete a project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_delete_space</span></code> - Delete a space</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_delete_item</span></code> - Delete an item</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_delete_revision</span></code> - Delete a revision</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_delete_artifact</span></code> - Delete an artifact</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_delete_edge</span></code> - Delete a relationship</p></li>
+</ul>
+<p><strong>Update Operations:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_untag_revision</span></code> - Remove a tag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_set_metadata</span></code> - Set metadata</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_deprecate_item</span></code> - Deprecate an item</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_add_bundle_member</span></code> - Add item to bundle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_remove_bundle_member</span></code> - Remove item from bundle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kumiho_get_bundle_members</span></code> - List bundle members</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="kref.html" class="btn btn-neutral float-left" title="kumiho.kref" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Kumiho Clouds.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
