@@ -485,6 +485,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.get_tenant_info"><code class="docutils literal notranslate"><span class="pre">get_tenant_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.get_tenant_slug"><code class="docutils literal notranslate"><span class="pre">get_tenant_slug()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.get_projects"><code class="docutils literal notranslate"><span class="pre">get_projects()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
@@ -5806,6 +5808,83 @@ outgoing edges (from source), incoming edges (to target), or both.</p>
 <dd><p>Edges where the queried revision is the source.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.get_tenant_info">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">get_tenant_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho.html#get_tenant_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.get_tenant_info" title="Link to this definition"></a></dt>
+<dd><p>Get information about the current tenant from the discovery cache.</p>
+<p>This retrieves tenant information that was cached during discovery,
+including the tenant ID, tenant name/slug, roles, and region info.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tenant_hint</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional tenant slug or ID to look up. If not provided,
+looks up the default tenant (using “_default” cache key).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing tenant info:</dt><dd><ul class="simple">
+<li><p>tenant_id: The unique tenant identifier</p></li>
+<li><p>tenant_name: The tenant slug/name (human-readable identifier)</p></li>
+<li><p>roles: List of roles the user has in this tenant</p></li>
+<li><p>region: Region routing information</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns None if no cached info is available.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Any]]</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">info</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_tenant_info</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">info</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tenant: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;tenant_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Roles: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;roles&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Tenant: kumihoclouds</span>
+<span class="go">Roles: [&#39;owner&#39;, &#39;admin&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This requires that discovery has been performed (either via
+<code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code> or <code class="docutils literal notranslate"><span class="pre">KUMIHO_AUTO_CONFIGURE=1</span></code>).
+If using direct connection without discovery, this will return None.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.get_tenant_slug">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">get_tenant_slug</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho.html#get_tenant_slug"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.get_tenant_slug" title="Link to this definition"></a></dt>
+<dd><p>Get the tenant slug/name for use in project naming.</p>
+<p>This is a convenience function that returns just the tenant name/slug,
+which is useful for constructing project names like “<a class="reference external" href="mailto:ComfyUI&#37;&#52;&#48;{tenant_slug">ComfyUI<span>&#64;</span>{tenant_slug</a>}”.</p>
+<p>If tenant_name contains spaces or special characters, returns a shortened
+tenant_id instead (first 8 characters of the UUID).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tenant_hint</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional tenant slug or ID to look up.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The tenant slug/name, or None if not available.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">slug</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_tenant_slug</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">project_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ComfyUI@</span><span class="si">{</span><span class="n">slug</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;default&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+<span class="go">ComfyUI@kumihoclouds</span>
+</pre></div>
+</div>
+</div>
 </dd></dl>
 
 <dl class="py function">

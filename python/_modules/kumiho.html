@@ -482,6 +482,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_tenant_info"><code class="docutils literal notranslate"><span class="pre">get_tenant_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_tenant_slug"><code class="docutils literal notranslate"><span class="pre">get_tenant_slug()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_projects"><code class="docutils literal notranslate"><span class="pre">get_projects()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
@@ -748,7 +750,7 @@
 <span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.3.0&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextvars</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="c1"># Import the main classes to make them available at the package level.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span><span class="p">,</span> <span class="n">KumihoError</span>
@@ -782,7 +784,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectLimitError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">client_from_discovery</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">client_from_discovery</span><span class="p">,</span> <span class="n">DiscoveryRecord</span><span class="p">,</span> <span class="n">DiscoveryCache</span><span class="p">,</span> <span class="n">DEFAULT_CACHE_PATH</span><span class="p">,</span> <span class="n">_DEFAULT_CACHE_KEY</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._bootstrap</span><span class="w"> </span><span class="kn">import</span> <span class="n">bootstrap_default_client</span>
 
 <span class="c1"># Expose EdgeType constants for convenience</span>
@@ -1030,6 +1032,105 @@
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
             <span class="s2">&quot;KUMIHO_AUTO_CONFIGURE is set, but automatic discovery bootstrap failed.&quot;</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Tenant Info Functions</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="get_tenant_info">
+<a class="viewcode-back" href="../api/kumiho.html#kumiho.get_tenant_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tenant_info</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get information about the current tenant from the discovery cache.</span>
+
+<span class="sd">    This retrieves tenant information that was cached during discovery,</span>
+<span class="sd">    including the tenant ID, tenant name/slug, roles, and region info.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tenant_hint: Optional tenant slug or ID to look up. If not provided,</span>
+<span class="sd">            looks up the default tenant (using &quot;_default&quot; cache key).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Optional[Dict[str, Any]]: A dictionary containing tenant info:</span>
+<span class="sd">            - tenant_id: The unique tenant identifier</span>
+<span class="sd">            - tenant_name: The tenant slug/name (human-readable identifier)</span>
+<span class="sd">            - roles: List of roles the user has in this tenant</span>
+<span class="sd">            - region: Region routing information</span>
+<span class="sd">        Returns None if no cached info is available.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; info = kumiho.get_tenant_info()</span>
+<span class="sd">        &gt;&gt;&gt; if info:</span>
+<span class="sd">        ...     print(f&quot;Tenant: {info[&#39;tenant_name&#39;]}&quot;)</span>
+<span class="sd">        ...     print(f&quot;Roles: {info[&#39;roles&#39;]}&quot;)</span>
+<span class="sd">        Tenant: kumihoclouds</span>
+<span class="sd">        Roles: [&#39;owner&#39;, &#39;admin&#39;]</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This requires that discovery has been performed (either via</span>
+<span class="sd">        ``auto_configure_from_discovery()`` or ``KUMIHO_AUTO_CONFIGURE=1``).</span>
+<span class="sd">        If using direct connection without discovery, this will return None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="n">DiscoveryCache</span><span class="p">(</span><span class="n">DEFAULT_CACHE_PATH</span><span class="p">)</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="n">tenant_hint</span> <span class="ow">or</span> <span class="n">_DEFAULT_CACHE_KEY</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">record</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">,</span>
+        <span class="s2">&quot;tenant_name&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">tenant_name</span><span class="p">,</span>
+        <span class="s2">&quot;roles&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">roles</span><span class="p">),</span>
+        <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;guardrails&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">guardrails</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="get_tenant_slug">
+<a class="viewcode-back" href="../api/kumiho.html#kumiho.get_tenant_slug">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tenant_slug</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the tenant slug/name for use in project naming.</span>
+
+<span class="sd">    This is a convenience function that returns just the tenant name/slug,</span>
+<span class="sd">    which is useful for constructing project names like &quot;ComfyUI@{tenant_slug}&quot;.</span>
+
+<span class="sd">    If tenant_name contains spaces or special characters, returns a shortened</span>
+<span class="sd">    tenant_id instead (first 8 characters of the UUID).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tenant_hint: Optional tenant slug or ID to look up.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Optional[str]: The tenant slug/name, or None if not available.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; slug = kumiho.get_tenant_slug()</span>
+<span class="sd">        &gt;&gt;&gt; project_name = f&quot;ComfyUI@{slug or &#39;default&#39;}&quot;</span>
+<span class="sd">        &gt;&gt;&gt; print(project_name)</span>
+<span class="sd">        ComfyUI@kumihoclouds</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">get_tenant_info</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">info</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="n">tenant_name</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_name&quot;</span><span class="p">)</span>
+    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Check if tenant_name is URL-safe (alphanumeric, hyphens only)</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+    <span class="k">if</span> <span class="n">tenant_name</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[a-zA-Z0-9-]+$&#39;</span><span class="p">,</span> <span class="n">tenant_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tenant_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    
+    <span class="c1"># Fall back to shortened tenant_id (first 8 chars of UUID)</span>
+    <span class="k">if</span> <span class="n">tenant_id</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tenant_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># First segment of UUID</span>
+    
+    <span class="k">return</span> <span class="n">tenant_name</span></div>
+
+
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Top-level convenience functions</span>
@@ -1629,6 +1730,9 @@
     <span class="s2">&quot;OUTGOING&quot;</span><span class="p">,</span>
     <span class="s2">&quot;INCOMING&quot;</span><span class="p">,</span>
     <span class="s2">&quot;BOTH&quot;</span><span class="p">,</span>
+    <span class="c1"># Tenant info</span>
+    <span class="s2">&quot;get_tenant_info&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_tenant_slug&quot;</span><span class="p">,</span>
     <span class="c1"># Top-level functions</span>
     <span class="s2">&quot;create_project&quot;</span><span class="p">,</span>
     <span class="s2">&quot;get_projects&quot;</span><span class="p">,</span>
@@ -1650,7 +1754,7 @@
 <span class="p">]</span>
 
 <span class="c1"># Remove typing imports from public namespace</span>
-<span class="k">del</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="k">del</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span>
 
 
 <span class="n">_auto_configure_from_env_if_requested</span><span class="p">()</span>
