@@ -214,6 +214,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.get_bundle"><code class="docutils literal notranslate"><span class="pre">Project.get_bundle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.get_item"><code class="docutils literal notranslate"><span class="pre">Project.get_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.get_items"><code class="docutils literal notranslate"><span class="pre">Project.get_items()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.get_space"><code class="docutils literal notranslate"><span class="pre">Project.get_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.get_spaces"><code class="docutils literal notranslate"><span class="pre">Project.get_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Project.set_public"><code class="docutils literal notranslate"><span class="pre">Project.set_public()</span></code></a></li>
@@ -747,6 +748,7 @@
     <span class="n">RemoveBundleMemberRequest</span><span class="p">,</span>
     <span class="n">GetBundleMembersRequest</span><span class="p">,</span>
     <span class="n">GetBundleHistoryRequest</span><span class="p">,</span>
+    <span class="n">PaginationRequest</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.edge</span><span class="w"> </span><span class="kn">import</span> <span class="n">Edge</span><span class="p">,</span> <span class="n">TraversalResult</span><span class="p">,</span> <span class="n">ImpactedRevision</span><span class="p">,</span> <span class="n">ShortestPathResult</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectResponse</span><span class="p">,</span> <span class="n">StatusResponse</span>
@@ -754,6 +756,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.item</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.artifact</span><span class="w"> </span><span class="kn">import</span> <span class="n">Artifact</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">PagedList</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.bundle</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bundle</span><span class="p">,</span> <span class="n">BundleMember</span><span class="p">,</span> <span class="n">BundleRevisionHistory</span>
@@ -1282,35 +1285,89 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetItem</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Bundle</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_items</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parent_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get items within a space with optional filtering.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            parent_path: The path of the parent space.</span>
 <span class="sd">            item_name_filter: Optional filter for item names.</span>
 <span class="sd">            kind_filter: Optional filter for item kinds.</span>
+<span class="sd">            page_size: Optional page size for pagination.</span>
+<span class="sd">            cursor: Optional cursor for pagination.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A list of Item objects matching the filters.</span>
+<span class="sd">            If pagination is used, returns a PagedList.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">req</span> <span class="o">=</span> <span class="n">GetItemsRequest</span><span class="p">(</span><span class="n">parent_path</span><span class="o">=</span><span class="n">parent_path</span><span class="p">,</span> <span class="n">item_name_filter</span><span class="o">=</span><span class="n">item_name_filter</span><span class="p">,</span> <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span><span class="p">)</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetItems</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">Item</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+        <span class="n">pagination</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">page_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cursor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pagination</span> <span class="o">=</span> <span class="n">PaginationRequest</span><span class="p">(</span><span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span> <span class="ow">or</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">item_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">GetItemsRequest</span><span class="p">(</span>
+            <span class="n">parent_path</span><span class="o">=</span><span class="n">parent_path</span><span class="p">,</span>
+            <span class="n">item_name_filter</span><span class="o">=</span><span class="n">item_name_filter</span><span class="p">,</span>
+            <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span><span class="p">,</span>
+            <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span>
+        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetItems</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">Item</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">HasField</span><span class="p">(</span><span class="s2">&quot;pagination&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">PagedList</span><span class="p">(</span>
+                <span class="n">items</span><span class="p">,</span>
+                <span class="n">next_cursor</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">pagination</span><span class="o">.</span><span class="n">next_cursor</span><span class="p">,</span>
+                <span class="n">total_count</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">pagination</span><span class="o">.</span><span class="n">total_count</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">items</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">item_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">context_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for items across the system.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            context_filter: Filter by context/path.</span>
 <span class="sd">            item_name_filter: Filter by item name.</span>
 <span class="sd">            kind_filter: Filter by item kind.</span>
+<span class="sd">            page_size: Optional page size for pagination.</span>
+<span class="sd">            cursor: Optional cursor for pagination.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A list of Item objects matching the search criteria.</span>
+<span class="sd">            If pagination is used, returns a PagedList.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">req</span> <span class="o">=</span> <span class="n">ItemSearchRequest</span><span class="p">(</span><span class="n">context_filter</span><span class="o">=</span><span class="n">context_filter</span><span class="p">,</span> <span class="n">item_name_filter</span><span class="o">=</span><span class="n">item_name_filter</span><span class="p">,</span> <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span><span class="p">)</span>
+        <span class="n">pagination</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">page_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cursor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pagination</span> <span class="o">=</span> <span class="n">PaginationRequest</span><span class="p">(</span><span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span> <span class="ow">or</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">req</span> <span class="o">=</span> <span class="n">ItemSearchRequest</span><span class="p">(</span>
+            <span class="n">context_filter</span><span class="o">=</span><span class="n">context_filter</span><span class="p">,</span>
+            <span class="n">item_name_filter</span><span class="o">=</span><span class="n">item_name_filter</span><span class="p">,</span>
+            <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span><span class="p">,</span>
+            <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span>
+        <span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ItemSearch</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">Item</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">Item</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">HasField</span><span class="p">(</span><span class="s2">&quot;pagination&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">PagedList</span><span class="p">(</span>
+                <span class="n">items</span><span class="p">,</span>
+                <span class="n">next_cursor</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">pagination</span><span class="o">.</span><span class="n">next_cursor</span><span class="p">,</span>
+                <span class="n">total_count</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">pagination</span><span class="o">.</span><span class="n">total_count</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">items</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">update_item_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata for an item.</span>
