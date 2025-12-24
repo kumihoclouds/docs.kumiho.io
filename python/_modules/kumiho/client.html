@@ -1294,7 +1294,8 @@
         <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get items within a space with optional filtering.</span>
 
@@ -1304,6 +1305,7 @@
 <span class="sd">            kind_filter: Optional filter for item kinds.</span>
 <span class="sd">            page_size: Optional page size for pagination.</span>
 <span class="sd">            cursor: Optional cursor for pagination.</span>
+<span class="sd">            include_deprecated: Whether to include deprecated items.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A list of Item objects matching the filters.</span>
@@ -1317,7 +1319,8 @@
             <span class="n">parent_path</span><span class="o">=</span><span class="n">parent_path</span><span class="p">,</span>
             <span class="n">item_name_filter</span><span class="o">=</span><span class="n">item_name_filter</span><span class="p">,</span>
             <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span><span class="p">,</span>
-            <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span>
+            <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span><span class="p">,</span>
+            <span class="n">include_deprecated</span><span class="o">=</span><span class="n">include_deprecated</span>
         <span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">GetItems</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
         <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">Item</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
@@ -1336,7 +1339,8 @@
         <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for items across the system.</span>
 
@@ -1346,6 +1350,7 @@
 <span class="sd">            kind_filter: Filter by item kind.</span>
 <span class="sd">            page_size: Optional page size for pagination.</span>
 <span class="sd">            cursor: Optional cursor for pagination.</span>
+<span class="sd">            include_deprecated: Whether to include deprecated items.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A list of Item objects matching the search criteria.</span>
@@ -1359,7 +1364,8 @@
             <span class="n">context_filter</span><span class="o">=</span><span class="n">context_filter</span><span class="p">,</span>
             <span class="n">item_name_filter</span><span class="o">=</span><span class="n">item_name_filter</span><span class="p">,</span>
             <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span><span class="p">,</span>
-            <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span>
+            <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span><span class="p">,</span>
+            <span class="n">include_deprecated</span><span class="o">=</span><span class="n">include_deprecated</span>
         <span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ItemSearch</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
         <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">Item</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
