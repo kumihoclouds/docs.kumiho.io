@@ -1,0 +1,236 @@
+# Deploying kumiho-FastAPI to Google Cloud Run & Cloudflare Edge
+
+This guide covers deploying the stateless FastAPI service to **Google Cloud Run** in the `us-central1` region, with **Cloudflare Workers** acting as the edge cache and routing layer for `api.kumiho.cloud`.
+
+## Architecture
+
+```
+User → Cloudflare Worker (api.kumiho.cloud) → Google Cloud Run (Origin)
+```
+
+## Prerequisites
+
+1. **Google Cloud Account** with billing enabled
+2. **Cloudflare Account** with `kumiho.cloud` zone
+3. **gcloud CLI** and **Wrangler CLI** installed
+4. A GCP project (we use `kumiho-server`)
+
+---
+
+## CI/CD with GitHub Actions
+
+The repository includes a workflow that automatically deploys both the Cloud Run origin and the Cloudflare Worker on push to `main`.
+
+### Required GitHub Secrets
+
+| Secret | Description |
+|--------|-------------|
+| `GCP_PROJECT_ID` | `kumiho-server` |
+| `GCP_WORKLOAD_IDENTITY_PROVIDER` | Full path to the Workload Identity Provider |
+| `GCP_SERVICE_ACCOUNT` | Service account email for deployment |
+| `CLOUDFLARE_API_TOKEN` | API Token with Workers deployment permissions |
+| `CLOUDFLARE_ACCOUNT_ID` | Your Cloudflare Account ID |
+
+---
+
+## Step-by-Step GCP Setup (Workload Identity Federation)
+
+We use Workload Identity Federation to allow GitHub Actions to authenticate without long-lived JSON keys.
+
+### 1. Create Service Account
+
+```bash
+gcloud iam service-accounts create github-deployer \
+  --display-name="GitHub Actions Deployer" \
+  --project=kumiho-server
+```
+
+### 2. Grant Required Roles
+
+```bash
+PROJECT_ID=kumiho-server
+SA_EMAIL=github-deployer@${PROJECT_ID}.iam.gserviceaccount.com
+
+# Cloud Run Admin
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SA_EMAIL" \
+  --role="roles/run.admin"
+
+# Artifact Registry Writer
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SA_EMAIL" \
+  --role="roles/artifactregistry.writer"
+
+# Service Account User (to act as the runtime SA)
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SA_EMAIL" \
+  --role="roles/iam.serviceAccountUser"
+```
+
+### 3. Configure Workload Identity Federation
+
+```bash
+# Create Workload Identity Pool
+gcloud iam workload-identity-pools create "github-pool" \
+  --project="${PROJECT_ID}" \
+  --location="global" \
+  --display-name="GitHub Actions Pool"
+
+# Get the Pool ID
+POOL_ID=$(gcloud iam workload-identity-pools describe "github-pool" \
+  --project="${PROJECT_ID}" \
+  --location="global" \
+  --format='value(name)')
+
+# Create Workload Identity Provider
+gcloud iam workload-identity-pools providers create-oidc "github-provider" \
+  --project="${PROJECT_ID}" \
+  --location="global" \
+  --workload-identity-pool="github-pool" \
+  --display-name="GitHub Actions Provider" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
+  --issuer-uri="https://token.actions.githubusercontent.com"
+
+# Allow GitHub to impersonate the Service Account
+# Replace OWNER/REPO with your actual repository path
+gcloud iam service-accounts add-iam-policy-binding "${SA_EMAIL}" \
+  --project="${PROJECT_ID}" \
+  --role="roles/iam.workloadIdentityUser" \
+  --member="principalSet://iam.googleapis.com/${POOL_ID}/attribute.repository/OWNER/REPO"
+```
+
+---
+
+## Cloudflare Setup
+
+### 1. DNS Configuration
+Ensure `api.kumiho.cloud` is pointed to a dummy IP (e.g., `100::` AAAA record) and is **Proxied (Orange Cloud)**.
+
+### 2. Worker Configuration
+The worker in `kumiho-FastAPI/worker` is configured via `wrangler.toml`.
+
+```toml
+# kumiho-FastAPI/worker/wrangler.toml
+routes = [
+  { pattern = "api.kumiho.cloud/*", zone_name = "kumiho.cloud" }
+]
+```
+
+The `ORIGIN_URL` variable in the worker must point to the Cloud Run service URL. This is handled automatically by the CI/CD workflow.
+
+---
+
+## Manual Deployment (Emergency Only)
+
+### 1. Build and Push Origin
+
+```bash
+cd kumiho-FastAPI
+docker build -t us-central1-docker.pkg.dev/kumiho-server/kumiho-server/kumiho-fastapi:latest .
+docker push us-central1-docker.pkg.dev/kumiho-server/kumiho-server/kumiho-fastapi:latest
+```
+
+### 2. Deploy Origin
+
+```bash
+gcloud run deploy kumiho-fastapi \
+  --image us-central1-docker.pkg.dev/kumiho-server/kumiho-server/kumiho-fastapi:latest \
+  --region us-central1 \
+  --allow-unauthenticated
+```
+
+### 3. Deploy Worker
+
+```bash
+cd kumiho-FastAPI/worker
+# Set the ORIGIN_URL to the URL from step 2
+sed -i 's|ORIGIN_URL = ".*"|ORIGIN_URL = "https://kumiho-fastapi-xxxxx-uc.a.run.app"|' wrangler.toml
+npx wrangler deploy
+```
+
+```bash
+gcloud run services logs read kumiho-fastapi --region us-central1
+```
+
+Or use the Cloud Console:
+```
+https://console.cloud.google.com/run/detail/us-central1/kumiho-fastapi/logs
+```
+
+### View Metrics
+
+```
+https://console.cloud.google.com/run/detail/us-central1/kumiho-fastapi/metrics
+```
+
+Key metrics to monitor:
+- Request latency (p50, p95, p99)
+- Request count by status code
+- Instance count
+- Memory/CPU utilization
+
+---
+
+## Rollback
+
+To rollback to a previous revision:
+
+```bash
+# List revisions
+gcloud run revisions list --service kumiho-fastapi --region us-central1
+
+# Route traffic to a specific revision
+gcloud run services update-traffic kumiho-fastapi \
+  --region us-central1 \
+  --to-revisions kumiho-fastapi-00005-abc=100
+```
+
+---
+
+## Cost Optimization
+
+Cloud Run charges only when handling requests:
+
+- **Idle cost**: $0 (with min-instances=0)
+- **Request cost**: ~$0.40 per million requests
+- **Compute cost**: ~$0.00002400 per vCPU-second
+
+For predictable traffic, consider setting `--min-instances 1` to avoid cold starts:
+
+```bash
+gcloud run services update kumiho-fastapi \
+  --region us-central1 \
+  --min-instances 1
+```
+
+---
+
+## Troubleshooting
+
+### Cold Start Latency
+
+If cold starts are slow:
+1. Set `--min-instances 1`
+2. Use a smaller base image (already using `python:3.11-slim`)
+3. Reduce dependencies in `requirements.txt`
+
+### Container Fails to Start
+
+Check logs:
+```bash
+gcloud run services logs read kumiho-fastapi --region us-central1 --limit 50
+```
+
+Common issues:
+- Port mismatch (ensure `--port 8000` matches Dockerfile `EXPOSE 8000`)
+- Missing environment variables
+- Dependency installation failures
+
+### Permission Denied
+
+Ensure the Cloud Run service account has access to required resources:
+```bash
+gcloud run services describe kumiho-fastapi \
+  --region us-central1 \
+  --format 'value(spec.template.spec.serviceAccountName)'
+```

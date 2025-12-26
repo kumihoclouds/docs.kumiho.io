@@ -1,0 +1,1015 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.dependencies &mdash; Kumiho FastAPI v1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Kumiho FastAPI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started.html#run-locally">Run locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started.html#making-requests">Making requests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../authentication.html">Authentication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../authentication.html#dual-token-model">Dual-token model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../authentication.html#why-two-tokens">Why two tokens?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../authentication.html#local-testing">Local testing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../endpoints.html">Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../endpoints.html#id1">Endpoints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#artifacts">artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#blog">blog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#default">default</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#edges">edges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#items">items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#projects">projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#resolve">resolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#revisions">revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#spaces">spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#tenant">tenant</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Module Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.main.html">app.main</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.main.html#app.main.warm_control_plane_cache"><code class="docutils literal notranslate"><span class="pre">warm_control_plane_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.main.html#app.main.healthz"><code class="docutils literal notranslate"><span class="pre">healthz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.main.html#app.main.root"><code class="docutils literal notranslate"><span class="pre">root()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.dependencies.html">app.dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext"><code class="docutils literal notranslate"><span class="pre">TenantContext</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.auth_token"><code class="docutils literal notranslate"><span class="pre">TenantContext.auth_token</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.expires_at"><code class="docutils literal notranslate"><span class="pre">TenantContext.expires_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.tenant_id"><code class="docutils literal notranslate"><span class="pre">TenantContext.tenant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.tenant_slug"><code class="docutils literal notranslate"><span class="pre">TenantContext.tenant_slug</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.tenant_tier"><code class="docutils literal notranslate"><span class="pre">TenantContext.tenant_tier</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.region_code"><code class="docutils literal notranslate"><span class="pre">TenantContext.region_code</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.neo4j_db_name"><code class="docutils literal notranslate"><span class="pre">TenantContext.neo4j_db_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.guardrails"><code class="docutils literal notranslate"><span class="pre">TenantContext.guardrails</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.roles"><code class="docutils literal notranslate"><span class="pre">TenantContext.roles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.server_url"><code class="docutils literal notranslate"><span class="pre">TenantContext.server_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.grpc_authority"><code class="docutils literal notranslate"><span class="pre">TenantContext.grpc_authority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.preferred_target"><code class="docutils literal notranslate"><span class="pre">TenantContext.preferred_target()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.ensure_tenant_context"><code class="docutils literal notranslate"><span class="pre">ensure_tenant_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.get_user_token"><code class="docutils literal notranslate"><span class="pre">get_user_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.get_kumiho_client"><code class="docutils literal notranslate"><span class="pre">get_kumiho_client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.dependencies.html#app.dependencies.require_user_token"><code class="docutils literal notranslate"><span class="pre">require_user_token()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.auth_utils.html">app.auth_utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.auth_utils.html#app.auth_utils.CurrentUser"><code class="docutils literal notranslate"><span class="pre">CurrentUser</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.auth_utils.html#app.auth_utils.get_current_user"><code class="docutils literal notranslate"><span class="pre">get_current_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.auth_utils.html#app.auth_utils.require_authenticated_user"><code class="docutils literal notranslate"><span class="pre">require_authenticated_user()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.rate_limit.html">app.rate_limit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.rate_limit.html#app.rate_limit.RateLimitMiddleware"><code class="docutils literal notranslate"><span class="pre">RateLimitMiddleware</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.rate_limit.html#app.rate_limit.RateLimitMiddleware.dispatch"><code class="docutils literal notranslate"><span class="pre">RateLimitMiddleware.dispatch()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.projects.html">app.core.projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.projects.html#app.core.projects.list_projects"><code class="docutils literal notranslate"><span class="pre">list_projects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.projects.html#app.core.projects.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.projects.html#app.core.projects.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.projects.html#app.core.projects.update_project"><code class="docutils literal notranslate"><span class="pre">update_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.projects.html#app.core.projects.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.spaces.html">app.core.spaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.spaces.html#app.core.spaces.list_spaces"><code class="docutils literal notranslate"><span class="pre">list_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.spaces.html#app.core.spaces.create_space"><code class="docutils literal notranslate"><span class="pre">create_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.spaces.html#app.core.spaces.get_space"><code class="docutils literal notranslate"><span class="pre">get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.spaces.html#app.core.spaces.update_space_metadata"><code class="docutils literal notranslate"><span class="pre">update_space_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.spaces.html#app.core.spaces.delete_space"><code class="docutils literal notranslate"><span class="pre">delete_space()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.items.html">app.core.items</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.list_items"><code class="docutils literal notranslate"><span class="pre">list_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.search_items"><code class="docutils literal notranslate"><span class="pre">search_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.create_item"><code class="docutils literal notranslate"><span class="pre">create_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.get_item_by_kref"><code class="docutils literal notranslate"><span class="pre">get_item_by_kref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.get_item_by_path"><code class="docutils literal notranslate"><span class="pre">get_item_by_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.update_item_metadata"><code class="docutils literal notranslate"><span class="pre">update_item_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.delete_item"><code class="docutils literal notranslate"><span class="pre">delete_item()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.revisions.html">app.core.revisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.list_revisions"><code class="docutils literal notranslate"><span class="pre">list_revisions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.create_revision"><code class="docutils literal notranslate"><span class="pre">create_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.get_revision"><code class="docutils literal notranslate"><span class="pre">get_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">get_latest_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.peek_next_revision"><code class="docutils literal notranslate"><span class="pre">peek_next_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.update_revision_metadata"><code class="docutils literal notranslate"><span class="pre">update_revision_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.delete_revision"><code class="docutils literal notranslate"><span class="pre">delete_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.tag_revision"><code class="docutils literal notranslate"><span class="pre">tag_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.untag_revision"><code class="docutils literal notranslate"><span class="pre">untag_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.has_tag"><code class="docutils literal notranslate"><span class="pre">has_tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.was_tagged"><code class="docutils literal notranslate"><span class="pre">was_tagged()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html">app.core.artifacts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.list_artifacts"><code class="docutils literal notranslate"><span class="pre">list_artifacts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.get_artifacts_by_location"><code class="docutils literal notranslate"><span class="pre">get_artifacts_by_location()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.create_artifact"><code class="docutils literal notranslate"><span class="pre">create_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.get_artifact"><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.update_artifact_metadata"><code class="docutils literal notranslate"><span class="pre">update_artifact_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.delete_artifact"><code class="docutils literal notranslate"><span class="pre">delete_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.edges.html">app.core.edges</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.edges.html#app.core.edges.list_edges"><code class="docutils literal notranslate"><span class="pre">list_edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.edges.html#app.core.edges.create_edge"><code class="docutils literal notranslate"><span class="pre">create_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.edges.html#app.core.edges.delete_edge"><code class="docutils literal notranslate"><span class="pre">delete_edge()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.tenant.html">app.core.tenant</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.UserInfo"><code class="docutils literal notranslate"><span class="pre">UserInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.UserInfo.email"><code class="docutils literal notranslate"><span class="pre">UserInfo.email</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.UserInfo.id"><code class="docutils literal notranslate"><span class="pre">UserInfo.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.UserInfo.model_config"><code class="docutils literal notranslate"><span class="pre">UserInfo.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.BootstrapResponse"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.BootstrapResponse.tenant_id"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.tenant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.BootstrapResponse.project_names"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.project_names</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.BootstrapResponse.anonymous_allowed"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.anonymous_allowed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.BootstrapResponse.model_config"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.TenantUsageResponse"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.TenantUsageResponse.tenant_id"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.tenant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.TenantUsageResponse.node_count"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.node_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.TenantUsageResponse.node_limit"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.node_limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.TenantUsageResponse.model_config"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.bootstrap"><code class="docutils literal notranslate"><span class="pre">bootstrap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.whoami"><code class="docutils literal notranslate"><span class="pre">whoami()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.tenant.html#app.core.tenant.get_tenant_usage"><code class="docutils literal notranslate"><span class="pre">get_tenant_usage()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.resolve.html">app.core.resolve</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveResponse"><code class="docutils literal notranslate"><span class="pre">ResolveResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveResponse.kref"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.kref</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveResponse.location"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.location</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveResponse.resolved_revision"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.resolved_revision</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveResponse.resolved_artifact"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.resolved_artifact</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveResponse.model_config"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveRevisionResponse"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveRevisionResponse.revision"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse.revision</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveRevisionResponse.found"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse.found</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveRevisionResponse.model_config"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.resolve_kref"><code class="docutils literal notranslate"><span class="pre">resolve_kref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.resolve.html#app.core.resolve.resolve_kref_to_revision"><code class="docutils literal notranslate"><span class="pre">resolve_kref_to_revision()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.apps.blog.router.html">app.apps.blog.router</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.router.html#app.apps.blog.router"><code class="docutils literal notranslate"><span class="pre">router</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html">app.apps.blog.services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.load_blog_settings"><code class="docutils literal notranslate"><span class="pre">load_blog_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.get_post_item_kind"><code class="docutils literal notranslate"><span class="pre">get_post_item_kind()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.allow_public_read"><code class="docutils literal notranslate"><span class="pre">allow_public_read()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.resolve_project_name"><code class="docutils literal notranslate"><span class="pre">resolve_project_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.get_or_create_space_hierarchy"><code class="docutils literal notranslate"><span class="pre">get_or_create_space_hierarchy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.get_cached_settings"><code class="docutils literal notranslate"><span class="pre">get_cached_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.set_cached_settings"><code class="docutils literal notranslate"><span class="pre">set_cached_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.generate_slug"><code class="docutils literal notranslate"><span class="pre">generate_slug()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.build_default_settings"><code class="docutils literal notranslate"><span class="pre">build_default_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.ensure_blog_project"><code class="docutils literal notranslate"><span class="pre">ensure_blog_project()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html">app.apps.blog.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.title"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.author"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.date"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.content"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.title"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.description"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.image"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.canonical_url"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.canonical_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.keywords"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.keywords</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.noindex"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.noindex</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.name"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.url"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.content_type"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.content_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.title"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.content"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.space_path"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.space_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.author"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.tags"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.tags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.media"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.seo"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.seo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.kref"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.kref</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.slug"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.slug</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.title"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.author"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.date"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.content"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.tags"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.tags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.revision"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.revision</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.revisions"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.revisions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.published"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.published</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.space_path"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.space_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.media"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.seo"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.seo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings"><code class="docutils literal notranslate"><span class="pre">BlogSettings</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings.project_name"><code class="docutils literal notranslate"><span class="pre">BlogSettings.project_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings.post_item_kind"><code class="docutils literal notranslate"><span class="pre">BlogSettings.post_item_kind</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings.pagination_count"><code class="docutils literal notranslate"><span class="pre">BlogSettings.pagination_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings.display_type"><code class="docutils literal notranslate"><span class="pre">BlogSettings.display_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings.display_category_filters"><code class="docutils literal notranslate"><span class="pre">BlogSettings.display_category_filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings.allow_public"><code class="docutils literal notranslate"><span class="pre">BlogSettings.allow_public</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings.model_config"><code class="docutils literal notranslate"><span class="pre">BlogSettings.model_config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cloudflare-worker.html">Cloudflare Worker Edge Cache</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#configure">Configure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#deploy">Deploy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#cache-behavior">Cache Behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#verify">Verify</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html">Deploying kumiho-FastAPI to Google Cloud Run &amp; Cloudflare Edge</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#ci-cd-with-github-actions">CI/CD with GitHub Actions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#required-github-secrets">Required GitHub Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#step-by-step-gcp-setup-workload-identity-federation">Step-by-Step GCP Setup (Workload Identity Federation)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#create-service-account">1. Create Service Account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#grant-required-roles">2. Grant Required Roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#configure-workload-identity-federation">3. Configure Workload Identity Federation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#cloudflare-setup">Cloudflare Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#dns-configuration">1. DNS Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#worker-configuration">2. Worker Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#manual-deployment-emergency-only">Manual Deployment (Emergency Only)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#build-and-push-origin">1. Build and Push Origin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#deploy-origin">2. Deploy Origin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#deploy-worker">3. Deploy Worker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#view-metrics">View Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#rollback">Rollback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#cost-optimization">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#cold-start-latency">Cold Start Latency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#container-fails-to-start">Container Fails to Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#permission-denied">Permission Denied</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Kumiho FastAPI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">app.dependencies</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for app.dependencies</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;FastAPI dependencies for Kumiho integration.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.parse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">HTTPException</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscoveryError</span><span class="p">,</span> <span class="n">DiscoveryManager</span>
+
+<span class="n">_SERVICE_TOKEN_ENV_VAR</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_SERVICE_TOKEN&quot;</span>
+<span class="n">_CACHE_TTL_SECONDS</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVICE_TOKEN_CACHE_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;30&quot;</span><span class="p">))</span>
+<span class="n">_DEBUG_ENDPOINTS_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_DEBUG_ENDPOINTS&quot;</span>
+<span class="n">_DEBUG_JWKS_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_DEBUG_JWKS&quot;</span>
+<span class="n">_DEBUG_JWKS_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_DEBUG_JWKS_TIMEOUT_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">))</span>
+<span class="n">_DISCOVERY_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_DISCOVERY_TIMEOUT_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">))</span>
+<span class="n">_CONTROL_PLANE_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_CONTROL_PLANE_URL&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;https://control.kumiho.cloud&quot;</span>
+
+
+<div class="viewcode-block" id="TenantContext">
+<a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TenantContext</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cached tenant/control-plane metadata derived from the CP JWT.&quot;&quot;&quot;</span>
+
+    <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">expires_at</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">tenant_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">tenant_slug</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">tenant_tier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">region_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">neo4j_db_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">guardrails</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">roles</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">server_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">grpc_authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+<div class="viewcode-block" id="TenantContext.preferred_target">
+<a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.preferred_target">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preferred_target</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the best known endpoint for the tenant.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grpc_authority</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_url</span></div>
+</div>
+
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.fastapi.dependencies&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_env_truthy</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span> <span class="ow">or</span> <span class="s2">&quot;.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">payload_b64</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">padding</span> <span class="o">=</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">payload_b64</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64decode</span><span class="p">((</span><span class="n">payload_b64</span> <span class="o">+</span> <span class="n">padding</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">decoded</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">claims</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">claims</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_discovery_refresh_deadline</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">record</span><span class="o">.</span><span class="n">cache_control</span><span class="o">.</span><span class="n">refresh_at</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_discovery_url</span><span class="p">(</span><span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api/discovery/tenant&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">base</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api/discovery&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/tenant&quot;</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/discovery/tenant&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/api/discovery/tenant&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_post_json</span><span class="p">(</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">headers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="n">req_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">headers</span><span class="p">:</span>
+        <span class="n">req_headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">req_headers</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">snippet</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;HTTP </span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;invalid json: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;invalid json: expected object&quot;</span>
+    <span class="k">return</span> <span class="n">payload</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_routing_anonymous</span><span class="p">(</span>
+    <span class="n">tenant_hint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_hint</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">_build_discovery_url</span><span class="p">(</span><span class="n">_CONTROL_PLANE_URL</span><span class="p">)</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tenant_hint&quot;</span><span class="p">:</span> <span class="n">tenant_hint</span><span class="p">}</span>
+    <span class="n">response</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_post_json</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">_DISCOVERY_TIMEOUT_SECONDS</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: invalid region payload&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">server_url</span> <span class="o">=</span> <span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;server_url&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;server_url&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">grpc_authority</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grpc_authority&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grpc_authority&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;Discovery routing result (anonymous): tenant_hint=</span><span class="si">%s</span><span class="s2"> server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">tenant_hint</span><span class="p">,</span>
+            <span class="n">server_url</span><span class="p">,</span>
+            <span class="n">grpc_authority</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">server_url</span><span class="p">,</span> <span class="n">grpc_authority</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_routing_from_discovery</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span> <span class="n">id_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">id_token</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Discovery routing using tenant_hint without id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                    <span class="n">tenant_hint</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">_resolve_routing_anonymous</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Discovery routing skipped: no id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="n">tenant_hint</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">DiscoveryManager</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">id_token</span><span class="o">=</span><span class="n">id_token</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="o">=</span><span class="n">tenant_hint</span><span class="p">)</span>
+        <span class="n">deadline</span> <span class="o">=</span> <span class="n">_discovery_refresh_deadline</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Discovery routing result: tenant_hint=</span><span class="si">%s</span><span class="s2"> server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">tenant_hint</span><span class="p">,</span>
+                <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
+                <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">grpc_authority</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
+            <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">grpc_authority</span><span class="p">,</span>
+            <span class="n">deadline</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">DiscoveryError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unexpected discovery failure; falling back to env target&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_infer_http_base</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">port</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">:</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+        <span class="n">scheme</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">hostname</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">port</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;grpcs&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">}:</span>
+            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span>
+        <span class="k">elif</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;grpc&quot;</span><span class="p">,</span> <span class="s2">&quot;http&quot;</span><span class="p">}:</span>
+            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;http&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span> <span class="k">if</span> <span class="n">port</span> <span class="o">==</span> <span class="mi">443</span> <span class="k">else</span> <span class="s2">&quot;http&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">trimmed</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">trimmed</span><span class="p">:</span>
+            <span class="n">host</span><span class="p">,</span> <span class="n">port_str</span> <span class="o">=</span> <span class="n">trimmed</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">port_str</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">trimmed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="mi">8080</span>
+        <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span> <span class="k">if</span> <span class="n">port</span> <span class="o">==</span> <span class="mi">443</span> <span class="k">else</span> <span class="s2">&quot;http&quot;</span>
+
+    <span class="k">if</span> <span class="n">port</span> <span class="ow">and</span> <span class="n">port</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">80</span><span class="p">,</span> <span class="mi">443</span><span class="p">}:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_effective_target</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">target</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span>
+    <span class="n">env_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">env_target</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">env_target</span><span class="p">,</span> <span class="s2">&quot;env&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;localhost:8080&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fetch_json</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">})</span>
+        <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;invalid json: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;invalid json: expected object&quot;</span>
+        <span class="k">return</span> <span class="n">payload</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">snippet</span> <span class="o">=</span> <span class="n">body</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="k">if</span> <span class="n">body</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;HTTP </span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fetch_jwks_diagnostics</span><span class="p">(</span><span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/api/_control-plane/jwks&quot;</span>
+    <span class="n">payload</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_fetch_json</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">_DEBUG_JWKS_TIMEOUT_SECONDS</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">error</span>
+    <span class="n">jwks_url</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jwks_url&quot;</span><span class="p">)</span>
+    <span class="n">kids</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kids&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kids</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">kids</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">kids</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kids</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kids</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">kids</span><span class="p">),)</span>
+    <span class="k">if</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jwks_url</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">jwks_url</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kids</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">payload</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">jwks_url</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">jwks_url</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kids</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_context_from_env</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TenantContext</span><span class="p">:</span>
+    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;KUMIHO_TENANT_ID must be set when using environment tokens.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">server_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">server_url</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT must be set when using environment tokens.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">TenantContext</span><span class="p">(</span>
+        <span class="n">auth_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+        <span class="n">expires_at</span><span class="o">=</span><span class="n">now</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">_CACHE_TTL_SECONDS</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+        <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
+        <span class="n">tenant_slug</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_SLUG&quot;</span><span class="p">),</span>
+        <span class="n">tenant_tier</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_TIER&quot;</span><span class="p">),</span>
+        <span class="n">region_code</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_REGION_CODE&quot;</span><span class="p">),</span>
+        <span class="n">neo4j_db_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_NEO4J_DB&quot;</span><span class="p">),</span>
+        <span class="n">guardrails</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">roles</span><span class="o">=</span><span class="p">(),</span>
+        <span class="n">server_url</span><span class="o">=</span><span class="n">server_url</span><span class="p">,</span>
+        <span class="n">grpc_authority</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_AUTHORITY&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_tenant_context</span><span class="p">(</span><span class="n">credentials</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">tenant_id_override</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TenantContext</span><span class="p">:</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Control-plane token missing from credentials cache.&quot;</span><span class="p">)</span>
+
+    <span class="n">cp_exp</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cp_expires_at&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expires_at&quot;</span><span class="p">)</span>
+    <span class="n">expiry</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cp_exp</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cp_exp</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">now</span> <span class="o">+</span> <span class="n">_CACHE_TTL_SECONDS</span>
+
+    <span class="n">claims</span> <span class="o">=</span> <span class="n">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id_override</span> <span class="ow">or</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Tenant ID missing from control-plane token.&quot;</span><span class="p">)</span>
+
+    <span class="n">tenant_slug</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_slug&quot;</span><span class="p">)</span>
+    <span class="n">tenant_hint</span> <span class="o">=</span> <span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">tenant_id</span>
+    <span class="n">id_token</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="c1"># Check for explicit server endpoint override first</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
+        <span class="n">server_url</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="n">grpc_authority</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">server_url</span><span class="p">,</span> <span class="n">grpc_authority</span><span class="p">,</span> <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="n">_resolve_routing_from_discovery</span><span class="p">(</span>
+            <span class="n">id_token</span><span class="o">=</span><span class="n">id_token</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="o">=</span><span class="n">tenant_hint</span>
+        <span class="p">)</span>
+
+    <span class="n">expiry_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">expiry</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">discovery_deadline</span><span class="p">:</span>
+        <span class="n">expiry_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">discovery_deadline</span><span class="p">)</span>
+
+    <span class="n">guardrails_claim</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;guardrails&quot;</span><span class="p">)</span>
+    <span class="n">guardrails</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">guardrails_claim</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">guardrails_claim</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">roles_claim</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;roles&quot;</span><span class="p">)</span>
+    <span class="n">roles</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">roles_claim</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roles_claim</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="k">else</span> <span class="nb">tuple</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">TenantContext</span><span class="p">(</span>
+        <span class="n">auth_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+        <span class="n">expires_at</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">expiry_candidates</span><span class="p">)</span> <span class="k">if</span> <span class="n">expiry_candidates</span> <span class="k">else</span> <span class="n">expiry</span><span class="p">,</span>
+        <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
+        <span class="n">tenant_slug</span><span class="o">=</span><span class="n">tenant_slug</span><span class="p">,</span>
+        <span class="n">tenant_tier</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_tier&quot;</span><span class="p">),</span>
+        <span class="n">region_code</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;region_code&quot;</span><span class="p">),</span>
+        <span class="n">neo4j_db_name</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;neo4j_db_name&quot;</span><span class="p">),</span>
+        <span class="n">guardrails</span><span class="o">=</span><span class="n">guardrails</span><span class="p">,</span>
+        <span class="n">roles</span><span class="o">=</span><span class="n">roles</span><span class="p">,</span>
+        <span class="n">server_url</span><span class="o">=</span><span class="n">server_url</span><span class="p">,</span>
+        <span class="n">grpc_authority</span><span class="o">=</span><span class="n">grpc_authority</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">context</span><span class="o">.</span><span class="n">server_url</span><span class="p">:</span>
+        <span class="n">env_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">server_url</span> <span class="o">=</span> <span class="n">env_target</span>
+
+    <span class="k">return</span> <span class="n">context</span>
+
+
+<div class="viewcode-block" id="ensure_tenant_context">
+<a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.ensure_tenant_context">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_tenant_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">TenantContext</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return tenant context from environment service token.&quot;&quot;&quot;</span>
+
+    <span class="n">env_token</span> <span class="o">=</span> <span class="n">_get_service_token_from_env</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">env_token</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_build_context_from_env</span><span class="p">(</span><span class="n">env_token</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+        <span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span>
+        <span class="n">detail</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;No service token found. Set KUMIHO_SERVICE_TOKEN environment variable &quot;</span>
+            <span class="s2">&quot;or provide X-Kumiho-Token header.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_service_token_from_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the service token from KUMIHO_SERVICE_TOKEN environment variable.&quot;&quot;&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_SERVICE_TOKEN_ENV_VAR</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Found service token in </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">_SERVICE_TOKEN_ENV_VAR</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="get_user_token">
+<a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.get_user_token">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_user_token</span><span class="p">(</span><span class="n">authorization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract Firebase user token from Authorization header (optional).</span>
+
+<span class="sd">    This is for end-user authentication that gets passed through to kumiho-server.</span>
+<span class="sd">    The service token (X-Kumiho-Token) is still required for API access.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        authorization: Optional Authorization header with Bearer token</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The extracted token or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">authorization</span> <span class="ow">and</span> <span class="n">authorization</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Bearer &quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">authorization</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">starlette.concurrency</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_in_threadpool</span>
+
+<div class="viewcode-block" id="get_kumiho_client">
+<a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.get_kumiho_client">[docs]</a>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_kumiho_client</span><span class="p">(</span>
+    <span class="n">x_kumiho_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;X-Kumiho-Token&quot;</span><span class="p">),</span>
+    <span class="n">x_tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">),</span>
+    <span class="n">user_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_user_token</span><span class="p">),</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a Kumiho client instance for the current request using the provided token.</span>
+<span class="sd">    </span>
+<span class="sd">    This is a per-request client - each API call gets its own client instance</span>
+<span class="sd">    configured with the client&#39;s service token. This enables multi-tenant operation</span>
+<span class="sd">    where different clients can use the same FastAPI deployment with their own tokens.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        token: The client&#39;s Kumiho service token from X-Kumiho-Token header</span>
+<span class="sd">        tenant_id: Optional tenant ID hint for anonymous users</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A configured kumiho.Client instance</span>
+<span class="sd">        </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        HTTPException: 401 if token is missing or invalid</span>
+<span class="sd">        HTTPException: 500 if client creation fails</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x_kumiho_token</span><span class="p">:</span>
+            <span class="c1"># Use the provided service token from header</span>
+            <span class="n">credentials</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">:</span> <span class="n">x_kumiho_token</span><span class="p">}</span>
+            <span class="k">if</span> <span class="n">user_token</span><span class="p">:</span>
+                <span class="n">credentials</span><span class="p">[</span><span class="s2">&quot;id_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_token</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">_build_tenant_context</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">tenant_id_override</span><span class="o">=</span><span class="n">x_tenant_id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Fallback to KUMIHO_SERVICE_TOKEN environment variable</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">ensure_tenant_context</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Failed to load tenant context: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+
+    <span class="c1"># Prefer header tenant_id if provided, otherwise context tenant_id</span>
+    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">x_tenant_id</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_id</span>
+    <span class="c1"># NOTE: tenant_hint parameter doesn&#39;t actually add x-tenant-id in kumiho-python</span>
+    <span class="c1"># so we need to add it to metadata manually</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)]</span>
+    
+    <span class="c1"># Use the preferred target from the context (which includes env override)</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">preferred_target</span><span class="p">()</span>
+    
+    <span class="c1"># If we still don&#39;t have a target, try environment fallback</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If we still don&#39;t have a target, it means discovery failed or was skipped.</span>
+    <span class="c1"># We should NOT let the SDK fall back to localhost:8080.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
+        <span class="n">tenant_hint</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_id</span>
+        <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Target not resolved yet, attempting last-minute discovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">)</span>
+            <span class="n">target</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span><span class="n">_resolve_routing_anonymous</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">503</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Kumiho routing failed: Could not resolve a regional server for this tenant. &quot;</span>
+                <span class="s2">&quot;Check if KUMIHO_CONTROL_PLANE_URL is accessible and the token is valid.&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;Connecting to Kumiho Server at </span><span class="si">%s</span><span class="s2"> (tenant: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">,</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">tenant_id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">auth_token</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using auth token: present&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No auth token in context&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;Kumiho routing debug: server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2"> tenant_id=</span><span class="si">%s</span><span class="s2"> tenant_slug=</span><span class="si">%s</span><span class="s2"> use_discovery=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">grpc_authority</span><span class="p">,</span>
+            <span class="n">tenant_id</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span><span class="p">,</span>
+            <span class="nb">bool</span><span class="p">(</span><span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_JWKS_ENV</span><span class="p">):</span>
+        <span class="n">effective_target</span><span class="p">,</span> <span class="n">target_source</span> <span class="o">=</span> <span class="n">_resolve_effective_target</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">base_url</span> <span class="o">=</span> <span class="n">_infer_http_base</span><span class="p">(</span><span class="n">target</span> <span class="ow">or</span> <span class="n">effective_target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Control plane JWKS diagnostics using fallback target: effective_target=</span><span class="si">%s</span><span class="s2"> source=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">effective_target</span><span class="p">,</span>
+                <span class="n">target_source</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">base_url</span><span class="p">:</span>
+            <span class="n">jwks_url</span><span class="p">,</span> <span class="n">kids</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span><span class="n">_fetch_jwks_diagnostics</span><span class="p">,</span> <span class="n">base_url</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Control plane JWKS diagnostics failed: base_url=</span><span class="si">%s</span><span class="s2"> error=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">base_url</span><span class="p">,</span>
+                    <span class="n">error</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Control plane JWKS diagnostics: base_url=</span><span class="si">%s</span><span class="s2"> jwks_url=</span><span class="si">%s</span><span class="s2"> kids=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">base_url</span><span class="p">,</span>
+                    <span class="n">jwks_url</span><span class="p">,</span>
+                    <span class="n">kids</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Control plane JWKS diagnostics skipped: cannot derive base URL from target=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">target</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Run blocking connect in threadpool to avoid blocking the event loop</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span>
+            <span class="n">kumiho</span><span class="o">.</span><span class="n">connect</span><span class="p">,</span>
+            <span class="n">endpoint</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">auth_token</span><span class="p">,</span>
+            <span class="n">enable_auto_login</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">use_discovery</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">default_metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+            <span class="c1"># tenant_hint is accepted but not actually used by kumiho-python</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - upstream errors</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Failed to initialize Kumiho client: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+        
+    <span class="c1"># Set the client context for the duration of the request</span>
+    <span class="c1"># This allows kumiho.get_project() etc. to work without passing client explicitly</span>
+    <span class="k">with</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">use_client</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">client</span></div>
+
+
+<div class="viewcode-block" id="require_user_token">
+<a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.require_user_token">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">require_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;authorization&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Require a Firebase user token in the Authorization header.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        token: Authorization header value</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        The extracted Firebase token</span>
+<span class="sd">        </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        HTTPException: 401 if token is missing or invalid format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Missing Authorization header&quot;</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Bearer &quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Invalid Authorization header format. Expected &#39;Bearer &lt;token&gt;&#39;&quot;</span>
+        <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">token</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Kumiho Clouds.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

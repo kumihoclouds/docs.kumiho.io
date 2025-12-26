@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app.core.edges &mdash; Kumiho FastAPI v1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="app.core.tenant" href="app.core.tenant.html" />
+    <link rel="prev" title="app.core.artifacts" href="app.core.artifacts.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Kumiho FastAPI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started.html#run-locally">Run locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started.html#making-requests">Making requests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../authentication.html">Authentication</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../authentication.html#dual-token-model">Dual-token model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../authentication.html#why-two-tokens">Why two tokens?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../authentication.html#local-testing">Local testing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../endpoints.html">Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../endpoints.html#id1">Endpoints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#artifacts">artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#blog">blog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#default">default</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#edges">edges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#items">items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#projects">projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#resolve">resolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#revisions">revisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#spaces">spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#tenant">tenant</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Module Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.main.html">app.main</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.main.html#app.main.warm_control_plane_cache"><code class="docutils literal notranslate"><span class="pre">warm_control_plane_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.main.html#app.main.healthz"><code class="docutils literal notranslate"><span class="pre">healthz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.main.html#app.main.root"><code class="docutils literal notranslate"><span class="pre">root()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.dependencies.html">app.dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext"><code class="docutils literal notranslate"><span class="pre">TenantContext</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.auth_token"><code class="docutils literal notranslate"><span class="pre">TenantContext.auth_token</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.expires_at"><code class="docutils literal notranslate"><span class="pre">TenantContext.expires_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.tenant_id"><code class="docutils literal notranslate"><span class="pre">TenantContext.tenant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.tenant_slug"><code class="docutils literal notranslate"><span class="pre">TenantContext.tenant_slug</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.tenant_tier"><code class="docutils literal notranslate"><span class="pre">TenantContext.tenant_tier</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.region_code"><code class="docutils literal notranslate"><span class="pre">TenantContext.region_code</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.neo4j_db_name"><code class="docutils literal notranslate"><span class="pre">TenantContext.neo4j_db_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.guardrails"><code class="docutils literal notranslate"><span class="pre">TenantContext.guardrails</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.roles"><code class="docutils literal notranslate"><span class="pre">TenantContext.roles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.server_url"><code class="docutils literal notranslate"><span class="pre">TenantContext.server_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.grpc_authority"><code class="docutils literal notranslate"><span class="pre">TenantContext.grpc_authority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.dependencies.html#app.dependencies.TenantContext.preferred_target"><code class="docutils literal notranslate"><span class="pre">TenantContext.preferred_target()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.dependencies.html#app.dependencies.ensure_tenant_context"><code class="docutils literal notranslate"><span class="pre">ensure_tenant_context()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.dependencies.html#app.dependencies.get_user_token"><code class="docutils literal notranslate"><span class="pre">get_user_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.dependencies.html#app.dependencies.get_kumiho_client"><code class="docutils literal notranslate"><span class="pre">get_kumiho_client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.dependencies.html#app.dependencies.require_user_token"><code class="docutils literal notranslate"><span class="pre">require_user_token()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.auth_utils.html">app.auth_utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.auth_utils.html#app.auth_utils.CurrentUser"><code class="docutils literal notranslate"><span class="pre">CurrentUser</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.auth_utils.html#app.auth_utils.get_current_user"><code class="docutils literal notranslate"><span class="pre">get_current_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.auth_utils.html#app.auth_utils.require_authenticated_user"><code class="docutils literal notranslate"><span class="pre">require_authenticated_user()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.rate_limit.html">app.rate_limit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.rate_limit.html#app.rate_limit.RateLimitMiddleware"><code class="docutils literal notranslate"><span class="pre">RateLimitMiddleware</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.rate_limit.html#app.rate_limit.RateLimitMiddleware.dispatch"><code class="docutils literal notranslate"><span class="pre">RateLimitMiddleware.dispatch()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.projects.html">app.core.projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.projects.html#app.core.projects.list_projects"><code class="docutils literal notranslate"><span class="pre">list_projects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.projects.html#app.core.projects.create_project"><code class="docutils literal notranslate"><span class="pre">create_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.projects.html#app.core.projects.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.projects.html#app.core.projects.update_project"><code class="docutils literal notranslate"><span class="pre">update_project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.projects.html#app.core.projects.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.spaces.html">app.core.spaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.spaces.html#app.core.spaces.list_spaces"><code class="docutils literal notranslate"><span class="pre">list_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.spaces.html#app.core.spaces.create_space"><code class="docutils literal notranslate"><span class="pre">create_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.spaces.html#app.core.spaces.get_space"><code class="docutils literal notranslate"><span class="pre">get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.spaces.html#app.core.spaces.update_space_metadata"><code class="docutils literal notranslate"><span class="pre">update_space_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.spaces.html#app.core.spaces.delete_space"><code class="docutils literal notranslate"><span class="pre">delete_space()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.items.html">app.core.items</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.list_items"><code class="docutils literal notranslate"><span class="pre">list_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.search_items"><code class="docutils literal notranslate"><span class="pre">search_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.create_item"><code class="docutils literal notranslate"><span class="pre">create_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.get_item_by_kref"><code class="docutils literal notranslate"><span class="pre">get_item_by_kref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.get_item_by_path"><code class="docutils literal notranslate"><span class="pre">get_item_by_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.update_item_metadata"><code class="docutils literal notranslate"><span class="pre">update_item_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.delete_item"><code class="docutils literal notranslate"><span class="pre">delete_item()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.revisions.html">app.core.revisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.list_revisions"><code class="docutils literal notranslate"><span class="pre">list_revisions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.create_revision"><code class="docutils literal notranslate"><span class="pre">create_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.get_revision"><code class="docutils literal notranslate"><span class="pre">get_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">get_latest_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.peek_next_revision"><code class="docutils literal notranslate"><span class="pre">peek_next_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.update_revision_metadata"><code class="docutils literal notranslate"><span class="pre">update_revision_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.delete_revision"><code class="docutils literal notranslate"><span class="pre">delete_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.tag_revision"><code class="docutils literal notranslate"><span class="pre">tag_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.untag_revision"><code class="docutils literal notranslate"><span class="pre">untag_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.has_tag"><code class="docutils literal notranslate"><span class="pre">has_tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.was_tagged"><code class="docutils literal notranslate"><span class="pre">was_tagged()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.artifacts.html">app.core.artifacts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.artifacts.html#app.core.artifacts.list_artifacts"><code class="docutils literal notranslate"><span class="pre">list_artifacts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.artifacts.html#app.core.artifacts.get_artifacts_by_location"><code class="docutils literal notranslate"><span class="pre">get_artifacts_by_location()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.artifacts.html#app.core.artifacts.create_artifact"><code class="docutils literal notranslate"><span class="pre">create_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.artifacts.html#app.core.artifacts.get_artifact"><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.artifacts.html#app.core.artifacts.update_artifact_metadata"><code class="docutils literal notranslate"><span class="pre">update_artifact_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.artifacts.html#app.core.artifacts.delete_artifact"><code class="docutils literal notranslate"><span class="pre">delete_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">app.core.edges</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#app.core.edges.list_edges"><code class="docutils literal notranslate"><span class="pre">list_edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app.core.edges.create_edge"><code class="docutils literal notranslate"><span class="pre">create_edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app.core.edges.delete_edge"><code class="docutils literal notranslate"><span class="pre">delete_edge()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.tenant.html">app.core.tenant</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.UserInfo"><code class="docutils literal notranslate"><span class="pre">UserInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.UserInfo.email"><code class="docutils literal notranslate"><span class="pre">UserInfo.email</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.UserInfo.id"><code class="docutils literal notranslate"><span class="pre">UserInfo.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.UserInfo.model_config"><code class="docutils literal notranslate"><span class="pre">UserInfo.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.BootstrapResponse"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.BootstrapResponse.tenant_id"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.tenant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.BootstrapResponse.project_names"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.project_names</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.BootstrapResponse.anonymous_allowed"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.anonymous_allowed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.BootstrapResponse.model_config"><code class="docutils literal notranslate"><span class="pre">BootstrapResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.TenantUsageResponse"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.TenantUsageResponse.tenant_id"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.tenant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.TenantUsageResponse.node_count"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.node_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.TenantUsageResponse.node_limit"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.node_limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.TenantUsageResponse.model_config"><code class="docutils literal notranslate"><span class="pre">TenantUsageResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.bootstrap"><code class="docutils literal notranslate"><span class="pre">bootstrap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.whoami"><code class="docutils literal notranslate"><span class="pre">whoami()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.tenant.html#app.core.tenant.get_tenant_usage"><code class="docutils literal notranslate"><span class="pre">get_tenant_usage()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.core.resolve.html">app.core.resolve</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveResponse"><code class="docutils literal notranslate"><span class="pre">ResolveResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveResponse.kref"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.kref</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveResponse.location"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.location</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveResponse.resolved_revision"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.resolved_revision</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveResponse.resolved_artifact"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.resolved_artifact</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveResponse.model_config"><code class="docutils literal notranslate"><span class="pre">ResolveResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveRevisionResponse"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveRevisionResponse.revision"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse.revision</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveRevisionResponse.found"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse.found</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.ResolveRevisionResponse.model_config"><code class="docutils literal notranslate"><span class="pre">ResolveRevisionResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.resolve_kref"><code class="docutils literal notranslate"><span class="pre">resolve_kref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.resolve.html#app.core.resolve.resolve_kref_to_revision"><code class="docutils literal notranslate"><span class="pre">resolve_kref_to_revision()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.apps.blog.router.html">app.apps.blog.router</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.router.html#app.apps.blog.router"><code class="docutils literal notranslate"><span class="pre">router</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.apps.blog.services.html">app.apps.blog.services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.load_blog_settings"><code class="docutils literal notranslate"><span class="pre">load_blog_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.get_post_item_kind"><code class="docutils literal notranslate"><span class="pre">get_post_item_kind()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.allow_public_read"><code class="docutils literal notranslate"><span class="pre">allow_public_read()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.resolve_project_name"><code class="docutils literal notranslate"><span class="pre">resolve_project_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.get_or_create_space_hierarchy"><code class="docutils literal notranslate"><span class="pre">get_or_create_space_hierarchy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.get_cached_settings"><code class="docutils literal notranslate"><span class="pre">get_cached_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.set_cached_settings"><code class="docutils literal notranslate"><span class="pre">set_cached_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.generate_slug"><code class="docutils literal notranslate"><span class="pre">generate_slug()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.build_default_settings"><code class="docutils literal notranslate"><span class="pre">build_default_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.services.html#app.apps.blog.services.ensure_blog_project"><code class="docutils literal notranslate"><span class="pre">ensure_blog_project()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="app.apps.blog.models.html">app.apps.blog.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.title"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.author"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.date"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.content"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostMetadata.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.title"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.description"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.image"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.canonical_url"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.canonical_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.keywords"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.keywords</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.noindex"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.noindex</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostSEO.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.name"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.url"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.content_type"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.content_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostMedia.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.title"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.content"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.space_path"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.space_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.author"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.tags"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.tags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.media"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.seo"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.seo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostCreate.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.kref"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.kref</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.slug"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.slug</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.title"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.author"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.date"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.content"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.tags"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.tags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.revision"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.revision</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.revisions"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.revisions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.published"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.published</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.space_path"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.space_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.media"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.seo"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.seo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse.model_config"><code class="docutils literal notranslate"><span class="pre">BlogPostResponse.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings"><code class="docutils literal notranslate"><span class="pre">BlogSettings</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings.project_name"><code class="docutils literal notranslate"><span class="pre">BlogSettings.project_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings.post_item_kind"><code class="docutils literal notranslate"><span class="pre">BlogSettings.post_item_kind</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings.pagination_count"><code class="docutils literal notranslate"><span class="pre">BlogSettings.pagination_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings.display_type"><code class="docutils literal notranslate"><span class="pre">BlogSettings.display_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings.display_category_filters"><code class="docutils literal notranslate"><span class="pre">BlogSettings.display_category_filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings.allow_public"><code class="docutils literal notranslate"><span class="pre">BlogSettings.allow_public</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="app.apps.blog.models.html#app.apps.blog.models.BlogSettings.model_config"><code class="docutils literal notranslate"><span class="pre">BlogSettings.model_config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cloudflare-worker.html">Cloudflare Worker Edge Cache</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#configure">Configure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#deploy">Deploy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#cache-behavior">Cache Behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cloudflare-worker.html#verify">Verify</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html">Deploying kumiho-FastAPI to Google Cloud Run &amp; Cloudflare Edge</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#ci-cd-with-github-actions">CI/CD with GitHub Actions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#required-github-secrets">Required GitHub Secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#step-by-step-gcp-setup-workload-identity-federation">Step-by-Step GCP Setup (Workload Identity Federation)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#create-service-account">1. Create Service Account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#grant-required-roles">2. Grant Required Roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#configure-workload-identity-federation">3. Configure Workload Identity Federation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#cloudflare-setup">Cloudflare Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#dns-configuration">1. DNS Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#worker-configuration">2. Worker Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#manual-deployment-emergency-only">Manual Deployment (Emergency Only)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#build-and-push-origin">1. Build and Push Origin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#deploy-origin">2. Deploy Origin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#deploy-worker">3. Deploy Worker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#view-metrics">View Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#rollback">Rollback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#cost-optimization">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#cold-start-latency">Cold Start Latency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#container-fails-to-start">Container Fails to Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../deploy-cloudrun-us-central1.html#permission-denied">Permission Denied</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Kumiho FastAPI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module Reference</a></li>
+      <li class="breadcrumb-item active">app.core.edges</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/_generated/app.core.edges.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-app.core.edges">
+<span id="app-core-edges"></span><h1>app.core.edges<a class="headerlink" href="#module-app.core.edges" title="Link to this heading"></a></h1>
+<p>Edges API router - full CRUD for Kumiho edges.</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.edges.create_edge" title="app.core.edges.create_edge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_edge</span></code></a>(request[, client])</p></td>
+<td><p>Create an edge between two revisions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#app.core.edges.delete_edge" title="app.core.edges.delete_edge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_edge</span></code></a>([source_kref, target_kref, ...])</p></td>
+<td><p>Delete an edge between two revisions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.edges.list_edges" title="app.core.edges.list_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_edges</span></code></a>([kref, r, edge_type, direction, ...])</p></td>
+<td><p>List all edges for a revision.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.edges.list_edges">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.edges.</span></span><span class="sig-name descname"><span class="pre">list_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kref=Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r=Query(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_type=Query(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction=Query(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/edges.html#list_edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.edges.list_edges" title="Link to this definition"></a></dt>
+<dd><p>List all edges for a revision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kref</strong> (<em>str</em>)</p></li>
+<li><p><strong>r</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>edge_type</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>direction</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>client</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.edges.create_edge">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.edges.</span></span><span class="sig-name descname"><span class="pre">create_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/edges.html#create_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.edges.create_edge" title="Link to this definition"></a></dt>
+<dd><p>Create an edge between two revisions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>EdgeCreate</em>)</p></li>
+<li><p><strong>client</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.core.edges.delete_edge">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.edges.</span></span><span class="sig-name descname"><span class="pre">delete_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_kref=Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_kref=Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_type=Query(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/edges.html#delete_edge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.edges.delete_edge" title="Link to this definition"></a></dt>
+<dd><p>Delete an edge between two revisions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_kref</strong> (<em>str</em>)</p></li>
+<li><p><strong>target_kref</strong> (<em>str</em>)</p></li>
+<li><p><strong>edge_type</strong> (<em>str</em>)</p></li>
+<li><p><strong>client</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="app.core.artifacts.html" class="btn btn-neutral float-left" title="app.core.artifacts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="app.core.tenant.html" class="btn btn-neutral float-right" title="app.core.tenant" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Kumiho Clouds.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

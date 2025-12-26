@@ -1,0 +1,64 @@
+# Cloudflare Worker Edge Cache
+
+This guide sets up the edge worker in `kumiho-FastAPI/worker` to cache public blog responses in front of the Cloud Run origin.
+
+## Prerequisites
+
+- Cloudflare account with Workers enabled
+- Wrangler CLI installed (`npm install -g wrangler`)
+- Cloud Run URL for the FastAPI service
+
+## Configure
+
+1) Set the origin URL as a secret:
+
+```
+cd kumiho-FastAPI/worker
+wrangler secret put ORIGIN_URL
+```
+
+Paste the Cloud Run URL when prompted.
+
+2) Configure routes (optional):
+
+Edit `kumiho-FastAPI/worker/wrangler.toml` and set `routes` to your custom domain. If you skip this, the worker deploys to a workers.dev subdomain.
+
+3) Optional cache tuning:
+
+- `CACHE_TTL_LIST` (default 60 seconds)
+- `CACHE_TTL_POST` (default 300 seconds)
+- `CACHE_VARY_BY_TOKEN` (default true)
+- `CACHE_REQUIRE_PUBLIC_HEADER` (default true)
+
+## Deploy
+
+```
+cd kumiho-FastAPI/worker
+npm install
+npm run deploy:prod
+```
+
+## Cache Behavior
+
+The worker caches only GET responses for:
+
+- `/api/v1/apps/blog/posts`
+- `/api/v1/apps/blog/posts/{slug}`
+
+It will not cache when:
+
+- An `Authorization` header is present
+- The `revision` query parameter is present
+- The origin response does not include `X-Kumiho-Cacheable: public`
+
+FastAPI sets `X-Kumiho-Cacheable: public` for publicly allowed projects when serving published revisions.
+
+## Verify
+
+After deploying the worker:
+
+```
+curl -i https://your-edge-domain/api/v1/apps/blog/posts?project_filter=MyBlog
+```
+
+Repeat the same request and look for `X-Cache: HIT` in the response headers.

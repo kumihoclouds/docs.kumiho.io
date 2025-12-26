@@ -1,0 +1,23 @@
+# Authentication
+
+## Dual-token model
+
+Every request carries two credentials:
+
+| Token | Header | Purpose |
+|---|---|---|
+| Service token | `X-Kumiho-Token` | Identifies the tenant / project context. Issued by the control plane. |
+| Firebase ID token | `Authorization: Bearer <token>` | Identifies the viewer (anonymous or signed-in user). |
+
+### Why two tokens?
+
+- The FastAPI layer is **stateless** and stores **no secrets**.
+- Service tokens enforce **tenant isolation**.
+- Viewer tokens enable **anonymous vs authenticated** access policies.
+
+## Local testing
+
+If you only need to explore the API surface, the OpenAPI docs are available at:
+
+- `/docs` (Swagger UI)
+- `/redoc`
