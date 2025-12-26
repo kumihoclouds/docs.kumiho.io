@@ -1,0 +1,1383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kumiho C++ SDK Implementation Plan &mdash; Kumiho C++ SDK v1.0.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Kumiho C++ SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8ArtifactE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Artifact</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact8ArtifactERKN6kumiho16ArtifactResponseEP6Client"><code class="docutils literal notranslate"><span class="pre">Artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact7getKrefEv"><code class="docutils literal notranslate"><span class="pre">getKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact7getNameEv"><code class="docutils literal notranslate"><span class="pre">getName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact11getLocationEv"><code class="docutils literal notranslate"><span class="pre">getLocation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact15getRevisionKrefEv"><code class="docutils literal notranslate"><span class="pre">getRevisionKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact11getItemKrefEv"><code class="docutils literal notranslate"><span class="pre">getItemKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact11getMetadataEv"><code class="docutils literal notranslate"><span class="pre">getMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact12getCreatedAtEv"><code class="docutils literal notranslate"><span class="pre">getCreatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact9getAuthorEv"><code class="docutils literal notranslate"><span class="pre">getAuthor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact11getUsernameEv"><code class="docutils literal notranslate"><span class="pre">getUsername()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact12isDeprecatedEv"><code class="docutils literal notranslate"><span class="pre">isDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact11setMetadataERK8Metadata"><code class="docutils literal notranslate"><span class="pre">setMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact12getAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact12setAttributeERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact15deleteAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">deleteAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact14deleteArtifactEb"><code class="docutils literal notranslate"><span class="pre">deleteArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact11getRevisionEv"><code class="docutils literal notranslate"><span class="pre">getRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact7getItemEv"><code class="docutils literal notranslate"><span class="pre">getItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact8getSpaceEv"><code class="docutils literal notranslate"><span class="pre">getSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact10getProjectEv"><code class="docutils literal notranslate"><span class="pre">getProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact10setDefaultEv"><code class="docutils literal notranslate"><span class="pre">setDefault()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact13setDeprecatedEb"><code class="docutils literal notranslate"><span class="pre">setDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact14getVersionKrefEv"><code class="docutils literal notranslate"><span class="pre">getVersionKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Artifact14getProductKrefEv"><code class="docutils literal notranslate"><span class="pre">getProductKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact14deleteResourceEb"><code class="docutils literal notranslate"><span class="pre">deleteResource()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact10getVersionEv"><code class="docutils literal notranslate"><span class="pre">getVersion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact10getProductEv"><code class="docutils literal notranslate"><span class="pre">getProduct()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact8getGroupEv"><code class="docutils literal notranslate"><span class="pre">getGroup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact9response_E"><code class="docutils literal notranslate"><span class="pre">response_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Artifact7client_E"><code class="docutils literal notranslate"><span class="pre">client_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19AuthenticationErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::AuthenticationError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19AuthenticationError19AuthenticationErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">AuthenticationError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6BundleE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Bundle</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle6BundleERKN6kumiho12ItemResponseEP6Client"><code class="docutils literal notranslate"><span class="pre">Bundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Bundle7getKrefEv"><code class="docutils literal notranslate"><span class="pre">getKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Bundle7getNameEv"><code class="docutils literal notranslate"><span class="pre">getName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Bundle11getMetadataEv"><code class="docutils literal notranslate"><span class="pre">getMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Bundle12getCreatedAtEv"><code class="docutils literal notranslate"><span class="pre">getCreatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Bundle9getAuthorEv"><code class="docutils literal notranslate"><span class="pre">getAuthor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Bundle11getUsernameEv"><code class="docutils literal notranslate"><span class="pre">getUsername()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Bundle12isDeprecatedEv"><code class="docutils literal notranslate"><span class="pre">isDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle9addMemberERKNSt10shared_ptrI4ItemEE"><code class="docutils literal notranslate"><span class="pre">addMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle9addMemberERK4Kref"><code class="docutils literal notranslate"><span class="pre">addMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle12removeMemberERKNSt10shared_ptrI4ItemEE"><code class="docutils literal notranslate"><span class="pre">removeMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle12removeMemberERK4Kref"><code class="docutils literal notranslate"><span class="pre">removeMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle10getMembersEv"><code class="docutils literal notranslate"><span class="pre">getMembers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle10getHistoryEv"><code class="docutils literal notranslate"><span class="pre">getHistory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle12deleteBundleEb"><code class="docutils literal notranslate"><span class="pre">deleteBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle9response_E"><code class="docutils literal notranslate"><span class="pre">response_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Bundle7client_E"><code class="docutils literal notranslate"><span class="pre">client_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12BundleMemberE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::BundleMember</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12BundleMember9item_krefE"><code class="docutils literal notranslate"><span class="pre">item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12BundleMember8added_atE"><code class="docutils literal notranslate"><span class="pre">added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12BundleMember8added_byE"><code class="docutils literal notranslate"><span class="pre">added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12BundleMember17added_by_usernameE"><code class="docutils literal notranslate"><span class="pre">added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12BundleMember17added_in_revisionE"><code class="docutils literal notranslate"><span class="pre">added_in_revision</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistoryE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::BundleRevisionHistory</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistory15revision_numberE"><code class="docutils literal notranslate"><span class="pre">revision_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistory6actionE"><code class="docutils literal notranslate"><span class="pre">action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistory16member_item_krefE"><code class="docutils literal notranslate"><span class="pre">member_item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistory6authorE"><code class="docutils literal notranslate"><span class="pre">author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistory8usernameE"><code class="docutils literal notranslate"><span class="pre">username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistory10created_atE"><code class="docutils literal notranslate"><span class="pre">created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api21BundleRevisionHistory8metadataE"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12CacheControlE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::CacheControl</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api12CacheControl9isExpiredEv"><code class="docutils literal notranslate"><span class="pre">isExpired()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api12CacheControl13shouldRefreshEv"><code class="docutils literal notranslate"><span class="pre">shouldRefresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12CacheControl9issued_atE"><code class="docutils literal notranslate"><span class="pre">issued_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12CacheControl10refresh_atE"><code class="docutils literal notranslate"><span class="pre">refresh_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12CacheControl10expires_atE"><code class="docutils literal notranslate"><span class="pre">expires_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12CacheControl18expires_in_secondsE"><code class="docutils literal notranslate"><span class="pre">expires_in_seconds</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12CacheControl21refresh_after_secondsE"><code class="docutils literal notranslate"><span class="pre">refresh_after_seconds</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6ClientE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Client</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client6ClientENSt10shared_ptrIN4grpc7ChannelEEE"><code class="docutils literal notranslate"><span class="pre">Client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client6ClientENSt10shared_ptrIN6kumiho13KumihoService13StubInterfaceEEE"><code class="docutils literal notranslate"><span class="pre">Client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13createProjectERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11getProjectsEv"><code class="docutils literal notranslate"><span class="pre">getProjects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client10getProjectERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13deleteProjectERKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">deleteProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13updateProjectERKNSt6stringENSt8optionalIbEENSt8optionalINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">updateProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11createSpaceERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client8getSpaceERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client14getChildSpacesERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getChildSpaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client19updateSpaceMetadataERK4KrefRK8Metadata"><code class="docutils literal notranslate"><span class="pre">updateSpaceMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11deleteSpaceERKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">deleteSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client10createItemERKNSt6stringERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client7getItemERKNSt6stringERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13getItemByKrefERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getItemByKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client10itemSearchERKNSt6stringERKNSt6stringERKNSt6stringENSt8optionalI7int32_tEENSt8optionalINSt6stringEEEb"><code class="docutils literal notranslate"><span class="pre">itemSearch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client18updateItemMetadataERK4KrefRK8Metadata"><code class="docutils literal notranslate"><span class="pre">updateItemMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client10deleteItemERK4Krefb"><code class="docutils literal notranslate"><span class="pre">deleteItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client17setItemDeprecatedERK4Krefb"><code class="docutils literal notranslate"><span class="pre">setItemDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client14createRevisionERK4KrefRK8Metadatai"><code class="docutils literal notranslate"><span class="pre">createRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11getRevisionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11resolveKrefERKNSt6stringERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">resolveKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client7resolveERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client12getRevisionsERK4Kref"><code class="docutils literal notranslate"><span class="pre">getRevisions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client16peekNextRevisionERK4Kref"><code class="docutils literal notranslate"><span class="pre">peekNextRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client22updateRevisionMetadataERK4KrefRK8Metadata"><code class="docutils literal notranslate"><span class="pre">updateRevisionMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11tagRevisionERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">tagRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13untagRevisionERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">untagRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client6hasTagERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">hasTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client9wasTaggedERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">wasTagged()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client21setRevisionDeprecatedERK4Krefb"><code class="docutils literal notranslate"><span class="pre">setRevisionDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client14deleteRevisionERK4Krefb"><code class="docutils literal notranslate"><span class="pre">deleteRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client14createArtifactERK4KrefRKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11getArtifactERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client12getArtifactsERK4Kref"><code class="docutils literal notranslate"><span class="pre">getArtifacts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client22getArtifactsByLocationERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getArtifactsByLocation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client18setDefaultArtifactERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setDefaultArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client22updateArtifactMetadataERK4KrefRK8Metadata"><code class="docutils literal notranslate"><span class="pre">updateArtifactMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client14deleteArtifactERK4Krefb"><code class="docutils literal notranslate"><span class="pre">deleteArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client21setArtifactDeprecatedERK4Krefb"><code class="docutils literal notranslate"><span class="pre">setArtifactDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client10createEdgeERK4KrefRK4KrefRKNSt6stringERK8Metadata"><code class="docutils literal notranslate"><span class="pre">createEdge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client8getEdgesERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getEdges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client10deleteEdgeERK4KrefRK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">deleteEdge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13traverseEdgesERK4KrefiRKNSt6vectorINSt6stringEEEiib"><code class="docutils literal notranslate"><span class="pre">traverseEdges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client16findShortestPathERK4KrefRK4KrefRKNSt6vectorINSt6stringEEEib"><code class="docutils literal notranslate"><span class="pre">findShortestPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13analyzeImpactERK4KrefRKNSt6vectorINSt6stringEEEii"><code class="docutils literal notranslate"><span class="pre">analyzeImpact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client12getAttributeERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client12setAttributeERK4KrefRKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client15deleteAttributeERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">deleteAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client12createBundleERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client12createBundleERK4KrefRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client9getBundleERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client15addBundleMemberERK4KrefRK4Kref"><code class="docutils literal notranslate"><span class="pre">addBundleMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client18removeBundleMemberERK4KrefRK4Kref"><code class="docutils literal notranslate"><span class="pre">removeBundleMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client16getBundleMembersERK4Kref"><code class="docutils literal notranslate"><span class="pre">getBundleMembers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client16getBundleHistoryERK4Kref"><code class="docutils literal notranslate"><span class="pre">getBundleHistory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client14getTenantUsageEv"><code class="docutils literal notranslate"><span class="pre">getTenantUsage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11eventStreamERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">eventStream()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client12setAuthTokenERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setAuthToken()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Client12getAuthTokenEv"><code class="docutils literal notranslate"><span class="pre">getAuthToken()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client7getStubEv"><code class="docutils literal notranslate"><span class="pre">getStub()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client13createFromEnvEv"><code class="docutils literal notranslate"><span class="pre">createFromEnv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api6Client16configureContextERN4grpc13ClientContextE"><code class="docutils literal notranslate"><span class="pre">configureContext()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client5stub_E"><code class="docutils literal notranslate"><span class="pre">stub_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client8context_E"><code class="docutils literal notranslate"><span class="pre">context_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api6Client11auth_token_E"><code class="docutils literal notranslate"><span class="pre">auth_token_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCacheE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::DiscoveryCache</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache14DiscoveryCacheERKNSt10filesystem4pathEb"><code class="docutils literal notranslate"><span class="pre">DiscoveryCache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache4loadERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache5storeERKNSt6stringERK15DiscoveryRecord"><code class="docutils literal notranslate"><span class="pre">store()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api14DiscoveryCache7getPathEv"><code class="docutils literal notranslate"><span class="pre">getPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache7readAllEv"><code class="docutils literal notranslate"><span class="pre">readAll()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache14encryptContentERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">encryptContent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache14decryptContentERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">decryptContent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache9deriveKeyEv"><code class="docutils literal notranslate"><span class="pre">deriveKey()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache5path_E"><code class="docutils literal notranslate"><span class="pre">path_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryCache8encrypt_E"><code class="docutils literal notranslate"><span class="pre">encrypt_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::DiscoveryError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14DiscoveryError14DiscoveryErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">DiscoveryError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16DiscoveryManagerE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::DiscoveryManager</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16DiscoveryManager16DiscoveryManagerERKNSt6stringERKNSt10filesystem4pathEd"><code class="docutils literal notranslate"><span class="pre">DiscoveryManager()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16DiscoveryManager7resolveERKNSt6stringERKNSt8optionalINSt6stringEEEb"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16DiscoveryManager11fetchRemoteERKNSt6stringERKNSt8optionalINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">fetchRemote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16DiscoveryManager9base_url_E"><code class="docutils literal notranslate"><span class="pre">base_url_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16DiscoveryManager6cache_E"><code class="docutils literal notranslate"><span class="pre">cache_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16DiscoveryManager8timeout_E"><code class="docutils literal notranslate"><span class="pre">timeout_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15DiscoveryRecordE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::DiscoveryRecord</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15DiscoveryRecord9tenant_idE"><code class="docutils literal notranslate"><span class="pre">tenant_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15DiscoveryRecord11tenant_nameE"><code class="docutils literal notranslate"><span class="pre">tenant_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15DiscoveryRecord5rolesE"><code class="docutils literal notranslate"><span class="pre">roles</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15DiscoveryRecord10guardrailsE"><code class="docutils literal notranslate"><span class="pre">guardrails</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15DiscoveryRecord6regionE"><code class="docutils literal notranslate"><span class="pre">region</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15DiscoveryRecord13cache_controlE"><code class="docutils literal notranslate"><span class="pre">cache_control</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4EdgeE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Edge</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Edge4EdgeERKN6kumiho4EdgeEP6Client"><code class="docutils literal notranslate"><span class="pre">Edge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Edge13getSourceKrefEv"><code class="docutils literal notranslate"><span class="pre">getSourceKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Edge13getTargetKrefEv"><code class="docutils literal notranslate"><span class="pre">getTargetKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Edge11getEdgeTypeEv"><code class="docutils literal notranslate"><span class="pre">getEdgeType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Edge11getMetadataEv"><code class="docutils literal notranslate"><span class="pre">getMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Edge12getCreatedAtEv"><code class="docutils literal notranslate"><span class="pre">getCreatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Edge9getAuthorEv"><code class="docutils literal notranslate"><span class="pre">getAuthor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Edge11getUsernameEv"><code class="docutils literal notranslate"><span class="pre">getUsername()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Edge10deleteEdgeEv"><code class="docutils literal notranslate"><span class="pre">deleteEdge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Edge5edge_E"><code class="docutils literal notranslate"><span class="pre">edge_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Edge7client_E"><code class="docutils literal notranslate"><span class="pre">client_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8EdgeTypeE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::EdgeType</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8EdgeType10BELONGS_TOE"><code class="docutils literal notranslate"><span class="pre">BELONGS_TO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8EdgeType12CREATED_FROME"><code class="docutils literal notranslate"><span class="pre">CREATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8EdgeType10REFERENCEDE"><code class="docutils literal notranslate"><span class="pre">REFERENCED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8EdgeType10DEPENDS_ONE"><code class="docutils literal notranslate"><span class="pre">DEPENDS_ON</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8EdgeType12DERIVED_FROME"><code class="docutils literal notranslate"><span class="pre">DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8EdgeType8CONTAINSE"><code class="docutils literal notranslate"><span class="pre">CONTAINS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api23EdgeTypeValidationErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::EdgeTypeValidationError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api23EdgeTypeValidationError23EdgeTypeValidationErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">EdgeTypeValidationError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5EventE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Event</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Event5EventERKN6kumiho5EventE"><code class="docutils literal notranslate"><span class="pre">Event()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Event13getRoutingKeyEv"><code class="docutils literal notranslate"><span class="pre">getRoutingKey()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Event7getKrefEv"><code class="docutils literal notranslate"><span class="pre">getKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Event10getDetailsEv"><code class="docutils literal notranslate"><span class="pre">getDetails()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Event6event_E"><code class="docutils literal notranslate"><span class="pre">event_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11EventStreamE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::EventStream</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11EventStream11EventStreamENSt10unique_ptrIN4grpc21ClientReaderInterfaceIN6kumiho5EventEEEEE"><code class="docutils literal notranslate"><span class="pre">EventStream()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11EventStream8readNextER5Event"><code class="docutils literal notranslate"><span class="pre">readNext()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11EventStream7reader_E"><code class="docutils literal notranslate"><span class="pre">reader_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api20ImpactAnalysisResultE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::ImpactAnalysisResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api20ImpactAnalysisResult18impacted_revisionsE"><code class="docutils literal notranslate"><span class="pre">impacted_revisions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api20ImpactAnalysisResult14total_impactedE"><code class="docutils literal notranslate"><span class="pre">total_impacted</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api20ImpactAnalysisResult9truncatedE"><code class="docutils literal notranslate"><span class="pre">truncated</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16ImpactedRevisionE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::ImpactedRevision</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16ImpactedRevision13revision_krefE"><code class="docutils literal notranslate"><span class="pre">revision_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16ImpactedRevision9item_krefE"><code class="docutils literal notranslate"><span class="pre">item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16ImpactedRevision12impact_depthE"><code class="docutils literal notranslate"><span class="pre">impact_depth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16ImpactedRevision17impact_path_typesE"><code class="docutils literal notranslate"><span class="pre">impact_path_types</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4ItemE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Item</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item4ItemERKN6kumiho12ItemResponseEP6Client"><code class="docutils literal notranslate"><span class="pre">Item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item7getKrefEv"><code class="docutils literal notranslate"><span class="pre">getKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item7getNameEv"><code class="docutils literal notranslate"><span class="pre">getName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item11getItemNameEv"><code class="docutils literal notranslate"><span class="pre">getItemName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item7getKindEv"><code class="docutils literal notranslate"><span class="pre">getKind()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item11getMetadataEv"><code class="docutils literal notranslate"><span class="pre">getMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item12getCreatedAtEv"><code class="docutils literal notranslate"><span class="pre">getCreatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item9getAuthorEv"><code class="docutils literal notranslate"><span class="pre">getAuthor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item11getUsernameEv"><code class="docutils literal notranslate"><span class="pre">getUsername()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Item12isDeprecatedEv"><code class="docutils literal notranslate"><span class="pre">isDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item14createRevisionERK8Metadata"><code class="docutils literal notranslate"><span class="pre">createRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item11getRevisionEi"><code class="docutils literal notranslate"><span class="pre">getRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item12getRevisionsEv"><code class="docutils literal notranslate"><span class="pre">getRevisions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item16getRevisionByTagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getRevisionByTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item17getRevisionByTimeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getRevisionByTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item17getRevisionByTimeENSt6chrono12system_clock10time_pointE"><code class="docutils literal notranslate"><span class="pre">getRevisionByTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item23getRevisionByTagAndTimeERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getRevisionByTagAndTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item23getRevisionByTagAndTimeERKNSt6stringENSt6chrono12system_clock10time_pointE"><code class="docutils literal notranslate"><span class="pre">getRevisionByTagAndTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item17getLatestRevisionEv"><code class="docutils literal notranslate"><span class="pre">getLatestRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item16peekNextRevisionEv"><code class="docutils literal notranslate"><span class="pre">peekNextRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item11setMetadataERK8Metadata"><code class="docutils literal notranslate"><span class="pre">setMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item12getAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item12setAttributeERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item15deleteAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">deleteAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item10deleteItemEb"><code class="docutils literal notranslate"><span class="pre">deleteItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item8getSpaceEv"><code class="docutils literal notranslate"><span class="pre">getSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item10getProjectEv"><code class="docutils literal notranslate"><span class="pre">getProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item13setDeprecatedEb"><code class="docutils literal notranslate"><span class="pre">setDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item7refreshEv"><code class="docutils literal notranslate"><span class="pre">refresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item9response_E"><code class="docutils literal notranslate"><span class="pre">response_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Item7client_E"><code class="docutils literal notranslate"><span class="pre">client_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4KrefE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Kref</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4Kref4KrefERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">Kref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref3uriEv"><code class="docutils literal notranslate"><span class="pre">uri()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref7getPathEv"><code class="docutils literal notranslate"><span class="pre">getPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref10getProjectEv"><code class="docutils literal notranslate"><span class="pre">getProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref8getSpaceEv"><code class="docutils literal notranslate"><span class="pre">getSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref8getGroupEv"><code class="docutils literal notranslate"><span class="pre">getGroup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref11getItemNameEv"><code class="docutils literal notranslate"><span class="pre">getItemName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref14getProductNameEv"><code class="docutils literal notranslate"><span class="pre">getProductName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref7getKindEv"><code class="docutils literal notranslate"><span class="pre">getKind()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref7getTypeEv"><code class="docutils literal notranslate"><span class="pre">getType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref15getFullItemNameEv"><code class="docutils literal notranslate"><span class="pre">getFullItemName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref18getFullProductNameEv"><code class="docutils literal notranslate"><span class="pre">getFullProductName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref11getRevisionEv"><code class="docutils literal notranslate"><span class="pre">getRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref10getVersionEv"><code class="docutils literal notranslate"><span class="pre">getVersion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref15getArtifactNameEv"><code class="docutils literal notranslate"><span class="pre">getArtifactName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref15getResourceNameEv"><code class="docutils literal notranslate"><span class="pre">getResourceName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref6getTagEv"><code class="docutils literal notranslate"><span class="pre">getTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref7getTimeEv"><code class="docutils literal notranslate"><span class="pre">getTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref4toPbEv"><code class="docutils literal notranslate"><span class="pre">toPb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref7isValidEv"><code class="docutils literal notranslate"><span class="pre">isValid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4KrefeqERK4Kref"><code class="docutils literal notranslate"><span class="pre">operator==()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4KrefeqERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">operator==()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api4Kref13getQueryParamERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getQueryParam()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19KrefValidationErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::KrefValidationError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19KrefValidationError19KrefValidationErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">KrefValidationError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11KumihoErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::KumihoError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11KumihoError11KumihoErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">KumihoError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13NotFoundErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::NotFoundError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13NotFoundError13NotFoundErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">NotFoundError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4I0EN6kumiho3api9PagedListE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::PagedList</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api9PagedList5itemsE"><code class="docutils literal notranslate"><span class="pre">items</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api9PagedList11next_cursorE"><code class="docutils literal notranslate"><span class="pre">next_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api9PagedList11total_countE"><code class="docutils literal notranslate"><span class="pre">total_count</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8PathStepE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::PathStep</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8PathStep13revision_krefE"><code class="docutils literal notranslate"><span class="pre">revision_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8PathStep9edge_typeE"><code class="docutils literal notranslate"><span class="pre">edge_type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8PathStep5depthE"><code class="docutils literal notranslate"><span class="pre">depth</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7ProjectE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Project</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project7ProjectERKN6kumiho15ProjectResponseEP6Client"><code class="docutils literal notranslate"><span class="pre">Project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project12getProjectIdEv"><code class="docutils literal notranslate"><span class="pre">getProjectId()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project7getNameEv"><code class="docutils literal notranslate"><span class="pre">getName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project7getKrefEv"><code class="docutils literal notranslate"><span class="pre">getKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project14getDescriptionEv"><code class="docutils literal notranslate"><span class="pre">getDescription()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project12getCreatedAtEv"><code class="docutils literal notranslate"><span class="pre">getCreatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project12getUpdatedAtEv"><code class="docutils literal notranslate"><span class="pre">getUpdatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project12isDeprecatedEv"><code class="docutils literal notranslate"><span class="pre">isDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api7Project8isPublicEv"><code class="docutils literal notranslate"><span class="pre">isPublic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project11createSpaceERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project8getSpaceERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project9getSpacesEb"><code class="docutils literal notranslate"><span class="pre">getSpaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project8getItemsERKNSt6stringERKNSt6stringENSt8optionalI7int32_tEENSt8optionalINSt6stringEEE"><code class="docutils literal notranslate"><span class="pre">getItems()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project12createBundleERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project9getBundleERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project9setPublicEb"><code class="docutils literal notranslate"><span class="pre">setPublic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project6updateERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project13deleteProjectEb"><code class="docutils literal notranslate"><span class="pre">deleteProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project9response_E"><code class="docutils literal notranslate"><span class="pre">response_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api7Project7client_E"><code class="docutils literal notranslate"><span class="pre">client_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api17ProjectLimitErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::ProjectLimitError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api17ProjectLimitError17ProjectLimitErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">ProjectLimitError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13RegionRoutingE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::RegionRouting</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13RegionRouting11region_codeE"><code class="docutils literal notranslate"><span class="pre">region_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13RegionRouting10server_urlE"><code class="docutils literal notranslate"><span class="pre">server_url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13RegionRouting14grpc_authorityE"><code class="docutils literal notranslate"><span class="pre">grpc_authority</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api17ReservedKindErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::ReservedKindError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api17ReservedKindError17ReservedKindErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">ReservedKindError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8RevisionE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Revision</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision8RevisionERKN6kumiho16RevisionResponseEP6Client"><code class="docutils literal notranslate"><span class="pre">Revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision7getKrefEv"><code class="docutils literal notranslate"><span class="pre">getKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision11getItemKrefEv"><code class="docutils literal notranslate"><span class="pre">getItemKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision17getRevisionNumberEv"><code class="docutils literal notranslate"><span class="pre">getRevisionNumber()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision7getTagsEv"><code class="docutils literal notranslate"><span class="pre">getTags()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision11getMetadataEv"><code class="docutils literal notranslate"><span class="pre">getMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision12getCreatedAtEv"><code class="docutils literal notranslate"><span class="pre">getCreatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision9getAuthorEv"><code class="docutils literal notranslate"><span class="pre">getAuthor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision11getUsernameEv"><code class="docutils literal notranslate"><span class="pre">getUsername()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision8isLatestEv"><code class="docutils literal notranslate"><span class="pre">isLatest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision12isDeprecatedEv"><code class="docutils literal notranslate"><span class="pre">isDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision11isPublishedEv"><code class="docutils literal notranslate"><span class="pre">isPublished()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8Revision18getDefaultArtifactEv"><code class="docutils literal notranslate"><span class="pre">getDefaultArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision18setDefaultArtifactERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setDefaultArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision14createArtifactERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision11getArtifactERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getArtifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision12getArtifactsEv"><code class="docutils literal notranslate"><span class="pre">getArtifacts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision12getLocationsEv"><code class="docutils literal notranslate"><span class="pre">getLocations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision11setMetadataERK8Metadata"><code class="docutils literal notranslate"><span class="pre">setMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision12getAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision12setAttributeERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision15deleteAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">deleteAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision3tagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision5untagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">untag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision6hasTagERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">hasTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision9wasTaggedERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">wasTagged()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision14deleteRevisionEb"><code class="docutils literal notranslate"><span class="pre">deleteRevision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision7getItemEv"><code class="docutils literal notranslate"><span class="pre">getItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision8getSpaceEv"><code class="docutils literal notranslate"><span class="pre">getSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision10getProjectEv"><code class="docutils literal notranslate"><span class="pre">getProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision10createEdgeERK4KrefRKNSt6stringERK8Metadata"><code class="docutils literal notranslate"><span class="pre">createEdge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision8getEdgesERKNSt6stringE13EdgeDirection"><code class="docutils literal notranslate"><span class="pre">getEdges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision7refreshEv"><code class="docutils literal notranslate"><span class="pre">refresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision13setDeprecatedEb"><code class="docutils literal notranslate"><span class="pre">setDeprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision7publishEv"><code class="docutils literal notranslate"><span class="pre">publish()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision18getAllDependenciesERKNSt6vectorINSt6stringEEEii"><code class="docutils literal notranslate"><span class="pre">getAllDependencies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision16getAllDependentsERKNSt6vectorINSt6stringEEEii"><code class="docutils literal notranslate"><span class="pre">getAllDependents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision10findPathToERK4KrefRKNSt6vectorINSt6stringEEEib"><code class="docutils literal notranslate"><span class="pre">findPathTo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision13analyzeImpactERKNSt6vectorINSt6stringEEEii"><code class="docutils literal notranslate"><span class="pre">analyzeImpact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision9response_E"><code class="docutils literal notranslate"><span class="pre">response_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8Revision7client_E"><code class="docutils literal notranslate"><span class="pre">client_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12RevisionPathE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::RevisionPath</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api12RevisionPath5emptyEv"><code class="docutils literal notranslate"><span class="pre">empty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12RevisionPath5stepsE"><code class="docutils literal notranslate"><span class="pre">steps</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12RevisionPath11total_depthE"><code class="docutils literal notranslate"><span class="pre">total_depth</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8RpcErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::RpcError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8RpcError8RpcErrorERKNSt6stringEi"><code class="docutils literal notranslate"><span class="pre">RpcError()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api8RpcError4codeEv"><code class="docutils literal notranslate"><span class="pre">code()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8RpcError5code_E"><code class="docutils literal notranslate"><span class="pre">code_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api18ShortestPathResultE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::ShortestPathResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api18ShortestPathResult10first_pathEv"><code class="docutils literal notranslate"><span class="pre">first_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api18ShortestPathResult5pathsE"><code class="docutils literal notranslate"><span class="pre">paths</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api18ShortestPathResult11path_existsE"><code class="docutils literal notranslate"><span class="pre">path_exists</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api18ShortestPathResult11path_lengthE"><code class="docutils literal notranslate"><span class="pre">path_length</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5SpaceE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::Space</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space5SpaceERKN6kumiho13SpaceResponseEP6Client"><code class="docutils literal notranslate"><span class="pre">Space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space7getPathEv"><code class="docutils literal notranslate"><span class="pre">getPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space7getKrefEv"><code class="docutils literal notranslate"><span class="pre">getKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space7getNameEv"><code class="docutils literal notranslate"><span class="pre">getName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space7getTypeEv"><code class="docutils literal notranslate"><span class="pre">getType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space11getMetadataEv"><code class="docutils literal notranslate"><span class="pre">getMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space12getCreatedAtEv"><code class="docutils literal notranslate"><span class="pre">getCreatedAt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space9getAuthorEv"><code class="docutils literal notranslate"><span class="pre">getAuthor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api5Space11getUsernameEv"><code class="docutils literal notranslate"><span class="pre">getUsername()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space11createSpaceERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space10createItemERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space7getItemERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getItem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space8getItemsERKNSt6stringERKNSt6stringENSt8optionalI7int32_tEENSt8optionalINSt6stringEEEb"><code class="docutils literal notranslate"><span class="pre">getItems()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space11setMetadataERK8Metadata"><code class="docutils literal notranslate"><span class="pre">setMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space12getAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space12setAttributeERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space15deleteAttributeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">deleteAttribute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space11deleteSpaceEb"><code class="docutils literal notranslate"><span class="pre">deleteSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space14getParentSpaceEv"><code class="docutils literal notranslate"><span class="pre">getParentSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space14getChildSpacesEv"><code class="docutils literal notranslate"><span class="pre">getChildSpaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space10getProjectEv"><code class="docutils literal notranslate"><span class="pre">getProject()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space12createBundleERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space9getBundleERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getBundle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space9response_E"><code class="docutils literal notranslate"><span class="pre">response_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api5Space7client_E"><code class="docutils literal notranslate"><span class="pre">client_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11TenantUsageE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::TenantUsage</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api11TenantUsage12usagePercentEv"><code class="docutils literal notranslate"><span class="pre">usagePercent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api11TenantUsage11isNearLimitEv"><code class="docutils literal notranslate"><span class="pre">isNearLimit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4NK6kumiho3api11TenantUsage9isAtLimitEv"><code class="docutils literal notranslate"><span class="pre">isAtLimit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11TenantUsage10node_countE"><code class="docutils literal notranslate"><span class="pre">node_count</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11TenantUsage10node_limitE"><code class="docutils literal notranslate"><span class="pre">node_limit</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11TenantUsage9tenant_idE"><code class="docutils literal notranslate"><span class="pre">tenant_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15TraversalResultE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::TraversalResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15TraversalResult5pathsE"><code class="docutils literal notranslate"><span class="pre">paths</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15TraversalResult14revision_krefsE"><code class="docutils literal notranslate"><span class="pre">revision_krefs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15TraversalResult5edgesE"><code class="docutils literal notranslate"><span class="pre">edges</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15TraversalResult11total_countE"><code class="docutils literal notranslate"><span class="pre">total_count</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15TraversalResult9truncatedE"><code class="docutils literal notranslate"><span class="pre">truncated</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15ValidationErrorE"><code class="docutils literal notranslate"><span class="pre">kumiho::api::ValidationError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15ValidationError15ValidationErrorERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">ValidationError()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv46kumiho"><code class="docutils literal notranslate"><span class="pre">kumiho</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3apiE"><code class="docutils literal notranslate"><span class="pre">kumiho::api</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8ResourceE"><code class="docutils literal notranslate"><span class="pre">Resource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api23LinkTypeValidationErrorE"><code class="docutils literal notranslate"><span class="pre">LinkTypeValidationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api24ReservedProductTypeErrorE"><code class="docutils literal notranslate"><span class="pre">ReservedProductTypeError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8MetadataE"><code class="docutils literal notranslate"><span class="pre">Metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13EdgeDirectionE"><code class="docutils literal notranslate"><span class="pre">EdgeDirection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13EdgeDirection8OUTGOINGE"><code class="docutils literal notranslate"><span class="pre">OUTGOING</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13EdgeDirection8INCOMINGE"><code class="docutils literal notranslate"><span class="pre">INCOMING</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13EdgeDirection4BOTHE"><code class="docutils literal notranslate"><span class="pre">BOTH</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11createSpaceENSt10shared_ptrI6ClientEERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11createGroupENSt10shared_ptrI6ClientEERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">createGroup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14getCurrentUserEv"><code class="docutils literal notranslate"><span class="pre">getCurrentUser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api25getDefaultControlPlaneUrlEv"><code class="docutils literal notranslate"><span class="pre">getDefaultControlPlaneUrl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19getDefaultCachePathEv"><code class="docutils literal notranslate"><span class="pre">getDefaultCachePath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19clientFromDiscoveryERKNSt8optionalINSt6stringEEERKNSt8optionalINSt6stringEEERKNSt6stringERKNSt6stringEb"><code class="docutils literal notranslate"><span class="pre">clientFromDiscovery()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16validateEdgeTypeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">validateEdgeType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15isValidEdgeTypeERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">isValidEdgeType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12validateKrefERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">validateKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api11isValidKrefERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">isValidKref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12getConfigDirEv"><code class="docutils literal notranslate"><span class="pre">getConfigDir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api18getCredentialsPathEv"><code class="docutils literal notranslate"><span class="pre">getCredentialsPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15loadBearerTokenEv"><code class="docutils literal notranslate"><span class="pre">loadBearerToken()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api17loadFirebaseTokenEv"><code class="docutils literal notranslate"><span class="pre">loadFirebaseToken()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19validateTokenFormatERKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">validateTokenFormat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api19isControlPlaneTokenERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">isControlPlaneToken()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api15decodeJwtClaimsERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">decodeJwtClaims()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14isReservedKindERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">isReservedKind()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api10DEPENDS_ONE"><code class="docutils literal notranslate"><span class="pre">DEPENDS_ON</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12DERIVED_FROME"><code class="docutils literal notranslate"><span class="pre">DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api12CREATED_FROME"><code class="docutils literal notranslate"><span class="pre">CREATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api10REFERENCEDE"><code class="docutils literal notranslate"><span class="pre">REFERENCED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8CONTAINSE"><code class="docutils literal notranslate"><span class="pre">CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api10BELONGS_TOE"><code class="docutils literal notranslate"><span class="pre">BELONGS_TO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8OUTGOINGE"><code class="docutils literal notranslate"><span class="pre">OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api8INCOMINGE"><code class="docutils literal notranslate"><span class="pre">INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api4BOTHE"><code class="docutils literal notranslate"><span class="pre">BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api9TOKEN_ENVE"><code class="docutils literal notranslate"><span class="pre">TOKEN_ENV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api18FIREBASE_TOKEN_ENVE"><code class="docutils literal notranslate"><span class="pre">FIREBASE_TOKEN_ENV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api16USE_CP_TOKEN_ENVE"><code class="docutils literal notranslate"><span class="pre">USE_CP_TOKEN_ENV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14CONFIG_DIR_ENVE"><code class="docutils literal notranslate"><span class="pre">CONFIG_DIR_ENV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api20CREDENTIALS_FILENAMEE"><code class="docutils literal notranslate"><span class="pre">CREDENTIALS_FILENAME</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api10LATEST_TAGE"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api13PUBLISHED_TAGE"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#_CPPv4N6kumiho3api14RESERVED_KINDSE"><code class="docutils literal notranslate"><span class="pre">RESERVED_KINDS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv4St"><code class="docutils literal notranslate"><span class="pre">std</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv47address"><code class="docutils literal notranslate"><span class="pre">address</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv49authority"><code class="docutils literal notranslate"><span class="pre">authority</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv47use_tls"><code class="docutils literal notranslate"><span class="pre">use_tls</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv419control_plane_token"><code class="docutils literal notranslate"><span class="pre">control_plane_token</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#_CPPv48id_token"><code class="docutils literal notranslate"><span class="pre">id_token</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Kumiho C++ SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Kumiho C++ SDK Implementation Plan</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/IMPLEMENTATION_PLAN.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="kumiho-c-sdk-implementation-plan">
+<h1>Kumiho C++ SDK Implementation Plan<a class="headerlink" href="#kumiho-c-sdk-implementation-plan" title="Link to this heading"></a></h1>
+<p><strong>Goal:</strong> Modernize kumiho-cpp to achieve feature parity with kumiho-python while adopting modular design patterns.</p>
+<p><strong>Reference:</strong> kumiho-python v0.3.0</p>
+<hr class="docutils" />
+<section id="current-state-assessment">
+<h2>Current State Assessment<a class="headerlink" href="#current-state-assessment" title="Link to this heading"></a></h2>
+<section id="existing-code-quality-3-5">
+<h3>Existing Code Quality: ⭐⭐⭐☆☆ (3/5)<a class="headerlink" href="#existing-code-quality-3-5" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Status</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>gRPC Integration</p></td>
+<td><p>✅ Good</p></td>
+<td><p>Proper channel/stub management</p></td>
+</tr>
+<tr class="row-odd"><td><p>Memory Management</p></td>
+<td><p>✅ Good</p></td>
+<td><p>Consistent shared_ptr usage</p></td>
+</tr>
+<tr class="row-even"><td><p>TLS/SSL Support</p></td>
+<td><p>✅ Good</p></td>
+<td><p>CA bundles, authority override</p></td>
+</tr>
+<tr class="row-odd"><td><p>Endpoint Parsing</p></td>
+<td><p>✅ Good</p></td>
+<td><p>Handles multiple URI formats</p></td>
+</tr>
+<tr class="row-even"><td><p>Error Handling</p></td>
+<td><p>⚠️ Basic</p></td>
+<td><p>Only std::runtime_error</p></td>
+</tr>
+<tr class="row-odd"><td><p>Code Organization</p></td>
+<td><p>❌ Poor</p></td>
+<td><p>Single header + single cpp file</p></td>
+</tr>
+<tr class="row-even"><td><p>Documentation</p></td>
+<td><p>⚠️ Basic</p></td>
+<td><p>Some doxygen comments</p></td>
+</tr>
+<tr class="row-odd"><td><p>Testing</p></td>
+<td><p>❌ Missing</p></td>
+<td><p>Only example file</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="architecture-problem">
+<h3>Architecture Problem<a class="headerlink" href="#architecture-problem" title="Link to this heading"></a></h3>
+<p><strong>Current (Monolithic):</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="o">/</span>
+  <span class="n">kumiho</span><span class="o">.</span><span class="n">h</span>           <span class="c1"># 242 lines - ALL classes in one header</span>
+<span class="n">client</span><span class="o">/</span>
+  <span class="n">kumiho</span><span class="o">.</span><span class="n">cpp</span>         <span class="c1"># 1431 lines - ALL implementations in one file</span>
+</pre></div>
+</div>
+<p><strong>Target (Modular - Matching Python):</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="o">/</span><span class="n">kumiho</span><span class="o">/</span>
+  <span class="n">kumiho</span><span class="o">.</span><span class="n">hpp</span>         <span class="c1"># Main include (forwards + convenience)</span>
+  <span class="n">client</span><span class="o">.</span><span class="n">hpp</span>         <span class="c1"># Client class</span>
+  <span class="n">project</span><span class="o">.</span><span class="n">hpp</span>        <span class="c1"># Project entity</span>
+  <span class="n">group</span><span class="o">.</span><span class="n">hpp</span>          <span class="c1"># Group entity  </span>
+  <span class="n">product</span><span class="o">.</span><span class="n">hpp</span>        <span class="c1"># Product entity</span>
+  <span class="n">version</span><span class="o">.</span><span class="n">hpp</span>        <span class="c1"># Version entity</span>
+  <span class="n">resource</span><span class="o">.</span><span class="n">hpp</span>       <span class="c1"># Resource entity</span>
+  <span class="n">link</span><span class="o">.</span><span class="n">hpp</span>           <span class="c1"># Link entity + LinkType + LinkDirection</span>
+  <span class="n">collection</span><span class="o">.</span><span class="n">hpp</span>     <span class="c1"># Collection entity</span>
+  <span class="n">kref</span><span class="o">.</span><span class="n">hpp</span>           <span class="c1"># Kref URI parser</span>
+  <span class="n">event</span><span class="o">.</span><span class="n">hpp</span>          <span class="c1"># Event + EventStream</span>
+  <span class="n">discovery</span><span class="o">.</span><span class="n">hpp</span>      <span class="c1"># Discovery + auto-configure</span>
+  <span class="n">error</span><span class="o">.</span><span class="n">hpp</span>          <span class="c1"># Exception hierarchy</span>
+  <span class="n">types</span><span class="o">.</span><span class="n">hpp</span>          <span class="c1"># Common typedefs, constants</span>
+<span class="n">src</span><span class="o">/</span>
+  <span class="n">client</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">project</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">group</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">product</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">version</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">resource</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">link</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">collection</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">kref</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">event</span><span class="o">.</span><span class="n">cpp</span>
+  <span class="n">discovery</span><span class="o">.</span><span class="n">cpp</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="implementation-checklist">
+<h2>Implementation Checklist<a class="headerlink" href="#implementation-checklist" title="Link to this heading"></a></h2>
+<section id="phase-1-project-structure-modularization-complete">
+<h3>Phase 1: Project Structure &amp; Modularization ✅ COMPLETE<a class="headerlink" href="#phase-1-project-structure-modularization-complete" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Refactor existing code into modular files without changing functionality</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>1.1</strong> Create new directory structure</p>
+<ul>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">include/kumiho/</span></code> directory</p></li>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">src/</span></code> directory (rename from <code class="docutils literal notranslate"><span class="pre">client/</span></code>)</p></li>
+<li><p>[x] Update <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> for new structure</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>1.2</strong> Extract <code class="docutils literal notranslate"><span class="pre">kref.hpp</span></code> / <code class="docutils literal notranslate"><span class="pre">kref.cpp</span></code></p>
+<ul>
+<li><p>[x] Move <code class="docutils literal notranslate"><span class="pre">Kref</span></code> class to separate files</p></li>
+<li><p>[x] Add <code class="docutils literal notranslate"><span class="pre">KrefValidationError</span></code> exception</p></li>
+<li><p>[x] Add <code class="docutils literal notranslate"><span class="pre">validate_kref()</span></code> and <code class="docutils literal notranslate"><span class="pre">is_valid_kref()</span></code> functions</p></li>
+<li><p>[x] Match Python’s parsing logic exactly</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>1.3</strong> Extract <code class="docutils literal notranslate"><span class="pre">error.hpp</span></code></p>
+<ul>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">KumihoError</span></code> base exception</p></li>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">RpcError</span></code> for gRPC failures</p></li>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">NotFoundError</span></code> for NOT_FOUND status</p></li>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">ProjectLimitError</span></code> for RESOURCE_EXHAUSTED</p></li>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">ValidationError</span></code> for input validation</p></li>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">DiscoveryError</span></code> for discovery failures</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>1.4</strong> Extract <code class="docutils literal notranslate"><span class="pre">types.hpp</span></code></p>
+<ul>
+<li><p>[x] Define common type aliases</p></li>
+<li><p>[x] Define constants (LATEST_TAG, PUBLISHED_TAG)</p></li>
+<li><p>[x] Define <code class="docutils literal notranslate"><span class="pre">Metadata</span></code> = <code class="docutils literal notranslate"><span class="pre">std::map&lt;std::string,</span> <span class="pre">std::string&gt;</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>1.5</strong> Extract entity headers (Group, Product, Version, Resource, Link)</p>
+<ul>
+<li><p>[x] Move each class to its own header</p></li>
+<li><p>[x] Create corresponding <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> files</p></li>
+<li><p>[x] Add forward declarations to avoid circular includes</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>1.6</strong> Extract <code class="docutils literal notranslate"><span class="pre">client.hpp</span></code> / <code class="docutils literal notranslate"><span class="pre">client.cpp</span></code></p>
+<ul>
+<li><p>[x] Keep Client class with all gRPC methods</p></li>
+<li><p>[x] Add proper includes for all entity types</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>1.7</strong> Create main <code class="docutils literal notranslate"><span class="pre">kumiho.hpp</span></code> umbrella header</p>
+<ul>
+<li><p>[x] Include all public headers</p></li>
+<li><p>[x] Add namespace aliases for convenience</p></li>
+<li><p>[x] Match Python’s <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> exports</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>1.8</strong> Update build system</p>
+<ul>
+<li><p>[x] Update <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> with all new source files</p></li>
+<li><p>[x] Ensure library builds correctly</p></li>
+<li><p>[x] Update tests to use new includes</p></li>
+<li><p>[x] All targets build: <code class="docutils literal notranslate"><span class="pre">kumiho.lib</span></code>, examples, tests</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Files Created:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">include/kumiho/types.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">error.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">kref.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">link.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">event.hpp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include/kumiho/group.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">product.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">version.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">resource.hpp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include/kumiho/project.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">collection.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">client.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">kumiho.hpp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/client.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">kref.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">link.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">event.cpp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/group.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">product.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">version.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">resource.cpp</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/project.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">collection.cpp</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="phase-2-add-missing-entities-complete">
+<h3>Phase 2: Add Missing Entities ✅ COMPLETE<a class="headerlink" href="#phase-2-add-missing-entities-complete" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Implement Project and Collection classes</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>2.1</strong> Implement <code class="docutils literal notranslate"><span class="pre">project.hpp</span></code> / <code class="docutils literal notranslate"><span class="pre">project.cpp</span></code></p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Project</span></code> class with attributes:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">project_id:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">name:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">description:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">created_at:</span> <span class="pre">std::optional&lt;std::string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">updated_at:</span> <span class="pre">std::optional&lt;std::string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">deprecated:</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">allow_public:</span> <span class="pre">bool</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] Methods:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">createGroup(name)</span> <span class="pre">-&gt;</span> <span class="pre">Group</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getGroup(path)</span> <span class="pre">-&gt;</span> <span class="pre">Group</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getGroups(recursive=false)</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;Group&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">createCollection(name)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getCollection(name)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">setPublic(allow)</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">update(description)</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">delete(force=false)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>[x] <strong>2.2</strong> Add Project methods to Client</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">createProject(name,</span> <span class="pre">description)</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProjects()</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;Project&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProject(name)</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;Project&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">deleteProject(project_id,</span> <span class="pre">force)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">updateProject(project_id,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>2.3</strong> Implement <code class="docutils literal notranslate"><span class="pre">collection.hpp</span></code> / <code class="docutils literal notranslate"><span class="pre">collection.cpp</span></code></p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Collection</span></code> class (extends Product pattern)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">CollectionMember</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">product_kref:</span> <span class="pre">Kref</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">added_at:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">added_by:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">added_by_username:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">added_in_version:</span> <span class="pre">int</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">CollectionVersionHistory</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">version_number:</span> <span class="pre">int</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">action:</span> <span class="pre">std::string</span></code> (CREATED/ADDED/REMOVED)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">member_product_kref:</span> <span class="pre">std::optional&lt;Kref&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">author:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">username:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">created_at:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">metadata:</span> <span class="pre">Metadata</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] Methods:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">addMember(product)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">removeMember(product)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getMembers()</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;CollectionMember&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getHistory()</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;CollectionVersionHistory&gt;</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>[x] <strong>2.4</strong> Add Collection client methods</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">createCollection(parent_path,</span> <span class="pre">name)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">createCollection(parent_kref,</span> <span class="pre">name)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code> (overload)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getCollection(parent_path,</span> <span class="pre">name)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">addCollectionMember(collection_kref,</span> <span class="pre">product_kref)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">removeCollectionMember(collection_kref,</span> <span class="pre">product_kref)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getCollectionMembers(collection_kref)</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;CollectionMember&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getCollectionHistory(collection_kref)</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;CollectionVersionHistory&gt;</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>2.5</strong> Add reserved product type validation</p>
+<ul>
+<li><p>[x] Define <code class="docutils literal notranslate"><span class="pre">RESERVED_PRODUCT_TYPES</span></code> constant in <code class="docutils literal notranslate"><span class="pre">types.hpp</span></code></p></li>
+<li><p>[x] Create <code class="docutils literal notranslate"><span class="pre">ReservedProductTypeError</span></code> exception in <code class="docutils literal notranslate"><span class="pre">error.hpp</span></code></p></li>
+<li><p>[x] Add validation in <code class="docutils literal notranslate"><span class="pre">Client::createProduct()</span></code> and <code class="docutils literal notranslate"><span class="pre">Group::createProduct()</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="phase-3-add-missing-methods-to-existing-entities">
+<h3>Phase 3: Add Missing Methods to Existing Entities<a class="headerlink" href="#phase-3-add-missing-methods-to-existing-entities" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Bring existing classes to full parity with Python</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>3.1</strong> Group enhancements</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProject()</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code> (navigate to parent project)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProducts(name_filter,</span> <span class="pre">ptype_filter)</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;Product&gt;</span></code> (with filters)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">createCollection(name)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getCollection(name)</span> <span class="pre">-&gt;</span> <span class="pre">Collection</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>3.2</strong> Product enhancements</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">setDeprecated(deprecated)</span> <span class="pre">-&gt;</span> <span class="pre">Product</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProject()</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">refresh()</span> <span class="pre">-&gt;</span> <span class="pre">Product</span></code> (reload from server)</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>3.3</strong> Version enhancements</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">refresh()</span> <span class="pre">-&gt;</span> <span class="pre">Version</span></code> (reload from server)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">setDeprecated(deprecated)</span> <span class="pre">-&gt;</span> <span class="pre">Version</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">publish()</span> <span class="pre">-&gt;</span> <span class="pre">Version</span></code> (add published tag, make immutable)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">isPublished()</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code> (check published tag)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProject()</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">createLink(target,</span> <span class="pre">link_type,</span> <span class="pre">metadata)</span> <span class="pre">-&gt;</span> <span class="pre">Link</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getLinks(link_type_filter,</span> <span class="pre">direction)</span> <span class="pre">-&gt;</span> <span class="pre">vector&lt;Link&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">deleteLink(target,</span> <span class="pre">link_type)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>3.4</strong> Resource enhancements</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getVersion()</span> <span class="pre">-&gt;</span> <span class="pre">Version</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProduct()</span> <span class="pre">-&gt;</span> <span class="pre">Product</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getGroup()</span> <span class="pre">-&gt;</span> <span class="pre">Group</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getProject()</span> <span class="pre">-&gt;</span> <span class="pre">Project</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">setDefault()</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code> (set as default resource)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">setDeprecated(deprecated)</span> <span class="pre">-&gt;</span> <span class="pre">Resource</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>3.5</strong> Link enhancements</p>
+<ul>
+<li><p>[x] Add <code class="docutils literal notranslate"><span class="pre">LinkDirection</span></code> enum (OUTGOING=0, INCOMING=1, BOTH=2)</p></li>
+<li><p>[x] Add <code class="docutils literal notranslate"><span class="pre">LinkType</span></code> class with constants:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">BELONGS_TO</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">CREATED_FROM</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">REFERENCED</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">DEPENDS_ON</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">DERIVED_FROM</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">CONTAINS</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] Add <code class="docutils literal notranslate"><span class="pre">validateLinkType()</span></code> function</p></li>
+<li><p>[x] Add <code class="docutils literal notranslate"><span class="pre">LinkTypeValidationError</span></code> exception</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">created_at:</span> <span class="pre">std::optional&lt;std::string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">author:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">username:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">deleteLink()</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="phase-4-graph-traversal-advanced-features">
+<h3>Phase 4: Graph Traversal &amp; Advanced Features ✅<a class="headerlink" href="#phase-4-graph-traversal-advanced-features" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Add graph traversal capabilities matching Python</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>4.1</strong> Add traversal types (in <code class="docutils literal notranslate"><span class="pre">types.hpp</span></code>)</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">PathStep</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">version_kref:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">link_type:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">depth:</span> <span class="pre">int</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">VersionPath</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">steps:</span> <span class="pre">vector&lt;PathStep&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">total_depth:</span> <span class="pre">int</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">TraversalResult</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">paths:</span> <span class="pre">vector&lt;VersionPath&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">version_krefs:</span> <span class="pre">vector&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">links:</span> <span class="pre">vector&lt;shared_ptr&lt;Link&gt;&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">total_count:</span> <span class="pre">int</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">truncated:</span> <span class="pre">bool</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">ShortestPathResult</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">paths:</span> <span class="pre">vector&lt;VersionPath&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">path_exists:</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">path_length:</span> <span class="pre">int</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">first_path()</span> <span class="pre">-&gt;</span> <span class="pre">const</span> <span class="pre">VersionPath*</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">ImpactedVersion</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">version_kref:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">product_kref:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">impact_depth:</span> <span class="pre">int</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">impact_path_types:</span> <span class="pre">vector&lt;string&gt;</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">ImpactAnalysisResult</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">impacted_versions:</span> <span class="pre">vector&lt;ImpactedVersion&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">total_impacted:</span> <span class="pre">int</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">truncated:</span> <span class="pre">bool</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>[x] <strong>4.2</strong> Add Client graph methods</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">traverseLinks(origin_kref,</span> <span class="pre">direction,</span> <span class="pre">link_type_filter,</span> <span class="pre">max_depth,</span> <span class="pre">limit,</span> <span class="pre">include_path)</span> <span class="pre">-&gt;</span> <span class="pre">TraversalResult</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">findShortestPath(source,</span> <span class="pre">target,</span> <span class="pre">link_type_filter,</span> <span class="pre">max_depth,</span> <span class="pre">all_shortest)</span> <span class="pre">-&gt;</span> <span class="pre">ShortestPathResult</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">analyzeImpact(version_kref,</span> <span class="pre">link_type_filter,</span> <span class="pre">max_depth,</span> <span class="pre">limit)</span> <span class="pre">-&gt;</span> <span class="pre">ImpactAnalysisResult</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>4.3</strong> Add Version graph convenience methods</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getAllDependencies(link_type_filter,</span> <span class="pre">max_depth,</span> <span class="pre">limit)</span> <span class="pre">-&gt;</span> <span class="pre">TraversalResult</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getAllDependents(link_type_filter,</span> <span class="pre">max_depth,</span> <span class="pre">limit)</span> <span class="pre">-&gt;</span> <span class="pre">TraversalResult</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">findPathTo(target,</span> <span class="pre">link_type_filter,</span> <span class="pre">max_depth,</span> <span class="pre">all_paths)</span> <span class="pre">-&gt;</span> <span class="pre">ShortestPathResult</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">analyzeImpact(link_type_filter,</span> <span class="pre">max_depth,</span> <span class="pre">limit)</span> <span class="pre">-&gt;</span> <span class="pre">ImpactAnalysisResult</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="phase-5-attributes-system">
+<h3>Phase 5: Attributes System ✅<a class="headerlink" href="#phase-5-attributes-system" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Add dynamic key-value attribute support</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>5.1</strong> Add attribute methods to Client</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getAttribute(kref,</span> <span class="pre">key)</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">setAttribute(kref,</span> <span class="pre">key,</span> <span class="pre">value)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">deleteAttribute(kref,</span> <span class="pre">key)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <strong>5.2</strong> Add attribute methods to entities</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Product::getAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Product::setAttribute(key,</span> <span class="pre">value)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Product::deleteAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Version::getAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Version::setAttribute(key,</span> <span class="pre">value)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Version::deleteAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Resource::getAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Resource::setAttribute(key,</span> <span class="pre">value)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Resource::deleteAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Group::getAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Group::setAttribute(key,</span> <span class="pre">value)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Group::deleteAttribute(key)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="phase-6-discovery-authentication">
+<h3>Phase 6: Discovery &amp; Authentication ✅<a class="headerlink" href="#phase-6-discovery-authentication" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Add automatic endpoint discovery and auth token loading</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>6.1</strong> Implement <code class="docutils literal notranslate"><span class="pre">discovery.hpp</span></code> / <code class="docutils literal notranslate"><span class="pre">discovery.cpp</span></code></p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">DiscoveryRecord</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tenant_id:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">region:</span> <span class="pre">RegionRouting</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">RegionRouting</span></code> struct:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">region_code:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">server_url:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">grpc_authority:</span> <span class="pre">std::optional&lt;std::string&gt;</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">CacheControl</span></code> struct with <code class="docutils literal notranslate"><span class="pre">isExpired()</span></code>, <code class="docutils literal notranslate"><span class="pre">shouldRefresh()</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">DiscoveryCache</span></code> class:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">load(cache_key)</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;DiscoveryRecord&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">store(cache_key,</span> <span class="pre">record)</span> <span class="pre">-&gt;</span> <span class="pre">void</span></code></p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">DiscoveryManager</span></code> class:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">resolve(id_token,</span> <span class="pre">tenant_hint,</span> <span class="pre">force_refresh)</span> <span class="pre">-&gt;</span> <span class="pre">DiscoveryRecord</span></code></p></li>
+<li><p>[x] Local JSON caching support</p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">DiscoveryError</span></code> exception (already in error.hpp)</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>6.2</strong> Add token loading (<code class="docutils literal notranslate"><span class="pre">token_loader.hpp</span></code> / <code class="docutils literal notranslate"><span class="pre">token_loader.cpp</span></code>)</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">loadBearerToken()</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">loadFirebaseToken()</span> <span class="pre">-&gt;</span> <span class="pre">optional&lt;string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">isControlPlaneToken(token)</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">decodeJwtClaims(token)</span> <span class="pre">-&gt;</span> <span class="pre">map&lt;string,</span> <span class="pre">string&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getConfigDir()</span> <span class="pre">-&gt;</span> <span class="pre">path</span></code> (returns <code class="docutils literal notranslate"><span class="pre">~/.kumiho/</span></code>)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getCredentialsPath()</span> <span class="pre">-&gt;</span> <span class="pre">path</span></code></p></li>
+<li><p>[x] Support <code class="docutils literal notranslate"><span class="pre">KUMIHO_AUTH_TOKEN</span></code> env var override</p></li>
+<li><p>[x] Support <code class="docutils literal notranslate"><span class="pre">KUMIHO_FIREBASE_ID_TOKEN</span></code> env var</p></li>
+<li><p>[x] Support <code class="docutils literal notranslate"><span class="pre">KUMIHO_USE_CONTROL_PLANE_TOKEN</span></code> flag</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>6.3</strong> Add auto-configure function</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">clientFromDiscovery(id_token,</span> <span class="pre">tenant_hint,</span> <span class="pre">...)</span> <span class="pre">-&gt;</span> <span class="pre">shared_ptr&lt;Client&gt;</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getDefaultControlPlaneUrl()</span> <span class="pre">-&gt;</span> <span class="pre">string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">getDefaultCachePath()</span> <span class="pre">-&gt;</span> <span class="pre">path</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Files Created:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">include/kumiho/discovery.hpp</span></code> - Discovery types and DiscoveryManager</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include/kumiho/token_loader.hpp</span></code> - Token loading utilities</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/discovery.cpp</span></code> - Discovery implementation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src/token_loader.cpp</span></code> - Token loader implementation</p></li>
+</ul>
+<p><strong>Note:</strong> Remote HTTP discovery endpoint calls are stubbed (requires HTTP client library like libcurl).
+Local cache operations are fully functional.</p>
+</section>
+<hr class="docutils" />
+<section id="phase-7-tenant-usage-apis">
+<h3>Phase 7: Tenant &amp; Usage APIs ✅<a class="headerlink" href="#phase-7-tenant-usage-apis" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Add tenant-level operations</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>7.1</strong> Add tenant usage methods</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">TenantUsage</span></code> struct in <code class="docutils literal notranslate"><span class="pre">types.hpp</span></code>:</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">node_count:</span> <span class="pre">int64_t</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">node_limit:</span> <span class="pre">int64_t</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tenant_id:</span> <span class="pre">std::string</span></code></p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">usagePercent()</span> <span class="pre">-&gt;</span> <span class="pre">double</span></code> (helper method)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">isNearLimit()</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code> (&gt;80% usage)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">isAtLimit()</span> <span class="pre">-&gt;</span> <span class="pre">bool</span></code> (100% usage)</p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">Client::getTenantUsage()</span> <span class="pre">-&gt;</span> <span class="pre">TenantUsage</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="phase-8-testing-documentation">
+<h3>Phase 8: Testing &amp; Documentation ✅<a class="headerlink" href="#phase-8-testing-documentation" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Add comprehensive test suite and documentation</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>[x] <strong>8.1</strong> Unit tests</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/test_kref.cpp</span></code> - Kref parsing tests (26 tests)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/test_types.cpp</span></code> - Types and struct tests (20 tests)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/test_token_loader.cpp</span></code> - Token loading tests (18 tests)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/test_discovery.cpp</span></code> - Discovery caching tests (19 tests)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/test_api.cpp</span></code> - API client mock tests (existing)</p></li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/test_streaming.cpp</span></code> - Streaming tests (existing)</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>8.2</strong> Integration tests</p>
+<ul>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/integration/test_workflow.cpp</span></code> - Full workflow tests (6 tests)</p>
+<ul>
+<li><p>ClientConnection, FullEntityHierarchy, LinkingWorkflow</p></li>
+<li><p>MetadataUpdateWorkflow, VersionTaggingWorkflow, TenantUsageQuery</p></li>
+</ul>
+</li>
+<li><p>[x] <code class="docutils literal notranslate"><span class="pre">tests/integration/test_discovery_integration.cpp</span></code> - Discovery tests (7 tests)</p>
+<ul>
+<li><p>DiscoveryCacheOperations, DiscoveryManagerInit, DiscoveryManagerCustomUrl</p></li>
+<li><p>ControlPlaneTokenDetection, ConfigDirectoryPaths, TokenLoadingFromEnv, DefaultControlPlaneUrl</p></li>
+</ul>
+</li>
+<li><p>[x] Integration test structure with environment variable control</p></li>
+<li><p>[x] Full integration tests verified against local servers (localhost:8080 data plane, localhost:3000 control plane)</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>8.3</strong> Documentation</p>
+<ul>
+<li><p>[x] Doxygen-style documentation in headers</p></li>
+<li><p>[x] Usage examples in README.md</p></li>
+<li><p>[x] Doxyfile configuration for API reference generation</p></li>
+<li><p>[ ] Migration guide from old API (future)</p></li>
+</ul>
+</li>
+<li><p>[x] <strong>8.4</strong> CMake improvements</p>
+<ul>
+<li><p>[x] Add test targets (6 unit test + 2 integration test executables)</p></li>
+<li><p>[x] GTest integration</p></li>
+<li><p>[x] Add install target with proper include directories</p></li>
+<li><p>[x] Add find_package support (<code class="docutils literal notranslate"><span class="pre">cmake/kumiho-config.cmake.in</span></code>)</p></li>
+<li><p>[x] vcpkg manifest (<code class="docutils literal notranslate"><span class="pre">vcpkg.json</span></code>)</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Test Coverage:</strong></p>
+<ul class="simple">
+<li><p>Total: 83+ unit tests across 6 unit test executables</p></li>
+<li><p>Integration tests: 13 tests across 2 executables (6 workflow + 7 discovery)</p></li>
+<li><p>All unit tests pass on Windows/MSVC</p></li>
+<li><p>All integration tests pass against local servers (requires KUMIHO_INTEGRATION_TEST=1)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="file-mapping-python-c">
+<h2>File Mapping: Python → C++<a class="headerlink" href="#file-mapping-python-c" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Python Module</p></th>
+<th class="head"><p>C++ Header</p></th>
+<th class="head"><p>C++ Source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">__init__.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kumiho.hpp</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">client.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">project.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">project.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">project.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">group.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">group.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">group.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">product.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">product.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">product.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">version.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">version.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">version.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">resource.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">resource.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">resource.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">link.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">link.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">link.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">collection.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">collection.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">collection.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kref.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kref.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kref.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">event.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">event.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">event.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">discovery.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">discovery.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">discovery.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">base.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">base.hpp</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">_token_loader.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">token_loader.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">token_loader.cpp</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="priority-order">
+<h2>Priority Order<a class="headerlink" href="#priority-order" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Phase 1</strong> (Foundation) - ✅ COMPLETE</p></li>
+<li><p><strong>Phase 2</strong> (Project/Collection) - ✅ COMPLETE</p></li>
+<li><p><strong>Phase 3</strong> (Method parity) - ✅ COMPLETE</p></li>
+<li><p><strong>Phase 4</strong> (Graph traversal) - ✅ COMPLETE</p></li>
+<li><p><strong>Phase 5</strong> (Attributes) - ✅ COMPLETE</p></li>
+<li><p><strong>Phase 6</strong> (Discovery) - ✅ COMPLETE</p></li>
+<li><p><strong>Phase 7</strong> (Tenant) - ✅ COMPLETE</p></li>
+<li><p><strong>Phase 8</strong> (Testing) - ✅ COMPLETE</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="estimated-effort">
+<h2>Estimated Effort<a class="headerlink" href="#estimated-effort" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Phase</p></th>
+<th class="head"><p>Effort</p></th>
+<th class="head"><p>Dependencies</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Phase 1</p></td>
+<td><p>4-6 hours</p></td>
+<td><p>None</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phase 2</p></td>
+<td><p>3-4 hours</p></td>
+<td><p>Phase 1</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+<tr class="row-even"><td><p>Phase 3</p></td>
+<td><p>3-4 hours</p></td>
+<td><p>Phase 1</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phase 4</p></td>
+<td><p>2-3 hours</p></td>
+<td><p>Phase 3</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+<tr class="row-even"><td><p>Phase 5</p></td>
+<td><p>1-2 hours</p></td>
+<td><p>Phase 1</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phase 6</p></td>
+<td><p>3-4 hours</p></td>
+<td><p>Phase 1</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+<tr class="row-even"><td><p>Phase 7</p></td>
+<td><p>1 hour</p></td>
+<td><p>Phase 1</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+<tr class="row-odd"><td><p>Phase 8</p></td>
+<td><p>4-6 hours</p></td>
+<td><p>All</p></td>
+<td><p>✅ Complete</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total: ~22-30 hours - ALL PHASES COMPLETE</strong></p>
+</section>
+<hr class="docutils" />
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Use C++17 features (std::optional, std::string_view where appropriate)</p></li>
+<li><p>Consider C++20 concepts for type constraints if available</p></li>
+<li><p>Follow Google C++ Style Guide for consistency</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">once</span></code> for header guards</p></li>
+<li><p>Namespace: <code class="docutils literal notranslate"><span class="pre">kumiho::api</span></code> (keep existing)</p></li>
+<li><p>All public methods should have doxygen comments</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Kumiho Clouds.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
