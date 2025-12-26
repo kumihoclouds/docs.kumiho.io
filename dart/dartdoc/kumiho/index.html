@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="kumiho library API docs, for the Dart programming language.">
+  <title>kumiho library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">kumiho</a></li>
+    <li class="self-crumb">kumiho.dart</li>
+  </ol>
+  <div class="self-name">kumiho</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar=""
+    data-below-sidebar="kumiho&#47;kumiho-library-sidebar.html">
+  
+    <div>
+      
+
+      <h1>
+        <span class="kind-library">kumiho</span>
+        library 
+ 
+
+      </h1>
+    </div>
+
+    
+<section class="desc markdown">
+  <p>Kumiho Dart SDK - A graph-native creative and AI asset management client.</p>
+<p>This library provides a Dart client for the Kumiho Cloud gRPC service.
+Kumiho tracks revisions, relationships, and lineage of creative assets
+without uploading files to the cloud (BYO Storage philosophy).</p>
+<h2 id="getting-started">Getting Started</h2>
+<pre class="language-dart"><code class="language-dart">import 'package:kumiho/kumiho.dart';
+
+void main() async {
+  // Token is auto-loaded from env var or ~/.kumiho/kumiho_authentication.json
+  final client = KumihoClient(
+    host: 'localhost',
+    port: 50051,
+  );
+
+  try {
+    // Create a project
+    final project = await client.newProject('my-project');
+
+    // Create a space using fluent API
+    final space = await project.createSpace('models');
+
+    // Create an item
+    final item = await space.createItem('hero', 'model');
+
+    // Create a revision
+    final revision = await item.createRevision();
+
+    // Add an artifact
+    await revision.createArtifact('mesh', '/path/to/hero.fbx');
+
+  } finally {
+    await client.shutdownAsync();
+  }
+}
+</code></pre>
+<h2 id="authentication">Authentication</h2>
+<p>The SDK supports multiple authentication methods:</p>
+<ol>
+<li><strong>Explicit token</strong>: Pass <code>token</code> parameter to constructor</li>
+<li><strong>Environment variable</strong>: Set <code>KUMIHO_AUTH_TOKEN</code></li>
+<li><strong>Credentials file</strong>: Use <code>kumiho-cli login</code> to cache credentials
+at <code>~/.kumiho/kumiho_authentication.json</code></li>
+</ol>
+<h3 id="auto-refresh-opt-in">Auto-Refresh (Opt-in)</h3>
+<p>Set <code>KUMIHO_ENABLE_AUTO_REFRESH=true</code> to enable automatic token refresh
+when credentials expire. The SDK will use the stored refresh token.</p>
+<h3 id="environment-variables">Environment Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KUMIHO_AUTH_TOKEN</code></td>
+<td>Primary auth token (overrides file)</td>
+</tr>
+<tr>
+<td><code>KUMIHO_CONFIG_DIR</code></td>
+<td>Custom config directory</td>
+</tr>
+<tr>
+<td><code>KUMIHO_USE_CONTROL_PLANE_TOKEN</code></td>
+<td>Prefer CP token (true/false)</td>
+</tr>
+<tr>
+<td><code>KUMIHO_ENABLE_AUTO_REFRESH</code></td>
+<td>Enable token auto-refresh (true/false)</td>
+</tr>
+<tr>
+<td><code>KUMIHO_AUTH_TOKEN_GRACE_SECONDS</code></td>
+<td>Grace period before expiry (default: 300)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Project</strong>: Top-level container for all assets and spaces</li>
+<li><strong>Space</strong>: Hierarchical folder structure within a project</li>
+<li><strong>Item</strong>: A versioned asset (model, texture, workflow, etc.)</li>
+<li><strong>Revision</strong>: A specific iteration of an item with artifacts</li>
+<li><strong>Artifact</strong>: A file reference (path/URI) within a revision</li>
+<li><strong>Edge</strong>: A relationship between revisions (dependencies, references)</li>
+<li><strong>Bundle</strong>: A special item that aggregates other items</li>
+<li><strong>Kref</strong>: A URI-based unique identifier for any Kumiho object</li>
+</ul>
+</section>
+
+
+    <section class="summary offset-anchor" id="classes">
+      <h2>Classes</h2>
+      <dl>
+          <dt id="AddBundleMemberRequest">
+  <span class="name "><a href="../kumiho/AddBundleMemberRequest-class.html">AddBundleMemberRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="AddBundleMemberResponse">
+  <span class="name "><a href="../kumiho/AddBundleMemberResponse-class.html">AddBundleMemberResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Artifact">
+  <span class="name "><a href="../kumiho/Artifact-class.html">Artifact</a></span> 
+
+</dt>
+<dd>
+  A file reference within a revision in the Kumiho system.
+</dd>
+
+          <dt id="ArtifactResponse">
+  <span class="name "><a href="../kumiho/ArtifactResponse-class.html">ArtifactResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Bundle">
+  <span class="name "><a href="../kumiho/Bundle-class.html">Bundle</a></span> 
+
+</dt>
+<dd>
+  A bundle that aggregates multiple items in the Kumiho system.
+</dd>
+
+          <dt id="BundleMember">
+  <span class="name "><a href="../kumiho/BundleMember-class.html">BundleMember</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="BundleRevisionHistory">
+  <span class="name "><a href="../kumiho/BundleRevisionHistory-class.html">BundleRevisionHistory</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="CreateArtifactRequest">
+  <span class="name "><a href="../kumiho/CreateArtifactRequest-class.html">CreateArtifactRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="CreateBundleRequest">
+  <span class="name "><a href="../kumiho/CreateBundleRequest-class.html">CreateBundleRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="CreateEdgeRequest">
+  <span class="name "><a href="../kumiho/CreateEdgeRequest-class.html">CreateEdgeRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="CreateItemRequest">
+  <span class="name "><a href="../kumiho/CreateItemRequest-class.html">CreateItemRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="CreateProjectRequest">
+  <span class="name "><a href="../kumiho/CreateProjectRequest-class.html">CreateProjectRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="CreateRevisionRequest">
+  <span class="name "><a href="../kumiho/CreateRevisionRequest-class.html">CreateRevisionRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="CreateSpaceRequest">
+  <span class="name "><a href="../kumiho/CreateSpaceRequest-class.html">CreateSpaceRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="DeleteArtifactRequest">
+  <span class="name "><a href="../kumiho/DeleteArtifactRequest-class.html">DeleteArtifactRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="DeleteAttributeRequest">
+  <span class="name "><a href="../kumiho/DeleteAttributeRequest-class.html">DeleteAttributeRequest</a></span> 
+
+</dt>
+<dd>
+  Delete a single metadata attribute
+</dd>
+
+          <dt id="DeleteEdgeRequest">
+  <span class="name "><a href="../kumiho/DeleteEdgeRequest-class.html">DeleteEdgeRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="DeleteItemRequest">
+  <span class="name "><a href="../kumiho/DeleteItemRequest-class.html">DeleteItemRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="DeleteProjectRequest">
+  <span class="name "><a href="../kumiho/DeleteProjectRequest-class.html">DeleteProjectRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="DeleteRevisionRequest">
+  <span class="name "><a href="../kumiho/DeleteRevisionRequest-class.html">DeleteRevisionRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="DeleteSpaceRequest">
+  <span class="name "><a href="../kumiho/DeleteSpaceRequest-class.html">DeleteSpaceRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Edge">
+  <span class="name "><a href="../kumiho/Edge-class.html">Edge</a></span> 
+
+</dt>
+<dd>
+  A relationship between two revisions in the Kumiho system.
+</dd>
+
+          <dt id="EdgeDirection">
+  <span class="name "><a href="../kumiho/EdgeDirection-class.html">EdgeDirection</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="EdgeType">
+  <span class="name "><a href="../kumiho/EdgeType-class.html">EdgeType</a></span> 
+
+</dt>
+<dd>
+  Standard edge types for Kumiho relationships.
+</dd>
+
+          <dt id="Event">
+  <span class="name "><a href="../kumiho/Event-class.html">Event</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="EventCapabilities">
+  <span class="name "><a href="../kumiho/EventCapabilities-class.html">EventCapabilities</a></span> 
+
+</dt>
+<dd>
+  Event streaming capabilities for the current tenant tier
+</dd>
+
+          <dt id="EventStreamRequest">
+  <span class="name "><a href="../kumiho/EventStreamRequest-class.html">EventStreamRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetArtifactRequest">
+  <span class="name "><a href="../kumiho/GetArtifactRequest-class.html">GetArtifactRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetArtifactsByLocationRequest">
+  <span class="name "><a href="../kumiho/GetArtifactsByLocationRequest-class.html">GetArtifactsByLocationRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetArtifactsByLocationResponse">
+  <span class="name "><a href="../kumiho/GetArtifactsByLocationResponse-class.html">GetArtifactsByLocationResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetArtifactsRequest">
+  <span class="name "><a href="../kumiho/GetArtifactsRequest-class.html">GetArtifactsRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetArtifactsResponse">
+  <span class="name "><a href="../kumiho/GetArtifactsResponse-class.html">GetArtifactsResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetAttributeRequest">
+  <span class="name "><a href="../kumiho/GetAttributeRequest-class.html">GetAttributeRequest</a></span> 
+
+</dt>
+<dd>
+  Get a single metadata attribute
+</dd>
+
+          <dt id="GetAttributeResponse">
+  <span class="name "><a href="../kumiho/GetAttributeResponse-class.html">GetAttributeResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetBundleHistoryRequest">
+  <span class="name "><a href="../kumiho/GetBundleHistoryRequest-class.html">GetBundleHistoryRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetBundleHistoryResponse">
+  <span class="name "><a href="../kumiho/GetBundleHistoryResponse-class.html">GetBundleHistoryResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetBundleMembersRequest">
+  <span class="name "><a href="../kumiho/GetBundleMembersRequest-class.html">GetBundleMembersRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetBundleMembersResponse">
+  <span class="name "><a href="../kumiho/GetBundleMembersResponse-class.html">GetBundleMembersResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetChildSpacesRequest">
+  <span class="name "><a href="../kumiho/GetChildSpacesRequest-class.html">GetChildSpacesRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetChildSpacesResponse">
+  <span class="name "><a href="../kumiho/GetChildSpacesResponse-class.html">GetChildSpacesResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetEdgesRequest">
+  <span class="name "><a href="../kumiho/GetEdgesRequest-class.html">GetEdgesRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetEdgesResponse">
+  <span class="name "><a href="../kumiho/GetEdgesResponse-class.html">GetEdgesResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetEventCapabilitiesRequest">
+  <span class="name "><a href="../kumiho/GetEventCapabilitiesRequest-class.html">GetEventCapabilitiesRequest</a></span> 
+
+</dt>
+<dd>
+  Request for event streaming capabilities
+</dd>
+
+          <dt id="GetItemRequest">
+  <span class="name "><a href="../kumiho/GetItemRequest-class.html">GetItemRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetItemsRequest">
+  <span class="name "><a href="../kumiho/GetItemsRequest-class.html">GetItemsRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetItemsResponse">
+  <span class="name "><a href="../kumiho/GetItemsResponse-class.html">GetItemsResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetProjectsRequest">
+  <span class="name "><a href="../kumiho/GetProjectsRequest-class.html">GetProjectsRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetProjectsResponse">
+  <span class="name "><a href="../kumiho/GetProjectsResponse-class.html">GetProjectsResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetRevisionsRequest">
+  <span class="name "><a href="../kumiho/GetRevisionsRequest-class.html">GetRevisionsRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetRevisionsResponse">
+  <span class="name "><a href="../kumiho/GetRevisionsResponse-class.html">GetRevisionsResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetSpaceRequest">
+  <span class="name "><a href="../kumiho/GetSpaceRequest-class.html">GetSpaceRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="GetTenantUsageRequest">
+  <span class="name "><a href="../kumiho/GetTenantUsageRequest-class.html">GetTenantUsageRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="HasTagRequest">
+  <span class="name "><a href="../kumiho/HasTagRequest-class.html">HasTagRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="HasTagResponse">
+  <span class="name "><a href="../kumiho/HasTagResponse-class.html">HasTagResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ImpactAnalysisRequest">
+  <span class="name "><a href="../kumiho/ImpactAnalysisRequest-class.html">ImpactAnalysisRequest</a></span> 
+
+</dt>
+<dd>
+  Request for impact analysis (what depends on this revision, transitively)
+</dd>
+
+          <dt id="ImpactAnalysisResponse">
+  <span class="name "><a href="../kumiho/ImpactAnalysisResponse-class.html">ImpactAnalysisResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ImpactedRevision">
+  <span class="name "><a href="../kumiho/ImpactedRevision-class.html">ImpactedRevision</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Item">
+  <span class="name "><a href="../kumiho/Item-class.html">Item</a></span> 
+
+</dt>
+<dd>
+  A versioned asset in the Kumiho system.
+</dd>
+
+          <dt id="ItemResponse">
+  <span class="name "><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ItemSearchRequest">
+  <span class="name "><a href="../kumiho/ItemSearchRequest-class.html">ItemSearchRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Kref">
+  <span class="name "><a href="../kumiho/Kref-class.html">Kref</a></span> 
+
+</dt>
+<dd>
+  A Kumiho Artifact Reference (URI-based unique identifier).
+</dd>
+
+          <dt id="KrefRequest">
+  <span class="name "><a href="../kumiho/KrefRequest-class.html">KrefRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="KumihoClient">
+  <span class="name "><a href="../kumiho/KumihoClient-class.html">KumihoClient</a></span> 
+
+</dt>
+<dd>
+  High-level Dart client for the Kumiho Cloud service.
+</dd>
+
+          <dt id="KumihoClientBase">
+  <span class="name "><a href="../kumiho/KumihoClientBase-class.html">KumihoClientBase</a></span> 
+
+</dt>
+<dd>
+  Forward declaration of the client type.
+</dd>
+
+          <dt id="KumihoObject">
+  <span class="name "><a href="../kumiho/KumihoObject-class.html">KumihoObject</a></span> 
+
+</dt>
+<dd>
+  Base class for all high-level Kumiho domain objects.
+</dd>
+
+          <dt id="KumihoServiceApi">
+  <span class="name "><a href="../kumiho/KumihoServiceApi-class.html">KumihoServiceApi</a></span> 
+
+</dt>
+<dd>
+  The Kumiho service definition.
+</dd>
+
+          <dt id="KumihoServiceBase">
+  <span class="name "><a href="../kumiho/KumihoServiceBase-class.html">KumihoServiceBase</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="KumihoServiceClient">
+  <span class="name "><a href="../kumiho/KumihoServiceClient-class.html">KumihoServiceClient</a></span> 
+
+</dt>
+<dd>
+  The Kumiho service definition.
+</dd>
+
+          <dt id="PagedList">
+  <span class="name "><a href="../kumiho/PagedList-class.html">PagedList</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  A list that also contains pagination information.
+</dd>
+
+          <dt id="PaginationRequest">
+  <span class="name "><a href="../kumiho/PaginationRequest-class.html">PaginationRequest</a></span> 
+
+</dt>
+<dd>
+  Pagination parameters for list requests
+</dd>
+
+          <dt id="PaginationResponse">
+  <span class="name "><a href="../kumiho/PaginationResponse-class.html">PaginationResponse</a></span> 
+
+</dt>
+<dd>
+  Pagination info in list responses
+</dd>
+
+          <dt id="PathStep">
+  <span class="name "><a href="../kumiho/PathStep-class.html">PathStep</a></span> 
+
+</dt>
+<dd>
+  Represents a single step in a traversal path
+</dd>
+
+          <dt id="PeekNextRevisionRequest">
+  <span class="name "><a href="../kumiho/PeekNextRevisionRequest-class.html">PeekNextRevisionRequest</a></span> 
+
+</dt>
+<dd>
+  --- Peek Next Revision Messages ---
+</dd>
+
+          <dt id="PeekNextRevisionResponse">
+  <span class="name "><a href="../kumiho/PeekNextRevisionResponse-class.html">PeekNextRevisionResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Project">
+  <span class="name "><a href="../kumiho/Project-class.html">Project</a></span> 
+
+</dt>
+<dd>
+  A Kumiho project—the top-level container for assets.
+</dd>
+
+          <dt id="ProjectResponse">
+  <span class="name "><a href="../kumiho/ProjectResponse-class.html">ProjectResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="RemoveBundleMemberRequest">
+  <span class="name "><a href="../kumiho/RemoveBundleMemberRequest-class.html">RemoveBundleMemberRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="RemoveBundleMemberResponse">
+  <span class="name "><a href="../kumiho/RemoveBundleMemberResponse-class.html">RemoveBundleMemberResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ResolveKrefRequest">
+  <span class="name "><a href="../kumiho/ResolveKrefRequest-class.html">ResolveKrefRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ResolveLocationRequest">
+  <span class="name "><a href="../kumiho/ResolveLocationRequest-class.html">ResolveLocationRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ResolveLocationResponse">
+  <span class="name "><a href="../kumiho/ResolveLocationResponse-class.html">ResolveLocationResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Revision">
+  <span class="name "><a href="../kumiho/Revision-class.html">Revision</a></span> 
+
+</dt>
+<dd>
+  A specific iteration of an item in the Kumiho system.
+</dd>
+
+          <dt id="RevisionPath">
+  <span class="name "><a href="../kumiho/RevisionPath-class.html">RevisionPath</a></span> 
+
+</dt>
+<dd>
+  Represents a complete path between two revisions
+</dd>
+
+          <dt id="RevisionResponse">
+  <span class="name "><a href="../kumiho/RevisionResponse-class.html">RevisionResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="SetAttributeRequest">
+  <span class="name "><a href="../kumiho/SetAttributeRequest-class.html">SetAttributeRequest</a></span> 
+
+</dt>
+<dd>
+  Set a single metadata attribute (upsert)
+</dd>
+
+          <dt id="SetDefaultArtifactRequest">
+  <span class="name "><a href="../kumiho/SetDefaultArtifactRequest-class.html">SetDefaultArtifactRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="SetDeprecatedRequest">
+  <span class="name "><a href="../kumiho/SetDeprecatedRequest-class.html">SetDeprecatedRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ShortestPathRequest">
+  <span class="name "><a href="../kumiho/ShortestPathRequest-class.html">ShortestPathRequest</a></span> 
+
+</dt>
+<dd>
+  Request for shortest path between two revisions
+</dd>
+
+          <dt id="ShortestPathResponse">
+  <span class="name "><a href="../kumiho/ShortestPathResponse-class.html">ShortestPathResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="Space">
+  <span class="name "><a href="../kumiho/Space-class.html">Space</a></span> 
+
+</dt>
+<dd>
+  A hierarchical container for organizing items in Kumiho.
+</dd>
+
+          <dt id="SpaceResponse">
+  <span class="name "><a href="../kumiho/SpaceResponse-class.html">SpaceResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="StatusResponse">
+  <span class="name "><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="TagRevisionRequest">
+  <span class="name "><a href="../kumiho/TagRevisionRequest-class.html">TagRevisionRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="TenantUsageResponse">
+  <span class="name "><a href="../kumiho/TenantUsageResponse-class.html">TenantUsageResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="TraverseEdgesRequest">
+  <span class="name "><a href="../kumiho/TraverseEdgesRequest-class.html">TraverseEdgesRequest</a></span> 
+
+</dt>
+<dd>
+  Request for transitive dependency/dependents traversal
+</dd>
+
+          <dt id="TraverseEdgesResponse">
+  <span class="name "><a href="../kumiho/TraverseEdgesResponse-class.html">TraverseEdgesResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="UnTagRevisionRequest">
+  <span class="name "><a href="../kumiho/UnTagRevisionRequest-class.html">UnTagRevisionRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="UpdateMetadataRequest">
+  <span class="name "><a href="../kumiho/UpdateMetadataRequest-class.html">UpdateMetadataRequest</a></span> 
+
+</dt>
+<dd>
+  --- Metadata Update Messages ---
+</dd>
+
+          <dt id="UpdateProjectRequest">
+  <span class="name "><a href="../kumiho/UpdateProjectRequest-class.html">UpdateProjectRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="WasTaggedRequest">
+  <span class="name "><a href="../kumiho/WasTaggedRequest-class.html">WasTaggedRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="WasTaggedResponse">
+  <span class="name "><a href="../kumiho/WasTaggedResponse-class.html">WasTaggedResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="enums">
+      <h2>Enums</h2>
+      <dl>
+          <dt id="EventStreamRequest_StartPosition">
+  <span class="name "><a href="../kumiho/EventStreamRequest_StartPosition.html">EventStreamRequest_StartPosition</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+      </dl>
+    </section>
+
+
+
+    <section class="summary offset-anchor" id="extensions">
+      <h2>Extensions</h2>
+      <dl>
+          <dt id="GeneratedMessageGenericExtensions">
+  <span class="name "><a href="https://pub.dev/documentation/protobuf/5.1.0/protobuf/GeneratedMessageGenericExtensions.html">GeneratedMessageGenericExtensions</a></span>
+  on T
+  
+
+</dt>
+<dd>
+  Extensions on <a href="https://pub.dev/documentation/protobuf/5.1.0/protobuf/GeneratedMessage-class.html">GeneratedMessage</a>s.
+</dd>
+
+      </dl>
+    </section>
+
+
+
+    <section class="summary offset-anchor" id="functions">
+      <h2>Functions</h2>
+      <dl class="callables">
+          <dt id="isValidKref" class="callable">
+  <span class="name"><a href="../kumiho/isValidKref.html">isValidKref</a></span><span class="signature">(<wbr><span class="parameter" id="isValidKref-param-uri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">uri</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Checks if a Kref URI is valid without throwing exceptions.
+  
+
+</dd>
+
+          <dt id="validateKref" class="callable">
+  <span class="name"><a href="../kumiho/validateKref.html">validateKref</a></span><span class="signature">(<wbr><span class="parameter" id="validateKref-param-uri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">uri</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Validates a Kref URI for security and correctness.
+  
+
+</dd>
+
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="typedefs">
+      <h2>Typedefs</h2>
+      <dl>
+          
+  <dt id="KumihoApiClient" class="">
+  <span class="name deprecated"><a class="deprecated" href="../kumiho/KumihoApiClient.html">KumihoApiClient</a></span>
+    = <a href="../kumiho/KumihoClient-class.html">KumihoClient</a>
+  </span>
+  
+
+</dt>
+<dd>
+  Backwards-compatible alias for older imports.
+  
+
+</dd>
+
+
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="exceptions">
+      <h2>Exceptions / Errors</h2>
+      <dl>
+          <dt id="KrefValidationError">
+  <span class="name "><a href="../kumiho/KrefValidationError-class.html">KrefValidationError</a></span> 
+
+</dt>
+<dd>
+  Exception thrown when a Kref URI is invalid or contains malicious patterns.
+</dd>
+
+          <dt id="KumihoError">
+  <span class="name "><a href="../kumiho/KumihoError-class.html">KumihoError</a></span> 
+
+</dt>
+<dd>
+  Base exception class for all Kumiho errors.
+</dd>
+
+      </dl>
+    </section>
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">kumiho</a></li>
+    <li class="self-crumb">kumiho.dart</li>
+</ol>
+
+    <h5><span class="package-name">kumiho</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="../auth/">auth</a></li>
+      <li><a href="../kumiho/">kumiho</a></li>
+      <li><a href="../models/">models</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <h5>kumiho library</h5>
+  </div><!--/sidebar-offcanvas-right-->
+</main>
+<footer>
+  <span class="no-break">
+    kumiho
+      0.2.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

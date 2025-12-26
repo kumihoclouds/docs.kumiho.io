@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the KumihoClient class from the kumiho library, for the Dart programming language.">
+  <title>KumihoClient class - kumiho library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">kumiho</a></li>
+    <li><a href="../kumiho/">kumiho.dart</a></li>
+    <li class="self-crumb">KumihoClient class</li>
+  </ol>
+  <div class="self-name">KumihoClient</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="kumiho&#47;kumiho-library-sidebar.html"
+    data-below-sidebar="kumiho&#47;KumihoClient-class-sidebar.html">
+    <div>
+<h1><span class="kind-class">KumihoClient</span> class 
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>High-level Dart client for the Kumiho Cloud service.</p>
+<p>This client provides access to all Kumiho gRPC endpoints for managing
+projects, spaces, items, revisions, artifacts, edges, and bundles.</p>
+<h2 id="authentication">Authentication</h2>
+<p>Pass a Firebase ID token to the <code>token</code> parameter for authentication.
+The token is automatically injected as a Bearer token in all requests.</p>
+<pre class="language-dart"><code class="language-dart">final client = KumihoClient(
+  host: 'us-central.kumiho.cloud',
+  port: 443,
+  token: firebaseIdToken,
+  secure: true,
+);
+</code></pre>
+<h2 id="connection-options">Connection Options</h2>
+<p>For local development (insecure):</p>
+<pre class="language-dart"><code class="language-dart">final client = KumihoClient(host: 'localhost', port: 50051);
+</code></pre>
+<p>For production (TLS):</p>
+<pre class="language-dart"><code class="language-dart">final client = KumihoClient(
+  host: 'api.kumiho.cloud',
+  port: 443,
+  secure: true,
+  token: authToken,
+);
+</code></pre>
+<p>For custom channel:</p>
+<pre class="language-dart"><code class="language-dart">final client = KumihoClient(channel: existingChannel);
+</code></pre>
+</section>
+
+
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+    <dl class="constructor-summary-list">
+        <dt id="KumihoClient.new" class="callable">
+          <span class="name"><a href="../kumiho/KumihoClient/KumihoClient.html">KumihoClient</a></span><span class="signature">({<span class="parameter" id="-param-host"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">host</span> = <span class="default-value">&#39;localhost&#39;</span>, </span><span class="parameter" id="-param-port"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a></span> <span class="parameter-name">port</span> = <span class="default-value">8080</span>, </span><span class="parameter" id="-param-token"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">token</span>, </span><span class="parameter" id="-param-tenantId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantId</span>, </span><span class="parameter" id="-param-channel"><span class="type-annotation"><a href="https://pub.dev/documentation/grpc/4.3.1/grpc_connection_interface/ClientChannelBase-class.html">ClientChannelBase</a>?</span> <span class="parameter-name">channel</span>, </span><span class="parameter" id="-param-options"><span class="type-annotation"><a href="https://pub.dev/documentation/grpc/4.3.1/grpc/ChannelOptions-class.html">ChannelOptions</a>?</span> <span class="parameter-name">options</span>, </span><span class="parameter" id="-param-secure"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">secure</span> = <span class="default-value">false</span></span>})</span>
+        </dt>
+        <dd>
+          Creates a new Kumiho client.
+        </dd>
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="callOptions" class="property inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/callOptions.html">callOptions</a></span>
+  <span class="signature">&#8594; <a href="https://pub.dev/documentation/grpc/4.3.1/grpc/CallOptions-class.html">CallOptions</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates <a href="https://pub.dev/documentation/grpc/4.3.1/grpc/CallOptions-class.html">CallOptions</a> with authentication metadata and correlation ID.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="channel" class="property inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/channel.html">channel</a></span>
+  <span class="signature">&#8596; <a href="https://pub.dev/documentation/grpc/4.3.1/grpc_connection_interface/ClientChannelBase-class.html">ClientChannelBase</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  Underlying gRPC channel.
+  <div class="features"><span class="feature">late</span><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="stub" class="property inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/stub.html">stub</a></span>
+  <span class="signature">&#8596; <a href="../kumiho/KumihoServiceClient-class.html">KumihoServiceClient</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  Generated service stub for issuing RPCs.
+  <div class="features"><span class="feature">late</span><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="tenantId" class="property inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/tenantId.html">tenantId</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  Get the tenant ID for anonymous access.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="token" class="property inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/token.html">token</a></span>
+  <span class="signature">&#8596; <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  Get the current authentication token.
+  <div class="features"><span class="feature">getter/setter pair</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="tokenSource" class="property inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/tokenSource.html">tokenSource</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  Get the source of the current token (for debugging).
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="addBundleMember" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/addBundleMember.html">addBundleMember</a></span><span class="signature">(<wbr><span class="parameter" id="addBundleMember-param-bundleKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">bundleKref</span>, </span><span class="parameter" id="addBundleMember-param-memberItemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">memberItemKref</span>, {</span><span class="parameter" id="addBundleMember-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/AddBundleMemberResponse-class.html">AddBundleMemberResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Adds an item as a member of a bundle.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="analyzeImpact" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/analyzeImpact.html">analyzeImpact</a></span><span class="signature">(<wbr><span class="parameter" id="analyzeImpact-param-revisionKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">revisionKref</span>, {</span><span class="parameter" id="analyzeImpact-param-edgeTypeFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">edgeTypeFilter</span>, </span><span class="parameter" id="analyzeImpact-param-maxDepth"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">maxDepth</span>, </span><span class="parameter" id="analyzeImpact-param-limit"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">limit</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ImpactAnalysisResponse-class.html">ImpactAnalysisResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Analyzes the impact of changes to a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="artifact" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/artifact.html">artifact</a></span><span class="signature">(<wbr><span class="parameter" id="artifact-param-krefUri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">krefUri</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Artifact-class.html">Artifact</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Gets an artifact by kref and returns an <a href="../kumiho/Artifact-class.html">Artifact</a> model.
+  
+
+</dd>
+
+        <dt id="createArtifact" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/createArtifact.html">createArtifact</a></span><span class="signature">(<wbr><span class="parameter" id="createArtifact-param-revisionKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">revisionKref</span>, </span><span class="parameter" id="createArtifact-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, </span><span class="parameter" id="createArtifact-param-location"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">location</span>, {</span><span class="parameter" id="createArtifact-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span><span class="parameter" id="createArtifact-param-existsError"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">existsError</span> = <span class="default-value">true</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ArtifactResponse-class.html">ArtifactResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a new artifact for a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="createBundle" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/createBundle.html">createBundle</a></span><span class="signature">(<wbr><span class="parameter" id="createBundle-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, </span><span class="parameter" id="createBundle-param-bundleName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">bundleName</span>, {</span><span class="parameter" id="createBundle-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a new bundle item.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="createEdge" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/createEdge.html">createEdge</a></span><span class="signature">(<wbr><span class="parameter" id="createEdge-param-sourceKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceKref</span>, </span><span class="parameter" id="createEdge-param-targetKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">targetKref</span>, </span><span class="parameter" id="createEdge-param-edgeType"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">edgeType</span>, {</span><span class="parameter" id="createEdge-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span><span class="parameter" id="createEdge-param-existsError"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">existsError</span> = <span class="default-value">true</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates an edge between two revisions.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="createItem" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/createItem.html">createItem</a></span><span class="signature">(<wbr><span class="parameter" id="createItem-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, </span><span class="parameter" id="createItem-param-itemName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemName</span>, </span><span class="parameter" id="createItem-param-kind"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kind</span>, {</span><span class="parameter" id="createItem-param-existsError"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">existsError</span> = <span class="default-value">true</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a new item within a space.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="createProject" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/createProject.html">createProject</a></span><span class="signature">(<wbr><span class="parameter" id="createProject-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, {</span><span class="parameter" id="createProject-param-description"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">description</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ProjectResponse-class.html">ProjectResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a new project.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="createRevision" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/createRevision.html">createRevision</a></span><span class="signature">(<wbr><span class="parameter" id="createRevision-param-itemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemKref</span>, {</span><span class="parameter" id="createRevision-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span><span class="parameter" id="createRevision-param-number"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">number</span>, </span><span class="parameter" id="createRevision-param-existsError"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">existsError</span> = <span class="default-value">true</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/RevisionResponse-class.html">RevisionResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a new revision for an item.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="createSpace" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/createSpace.html">createSpace</a></span><span class="signature">(<wbr><span class="parameter" id="createSpace-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, </span><span class="parameter" id="createSpace-param-spaceName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">spaceName</span>, {</span><span class="parameter" id="createSpace-param-existsError"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">existsError</span> = <span class="default-value">true</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/SpaceResponse-class.html">SpaceResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a new space within a project or parent space.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="deleteArtifact" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/deleteArtifact.html">deleteArtifact</a></span><span class="signature">(<wbr><span class="parameter" id="deleteArtifact-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, {</span><span class="parameter" id="deleteArtifact-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deletes an artifact.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="deleteAttribute" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/deleteAttribute.html">deleteAttribute</a></span><span class="signature">(<wbr><span class="parameter" id="deleteAttribute-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="deleteAttribute-param-key"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">key</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deletes a single metadata attribute.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="deleteEdge" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/deleteEdge.html">deleteEdge</a></span><span class="signature">(<wbr><span class="parameter" id="deleteEdge-param-sourceKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceKref</span>, </span><span class="parameter" id="deleteEdge-param-targetKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">targetKref</span>, </span><span class="parameter" id="deleteEdge-param-edgeType"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">edgeType</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deletes an edge between two revisions.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="deleteItem" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/deleteItem.html">deleteItem</a></span><span class="signature">(<wbr><span class="parameter" id="deleteItem-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, {</span><span class="parameter" id="deleteItem-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deletes an item.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="deleteProject" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/deleteProject.html">deleteProject</a></span><span class="signature">(<wbr><span class="parameter" id="deleteProject-param-projectId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">projectId</span>, {</span><span class="parameter" id="deleteProject-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deletes or deprecates a project.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="deleteRevision" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/deleteRevision.html">deleteRevision</a></span><span class="signature">(<wbr><span class="parameter" id="deleteRevision-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, {</span><span class="parameter" id="deleteRevision-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deletes a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="deleteSpace" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/deleteSpace.html">deleteSpace</a></span><span class="signature">(<wbr><span class="parameter" id="deleteSpace-param-path"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span>, {</span><span class="parameter" id="deleteSpace-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Deletes a space.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="eventStream" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/eventStream.html">eventStream</a></span><span class="signature">(<wbr>{<span class="parameter" id="eventStream-param-routingKeyFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">routingKeyFilter</span>, </span><span class="parameter" id="eventStream-param-krefFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">krefFilter</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Event-class.html">Event</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Subscribes to real-time events.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="findShortestPath" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/findShortestPath.html">findShortestPath</a></span><span class="signature">(<wbr><span class="parameter" id="findShortestPath-param-sourceKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceKref</span>, </span><span class="parameter" id="findShortestPath-param-targetKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">targetKref</span>, {</span><span class="parameter" id="findShortestPath-param-edgeTypeFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">edgeTypeFilter</span>, </span><span class="parameter" id="findShortestPath-param-maxDepth"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">maxDepth</span>, </span><span class="parameter" id="findShortestPath-param-allShortest"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">allShortest</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ShortestPathResponse-class.html">ShortestPathResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Finds the shortest path between two revisions.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="forceRefreshToken" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/forceRefreshToken.html">forceRefreshToken</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Force refresh the authentication token.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getArtifact" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getArtifact.html">getArtifact</a></span><span class="signature">(<wbr><span class="parameter" id="getArtifact-param-revisionKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">revisionKref</span>, </span><span class="parameter" id="getArtifact-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ArtifactResponse-class.html">ArtifactResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets a specific artifact by name.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getArtifacts" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getArtifacts.html">getArtifacts</a></span><span class="signature">(<wbr><span class="parameter" id="getArtifacts-param-revisionKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">revisionKref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ArtifactResponse-class.html">ArtifactResponse</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Lists all artifacts for a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getArtifactsByLocation" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getArtifactsByLocation.html">getArtifactsByLocation</a></span><span class="signature">(<wbr><span class="parameter" id="getArtifactsByLocation-param-location"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">location</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ArtifactResponse-class.html">ArtifactResponse</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Finds artifacts by their file location.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getAttribute" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getAttribute.html">getAttribute</a></span><span class="signature">(<wbr><span class="parameter" id="getAttribute-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="getAttribute-param-key"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">key</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/GetAttributeResponse-class.html">GetAttributeResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets a single metadata attribute.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getBundleHistory" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getBundleHistory.html">getBundleHistory</a></span><span class="signature">(<wbr><span class="parameter" id="getBundleHistory-param-bundleKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">bundleKref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/GetBundleHistoryResponse-class.html">GetBundleHistoryResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets the membership history of a bundle.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getBundleMembers" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getBundleMembers.html">getBundleMembers</a></span><span class="signature">(<wbr><span class="parameter" id="getBundleMembers-param-bundleKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">bundleKref</span>, {</span><span class="parameter" id="getBundleMembers-param-revisionNumber"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">revisionNumber</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/GetBundleMembersResponse-class.html">GetBundleMembersResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets the current members of a bundle.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getChildSpaces" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getChildSpaces.html">getChildSpaces</a></span><span class="signature">(<wbr><span class="parameter" id="getChildSpaces-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, {</span><span class="parameter" id="getChildSpaces-param-recursive"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/SpaceResponse-class.html">SpaceResponse</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Lists child spaces under a parent path.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getEdges" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getEdges.html">getEdges</a></span><span class="signature">(<wbr><span class="parameter" id="getEdges-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, {</span><span class="parameter" id="getEdges-param-edgeTypeFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">edgeTypeFilter</span>, </span><span class="parameter" id="getEdges-param-direction"><span class="type-annotation"><a href="../kumiho/EdgeDirection-class.html">EdgeDirection</a>?</span> <span class="parameter-name">direction</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/GetEdgesResponse-class.html">GetEdgesResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets edges for a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getItem" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getItem.html">getItem</a></span><span class="signature">(<wbr><span class="parameter" id="getItem-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, </span><span class="parameter" id="getItem-param-itemName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemName</span>, </span><span class="parameter" id="getItem-param-kind"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kind</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets an item by its path components.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getItemByKref" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getItemByKref.html">getItemByKref</a></span><span class="signature">(<wbr><span class="parameter" id="getItemByKref-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets an item by its kref URI.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getItems" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getItems.html">getItems</a></span><span class="signature">(<wbr><span class="parameter" id="getItems-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, {</span><span class="parameter" id="getItems-param-nameFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">nameFilter</span>, </span><span class="parameter" id="getItems-param-kindFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">kindFilter</span>, </span><span class="parameter" id="getItems-param-pageSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">pageSize</span>, </span><span class="parameter" id="getItems-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span><span class="parameter" id="getItems-param-includeDeprecated"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">includeDeprecated</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/PagedList-class.html">PagedList</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Lists items within a space with optional filtering.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getLatestRevision" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getLatestRevision.html">getLatestRevision</a></span><span class="signature">(<wbr><span class="parameter" id="getLatestRevision-param-itemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemKref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/RevisionResponse-class.html">RevisionResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets the latest revision for an item.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getProjects" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getProjects.html">getProjects</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ProjectResponse-class.html">ProjectResponse</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Lists all projects accessible to the current user.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getRevision" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getRevision.html">getRevision</a></span><span class="signature">(<wbr><span class="parameter" id="getRevision-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/RevisionResponse-class.html">RevisionResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets a revision by its kref URI.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getRevisions" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getRevisions.html">getRevisions</a></span><span class="signature">(<wbr><span class="parameter" id="getRevisions-param-itemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemKref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/RevisionResponse-class.html">RevisionResponse</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Lists all revisions for an item.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getSpace" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getSpace.html">getSpace</a></span><span class="signature">(<wbr><span class="parameter" id="getSpace-param-pathOrKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">pathOrKref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/SpaceResponse-class.html">SpaceResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets a space by its path or kref.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="getTenantUsage" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/getTenantUsage.html">getTenantUsage</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/TenantUsageResponse-class.html">TenantUsageResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Gets the current tenant's usage statistics.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="hasTag" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/hasTag.html">hasTag</a></span><span class="signature">(<wbr><span class="parameter" id="hasTag-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="hasTag-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">tag</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Checks if a revision currently has a tag.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="item" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/item.html">item</a></span><span class="signature">(<wbr><span class="parameter" id="item-param-krefUri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">krefUri</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Item-class.html">Item</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Gets an item by kref and returns an <a href="../kumiho/Item-class.html">Item</a> model.
+  
+
+</dd>
+
+        <dt id="itemSearch" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/itemSearch.html">itemSearch</a></span><span class="signature">(<wbr><span class="parameter" id="itemSearch-param-contextFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">contextFilter</span>, </span><span class="parameter" id="itemSearch-param-nameFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">nameFilter</span>, </span><span class="parameter" id="itemSearch-param-kindFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kindFilter</span>, {</span><span class="parameter" id="itemSearch-param-pageSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">pageSize</span>, </span><span class="parameter" id="itemSearch-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span><span class="parameter" id="itemSearch-param-includeDeprecated"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">includeDeprecated</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/PagedList-class.html">PagedList</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Searches for items across the project.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="mergeOptions" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/mergeOptions.html">mergeOptions</a></span><span class="signature">(<wbr><span class="parameter" id="mergeOptions-param-custom"><span class="type-annotation"><a href="https://pub.dev/documentation/grpc/4.3.1/grpc/CallOptions-class.html">CallOptions</a>?</span> <span class="parameter-name">custom</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://pub.dev/documentation/grpc/4.3.1/grpc/CallOptions-class.html">CallOptions</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Merges default call options with custom options.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="newProject" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/newProject.html">newProject</a></span><span class="signature">(<wbr><span class="parameter" id="newProject-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, {</span><span class="parameter" id="newProject-param-description"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">description</span> = <span class="default-value">&#39;&#39;</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Project-class.html">Project</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Creates a new project and returns a <a href="../kumiho/Project-class.html">Project</a> model.
+  
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="peekNextRevision" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/peekNextRevision.html">peekNextRevision</a></span><span class="signature">(<wbr><span class="parameter" id="peekNextRevision-param-itemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemKref</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Peeks at the next revision number without creating it.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="project" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/project.html">project</a></span><span class="signature">(<wbr><span class="parameter" id="project-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Project-class.html">Project</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Gets a project by name and returns a <a href="../kumiho/Project-class.html">Project</a> model.
+  
+
+</dd>
+
+        <dt id="projects" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/projects.html">projects</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Project-class.html">Project</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Gets all projects and returns <a href="../kumiho/Project-class.html">Project</a> models.
+  
+
+</dd>
+
+        <dt id="refreshTokenIfNeeded" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/refreshTokenIfNeeded.html">refreshTokenIfNeeded</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Refreshes the authentication token if needed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="removeBundleMember" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/removeBundleMember.html">removeBundleMember</a></span><span class="signature">(<wbr><span class="parameter" id="removeBundleMember-param-bundleKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">bundleKref</span>, </span><span class="parameter" id="removeBundleMember-param-memberItemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">memberItemKref</span>, {</span><span class="parameter" id="removeBundleMember-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/RemoveBundleMemberResponse-class.html">RemoveBundleMemberResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Removes an item from a bundle.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="resolveKref" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/resolveKref.html">resolveKref</a></span><span class="signature">(<wbr><span class="parameter" id="resolveKref-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, {</span><span class="parameter" id="resolveKref-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tag</span>, </span><span class="parameter" id="resolveKref-param-time"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">time</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/RevisionResponse-class.html">RevisionResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Resolves a kref to a specific revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="resolveLocation" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/resolveLocation.html">resolveLocation</a></span><span class="signature">(<wbr><span class="parameter" id="resolveLocation-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, {</span><span class="parameter" id="resolveLocation-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tag</span>, </span><span class="parameter" id="resolveLocation-param-time"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">time</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ResolveLocationResponse-class.html">ResolveLocationResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Resolves a kref to a file location.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="revision" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/revision.html">revision</a></span><span class="signature">(<wbr><span class="parameter" id="revision-param-krefUri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">krefUri</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Revision-class.html">Revision</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Gets a revision by kref and returns a <a href="../kumiho/Revision-class.html">Revision</a> model.
+  
+
+</dd>
+
+        <dt id="searchItems" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/searchItems.html">searchItems</a></span><span class="signature">(<wbr>{<span class="parameter" id="searchItems-param-contextFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">contextFilter</span> = <span class="default-value">&#39;&#39;</span>, </span><span class="parameter" id="searchItems-param-kindFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kindFilter</span> = <span class="default-value">&#39;&#39;</span>, </span><span class="parameter" id="searchItems-param-nameFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">nameFilter</span> = <span class="default-value">&#39;&#39;</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Item-class.html">Item</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Searches for items and returns <a href="../kumiho/Item-class.html">Item</a> models.
+  
+
+</dd>
+
+        <dt id="setAttribute" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/setAttribute.html">setAttribute</a></span><span class="signature">(<wbr><span class="parameter" id="setAttribute-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="setAttribute-param-key"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">key</span>, </span><span class="parameter" id="setAttribute-param-value"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Sets a single metadata attribute.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="setDefaultArtifact" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/setDefaultArtifact.html">setDefaultArtifact</a></span><span class="signature">(<wbr><span class="parameter" id="setDefaultArtifact-param-revisionKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">revisionKref</span>, </span><span class="parameter" id="setDefaultArtifact-param-artifactName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">artifactName</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Sets the default artifact for a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="setDeprecated" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/setDeprecated.html">setDeprecated</a></span><span class="signature">(<wbr><span class="parameter" id="setDeprecated-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="setDeprecated-param-deprecated"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">deprecated</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Sets the deprecated status of an item.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="shutdown" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/shutdown.html">shutdown</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Shut down the channel if it was created by this client.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="shutdownAsync" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/shutdownAsync.html">shutdownAsync</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Awaitable variant for callers that need to ensure the channel is closed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="space" class="callable">
+  <span class="name"><a href="../kumiho/KumihoClient/space.html">space</a></span><span class="signature">(<wbr><span class="parameter" id="space-param-path"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/Space-class.html">Space</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Gets a space by path and returns a <a href="../kumiho/Space-class.html">Space</a> model.
+  
+
+</dd>
+
+        <dt id="tagRevision" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/tagRevision.html">tagRevision</a></span><span class="signature">(<wbr><span class="parameter" id="tagRevision-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="tagRevision-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">tag</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Tags a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="traverseEdges" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/traverseEdges.html">traverseEdges</a></span><span class="signature">(<wbr><span class="parameter" id="traverseEdges-param-originKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">originKref</span>, </span><span class="parameter" id="traverseEdges-param-direction"><span class="type-annotation"><a href="../kumiho/EdgeDirection-class.html">EdgeDirection</a></span> <span class="parameter-name">direction</span>, {</span><span class="parameter" id="traverseEdges-param-edgeTypeFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">edgeTypeFilter</span>, </span><span class="parameter" id="traverseEdges-param-maxDepth"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">maxDepth</span>, </span><span class="parameter" id="traverseEdges-param-limit"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">limit</span>, </span><span class="parameter" id="traverseEdges-param-includePath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">includePath</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/TraverseEdgesResponse-class.html">TraverseEdgesResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Traverses edges to find all connected revisions.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="untagRevision" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/untagRevision.html">untagRevision</a></span><span class="signature">(<wbr><span class="parameter" id="untagRevision-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="untagRevision-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">tag</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Removes a tag from a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="updateArtifactMetadata" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/updateArtifactMetadata.html">updateArtifactMetadata</a></span><span class="signature">(<wbr><span class="parameter" id="updateArtifactMetadata-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="updateArtifactMetadata-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">metadata</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ArtifactResponse-class.html">ArtifactResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Updates metadata for an artifact.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="updateItemMetadata" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/updateItemMetadata.html">updateItemMetadata</a></span><span class="signature">(<wbr><span class="parameter" id="updateItemMetadata-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="updateItemMetadata-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">metadata</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Updates metadata for an item.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="updateProject" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/updateProject.html">updateProject</a></span><span class="signature">(<wbr><span class="parameter" id="updateProject-param-projectId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">projectId</span>, {</span><span class="parameter" id="updateProject-param-allowPublic"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">allowPublic</span>, </span><span class="parameter" id="updateProject-param-description"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">description</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/ProjectResponse-class.html">ProjectResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Updates a project's settings.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="updateRevisionMetadata" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/updateRevisionMetadata.html">updateRevisionMetadata</a></span><span class="signature">(<wbr><span class="parameter" id="updateRevisionMetadata-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="updateRevisionMetadata-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">metadata</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/RevisionResponse-class.html">RevisionResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Updates metadata for a revision.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="updateSpaceMetadata" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/updateSpaceMetadata.html">updateSpaceMetadata</a></span><span class="signature">(<wbr><span class="parameter" id="updateSpaceMetadata-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="updateSpaceMetadata-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">metadata</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/SpaceResponse-class.html">SpaceResponse</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Updates metadata for a space.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="wasTagged" class="callable inherited">
+  <span class="name"><a href="../kumiho/KumihoClient/wasTagged.html">wasTagged</a></span><span class="signature">(<wbr><span class="parameter" id="wasTagged-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span><span class="parameter" id="wasTagged-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">tag</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Checks if a revision was ever tagged (including removed tags).
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">kumiho</a></li>
+    <li><a href="../kumiho/">kumiho</a></li>
+    <li class="self-crumb">KumihoClient class</li>
+</ol>
+
+    <h5>kumiho library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    kumiho
+      0.2.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

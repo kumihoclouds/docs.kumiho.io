@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the KumihoServiceBase.new constructor from Class KumihoServiceBase from the kumiho library, for the Dart programming language.">
+  <title>KumihoServiceBase.new constructor - KumihoServiceBase - kumiho library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">kumiho</a></li>
+    <li><a href="../../kumiho/">kumiho.dart</a></li>
+    <li><a href="../../kumiho/KumihoServiceBase-class.html">KumihoServiceBase</a></li>
+    <li class="self-crumb">KumihoServiceBase.new constructor</li>
+  </ol>
+  <div class="self-name">KumihoServiceBase.new</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="kumiho&#47;KumihoServiceBase-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">KumihoServiceBase</span> constructor 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+      <span class="name ">KumihoServiceBase</span>(<wbr>)
+    </section>
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">KumihoServiceBase() {
+  $addMethod($grpc.ServiceMethod&lt;$0.CreateProjectRequest, $0.ProjectResponse&gt;(
+      &#39;CreateProject&#39;,
+      createProject_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.CreateProjectRequest.fromBuffer(value),
+      ($0.ProjectResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.GetProjectsRequest, $0.GetProjectsResponse&gt;(
+          &#39;GetProjects&#39;,
+          getProjects_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.GetProjectsRequest.fromBuffer(value),
+          ($0.GetProjectsResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.UpdateProjectRequest, $0.ProjectResponse&gt;(
+      &#39;UpdateProject&#39;,
+      updateProject_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.UpdateProjectRequest.fromBuffer(value),
+      ($0.ProjectResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.DeleteProjectRequest, $0.StatusResponse&gt;(
+      &#39;DeleteProject&#39;,
+      deleteProject_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.DeleteProjectRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.CreateSpaceRequest, $0.SpaceResponse&gt;(
+      &#39;CreateSpace&#39;,
+      createSpace_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.CreateSpaceRequest.fromBuffer(value),
+      ($0.SpaceResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetSpaceRequest, $0.SpaceResponse&gt;(
+      &#39;GetSpace&#39;,
+      getSpace_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.GetSpaceRequest.fromBuffer(value),
+      ($0.SpaceResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetChildSpacesRequest,
+          $0.GetChildSpacesResponse&gt;(
+      &#39;GetChildSpaces&#39;,
+      getChildSpaces_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.GetChildSpacesRequest.fromBuffer(value),
+      ($0.GetChildSpacesResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.DeleteSpaceRequest, $0.StatusResponse&gt;(
+      &#39;DeleteSpace&#39;,
+      deleteSpace_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.DeleteSpaceRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.UpdateMetadataRequest, $0.SpaceResponse&gt;(
+      &#39;UpdateSpaceMetadata&#39;,
+      updateSpaceMetadata_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.UpdateMetadataRequest.fromBuffer(value),
+      ($0.SpaceResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.CreateItemRequest, $0.ItemResponse&gt;(
+      &#39;CreateItem&#39;,
+      createItem_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.CreateItemRequest.fromBuffer(value),
+      ($0.ItemResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetItemRequest, $0.ItemResponse&gt;(
+      &#39;GetItem&#39;,
+      getItem_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.GetItemRequest.fromBuffer(value),
+      ($0.ItemResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetItemsRequest, $0.GetItemsResponse&gt;(
+      &#39;GetItems&#39;,
+      getItems_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.GetItemsRequest.fromBuffer(value),
+      ($0.GetItemsResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ItemSearchRequest, $0.GetItemsResponse&gt;(
+      &#39;ItemSearch&#39;,
+      itemSearch_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.ItemSearchRequest.fromBuffer(value),
+      ($0.GetItemsResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.DeleteItemRequest, $0.StatusResponse&gt;(
+      &#39;DeleteItem&#39;,
+      deleteItem_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.DeleteItemRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.UpdateMetadataRequest, $0.ItemResponse&gt;(
+      &#39;UpdateItemMetadata&#39;,
+      updateItemMetadata_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.UpdateMetadataRequest.fromBuffer(value),
+      ($0.ItemResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ResolveKrefRequest, $0.RevisionResponse&gt;(
+      &#39;ResolveKref&#39;,
+      resolveKref_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.ResolveKrefRequest.fromBuffer(value),
+      ($0.RevisionResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ResolveLocationRequest,
+          $0.ResolveLocationResponse&gt;(
+      &#39;ResolveLocation&#39;,
+      resolveLocation_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.ResolveLocationRequest.fromBuffer(value),
+      ($0.ResolveLocationResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.CreateRevisionRequest, $0.RevisionResponse&gt;(
+          &#39;CreateRevision&#39;,
+          createRevision_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.CreateRevisionRequest.fromBuffer(value),
+          ($0.RevisionResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.KrefRequest, $0.RevisionResponse&gt;(
+      &#39;GetRevision&#39;,
+      getRevision_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.KrefRequest.fromBuffer(value),
+      ($0.RevisionResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.GetRevisionsRequest, $0.GetRevisionsResponse&gt;(
+          &#39;GetRevisions&#39;,
+          getRevisions_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.GetRevisionsRequest.fromBuffer(value),
+          ($0.GetRevisionsResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.DeleteRevisionRequest, $0.StatusResponse&gt;(
+      &#39;DeleteRevision&#39;,
+      deleteRevision_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.DeleteRevisionRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.PeekNextRevisionRequest,
+          $0.PeekNextRevisionResponse&gt;(
+      &#39;PeekNextRevision&#39;,
+      peekNextRevision_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.PeekNextRevisionRequest.fromBuffer(value),
+      ($0.PeekNextRevisionResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.UpdateMetadataRequest, $0.RevisionResponse&gt;(
+          &#39;UpdateRevisionMetadata&#39;,
+          updateRevisionMetadata_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.UpdateMetadataRequest.fromBuffer(value),
+          ($0.RevisionResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.TagRevisionRequest, $0.StatusResponse&gt;(
+      &#39;TagRevision&#39;,
+      tagRevision_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.TagRevisionRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.UnTagRevisionRequest, $0.StatusResponse&gt;(
+      &#39;UnTagRevision&#39;,
+      unTagRevision_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.UnTagRevisionRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.HasTagRequest, $0.HasTagResponse&gt;(
+      &#39;HasTag&#39;,
+      hasTag_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.HasTagRequest.fromBuffer(value),
+      ($0.HasTagResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.WasTaggedRequest, $0.WasTaggedResponse&gt;(
+      &#39;WasTagged&#39;,
+      wasTagged_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.WasTaggedRequest.fromBuffer(value),
+      ($0.WasTaggedResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.SetDefaultArtifactRequest, $0.StatusResponse&gt;(
+          &#39;SetDefaultArtifact&#39;,
+          setDefaultArtifact_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.SetDefaultArtifactRequest.fromBuffer(value),
+          ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.CreateArtifactRequest, $0.ArtifactResponse&gt;(
+          &#39;CreateArtifact&#39;,
+          createArtifact_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.CreateArtifactRequest.fromBuffer(value),
+          ($0.ArtifactResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetArtifactRequest, $0.ArtifactResponse&gt;(
+      &#39;GetArtifact&#39;,
+      getArtifact_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.GetArtifactRequest.fromBuffer(value),
+      ($0.ArtifactResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.GetArtifactsRequest, $0.GetArtifactsResponse&gt;(
+          &#39;GetArtifacts&#39;,
+          getArtifacts_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.GetArtifactsRequest.fromBuffer(value),
+          ($0.GetArtifactsResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetArtifactsByLocationRequest,
+          $0.GetArtifactsByLocationResponse&gt;(
+      &#39;GetArtifactsByLocation&#39;,
+      getArtifactsByLocation_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.GetArtifactsByLocationRequest.fromBuffer(value),
+      ($0.GetArtifactsByLocationResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.DeleteArtifactRequest, $0.StatusResponse&gt;(
+      &#39;DeleteArtifact&#39;,
+      deleteArtifact_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.DeleteArtifactRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.UpdateMetadataRequest, $0.ArtifactResponse&gt;(
+          &#39;UpdateArtifactMetadata&#39;,
+          updateArtifactMetadata_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.UpdateMetadataRequest.fromBuffer(value),
+          ($0.ArtifactResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.SetAttributeRequest, $0.StatusResponse&gt;(
+      &#39;SetAttribute&#39;,
+      setAttribute_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.SetAttributeRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.GetAttributeRequest, $0.GetAttributeResponse&gt;(
+          &#39;GetAttribute&#39;,
+          getAttribute_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.GetAttributeRequest.fromBuffer(value),
+          ($0.GetAttributeResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.DeleteAttributeRequest, $0.StatusResponse&gt;(
+          &#39;DeleteAttribute&#39;,
+          deleteAttribute_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.DeleteAttributeRequest.fromBuffer(value),
+          ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.CreateEdgeRequest, $0.StatusResponse&gt;(
+      &#39;CreateEdge&#39;,
+      createEdge_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.CreateEdgeRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetEdgesRequest, $0.GetEdgesResponse&gt;(
+      &#39;GetEdges&#39;,
+      getEdges_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.GetEdgesRequest.fromBuffer(value),
+      ($0.GetEdgesResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.DeleteEdgeRequest, $0.StatusResponse&gt;(
+      &#39;DeleteEdge&#39;,
+      deleteEdge_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.DeleteEdgeRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.TraverseEdgesRequest, $0.TraverseEdgesResponse&gt;(
+          &#39;TraverseEdges&#39;,
+          traverseEdges_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.TraverseEdgesRequest.fromBuffer(value),
+          ($0.TraverseEdgesResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.ShortestPathRequest, $0.ShortestPathResponse&gt;(
+          &#39;FindShortestPath&#39;,
+          findShortestPath_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.ShortestPathRequest.fromBuffer(value),
+          ($0.ShortestPathResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ImpactAnalysisRequest,
+          $0.ImpactAnalysisResponse&gt;(
+      &#39;AnalyzeImpact&#39;,
+      analyzeImpact_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.ImpactAnalysisRequest.fromBuffer(value),
+      ($0.ImpactAnalysisResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.CreateBundleRequest, $0.ItemResponse&gt;(
+      &#39;CreateBundle&#39;,
+      createBundle_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.CreateBundleRequest.fromBuffer(value),
+      ($0.ItemResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.AddBundleMemberRequest,
+          $0.AddBundleMemberResponse&gt;(
+      &#39;AddBundleMember&#39;,
+      addBundleMember_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.AddBundleMemberRequest.fromBuffer(value),
+      ($0.AddBundleMemberResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.RemoveBundleMemberRequest,
+          $0.RemoveBundleMemberResponse&gt;(
+      &#39;RemoveBundleMember&#39;,
+      removeBundleMember_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.RemoveBundleMemberRequest.fromBuffer(value),
+      ($0.RemoveBundleMemberResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetBundleMembersRequest,
+          $0.GetBundleMembersResponse&gt;(
+      &#39;GetBundleMembers&#39;,
+      getBundleMembers_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.GetBundleMembersRequest.fromBuffer(value),
+      ($0.GetBundleMembersResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetBundleHistoryRequest,
+          $0.GetBundleHistoryResponse&gt;(
+      &#39;GetBundleHistory&#39;,
+      getBundleHistory_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.GetBundleHistoryRequest.fromBuffer(value),
+      ($0.GetBundleHistoryResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.GetTenantUsageRequest, $0.TenantUsageResponse&gt;(
+          &#39;GetTenantUsage&#39;,
+          getTenantUsage_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.GetTenantUsageRequest.fromBuffer(value),
+          ($0.TenantUsageResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.EventStreamRequest, $0.Event&gt;(
+      &#39;EventStream&#39;,
+      eventStream_Pre,
+      false,
+      true,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.EventStreamRequest.fromBuffer(value),
+      ($0.Event value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.GetEventCapabilitiesRequest,
+          $0.EventCapabilities&gt;(
+      &#39;GetEventCapabilities&#39;,
+      getEventCapabilities_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.GetEventCapabilitiesRequest.fromBuffer(value),
+      ($0.EventCapabilities value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.SetDeprecatedRequest, $0.StatusResponse&gt;(
+      &#39;SetDeprecated&#39;,
+      setDeprecated_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.SetDeprecatedRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">kumiho</a></li>
+    <li><a href="../../kumiho/">kumiho</a></li>
+    <li><a href="../../kumiho/KumihoServiceBase-class.html">KumihoServiceBase</a></li>
+    <li class="self-crumb">KumihoServiceBase.new constructor</li>
+</ol>
+
+    <h5>KumihoServiceBase class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-left-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    kumiho
+      0.2.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+
