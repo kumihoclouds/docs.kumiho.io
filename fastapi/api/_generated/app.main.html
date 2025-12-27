@@ -80,7 +80,7 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Module Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">app.main</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#app.main.warm_control_plane_cache"><code class="docutils literal notranslate"><span class="pre">warm_control_plane_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#app.main.healthz"><code class="docutils literal notranslate"><span class="pre">healthz()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#app.main.root"><code class="docutils literal notranslate"><span class="pre">root()</span></code></a></li>
 </ul>
@@ -389,21 +389,21 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#app.main.healthz" title="app.main.healthz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">healthz</span></code></a>()</p></td>
 <td><p>Simple health check endpoint for Cloud Run</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#app.main.root" title="app.main.root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">root</span></code></a>()</p></td>
-<td><p>Root endpoint with API information</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#app.main.lifespan" title="app.main.lifespan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lifespan</span></code></a>(app)</p></td>
+<td><p>Lifespan for Kumiho SaaS API.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#app.main.warm_control_plane_cache" title="app.main.warm_control_plane_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warm_control_plane_cache</span></code></a>()</p></td>
-<td><p>Ensure the control-plane handshake completes.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#app.main.root" title="app.main.root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">root</span></code></a>()</p></td>
+<td><p>Root endpoint with API information</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py" id="app.main.warm_control_plane_cache">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">warm_control_plane_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/main.html#warm_control_plane_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.warm_control_plane_cache" title="Link to this definition"></a></dt>
-<dd><p>Ensure the control-plane handshake completes. Run in background to avoid blocking startup.</p>
+<dt class="sig sig-object py" id="app.main.lifespan">
+<span class="sig-prename descclassname"><span class="pre">app.main.</span></span><span class="sig-name descname"><span class="pre">lifespan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/main.html#lifespan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.main.lifespan" title="Link to this definition"></a></dt>
+<dd><p>Lifespan for Kumiho SaaS API.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>app</strong> (<em>FastAPI</em>)</p>
 </dd>
 </dl>
 </dd></dl>

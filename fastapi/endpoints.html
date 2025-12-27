@@ -80,7 +80,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">Module Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/_generated/app.main.html">app.main</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/_generated/app.main.html#app.main.warm_control_plane_cache"><code class="docutils literal notranslate"><span class="pre">warm_control_plane_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/_generated/app.main.html#app.main.lifespan"><code class="docutils literal notranslate"><span class="pre">lifespan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/_generated/app.main.html#app.main.healthz"><code class="docutils literal notranslate"><span class="pre">healthz()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/_generated/app.main.html#app.main.root"><code class="docutils literal notranslate"><span class="pre">root()</span></code></a></li>
 </ul>
@@ -706,13 +706,21 @@
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/mcp/invoke</span></code></p></td>
+<td><p>Call Tool</p></td>
+</tr>
+<tr class="row-odd"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/mcp/list</span></code></p></td>
+<td><p>List Tools</p></td>
+</tr>
 <tr class="row-even"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/mcp/tools</span></code></p></td>
-<td><p>List Tools</p></td>
+<td><p>Mcp Tools Proxy</p></td>
 </tr>
 <tr class="row-odd"><td><p>POST</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/mcp/tools</span></code></p></td>
-<td><p>Call Tool</p></td>
+<td><p>Mcp Tools Proxy</p></td>
 </tr>
 </tbody>
 </table>
