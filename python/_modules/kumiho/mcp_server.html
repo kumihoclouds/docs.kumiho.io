@@ -2637,9 +2637,8 @@
         
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Run the tool handler (may be blocking gRPC call)</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span>
-                <span class="kc">None</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">arguments</span>
-            <span class="p">)</span>
+            <span class="c1"># Use asyncio.to_thread to propagate contextvars (like kumiho.use_client)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">TextContent</span><span class="p">(</span>
                 <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
                 <span class="n">text</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">),</span>
@@ -2675,9 +2674,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a resource by URI.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;kumiho://project/&quot;</span><span class="p">):</span>
             <span class="n">project_name</span> <span class="o">=</span> <span class="n">uri</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;kumiho://project/&quot;</span><span class="p">):]</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span>
-                <span class="kc">None</span><span class="p">,</span> <span class="n">tool_get_project</span><span class="p">,</span> <span class="n">project_name</span>
-            <span class="p">)</span>
+            <span class="c1"># Use asyncio.to_thread to propagate contextvars</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">tool_get_project</span><span class="p">,</span> <span class="n">project_name</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
         
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown resource URI: </span><span class="si">{</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
