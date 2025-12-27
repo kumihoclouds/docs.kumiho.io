@@ -31,6 +31,29 @@ artifacts
    * - GET
      - ``/api/v1/artifacts/by-location``
      - Get Artifacts By Location
+   * - POST
+     - ``/api/v1/artifacts/deprecate``
+     - Deprecate Artifact
+
+attributes
+----------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 35 55
+
+   * - Method
+     - Path
+     - Summary
+   * - DELETE
+     - ``/api/v1/attributes``
+     - Delete Attribute
+   * - GET
+     - ``/api/v1/attributes``
+     - Get Attribute
+   * - POST
+     - ``/api/v1/attributes``
+     - Set Attribute
 
 blog
 ----
@@ -66,6 +89,35 @@ blog
    * - POST
      - ``/api/v1/apps/blog/settings``
      - Save Blog Settings
+
+bundles
+-------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 35 55
+
+   * - Method
+     - Path
+     - Summary
+   * - POST
+     - ``/api/v1/bundles``
+     - Create Bundle
+   * - GET
+     - ``/api/v1/bundles/by-kref``
+     - Get Bundle
+   * - GET
+     - ``/api/v1/bundles/history``
+     - Get Bundle History
+   * - GET
+     - ``/api/v1/bundles/members``
+     - List Bundle Members
+   * - POST
+     - ``/api/v1/bundles/members/add``
+     - Add Bundle Member
+   * - POST
+     - ``/api/v1/bundles/members/remove``
+     - Remove Bundle Member
 
 default
 -------
@@ -104,6 +156,23 @@ edges
      - ``/api/v1/edges``
      - Create Edge
 
+events
+------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 35 55
+
+   * - Method
+     - Path
+     - Summary
+   * - GET
+     - ``/api/v1/events/poll``
+     - Poll Events
+   * - GET
+     - ``/api/v1/events/stream``
+     - Stream Events
+
 items
 -----
 
@@ -132,9 +201,29 @@ items
    * - GET
      - ``/api/v1/items/by-path``
      - Get Item By Path
+   * - POST
+     - ``/api/v1/items/deprecate``
+     - Deprecate Item
    * - GET
      - ``/api/v1/items/search``
      - Search Items
+
+mcp
+---
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 35 55
+
+   * - Method
+     - Path
+     - Summary
+   * - GET
+     - ``/api/v1/mcp/tools``
+     - List Tools
+   * - POST
+     - ``/api/v1/mcp/tools``
+     - Call Tool
 
 projects
 --------
@@ -204,6 +293,9 @@ revisions
    * - PATCH
      - ``/api/v1/revisions/by-kref``
      - Update Revision Metadata
+   * - POST
+     - ``/api/v1/revisions/deprecate``
+     - Deprecate Revision
    * - GET
      - ``/api/v1/revisions/latest``
      - Get Latest Revision

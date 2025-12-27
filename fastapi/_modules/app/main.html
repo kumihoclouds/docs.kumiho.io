@@ -60,10 +60,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../../endpoints.html">Endpoints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../endpoints.html#id1">Endpoints</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#artifacts">artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#attributes">attributes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#blog">blog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#bundles">bundles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#default">default</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#edges">edges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#events">events</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#items">items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#mcp">mcp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#projects">projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#resolve">resolve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#revisions">revisions</a></li>
@@ -137,6 +141,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.get_item_by_path"><code class="docutils literal notranslate"><span class="pre">get_item_by_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.update_item_metadata"><code class="docutils literal notranslate"><span class="pre">update_item_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.delete_item"><code class="docutils literal notranslate"><span class="pre">delete_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.items.html#app.core.items.deprecate_item"><code class="docutils literal notranslate"><span class="pre">deprecate_item()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.revisions.html">app.core.revisions</a><ul>
@@ -147,6 +152,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.peek_next_revision"><code class="docutils literal notranslate"><span class="pre">peek_next_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.update_revision_metadata"><code class="docutils literal notranslate"><span class="pre">update_revision_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.delete_revision"><code class="docutils literal notranslate"><span class="pre">delete_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.deprecate_revision"><code class="docutils literal notranslate"><span class="pre">deprecate_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.tag_revision"><code class="docutils literal notranslate"><span class="pre">tag_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.untag_revision"><code class="docutils literal notranslate"><span class="pre">untag_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.revisions.html#app.core.revisions.has_tag"><code class="docutils literal notranslate"><span class="pre">has_tag()</span></code></a></li>
@@ -160,6 +166,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.get_artifact"><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.update_artifact_metadata"><code class="docutils literal notranslate"><span class="pre">update_artifact_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.delete_artifact"><code class="docutils literal notranslate"><span class="pre">delete_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/_generated/app.core.artifacts.html#app.core.artifacts.deprecate_artifact"><code class="docutils literal notranslate"><span class="pre">deprecate_artifact()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/_generated/app.core.edges.html">app.core.edges</a><ul>
@@ -402,6 +409,10 @@
     <span class="n">edges_router</span><span class="p">,</span>
     <span class="n">tenant_router</span><span class="p">,</span>
     <span class="n">resolve_router</span><span class="p">,</span>
+    <span class="n">bundles_router</span><span class="p">,</span>
+    <span class="n">attributes_router</span><span class="p">,</span>
+    <span class="n">events_router</span><span class="p">,</span>
+    <span class="n">mcp_router</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Apps (domain-specific applications)</span>
@@ -419,20 +430,23 @@
 <span class="c1"># In production, set CORS_ORIGINS environment variable to specific allowed origins</span>
 <span class="c1"># Example: CORS_ORIGINS=https://yourdomain.com,https://app.yourdomain.com</span>
 <span class="n">allowed_origins_env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGINS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">allowed_origins_regex</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGIN_REGEX&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">allowed_origins_env</span><span class="p">:</span>
     <span class="c1"># Production: use specified origins</span>
     <span class="n">origins</span> <span class="o">=</span> <span class="p">[</span><span class="n">origin</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">allowed_origins_env</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="c1"># Development: allow common dev origins</span>
     <span class="n">origins</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;http://localhost:3000&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;http://localhost:8080&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://kumiho.io&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;http://localhost:3000&quot;</span><span class="p">,</span> <span class="c1"># local web app</span>
+        <span class="s2">&quot;http://localhost:8080&quot;</span><span class="p">,</span> <span class="c1"># gRPC kumiho-server</span>
+        <span class="s2">&quot;http://localhost:5678&quot;</span><span class="p">,</span> <span class="c1"># n8n localhost</span>
+        <span class="s2">&quot;https://kumiho.io&quot;</span><span class="p">,</span> <span class="c1"># official kumiho site</span>
     <span class="p">]</span>
 
 <span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span>
     <span class="n">CORSMiddleware</span><span class="p">,</span>
     <span class="n">allow_origins</span><span class="o">=</span><span class="n">origins</span><span class="p">,</span>
+    <span class="n">allow_origin_regex</span><span class="o">=</span><span class="n">allowed_origins_regex</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">allow_credentials</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">allow_methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
     <span class="n">allow_headers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
@@ -458,6 +472,10 @@
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">edges_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/edges&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;edges&quot;</span><span class="p">])</span>
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">tenant_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/tenant&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tenant&quot;</span><span class="p">])</span>
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">resolve_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/resolve&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;resolve&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">bundles_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/bundles&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;bundles&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">attributes_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/attributes&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;attributes&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">events_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/events&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">mcp_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/mcp&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mcp&quot;</span><span class="p">])</span>
 
 <span class="c1"># ============================================================================</span>
 <span class="c1"># Apps - Domain-specific applications built on top of core APIs</span>
@@ -523,7 +541,8 @@
                 <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/v1&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">[</span>
                     <span class="s2">&quot;projects&quot;</span><span class="p">,</span> <span class="s2">&quot;spaces&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">,</span> <span class="s2">&quot;revisions&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;artifacts&quot;</span><span class="p">,</span> <span class="s2">&quot;edges&quot;</span><span class="p">,</span> <span class="s2">&quot;tenant&quot;</span><span class="p">,</span> <span class="s2">&quot;resolve&quot;</span>
+                    <span class="s2">&quot;artifacts&quot;</span><span class="p">,</span> <span class="s2">&quot;edges&quot;</span><span class="p">,</span> <span class="s2">&quot;tenant&quot;</span><span class="p">,</span> <span class="s2">&quot;resolve&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;bundles&quot;</span><span class="p">,</span> <span class="s2">&quot;attributes&quot;</span><span class="p">,</span> <span class="s2">&quot;events&quot;</span><span class="p">,</span> <span class="s2">&quot;mcp&quot;</span>
                 <span class="p">]</span>
             <span class="p">},</span>
             <span class="s2">&quot;apps&quot;</span><span class="p">:</span> <span class="p">{</span>

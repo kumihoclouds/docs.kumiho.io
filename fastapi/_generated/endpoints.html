@@ -61,10 +61,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../endpoints.html">Endpoints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../endpoints.html#id1">Endpoints</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#artifacts">artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoints.html#attributes">attributes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#blog">blog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoints.html#bundles">bundles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#default">default</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#edges">edges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoints.html#events">events</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#items">items</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoints.html#mcp">mcp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#projects">projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#resolve">resolve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoints.html#revisions">revisions</a></li>
@@ -138,6 +142,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.items.html#app.core.items.get_item_by_path"><code class="docutils literal notranslate"><span class="pre">get_item_by_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.items.html#app.core.items.update_item_metadata"><code class="docutils literal notranslate"><span class="pre">update_item_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.items.html#app.core.items.delete_item"><code class="docutils literal notranslate"><span class="pre">delete_item()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.items.html#app.core.items.deprecate_item"><code class="docutils literal notranslate"><span class="pre">deprecate_item()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../api/_generated/app.core.revisions.html">app.core.revisions</a><ul>
@@ -148,6 +153,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.peek_next_revision"><code class="docutils literal notranslate"><span class="pre">peek_next_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.update_revision_metadata"><code class="docutils literal notranslate"><span class="pre">update_revision_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.delete_revision"><code class="docutils literal notranslate"><span class="pre">delete_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.deprecate_revision"><code class="docutils literal notranslate"><span class="pre">deprecate_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.tag_revision"><code class="docutils literal notranslate"><span class="pre">tag_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.untag_revision"><code class="docutils literal notranslate"><span class="pre">untag_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.has_tag"><code class="docutils literal notranslate"><span class="pre">has_tag()</span></code></a></li>
@@ -161,6 +167,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.artifacts.html#app.core.artifacts.get_artifact"><code class="docutils literal notranslate"><span class="pre">get_artifact()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.artifacts.html#app.core.artifacts.update_artifact_metadata"><code class="docutils literal notranslate"><span class="pre">update_artifact_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.artifacts.html#app.core.artifacts.delete_artifact"><code class="docutils literal notranslate"><span class="pre">delete_artifact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.artifacts.html#app.core.artifacts.deprecate_artifact"><code class="docutils literal notranslate"><span class="pre">deprecate_artifact()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../api/_generated/app.core.edges.html">app.core.edges</a><ul>
@@ -413,6 +420,40 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/artifacts/by-location</span></code></p></td>
 <td><p>Get Artifacts By Location</p></td>
 </tr>
+<tr class="row-even"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/artifacts/deprecate</span></code></p></td>
+<td><p>Deprecate Artifact</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h2>attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 35.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Path</p></th>
+<th class="head"><p>Summary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DELETE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/attributes</span></code></p></td>
+<td><p>Delete Attribute</p></td>
+</tr>
+<tr class="row-odd"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/attributes</span></code></p></td>
+<td><p>Get Attribute</p></td>
+</tr>
+<tr class="row-even"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/attributes</span></code></p></td>
+<td><p>Set Attribute</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -462,6 +503,48 @@
 <tr class="row-odd"><td><p>POST</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/apps/blog/settings</span></code></p></td>
 <td><p>Save Blog Settings</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bundles">
+<h2>bundles<a class="headerlink" href="#bundles" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 35.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Path</p></th>
+<th class="head"><p>Summary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/bundles</span></code></p></td>
+<td><p>Create Bundle</p></td>
+</tr>
+<tr class="row-odd"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/bundles/by-kref</span></code></p></td>
+<td><p>Get Bundle</p></td>
+</tr>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/bundles/history</span></code></p></td>
+<td><p>Get Bundle History</p></td>
+</tr>
+<tr class="row-odd"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/bundles/members</span></code></p></td>
+<td><p>List Bundle Members</p></td>
+</tr>
+<tr class="row-even"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/bundles/members/add</span></code></p></td>
+<td><p>Add Bundle Member</p></td>
+</tr>
+<tr class="row-odd"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/bundles/members/remove</span></code></p></td>
+<td><p>Remove Bundle Member</p></td>
 </tr>
 </tbody>
 </table>
@@ -522,6 +605,32 @@
 </tbody>
 </table>
 </section>
+<section id="events">
+<h2>events<a class="headerlink" href="#events" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 35.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Path</p></th>
+<th class="head"><p>Summary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/events/poll</span></code></p></td>
+<td><p>Poll Events</p></td>
+</tr>
+<tr class="row-odd"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/events/stream</span></code></p></td>
+<td><p>Stream Events</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="items">
 <h2>items<a class="headerlink" href="#items" title="Link to this heading"></a></h2>
 <table class="docutils align-default">
@@ -561,9 +670,39 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/items/by-path</span></code></p></td>
 <td><p>Get Item By Path</p></td>
 </tr>
-<tr class="row-even"><td><p>GET</p></td>
+<tr class="row-even"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/items/deprecate</span></code></p></td>
+<td><p>Deprecate Item</p></td>
+</tr>
+<tr class="row-odd"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/items/search</span></code></p></td>
 <td><p>Search Items</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mcp">
+<h2>mcp<a class="headerlink" href="#mcp" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 35.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Path</p></th>
+<th class="head"><p>Summary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/mcp/tools</span></code></p></td>
+<td><p>List Tools</p></td>
+</tr>
+<tr class="row-odd"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/mcp/tools</span></code></p></td>
+<td><p>Call Tool</p></td>
 </tr>
 </tbody>
 </table>
@@ -667,27 +806,31 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/by-kref</span></code></p></td>
 <td><p>Update Revision Metadata</p></td>
 </tr>
-<tr class="row-odd"><td><p>GET</p></td>
+<tr class="row-odd"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/deprecate</span></code></p></td>
+<td><p>Deprecate Revision</p></td>
+</tr>
+<tr class="row-even"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/latest</span></code></p></td>
 <td><p>Get Latest Revision</p></td>
 </tr>
-<tr class="row-even"><td><p>GET</p></td>
+<tr class="row-odd"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/peek</span></code></p></td>
 <td><p>Peek Next Revision</p></td>
 </tr>
-<tr class="row-odd"><td><p>DELETE</p></td>
+<tr class="row-even"><td><p>DELETE</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags</span></code></p></td>
 <td><p>Untag Revision</p></td>
 </tr>
-<tr class="row-even"><td><p>POST</p></td>
+<tr class="row-odd"><td><p>POST</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags</span></code></p></td>
 <td><p>Tag Revision</p></td>
 </tr>
-<tr class="row-odd"><td><p>GET</p></td>
+<tr class="row-even"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags/check</span></code></p></td>
 <td><p>Has Tag</p></td>
 </tr>
-<tr class="row-even"><td><p>GET</p></td>
+<tr class="row-odd"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags/history</span></code></p></td>
 <td><p>Was Tagged</p></td>
 </tr>
