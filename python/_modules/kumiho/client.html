@@ -2303,6 +2303,7 @@
         <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">consumer_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">from_beginning</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Subscribe to the event stream from the Kumiho server.</span>
 
@@ -2319,6 +2320,9 @@
 <span class="sd">                           same group each receive different events.</span>
 <span class="sd">            from_beginning: Start from earliest available events instead of</span>
 <span class="sd">                           live-only (Creator tier+, subject to retention).</span>
+<span class="sd">            timeout: Optional timeout in seconds for the gRPC stream.</span>
+<span class="sd">                    If reached, the iterator will raise grpc.RpcError with</span>
+<span class="sd">                    StatusCode.DEADLINE_EXCEEDED.</span>
 
 <span class="sd">        Yields:</span>
 <span class="sd">            Event objects representing changes in the database. Each event</span>
@@ -2330,12 +2334,16 @@
 <span class="sd">            try:</span>
 <span class="sd">                for event in client.event_stream(</span>
 <span class="sd">                    routing_key_filter=&quot;revision.*&quot;,</span>
-<span class="sd">                    cursor=last_cursor</span>
+<span class="sd">                    cursor=last_cursor,</span>
+<span class="sd">                    timeout=30</span>
 <span class="sd">                ):</span>
 <span class="sd">                    process_event(event)</span>
 <span class="sd">                    save_cursor_to_disk(event.cursor)  # Save for next run</span>
-<span class="sd">            except grpc.RpcError:</span>
-<span class="sd">                pass  # Reconnect with saved cursor</span>
+<span class="sd">            except grpc.RpcError as e:</span>
+<span class="sd">                if e.code() == grpc.StatusCode.DEADLINE_EXCEEDED:</span>
+<span class="sd">                    print(&quot;Stream timed out&quot;)</span>
+<span class="sd">                else:</span>
+<span class="sd">                    raise</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">req</span> <span class="o">=</span> <span class="n">EventStreamRequest</span><span class="p">(</span>
             <span class="n">routing_key_filter</span><span class="o">=</span><span class="n">routing_key_filter</span><span class="p">,</span>
@@ -2348,7 +2356,7 @@
         <span class="k">if</span> <span class="n">from_beginning</span><span class="p">:</span>
             <span class="n">req</span><span class="o">.</span><span class="n">from_beginning</span> <span class="o">=</span> <span class="kc">True</span>
         
-        <span class="k">for</span> <span class="n">pb_event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">EventStream</span><span class="p">(</span><span class="n">req</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">pb_event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">EventStream</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">Event</span><span class="p">(</span><span class="n">pb_event</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_event_capabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;EventCapabilities&quot;</span><span class="p">:</span>
