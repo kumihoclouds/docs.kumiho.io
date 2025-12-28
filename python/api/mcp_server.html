@@ -548,6 +548,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_search_items"><code class="docutils literal notranslate"><span class="pre">tool_search_items()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_dependencies"><code class="docutils literal notranslate"><span class="pre">tool_get_dependencies()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_dependents"><code class="docutils literal notranslate"><span class="pre">tool_get_dependents()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_provenance_summary"><code class="docutils literal notranslate"><span class="pre">tool_get_provenance_summary()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_analyze_impact"><code class="docutils literal notranslate"><span class="pre">tool_analyze_impact()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_find_path"><code class="docutils literal notranslate"><span class="pre">tool_find_path()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_edges"><code class="docutils literal notranslate"><span class="pre">tool_get_edges()</span></code></a></li>
@@ -814,7 +815,7 @@ Run <code class="docutils literal notranslate"><span class="pre">kumiho-auth</sp
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kumiho.mcp_server.tool_search_items">
-<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_search_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_search_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_search_items" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_search_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_search_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_search_items" title="Link to this definition"></a></dt>
 <dd><p>Search for items across projects and spaces.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -825,6 +826,7 @@ Run <code class="docutils literal notranslate"><span class="pre">kumiho-auth</sp
 <li><p><strong>context_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
 <li><p><strong>name_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
 <li><p><strong>kind_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>include_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -861,6 +863,23 @@ Run <code class="docutils literal notranslate"><span class="pre">kumiho-auth</sp
 <li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
 <li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
 <li><p><strong>edge_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_provenance_summary">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_provenance_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">revision_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_provenance_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_provenance_summary" title="Link to this definition"></a></dt>
+<dd><p>Get provenance summary with AI metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>revision_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -951,14 +970,17 @@ Run <code class="docutils literal notranslate"><span class="pre">kumiho-auth</sp
 
 <dl class="py function">
 <dt class="sig sig-object py" id="kumiho.mcp_server.tool_get_item_revisions">
-<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_item_revisions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_item_revisions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_item_revisions" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tool_get_item_revisions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_kref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tool_get_item_revisions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tool_get_item_revisions" title="Link to this definition"></a></dt>
 <dd><p>Get all revisions for an item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>item_kref</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>include_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
