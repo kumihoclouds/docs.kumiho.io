@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.dependencies &mdash; Kumiho FastAPI v1.0.1</title>
+  <title>app.dependencies &mdash; Kumiho FastAPI v1.0.2</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -55,6 +55,26 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../authentication.html#local-testing">Local testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-handling.html">Error handling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#correlation-id">Correlation ID</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#access-logs">Access logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#opentelemetry-recommended">OpenTelemetry (recommended)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#enable">Enable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#export">Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#excluding-noisy-endpoints">Excluding noisy endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#standard-error-envelope">Standard error envelope</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#retry-behavior">Retry behavior</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#validation-errors-422">Validation errors (422)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#sensitive-details">Sensitive details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#idempotency">Idempotency</a></li>
 </ul>
 </li>
 </ul>
@@ -531,7 +551,7 @@ The service token (X-Kumiho-Token) is still required for API access.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.dependencies.get_kumiho_client">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.dependencies.</span></span><span class="sig-name descname"><span class="pre">get_kumiho_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_kumiho_token=Header(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_tenant_id=Header(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token=Depends(dependency=&lt;function</span> <span class="pre">get_user_token&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/dependencies.html#get_kumiho_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.dependencies.get_kumiho_client" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.dependencies.</span></span><span class="sig-name descname"><span class="pre">get_kumiho_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_kumiho_token=Header(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_tenant_id=Header(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_correlation_id=Header(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_idempotency_key=Header(None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token=Depends(dependency=&lt;function</span> <span class="pre">get_user_token&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/dependencies.html#get_kumiho_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.dependencies.get_kumiho_client" title="Link to this definition"></a></dt>
 <dd><p>Creates a Kumiho client instance for the current request using the provided token.</p>
 <p>This is a per-request client - each API call gets its own client instance
 configured with the client’s service token. This enables multi-tenant operation
@@ -542,6 +562,8 @@ where different clients can use the same FastAPI deployment with their own token
 <li><p><strong>x_kumiho_token</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – The client’s Kumiho service token from X-Kumiho-Token header</p></li>
 <li><p><strong>x_tenant_id</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional tenant ID hint for anonymous users</p></li>
 <li><p><strong>user_token</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional user ID token from Authorization: Bearer header</p></li>
+<li><p><strong>x_correlation_id</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>x_idempotency_key</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

@@ -1,0 +1,102 @@
+# Error handling
+
+This API returns a **standard error envelope** and always echoes an end-to-end correlation ID.
+
+## Correlation ID
+
+- Incoming requests may supply `x-correlation-id`.
+- If missing, the API generates one.
+- Responses always include `x-correlation-id`.
+- Error bodies always include `correlation_id`.
+
+### Access logs
+
+The FastAPI layer emits one access log line per request including:
+
+- method, path, status, latency
+- `correlation_id`
+- `x-tenant-id` (if provided)
+
+## OpenTelemetry (recommended)
+
+The FastAPI layer supports OpenTelemetry tracing.
+
+### Enable
+
+- `KUMIHO_OTEL_ENABLED=true`
+
+### Export
+
+Preferred (collector-based):
+
+- `OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318/v1/traces`
+
+Direct to GCP Telemetry API (no collector):
+
+- `OTEL_EXPORTER_OTLP_ENDPOINT=https://telemetry.googleapis.com`
+- `OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf`
+
+FastAPI convenience toggle (uses ADC to attach `Authorization: Bearer <token>` automatically):
+
+- `KUMIHO_OTLP_GCP_TELEMETRY=true`
+- `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=https://telemetry.googleapis.com/v1/traces`
+
+Region tagging:
+
+- Set `KUMIHO_REGION_NAME` (or `GOOGLE_CLOUD_REGION`) so spans include `cloud.region`.
+
+Fallback (direct):
+
+- If `OTEL_EXPORTER_OTLP_ENDPOINT` is not set, the service will attempt to use the Google Cloud Trace exporter.
+
+### Excluding noisy endpoints
+
+- `KUMIHO_OTEL_EXCLUDED_URLS=healthz,docs,redoc,openapi.json`
+
+## Standard error envelope
+
+Errors use this shape:
+
+```json
+{
+  "error": {
+    "code": "rate_limited",
+    "message": "Rate limit exceeded. Maximum 120 requests per minute.",
+    "retryable": true,
+    "retry_after_ms": 30000,
+    "details": {
+      "retry_after": 30
+    }
+  },
+  "correlation_id": "b3d2b04d-2b1a-4b5b-a9f9-9d2a6c0c3c8d"
+}
+```
+
+### Retry behavior
+
+- `retryable=true` indicates the client may retry.
+- Prefer `retry_after_ms` when present.
+- For HTTP 429 responses, the API also sets the `Retry-After` header.
+
+## Validation errors (422)
+
+Validation failures return `error.code = "validation_error"` and include field-level information in `error.details`.
+
+## Sensitive details
+
+For production safety, the API **does not** include raw exception details by default.
+
+To enable raw details for debugging, set:
+
+- `KUMIHO_INCLUDE_ERROR_DETAILS=true`
+
+This will include the original FastAPI `detail` field and additional diagnostic data in responses.
+
+## Idempotency
+
+For write operations, clients may send:
+
+- `x-idempotency-key`: a unique key identifying the intended write
+
+The FastAPI layer forwards `x-idempotency-key` to the data plane (`kumiho-server`) via gRPC metadata.
+The server uses it to make retries safe for key write endpoints (for example, project creation).

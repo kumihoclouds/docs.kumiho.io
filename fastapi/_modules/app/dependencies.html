@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.dependencies &mdash; Kumiho FastAPI v1.0.1</title>
+  <title>app.dependencies &mdash; Kumiho FastAPI v1.0.2</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -52,6 +52,26 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../authentication.html#local-testing">Local testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-handling.html">Error handling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#correlation-id">Correlation ID</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#access-logs">Access logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#opentelemetry-recommended">OpenTelemetry (recommended)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#enable">Enable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#export">Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#excluding-noisy-endpoints">Excluding noisy endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#standard-error-envelope">Standard error envelope</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#retry-behavior">Retry behavior</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#validation-errors-422">Validation errors (422)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#sensitive-details">Sensitive details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#idempotency">Idempotency</a></li>
 </ul>
 </li>
 </ul>
@@ -823,6 +843,8 @@
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_kumiho_client</span><span class="p">(</span>
     <span class="n">x_kumiho_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;X-Kumiho-Token&quot;</span><span class="p">),</span>
     <span class="n">x_tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">),</span>
+    <span class="n">x_correlation_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-correlation-id&quot;</span><span class="p">),</span>
+    <span class="n">x_idempotency_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-idempotency-key&quot;</span><span class="p">),</span>
     <span class="n">user_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_user_token</span><span class="p">),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -873,6 +895,10 @@
     <span class="c1"># NOTE: tenant_hint parameter doesn&#39;t actually add x-tenant-id in kumiho-python</span>
     <span class="c1"># so we need to add it to metadata manually</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">x_correlation_id</span><span class="p">:</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;x-correlation-id&quot;</span><span class="p">,</span> <span class="n">x_correlation_id</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">x_idempotency_key</span><span class="p">:</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;x-idempotency-key&quot;</span><span class="p">,</span> <span class="n">x_idempotency_key</span><span class="p">))</span>
     
     <span class="c1"># Use the preferred target from the context (which includes env override)</span>
     <span class="n">target</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">preferred_target</span><span class="p">()</span>

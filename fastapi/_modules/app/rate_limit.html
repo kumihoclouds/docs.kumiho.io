@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>app.rate_limit &mdash; Kumiho FastAPI v1.0.1</title>
+  <title>app.rate_limit &mdash; Kumiho FastAPI v1.0.2</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -52,6 +52,26 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../authentication.html#local-testing">Local testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-handling.html">Error handling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#correlation-id">Correlation ID</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#access-logs">Access logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#opentelemetry-recommended">OpenTelemetry (recommended)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#enable">Enable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#export">Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#excluding-noisy-endpoints">Excluding noisy endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#standard-error-envelope">Standard error envelope</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../error-handling.html#retry-behavior">Retry behavior</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#validation-errors-422">Validation errors (422)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#sensitive-details">Sensitive details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-handling.html#idempotency">Idempotency</a></li>
 </ul>
 </li>
 </ul>
@@ -397,6 +417,12 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_tenant_context</span>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_correlation_id</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;correlation_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;x-correlation-id&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+    <span class="p">)</span>
+
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.fastapi.rate_limit&quot;</span><span class="p">)</span>
 
 
@@ -502,15 +528,31 @@
                 <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
             <span class="p">)</span>
 
+            <span class="n">correlation_id</span> <span class="o">=</span> <span class="n">_get_correlation_id</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
             <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
                 <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_429_TOO_MANY_REQUESTS</span><span class="p">,</span>
                 <span class="n">content</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;rate_limited&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Rate limit exceeded. Maximum </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="si">}</span><span class="s2"> requests per minute.&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;retryable&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="s2">&quot;retry_after_ms&quot;</span><span class="p">:</span> <span class="n">retry_after</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span>
+                        <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;retry_after&quot;</span><span class="p">:</span> <span class="n">retry_after</span><span class="p">,</span>
+                            <span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span> <span class="n">tenant_id</span><span class="p">,</span>
+                            <span class="s2">&quot;user_bucket&quot;</span><span class="p">:</span> <span class="n">user_bucket</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;correlation_id&quot;</span><span class="p">:</span> <span class="n">correlation_id</span><span class="p">,</span>
+
+                    <span class="c1"># Transitional compatibility.</span>
                     <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Rate limit exceeded. Maximum </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="si">}</span><span class="s2"> requests per minute.&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;retry_after&quot;</span><span class="p">:</span> <span class="n">retry_after</span><span class="p">,</span>
                     <span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span> <span class="n">tenant_id</span><span class="p">,</span>
                     <span class="s2">&quot;user_bucket&quot;</span><span class="p">:</span> <span class="n">user_bucket</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Retry-After&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">retry_after</span><span class="p">)}</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Retry-After&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">retry_after</span><span class="p">),</span> <span class="s2">&quot;x-correlation-id&quot;</span><span class="p">:</span> <span class="n">correlation_id</span><span class="p">}</span>
             <span class="p">)</span>
         
         <span class="c1"># Record this request</span>

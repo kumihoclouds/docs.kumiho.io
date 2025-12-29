@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deploying kumiho-FastAPI to Google Cloud Run &amp; Cloudflare Edge &mdash; Kumiho FastAPI v1.0.2</title>
+  <title>Error handling &mdash; Kumiho FastAPI v1.0.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Cloudflare Worker Edge Cache" href="cloudflare-worker.html" /> 
+    <link rel="next" title="Endpoints" href="endpoints.html" />
+    <link rel="prev" title="Authentication" href="authentication.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,7 +43,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#run-locally">Run locally</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#making-requests">Making requests</a></li>
@@ -56,24 +57,24 @@
 <li class="toctree-l2"><a class="reference internal" href="authentication.html#local-testing">Local testing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="error-handling.html">Error handling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="error-handling.html#correlation-id">Correlation ID</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="error-handling.html#access-logs">Access logs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Error handling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#correlation-id">Correlation ID</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#access-logs">Access logs</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="error-handling.html#opentelemetry-recommended">OpenTelemetry (recommended)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="error-handling.html#enable">Enable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="error-handling.html#export">Export</a></li>
-<li class="toctree-l3"><a class="reference internal" href="error-handling.html#excluding-noisy-endpoints">Excluding noisy endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#opentelemetry-recommended">OpenTelemetry (recommended)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enable">Enable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#export">Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#excluding-noisy-endpoints">Excluding noisy endpoints</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="error-handling.html#standard-error-envelope">Standard error envelope</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="error-handling.html#retry-behavior">Retry behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#standard-error-envelope">Standard error envelope</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#retry-behavior">Retry behavior</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="error-handling.html#validation-errors-422">Validation errors (422)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="error-handling.html#sensitive-details">Sensitive details</a></li>
-<li class="toctree-l2"><a class="reference internal" href="error-handling.html#idempotency">Idempotency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validation-errors-422">Validation errors (422)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sensitive-details">Sensitive details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#idempotency">Idempotency</a></li>
 </ul>
 </li>
 </ul>
@@ -329,7 +330,7 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Deployment</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="cloudflare-worker.html">Cloudflare Worker Edge Cache</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cloudflare-worker.html#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cloudflare-worker.html#configure">Configure</a></li>
@@ -338,37 +339,37 @@
 <li class="toctree-l2"><a class="reference internal" href="cloudflare-worker.html#verify">Verify</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deploying kumiho-FastAPI to Google Cloud Run &amp; Cloudflare Edge</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ci-cd-with-github-actions">CI/CD with GitHub Actions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#required-github-secrets">Required GitHub Secrets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy-cloudrun-us-central1.html">Deploying kumiho-FastAPI to Google Cloud Run &amp; Cloudflare Edge</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#ci-cd-with-github-actions">CI/CD with GitHub Actions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#required-github-secrets">Required GitHub Secrets</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#step-by-step-gcp-setup-workload-identity-federation">Step-by-Step GCP Setup (Workload Identity Federation)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#create-service-account">1. Create Service Account</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#grant-required-roles">2. Grant Required Roles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configure-workload-identity-federation">3. Configure Workload Identity Federation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#step-by-step-gcp-setup-workload-identity-federation">Step-by-Step GCP Setup (Workload Identity Federation)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#create-service-account">1. Create Service Account</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#grant-required-roles">2. Grant Required Roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#configure-workload-identity-federation">3. Configure Workload Identity Federation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#cloudflare-setup">Cloudflare Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dns-configuration">1. DNS Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#worker-configuration">2. Worker Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#cloudflare-setup">Cloudflare Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#dns-configuration">1. DNS Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#worker-configuration">2. Worker Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#manual-deployment-emergency-only">Manual Deployment (Emergency Only)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#build-and-push-origin">1. Build and Push Origin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#deploy-origin">2. Deploy Origin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#deploy-worker">3. Deploy Worker</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#view-metrics">View Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#manual-deployment-emergency-only">Manual Deployment (Emergency Only)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#build-and-push-origin">1. Build and Push Origin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#deploy-origin">2. Deploy Origin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#deploy-worker">3. Deploy Worker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#view-metrics">View Metrics</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#rollback">Rollback</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cost-optimization">Cost Optimization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cold-start-latency">Cold Start Latency</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#container-fails-to-start">Container Fails to Start</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#permission-denied">Permission Denied</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#rollback">Rollback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#cost-optimization">Cost Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy-cloudrun-us-central1.html#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#cold-start-latency">Cold Start Latency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#container-fails-to-start">Container Fails to Start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deploy-cloudrun-us-central1.html#permission-denied">Permission Denied</a></li>
 </ul>
 </li>
 </ul>
@@ -389,9 +390,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Deploying kumiho-FastAPI to Google Cloud Run &amp; Cloudflare Edge</li>
+      <li class="breadcrumb-item active">Error handling</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/deploy-cloudrun-us-central1.md.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/error-handling.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -399,256 +400,115 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="deploying-kumiho-fastapi-to-google-cloud-run-cloudflare-edge">
-<h1>Deploying kumiho-FastAPI to Google Cloud Run &amp; Cloudflare Edge<a class="headerlink" href="#deploying-kumiho-fastapi-to-google-cloud-run-cloudflare-edge" title="Link to this heading"></a></h1>
-<p>This guide covers deploying the stateless FastAPI service to <strong>Google Cloud Run</strong> in the <code class="docutils literal notranslate"><span class="pre">us-central1</span></code> region, with <strong>Cloudflare Workers</strong> acting as the edge cache and routing layer for <code class="docutils literal notranslate"><span class="pre">api.kumiho.cloud</span></code>.</p>
-<section id="architecture">
-<h2>Architecture<a class="headerlink" href="#architecture" title="Link to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>User → Cloudflare Worker (api.kumiho.cloud) → Google Cloud Run (Origin)
-</pre></div>
-</div>
-</section>
-<section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
-<ol class="arabic simple">
-<li><p><strong>Google Cloud Account</strong> with billing enabled</p></li>
-<li><p><strong>Cloudflare Account</strong> with <code class="docutils literal notranslate"><span class="pre">kumiho.cloud</span></code> zone</p></li>
-<li><p><strong>gcloud CLI</strong> and <strong>Wrangler CLI</strong> installed</p></li>
-<li><p>A GCP project (we use <code class="docutils literal notranslate"><span class="pre">kumiho-server</span></code>)</p></li>
-</ol>
-</section>
-<hr class="docutils" />
-<section id="ci-cd-with-github-actions">
-<h2>CI/CD with GitHub Actions<a class="headerlink" href="#ci-cd-with-github-actions" title="Link to this heading"></a></h2>
-<p>The repository includes a workflow that automatically deploys both the Cloud Run origin and the Cloudflare Worker on push to <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
-<section id="required-github-secrets">
-<h3>Required GitHub Secrets<a class="headerlink" href="#required-github-secrets" title="Link to this heading"></a></h3>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Secret</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GCP_PROJECT_ID</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">kumiho-server</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GCP_WORKLOAD_IDENTITY_PROVIDER</span></code></p></td>
-<td><p>Full path to the Workload Identity Provider</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GCP_SERVICE_ACCOUNT</span></code></p></td>
-<td><p>Service account email for deployment</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CLOUDFLARE_API_TOKEN</span></code></p></td>
-<td><p>API Token with Workers deployment permissions</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CLOUDFLARE_ACCOUNT_ID</span></code></p></td>
-<td><p>Your Cloudflare Account ID</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<hr class="docutils" />
-<section id="step-by-step-gcp-setup-workload-identity-federation">
-<h2>Step-by-Step GCP Setup (Workload Identity Federation)<a class="headerlink" href="#step-by-step-gcp-setup-workload-identity-federation" title="Link to this heading"></a></h2>
-<p>We use Workload Identity Federation to allow GitHub Actions to authenticate without long-lived JSON keys.</p>
-<section id="create-service-account">
-<h3>1. Create Service Account<a class="headerlink" href="#create-service-account" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>create<span class="w"> </span>github-deployer<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">&quot;GitHub Actions Deployer&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span>kumiho-server
-</pre></div>
-</div>
-</section>
-<section id="grant-required-roles">
-<h3>2. Grant Required Roles<a class="headerlink" href="#grant-required-roles" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">PROJECT_ID</span><span class="o">=</span>kumiho-server
-<span class="nv">SA_EMAIL</span><span class="o">=</span>github-deployer@<span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span>.iam.gserviceaccount.com
-
-<span class="c1"># Cloud Run Admin</span>
-gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECT_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/run.admin&quot;</span>
-
-<span class="c1"># Artifact Registry Writer</span>
-gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECT_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/artifactregistry.writer&quot;</span>
-
-<span class="c1"># Service Account User (to act as the runtime SA)</span>
-gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECT_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/iam.serviceAccountUser&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="configure-workload-identity-federation">
-<h3>3. Configure Workload Identity Federation<a class="headerlink" href="#configure-workload-identity-federation" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Workload Identity Pool</span>
-gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;github-pool&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--location<span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">&quot;GitHub Actions Pool&quot;</span>
-
-<span class="c1"># Get the Pool ID</span>
-<span class="nv">POOL_ID</span><span class="o">=</span><span class="k">$(</span>gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>describe<span class="w"> </span><span class="s2">&quot;github-pool&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--location<span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--format<span class="o">=</span><span class="s1">&#39;value(name)&#39;</span><span class="k">)</span>
-
-<span class="c1"># Create Workload Identity Provider</span>
-gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>providers<span class="w"> </span>create-oidc<span class="w"> </span><span class="s2">&quot;github-provider&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--location<span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--workload-identity-pool<span class="o">=</span><span class="s2">&quot;github-pool&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">&quot;GitHub Actions Provider&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--attribute-mapping<span class="o">=</span><span class="s2">&quot;google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--issuer-uri<span class="o">=</span><span class="s2">&quot;https://token.actions.githubusercontent.com&quot;</span>
-
-<span class="c1"># Allow GitHub to impersonate the Service Account</span>
-<span class="c1"># Replace OWNER/REPO with your actual repository path</span>
-gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">SA_EMAIL</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/iam.workloadIdentityUser&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;principalSet://iam.googleapis.com/</span><span class="si">${</span><span class="nv">POOL_ID</span><span class="si">}</span><span class="s2">/attribute.repository/OWNER/REPO&quot;</span>
-</pre></div>
-</div>
-</section>
-</section>
-<hr class="docutils" />
-<section id="cloudflare-setup">
-<h2>Cloudflare Setup<a class="headerlink" href="#cloudflare-setup" title="Link to this heading"></a></h2>
-<section id="dns-configuration">
-<h3>1. DNS Configuration<a class="headerlink" href="#dns-configuration" title="Link to this heading"></a></h3>
-<p>Ensure <code class="docutils literal notranslate"><span class="pre">api.kumiho.cloud</span></code> is pointed to a dummy IP (e.g., <code class="docutils literal notranslate"><span class="pre">100::</span></code> AAAA record) and is <strong>Proxied (Orange Cloud)</strong>.</p>
-</section>
-<section id="worker-configuration">
-<h3>2. Worker Configuration<a class="headerlink" href="#worker-configuration" title="Link to this heading"></a></h3>
-<p>The worker in <code class="docutils literal notranslate"><span class="pre">kumiho-FastAPI/worker</span></code> is configured via <code class="docutils literal notranslate"><span class="pre">wrangler.toml</span></code>.</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># kumiho-FastAPI/worker/wrangler.toml</span>
-<span class="n">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;api.kumiho.cloud/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">zone_name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;kumiho.cloud&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">ORIGIN_URL</span></code> variable in the worker must point to the Cloud Run service URL. This is handled automatically by the CI/CD workflow.</p>
-</section>
-</section>
-<hr class="docutils" />
-<section id="manual-deployment-emergency-only">
-<h2>Manual Deployment (Emergency Only)<a class="headerlink" href="#manual-deployment-emergency-only" title="Link to this heading"></a></h2>
-<section id="build-and-push-origin">
-<h3>1. Build and Push Origin<a class="headerlink" href="#build-and-push-origin" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>kumiho-FastAPI
-docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>us-central1-docker.pkg.dev/kumiho-server/kumiho-server/kumiho-fastapi:latest<span class="w"> </span>.
-docker<span class="w"> </span>push<span class="w"> </span>us-central1-docker.pkg.dev/kumiho-server/kumiho-server/kumiho-fastapi:latest
-</pre></div>
-</div>
-</section>
-<section id="deploy-origin">
-<h3>2. Deploy Origin<a class="headerlink" href="#deploy-origin" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>run<span class="w"> </span>deploy<span class="w"> </span>kumiho-fastapi<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--image<span class="w"> </span>us-central1-docker.pkg.dev/kumiho-server/kumiho-server/kumiho-fastapi:latest<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--region<span class="w"> </span>us-central1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--allow-unauthenticated
-</pre></div>
-</div>
-</section>
-<section id="deploy-worker">
-<h3>3. Deploy Worker<a class="headerlink" href="#deploy-worker" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>kumiho-FastAPI/worker
-<span class="c1"># Set the ORIGIN_URL to the URL from step 2</span>
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s|ORIGIN_URL = &quot;.*&quot;|ORIGIN_URL = &quot;https://kumiho-fastapi-xxxxx-uc.a.run.app&quot;|&#39;</span><span class="w"> </span>wrangler.toml
-npx<span class="w"> </span>wrangler<span class="w"> </span>deploy
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"> </span>logs<span class="w"> </span><span class="nb">read</span><span class="w"> </span>kumiho-fastapi<span class="w"> </span>--region<span class="w"> </span>us-central1
-</pre></div>
-</div>
-<p>Or use the Cloud Console:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">console</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">detail</span><span class="o">/</span><span class="n">us</span><span class="o">-</span><span class="n">central1</span><span class="o">/</span><span class="n">kumiho</span><span class="o">-</span><span class="n">fastapi</span><span class="o">/</span><span class="n">logs</span>
-</pre></div>
-</div>
-</section>
-<section id="view-metrics">
-<h3>View Metrics<a class="headerlink" href="#view-metrics" title="Link to this heading"></a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">console</span><span class="o">.</span><span class="n">cloud</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">detail</span><span class="o">/</span><span class="n">us</span><span class="o">-</span><span class="n">central1</span><span class="o">/</span><span class="n">kumiho</span><span class="o">-</span><span class="n">fastapi</span><span class="o">/</span><span class="n">metrics</span>
-</pre></div>
-</div>
-<p>Key metrics to monitor:</p>
+  <section id="error-handling">
+<h1>Error handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h1>
+<p>This API returns a <strong>standard error envelope</strong> and always echoes an end-to-end correlation ID.</p>
+<section id="correlation-id">
+<h2>Correlation ID<a class="headerlink" href="#correlation-id" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Request latency (p50, p95, p99)</p></li>
-<li><p>Request count by status code</p></li>
-<li><p>Instance count</p></li>
-<li><p>Memory/CPU utilization</p></li>
+<li><p>Incoming requests may supply <code class="docutils literal notranslate"><span class="pre">x-correlation-id</span></code>.</p></li>
+<li><p>If missing, the API generates one.</p></li>
+<li><p>Responses always include <code class="docutils literal notranslate"><span class="pre">x-correlation-id</span></code>.</p></li>
+<li><p>Error bodies always include <code class="docutils literal notranslate"><span class="pre">correlation_id</span></code>.</p></li>
+</ul>
+<section id="access-logs">
+<h3>Access logs<a class="headerlink" href="#access-logs" title="Link to this heading"></a></h3>
+<p>The FastAPI layer emits one access log line per request including:</p>
+<ul class="simple">
+<li><p>method, path, status, latency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">correlation_id</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x-tenant-id</span></code> (if provided)</p></li>
 </ul>
 </section>
 </section>
-<hr class="docutils" />
-<section id="rollback">
-<h2>Rollback<a class="headerlink" href="#rollback" title="Link to this heading"></a></h2>
-<p>To rollback to a previous revision:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List revisions</span>
-gcloud<span class="w"> </span>run<span class="w"> </span>revisions<span class="w"> </span>list<span class="w"> </span>--service<span class="w"> </span>kumiho-fastapi<span class="w"> </span>--region<span class="w"> </span>us-central1
-
-<span class="c1"># Route traffic to a specific revision</span>
-gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"> </span>update-traffic<span class="w"> </span>kumiho-fastapi<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--region<span class="w"> </span>us-central1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--to-revisions<span class="w"> </span>kumiho-fastapi-00005-abc<span class="o">=</span><span class="m">100</span>
-</pre></div>
-</div>
-</section>
-<hr class="docutils" />
-<section id="cost-optimization">
-<h2>Cost Optimization<a class="headerlink" href="#cost-optimization" title="Link to this heading"></a></h2>
-<p>Cloud Run charges only when handling requests:</p>
+<section id="opentelemetry-recommended">
+<h2>OpenTelemetry (recommended)<a class="headerlink" href="#opentelemetry-recommended" title="Link to this heading"></a></h2>
+<p>The FastAPI layer supports OpenTelemetry tracing.</p>
+<section id="enable">
+<h3>Enable<a class="headerlink" href="#enable" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><strong>Idle cost</strong>: $0 (with min-instances=0)</p></li>
-<li><p><strong>Request cost</strong>: ~$0.40 per million requests</p></li>
-<li><p><strong>Compute cost</strong>: ~$0.00002400 per vCPU-second</p></li>
-</ul>
-<p>For predictable traffic, consider setting <code class="docutils literal notranslate"><span class="pre">--min-instances</span> <span class="pre">1</span></code> to avoid cold starts:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"> </span>update<span class="w"> </span>kumiho-fastapi<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--region<span class="w"> </span>us-central1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--min-instances<span class="w"> </span><span class="m">1</span>
-</pre></div>
-</div>
-</section>
-<hr class="docutils" />
-<section id="troubleshooting">
-<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
-<section id="cold-start-latency">
-<h3>Cold Start Latency<a class="headerlink" href="#cold-start-latency" title="Link to this heading"></a></h3>
-<p>If cold starts are slow:</p>
-<ol class="arabic simple">
-<li><p>Set <code class="docutils literal notranslate"><span class="pre">--min-instances</span> <span class="pre">1</span></code></p></li>
-<li><p>Use a smaller base image (already using <code class="docutils literal notranslate"><span class="pre">python:3.11-slim</span></code>)</p></li>
-<li><p>Reduce dependencies in <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></p></li>
-</ol>
-</section>
-<section id="container-fails-to-start">
-<h3>Container Fails to Start<a class="headerlink" href="#container-fails-to-start" title="Link to this heading"></a></h3>
-<p>Check logs:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"> </span>logs<span class="w"> </span><span class="nb">read</span><span class="w"> </span>kumiho-fastapi<span class="w"> </span>--region<span class="w"> </span>us-central1<span class="w"> </span>--limit<span class="w"> </span><span class="m">50</span>
-</pre></div>
-</div>
-<p>Common issues:</p>
-<ul class="simple">
-<li><p>Port mismatch (ensure <code class="docutils literal notranslate"><span class="pre">--port</span> <span class="pre">8000</span></code> matches Dockerfile <code class="docutils literal notranslate"><span class="pre">EXPOSE</span> <span class="pre">8000</span></code>)</p></li>
-<li><p>Missing environment variables</p></li>
-<li><p>Dependency installation failures</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KUMIHO_OTEL_ENABLED=true</span></code></p></li>
 </ul>
 </section>
-<section id="permission-denied">
-<h3>Permission Denied<a class="headerlink" href="#permission-denied" title="Link to this heading"></a></h3>
-<p>Ensure the Cloud Run service account has access to required resources:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"> </span>describe<span class="w"> </span>kumiho-fastapi<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--region<span class="w"> </span>us-central1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--format<span class="w"> </span><span class="s1">&#39;value(spec.template.spec.serviceAccountName)&#39;</span>
+<section id="export">
+<h3>Export<a class="headerlink" href="#export" title="Link to this heading"></a></h3>
+<p>Preferred (collector-based):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318/v1/traces</span></code></p></li>
+</ul>
+<p>Direct to GCP Telemetry API (no collector):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OTEL_EXPORTER_OTLP_ENDPOINT=https://telemetry.googleapis.com</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf</span></code></p></li>
+</ul>
+<p>FastAPI convenience toggle (uses ADC to attach <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;token&gt;</span></code> automatically):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">KUMIHO_OTLP_GCP_TELEMETRY=true</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=https://telemetry.googleapis.com/v1/traces</span></code></p></li>
+</ul>
+<p>Region tagging:</p>
+<ul class="simple">
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">KUMIHO_REGION_NAME</span></code> (or <code class="docutils literal notranslate"><span class="pre">GOOGLE_CLOUD_REGION</span></code>) so spans include <code class="docutils literal notranslate"><span class="pre">cloud.region</span></code>.</p></li>
+</ul>
+<p>Fallback (direct):</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">OTEL_EXPORTER_OTLP_ENDPOINT</span></code> is not set, the service will attempt to use the Google Cloud Trace exporter.</p></li>
+</ul>
+</section>
+<section id="excluding-noisy-endpoints">
+<h3>Excluding noisy endpoints<a class="headerlink" href="#excluding-noisy-endpoints" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">KUMIHO_OTEL_EXCLUDED_URLS=healthz,docs,redoc,openapi.json</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="standard-error-envelope">
+<h2>Standard error envelope<a class="headerlink" href="#standard-error-envelope" title="Link to this heading"></a></h2>
+<p>Errors use this shape:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rate_limited&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Rate limit exceeded. Maximum 120 requests per minute.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retryable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retry_after_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;retry_after&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;correlation_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b3d2b04d-2b1a-4b5b-a9f9-9d2a6c0c3c8d&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
+<section id="retry-behavior">
+<h3>Retry behavior<a class="headerlink" href="#retry-behavior" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">retryable=true</span></code> indicates the client may retry.</p></li>
+<li><p>Prefer <code class="docutils literal notranslate"><span class="pre">retry_after_ms</span></code> when present.</p></li>
+<li><p>For HTTP 429 responses, the API also sets the <code class="docutils literal notranslate"><span class="pre">Retry-After</span></code> header.</p></li>
+</ul>
 </section>
+</section>
+<section id="validation-errors-422">
+<h2>Validation errors (422)<a class="headerlink" href="#validation-errors-422" title="Link to this heading"></a></h2>
+<p>Validation failures return <code class="docutils literal notranslate"><span class="pre">error.code</span> <span class="pre">=</span> <span class="pre">&quot;validation_error&quot;</span></code> and include field-level information in <code class="docutils literal notranslate"><span class="pre">error.details</span></code>.</p>
+</section>
+<section id="sensitive-details">
+<h2>Sensitive details<a class="headerlink" href="#sensitive-details" title="Link to this heading"></a></h2>
+<p>For production safety, the API <strong>does not</strong> include raw exception details by default.</p>
+<p>To enable raw details for debugging, set:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">KUMIHO_INCLUDE_ERROR_DETAILS=true</span></code></p></li>
+</ul>
+<p>This will include the original FastAPI <code class="docutils literal notranslate"><span class="pre">detail</span></code> field and additional diagnostic data in responses.</p>
+</section>
+<section id="idempotency">
+<h2>Idempotency<a class="headerlink" href="#idempotency" title="Link to this heading"></a></h2>
+<p>For write operations, clients may send:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x-idempotency-key</span></code>: a unique key identifying the intended write</p></li>
+</ul>
+<p>The FastAPI layer forwards <code class="docutils literal notranslate"><span class="pre">x-idempotency-key</span></code> to the data plane (<code class="docutils literal notranslate"><span class="pre">kumiho-server</span></code>) via gRPC metadata.
+The server uses it to make retries safe for key write endpoints (for example, project creation).</p>
 </section>
 </section>
 
@@ -656,7 +516,8 @@ gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cloudflare-worker.html" class="btn btn-neutral float-left" title="Cloudflare Worker Edge Cache" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="authentication.html" class="btn btn-neutral float-left" title="Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="endpoints.html" class="btn btn-neutral float-right" title="Endpoints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
