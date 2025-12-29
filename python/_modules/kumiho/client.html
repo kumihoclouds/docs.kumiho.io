@@ -2532,11 +2532,21 @@
             <span class="c1"># Force the response to be evaluated</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">):</span>
                 <span class="n">code</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">code</span><span class="p">()</span>
+                <span class="n">should_refresh</span> <span class="o">=</span> <span class="kc">False</span>
+                
                 <span class="k">if</span> <span class="n">code</span> <span class="ow">in</span> <span class="p">(</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">UNAUTHENTICATED</span><span class="p">,</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">PERMISSION_DENIED</span><span class="p">):</span>
+                    <span class="n">should_refresh</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">UNAVAILABLE</span><span class="p">:</span>
+                    <span class="c1"># Handle JWKS errors which often manifest as UNAVAILABLE</span>
+                    <span class="n">details</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">details</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">details</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;jwks&quot;</span> <span class="ow">in</span> <span class="n">details</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;kid&quot;</span> <span class="ow">in</span> <span class="n">details</span><span class="o">.</span><span class="n">lower</span><span class="p">()):</span>
+                        <span class="n">should_refresh</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="k">if</span> <span class="n">should_refresh</span><span class="p">:</span>
                     <span class="n">_LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Authentication error detected, prompting for login...&quot;</span><span class="p">)</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth_cli</span>
-                        <span class="n">new_token</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">auth_cli</span><span class="o">.</span><span class="n">ensure_token</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">new_token</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">auth_cli</span><span class="o">.</span><span class="n">ensure_token</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                         
                         <span class="c1"># Update the authorization header with the new token</span>
                         <span class="n">existing_metadata</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
