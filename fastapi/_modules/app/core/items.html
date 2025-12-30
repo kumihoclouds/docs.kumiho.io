@@ -477,10 +477,11 @@
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Project not found&quot;</span><span class="p">)</span>
-        <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">)</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span>
             <span class="n">item_name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">item_name</span><span class="p">,</span>
-            <span class="n">kind</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">kind</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
+            <span class="n">parent_path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">ItemResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
