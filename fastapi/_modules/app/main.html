@@ -86,6 +86,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#default">default</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#edges">edges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#events">events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#graph">graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#items">items</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#mcp">mcp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../endpoints.html#projects">projects</a></li>
@@ -436,6 +437,7 @@
     <span class="n">revisions_router</span><span class="p">,</span>
     <span class="n">artifacts_router</span><span class="p">,</span>
     <span class="n">edges_router</span><span class="p">,</span>
+    <span class="n">graph_router</span><span class="p">,</span>
     <span class="n">tenant_router</span><span class="p">,</span>
     <span class="n">resolve_router</span><span class="p">,</span>
     <span class="n">bundles_router</span><span class="p">,</span>
@@ -545,6 +547,7 @@
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">revisions_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/revisions&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;revisions&quot;</span><span class="p">])</span>
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">artifacts_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/artifacts&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;artifacts&quot;</span><span class="p">])</span>
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">edges_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/edges&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;edges&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">graph_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/graph&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">])</span>
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">tenant_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/tenant&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tenant&quot;</span><span class="p">])</span>
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">resolve_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/resolve&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;resolve&quot;</span><span class="p">])</span>
 <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">bundles_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/bundles&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;bundles&quot;</span><span class="p">])</span>

@@ -86,6 +86,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#default">default</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#edges">edges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#events">events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#graph">graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#items">items</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#mcp">mcp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#projects">projects</a></li>
@@ -405,6 +406,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kumiho_client</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.models.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpaceCreate</span><span class="p">,</span> <span class="n">SpaceUpdate</span><span class="p">,</span> <span class="n">SpaceResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.kumiho_http</span><span class="w"> </span><span class="kn">import</span> <span class="n">translate_kumiho_exception</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
@@ -429,9 +431,7 @@
         <span class="n">spaces</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">SpaceResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spaces</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Space not found&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 
@@ -444,15 +444,44 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new space.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">project_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">parent_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">parent_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">parent_path</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_path</span> <span class="ow">or</span> <span class="n">parent_path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+                <span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+                <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;parent_path must include a project segment (e.g. &#39;/MyProject&#39; or &#39;/MyProject/Assets&#39;)&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">parent_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Project not found&quot;</span><span class="p">)</span>
-        <span class="n">parent_space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">parent_path</span><span class="p">)</span>
-        <span class="n">space</span> <span class="o">=</span> <span class="n">parent_space</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># Ensure the project root space exists (/{project_name}).</span>
+        <span class="n">root_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># Create the root space under &#39;/&#39; (idempotent on the server side).</span>
+            <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Ensure the full parent_path hierarchy exists (create missing intermediate spaces).</span>
+        <span class="c1"># Example: parent_path=&#39;/proj/Assets/Characters&#39; -&gt; create Assets then Characters.</span>
+        <span class="n">parent_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parent_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="p">]</span>
+        <span class="n">current_space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">parent_segments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">current_space</span> <span class="o">=</span> <span class="n">current_space</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">current_space</span> <span class="o">=</span> <span class="n">current_space</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span>
+
+        <span class="c1"># Create the requested child space, but treat &quot;already exists&quot; as idempotent.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="n">current_space</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="n">current_space</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SpaceResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">space</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 
@@ -472,9 +501,7 @@
         <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SpaceResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">space</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Space not found&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 
@@ -496,9 +523,7 @@
         <span class="n">updated</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">SpaceResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">updated</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Space not found&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="delete_space">
@@ -518,9 +543,7 @@
         <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">space</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Space not found&quot;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 </pre></div>
 

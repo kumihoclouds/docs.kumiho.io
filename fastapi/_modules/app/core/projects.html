@@ -86,6 +86,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#default">default</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#edges">edges</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#events">events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#graph">graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#items">items</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#mcp">mcp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#projects">projects</a></li>
@@ -406,6 +407,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kumiho_client</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.models.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectCreate</span><span class="p">,</span> <span class="n">ProjectUpdate</span><span class="p">,</span> <span class="n">ProjectResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.models.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.core.kumiho_http</span><span class="w"> </span><span class="kn">import</span> <span class="n">translate_kumiho_exception</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectLimitError</span>
@@ -424,7 +426,7 @@
         <span class="n">projects</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 
@@ -447,8 +449,10 @@
             <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span><span class="p">,</span>
             <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Project limit reached: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
+    <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
+        <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 
@@ -468,7 +472,7 @@
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 
@@ -494,7 +498,7 @@
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
 
@@ -516,7 +520,7 @@
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 </pre></div>
 
