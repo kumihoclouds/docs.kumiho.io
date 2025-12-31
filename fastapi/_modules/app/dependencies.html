@@ -413,7 +413,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">HTTPException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscoveryError</span><span class="p">,</span> <span class="n">DiscoveryManager</span>
 
@@ -862,6 +862,7 @@
 <div class="viewcode-block" id="get_kumiho_client">
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.get_kumiho_client">[docs]</a>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_kumiho_client</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">x_kumiho_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;X-Kumiho-Token&quot;</span><span class="p">),</span>
     <span class="n">x_tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">),</span>
     <span class="n">x_correlation_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-correlation-id&quot;</span><span class="p">),</span>
@@ -927,6 +928,13 @@
     
     <span class="c1"># Use the preferred target from the context (which includes env override)</span>
     <span class="n">target</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">preferred_target</span><span class="p">()</span>
+
+    <span class="c1"># Stash diagnostics for error handler/logging.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">kumiho_tenant_hint</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">tenant_id</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">kumiho_target</span> <span class="o">=</span> <span class="n">target</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
     
     <span class="c1"># If we still don&#39;t have a target, try environment fallback ONLY for env-credential mode.</span>
     <span class="c1"># When a caller supplies a service token per-request, pinning to a fixed env endpoint can</span>
@@ -944,6 +952,11 @@
                 <span class="n">_resolve_routing_anonymous</span><span class="p">,</span>
                 <span class="n">tenant_hint</span><span class="p">,</span>
             <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">kumiho_target</span> <span class="o">=</span> <span class="n">target</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
