@@ -805,7 +805,10 @@
         <span class="n">grpc_authority</span><span class="o">=</span><span class="n">grpc_authority</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">context</span><span class="o">.</span><span class="n">server_url</span><span class="p">:</span>
+    <span class="c1"># Only fall back to pinned env targets when we are using environment credentials.</span>
+    <span class="c1"># For per-request credentials, pinning to a single regional endpoint can route writes</span>
+    <span class="c1"># to a stale region during rollouts and produce opaque 500s.</span>
+    <span class="k">if</span> <span class="n">using_env_creds_only</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">context</span><span class="o">.</span><span class="n">server_url</span><span class="p">:</span>
         <span class="n">env_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
         <span class="n">context</span><span class="o">.</span><span class="n">server_url</span> <span class="o">=</span> <span class="n">env_target</span>
 
@@ -891,11 +894,15 @@
 <span class="sd">        HTTPException: 401 if token is missing or invalid</span>
 <span class="sd">        HTTPException: 500 if client creation fails</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">using_request_token</span> <span class="o">=</span> <span class="kc">False</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Determine the service token (control plane token)</span>
         <span class="c1"># We prioritize X-Kumiho-Token, but fallback to Authorization: Bearer</span>
         <span class="c1"># if X-Kumiho-Token is missing. This allows standard Bearer Auth in tools like n8n.</span>
         <span class="n">service_token</span> <span class="o">=</span> <span class="n">x_kumiho_token</span> <span class="ow">or</span> <span class="n">user_token</span>
+        <span class="n">using_request_token</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">service_token</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">service_token</span><span class="p">:</span>
             <span class="c1"># Use the provided service token</span>
@@ -928,8 +935,10 @@
     <span class="c1"># Use the preferred target from the context (which includes env override)</span>
     <span class="n">target</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">preferred_target</span><span class="p">()</span>
     
-    <span class="c1"># If we still don&#39;t have a target, try environment fallback</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
+    <span class="c1"># If we still don&#39;t have a target, try environment fallback ONLY for env-credential mode.</span>
+    <span class="c1"># When a caller supplies a service token per-request, pinning to a fixed env endpoint can</span>
+    <span class="c1"># route writes to the wrong region during multi-region rollouts.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">using_request_token</span><span class="p">:</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
 
     <span class="c1"># If we still don&#39;t have a target, it means discovery failed or was skipped.</span>
@@ -938,7 +947,13 @@
         <span class="n">tenant_hint</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_id</span>
         <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Target not resolved yet, attempting last-minute discovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">)</span>
-            <span class="n">target</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span><span class="n">_resolve_routing_anonymous</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">)</span>
+            <span class="c1"># If a service token was provided on this request, include it so the control plane can</span>
+            <span class="c1"># authorize the discovery call.</span>
+            <span class="n">target</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span>
+                <span class="n">_resolve_routing_anonymous</span><span class="p">,</span>
+                <span class="n">tenant_hint</span><span class="p">,</span>
+                <span class="n">service_token</span><span class="o">=</span><span class="n">service_token</span><span class="p">,</span>
+            <span class="p">)</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
