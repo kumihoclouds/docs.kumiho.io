@@ -533,21 +533,16 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_routing_anonymous</span><span class="p">(</span>
     <span class="n">tenant_hint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_hint</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">_build_discovery_url</span><span class="p">(</span><span class="n">_CONTROL_PLANE_URL</span><span class="p">)</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tenant_hint&quot;</span><span class="p">:</span> <span class="n">tenant_hint</span><span class="p">}</span>
-    <span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="n">service_token</span><span class="p">:</span>
-        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">service_token</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="n">response</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_post_json</span><span class="p">(</span>
         <span class="n">url</span><span class="p">,</span>
         <span class="n">payload</span><span class="p">,</span>
         <span class="n">timeout</span><span class="o">=</span><span class="n">_DISCOVERY_TIMEOUT_SECONDS</span><span class="p">,</span>
-        <span class="n">headers</span><span class="o">=</span><span class="n">headers</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
@@ -577,7 +572,6 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">id_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">id_token</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
@@ -586,7 +580,7 @@
                     <span class="s2">&quot;Discovery routing using tenant_hint without id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
                     <span class="n">tenant_hint</span><span class="p">,</span>
                 <span class="p">)</span>
-            <span class="k">return</span> <span class="n">_resolve_routing_anonymous</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">,</span> <span class="n">service_token</span><span class="o">=</span><span class="n">service_token</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_resolve_routing_anonymous</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;Discovery routing skipped: no id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
@@ -779,7 +773,6 @@
         <span class="n">server_url</span><span class="p">,</span> <span class="n">grpc_authority</span><span class="p">,</span> <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="n">_resolve_routing_from_discovery</span><span class="p">(</span>
             <span class="n">id_token</span><span class="o">=</span><span class="n">id_token</span><span class="p">,</span>
             <span class="n">tenant_hint</span><span class="o">=</span><span class="n">tenant_hint</span><span class="p">,</span>
-            <span class="n">service_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">expiry_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">expiry</span><span class="p">]</span>
@@ -947,12 +940,9 @@
         <span class="n">tenant_hint</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_id</span>
         <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Target not resolved yet, attempting last-minute discovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">)</span>
-            <span class="c1"># If a service token was provided on this request, include it so the control plane can</span>
-            <span class="c1"># authorize the discovery call.</span>
             <span class="n">target</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span>
                 <span class="n">_resolve_routing_anonymous</span><span class="p">,</span>
                 <span class="n">tenant_hint</span><span class="p">,</span>
-                <span class="n">service_token</span><span class="o">=</span><span class="n">service_token</span><span class="p">,</span>
             <span class="p">)</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
