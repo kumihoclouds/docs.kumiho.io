@@ -401,14 +401,14 @@
   <h1>Source code for app.core.projects</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Projects API router - full CRUD for Kumiho projects.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">status</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kumiho_client</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.models.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectCreate</span><span class="p">,</span> <span class="n">ProjectUpdate</span><span class="p">,</span> <span class="n">ProjectResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.models.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.kumiho_http</span><span class="w"> </span><span class="kn">import</span> <span class="n">translate_kumiho_exception</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProjectLimitError</span>
 
@@ -419,12 +419,15 @@
 <a class="viewcode-back" href="../../../api/_generated/app.core.projects.html#app.core.projects.list_projects">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ProjectResponse</span><span class="p">])</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_projects</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List all projects visible to the authenticated user.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">projects</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">]</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_author&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_username&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
@@ -434,6 +437,7 @@
 <a class="viewcode-back" href="../../../api/_generated/app.core.projects.html#app.core.projects.create_project">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ProjectResponse</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_project</span><span class="p">(</span>
+    <span class="n">request_state</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">ProjectCreate</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
@@ -443,7 +447,9 @@
             <span class="n">name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">description</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request_state</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_author&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request_state</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_username&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ProjectLimitError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span><span class="p">,</span>
@@ -460,6 +466,7 @@
 <a class="viewcode-back" href="../../../api/_generated/app.core.projects.html#app.core.projects.get_project">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{name}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ProjectResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
@@ -468,7 +475,9 @@
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Project not found&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_author&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_username&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -480,6 +489,7 @@
 <a class="viewcode-back" href="../../../api/_generated/app.core.projects.html#app.core.projects.update_project">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{name}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ProjectResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_project</span><span class="p">(</span>
+    <span class="n">request_state</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">ProjectUpdate</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
@@ -494,7 +504,9 @@
             <span class="n">description</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
             <span class="n">allow_public</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">allow_public</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">updated</span><span class="p">)</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request_state</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_author&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request_state</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_username&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ProjectResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">updated</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>

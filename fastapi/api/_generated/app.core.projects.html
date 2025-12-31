@@ -408,41 +408,45 @@
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.projects.create_project" title="app.core.projects.create_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_project</span></code></a>(request[, client])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.projects.create_project" title="app.core.projects.create_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_project</span></code></a>(request_state, request[, client])</p></td>
 <td><p>Create a new project.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#app.core.projects.delete_project" title="app.core.projects.delete_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_project</span></code></a>(name[, force, client])</p></td>
 <td><p>Delete a project.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.projects.get_project" title="app.core.projects.get_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_project</span></code></a>(name[, client])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.projects.get_project" title="app.core.projects.get_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_project</span></code></a>(request, name[, client])</p></td>
 <td><p>Get a specific project by name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#app.core.projects.list_projects" title="app.core.projects.list_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_projects</span></code></a>([client])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#app.core.projects.list_projects" title="app.core.projects.list_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list_projects</span></code></a>(request[, client])</p></td>
 <td><p>List all projects visible to the authenticated user.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.projects.update_project" title="app.core.projects.update_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_project</span></code></a>(name, request[, client])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#app.core.projects.update_project" title="app.core.projects.update_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_project</span></code></a>(request_state, name, request)</p></td>
 <td><p>Update a project's properties.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.core.projects.list_projects">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">list_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#list_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.list_projects" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">list_projects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#list_projects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.list_projects" title="Link to this definition"></a></dt>
 <dd><p>List all projects visible to the authenticated user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>client</strong> (<em>Any</em>)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>)</p></li>
+<li><p><strong>client</strong> (<em>Any</em>)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.core.projects.create_project">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#create_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.create_project" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#create_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.create_project" title="Link to this definition"></a></dt>
 <dd><p>Create a new project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>request_state</strong> (<em>Request</em>)</p></li>
 <li><p><strong>request</strong> (<em>ProjectCreate</em>)</p></li>
 <li><p><strong>client</strong> (<em>Any</em>)</p></li>
 </ul>
@@ -452,11 +456,12 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.core.projects.get_project">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#get_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.get_project" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">get_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#get_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.get_project" title="Link to this definition"></a></dt>
 <dd><p>Get a specific project by name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>)</p></li>
 <li><p><strong>name</strong> (<em>str</em>)</p></li>
 <li><p><strong>client</strong> (<em>Any</em>)</p></li>
 </ul>
@@ -466,11 +471,12 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="app.core.projects.update_project">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">update_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#update_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.update_project" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.core.projects.</span></span><span class="sig-name descname"><span class="pre">update_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=Depends(dependency=&lt;function</span> <span class="pre">get_kumiho_client&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope=None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/core/projects.html#update_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.core.projects.update_project" title="Link to this definition"></a></dt>
 <dd><p>Update a project’s properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>request_state</strong> (<em>Request</em>)</p></li>
 <li><p><strong>name</strong> (<em>str</em>)</p></li>
 <li><p><strong>request</strong> (<em>ProjectUpdate</em>)</p></li>
 <li><p><strong>client</strong> (<em>Any</em>)</p></li>
