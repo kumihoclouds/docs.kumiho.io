@@ -533,12 +533,22 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_routing_anonymous</span><span class="p">(</span>
     <span class="n">tenant_hint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_hint</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">_build_discovery_url</span><span class="p">(</span><span class="n">_CONTROL_PLANE_URL</span><span class="p">)</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tenant_hint&quot;</span><span class="p">:</span> <span class="n">tenant_hint</span><span class="p">}</span>
-    <span class="n">response</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_post_json</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">_DISCOVERY_TIMEOUT_SECONDS</span><span class="p">)</span>
+    <span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">service_token</span><span class="p">:</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">service_token</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">response</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_post_json</span><span class="p">(</span>
+        <span class="n">url</span><span class="p">,</span>
+        <span class="n">payload</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="n">_DISCOVERY_TIMEOUT_SECONDS</span><span class="p">,</span>
+        <span class="n">headers</span><span class="o">=</span><span class="n">headers</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
@@ -564,7 +574,10 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_routing_from_discovery</span><span class="p">(</span>
-    <span class="o">*</span><span class="p">,</span> <span class="n">id_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">id_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">id_token</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
@@ -573,7 +586,7 @@
                     <span class="s2">&quot;Discovery routing using tenant_hint without id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
                     <span class="n">tenant_hint</span><span class="p">,</span>
                 <span class="p">)</span>
-            <span class="k">return</span> <span class="n">_resolve_routing_anonymous</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_resolve_routing_anonymous</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">,</span> <span class="n">service_token</span><span class="o">=</span><span class="n">service_token</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;Discovery routing skipped: no id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
@@ -746,16 +759,27 @@
     <span class="n">tenant_hint</span> <span class="o">=</span> <span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">tenant_id</span>
     <span class="n">id_token</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-    <span class="c1"># Check for explicit server endpoint override first</span>
-    <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+    <span class="c1"># IMPORTANT:</span>
+    <span class="c1"># - If the caller supplied per-request credentials (service token in header), we must route</span>
+    <span class="c1">#   per-tenant via discovery. Pinning to KUMIHO_SERVER_ENDPOINT would effectively make this</span>
+    <span class="c1">#   FastAPI instance single-tenant / single-region and can break writes after regional rollouts.</span>
+    <span class="c1"># - If we&#39;re using environment credentials (no per-request creds), keep honoring env endpoints.</span>
+    <span class="n">using_env_creds_only</span> <span class="o">=</span> <span class="s2">&quot;control_plane_token&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span> <span class="ow">and</span> <span class="s2">&quot;id_token&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span>
+
+    <span class="n">server_url</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">grpc_authority</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">using_env_creds_only</span><span class="p">:</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
+            <span class="n">server_url</span> <span class="o">=</span> <span class="n">target</span>
     
-    <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
-        <span class="n">server_url</span> <span class="o">=</span> <span class="n">target</span>
-        <span class="n">grpc_authority</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">server_url</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">grpc_authority</span><span class="p">:</span>
         <span class="n">server_url</span><span class="p">,</span> <span class="n">grpc_authority</span><span class="p">,</span> <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="n">_resolve_routing_from_discovery</span><span class="p">(</span>
-            <span class="n">id_token</span><span class="o">=</span><span class="n">id_token</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="o">=</span><span class="n">tenant_hint</span>
+            <span class="n">id_token</span><span class="o">=</span><span class="n">id_token</span><span class="p">,</span>
+            <span class="n">tenant_hint</span><span class="o">=</span><span class="n">tenant_hint</span><span class="p">,</span>
+            <span class="n">service_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">expiry_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">expiry</span><span class="p">]</span>
