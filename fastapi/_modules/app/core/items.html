@@ -414,6 +414,31 @@
 <span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_space_path</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># Normalize to a single leading slash and no trailing slash (except root).</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;/&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;//&quot;</span> <span class="k">else</span> <span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reject_template_like</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Guard against accidentally passing n8n expression strings like</span>
+    <span class="c1"># `={{ $json.path }}` through as literal values.</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="s2">&quot;{{&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">or</span> <span class="s2">&quot;}}&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;={{&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> looks like an unevaluated expression. &quot;</span>
+                <span class="s2">&quot;Provide a literal Kumiho path like &#39;/MyProject/Assets&#39;.&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+
 <div class="viewcode-block" id="list_items">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.list_items">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ItemResponse</span><span class="p">])</span>
@@ -425,6 +450,11 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;List items in a specific space.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
+        <span class="n">space_path</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span>
+        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;space_path&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;space_path must include a project segment&quot;</span><span class="p">)</span>
+
         <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
@@ -473,14 +503,19 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new item.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">project_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">space_path</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">)</span>
+        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;space_path&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;space_path must include a project segment&quot;</span><span class="p">)</span>
+
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Project not found&quot;</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span>
             <span class="n">item_name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">item_name</span><span class="p">,</span>
             <span class="n">kind</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
-            <span class="n">parent_path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">,</span>
+            <span class="n">parent_path</span><span class="o">=</span><span class="n">space_path</span><span class="p">,</span>
             <span class="n">metadata</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">ItemResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
@@ -521,6 +556,11 @@
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get an item by its path components.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
+        <span class="n">space_path</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span>
+        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;space_path&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;space_path must include a project segment&quot;</span><span class="p">)</span>
+
         <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
