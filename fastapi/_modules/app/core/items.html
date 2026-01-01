@@ -518,6 +518,7 @@
             <span class="n">parent_path</span><span class="o">=</span><span class="n">space_path</span><span class="p">,</span>
             <span class="n">metadata</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
+
         <span class="k">return</span> <span class="n">ItemResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
