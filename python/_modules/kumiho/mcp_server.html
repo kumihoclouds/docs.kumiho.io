@@ -1575,15 +1575,16 @@
 
 <div class="viewcode-block" id="tool_delete_revision">
 <a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.tool_delete_revision">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">tool_delete_revision</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tool_delete_revision</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete a revision.&quot;&quot;&quot;</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">)</span>
-        <span class="n">revision</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">revision</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="s2">&quot;deleted&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="s2">&quot;revision_kref&quot;</span><span class="p">:</span> <span class="n">revision_kref</span><span class="p">,</span>
+            <span class="s2">&quot;force&quot;</span><span class="p">:</span> <span class="n">force</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
@@ -2390,13 +2391,18 @@
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kumiho_delete_revision&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Delete a specific revision of an item.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Delete a specific revision of an item. Use force=true to delete even if it is published or has artifacts.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;inputSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
             <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;revision_kref&quot;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;The kref URI of the revision to delete&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;force&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;If true, force delete. Default: false&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">},</span>
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;revision_kref&quot;</span><span class="p">],</span>
@@ -2668,6 +2674,7 @@
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_delete_revision&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_delete_revision</span><span class="p">(</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;revision_kref&quot;</span><span class="p">],</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;force&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_delete_artifact&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_delete_artifact</span><span class="p">(</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;artifact_kref&quot;</span><span class="p">],</span>

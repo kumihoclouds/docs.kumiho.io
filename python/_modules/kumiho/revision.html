@@ -1192,6 +1192,7 @@
 <span class="sd">            &gt;&gt;&gt; revision.delete()  # Fails if has artifacts</span>
 <span class="sd">            &gt;&gt;&gt; revision.delete(force=True)  # Force delete</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Server is responsible for maintaining system-managed tags like &quot;latest&quot;.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
 
 
