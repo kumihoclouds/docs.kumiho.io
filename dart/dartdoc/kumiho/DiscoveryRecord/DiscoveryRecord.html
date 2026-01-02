@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the tagRevision method from the KumihoClient class, for the Dart programming language.">
-  <title>tagRevision method - KumihoClient class - kumiho library - Dart API</title>
+  <meta name="description" content="API docs for the DiscoveryRecord.new constructor from Class DiscoveryRecord from the kumiho library, for the Dart programming language.">
+  <title>DiscoveryRecord.new constructor - DiscoveryRecord - kumiho library - Dart API</title>
 
 
   
@@ -26,10 +26,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">kumiho</a></li>
     <li><a href="../../kumiho/">kumiho.dart</a></li>
-    <li><a href="../../kumiho/KumihoClient-class.html">KumihoClient</a></li>
-    <li class="self-crumb">tagRevision method</li>
+    <li><a href="../../kumiho/DiscoveryRecord-class.html">DiscoveryRecord</a></li>
+    <li class="self-crumb">DiscoveryRecord.new constructor</li>
   </ol>
-  <div class="self-name">tagRevision</div>
+  <div class="self-name">DiscoveryRecord.new</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -43,44 +43,33 @@
   </button>
 </header>
 <main>
-<div
-    id="dartdoc-main-content"
-    class="main-content"
-    data-above-sidebar="kumiho&#47;KumihoClient-class-sidebar.html"
-    data-below-sidebar="">
-    <div>
-<h1><span class="kind-method">tagRevision</span> method 
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="kumiho&#47;DiscoveryRecord-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-constructor">DiscoveryRecord</span> constructor 
 </h1></div>
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
-<span class="name ">tagRevision</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="tagRevision-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span>, </span></li>
-<li><span class="parameter" id="tagRevision-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">tag</span></span></li>
-</ol>)
-
-      <div class="features"><span class="feature">inherited</span></div>
-
+      <span class="name ">DiscoveryRecord</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="-param-tenantId"><span>required</span> <span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">tenantId</span>, </span></li>
+<li><span class="parameter" id="-param-serverUrl"><span>required</span> <span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Uri-class.html">Uri</a></span> <span class="parameter-name">serverUrl</span>, </span></li>
+<li><span class="parameter" id="-param-expiresAt"><span>required</span> <span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/DateTime-class.html">DateTime</a></span> <span class="parameter-name">expiresAt</span>, </span></li>
+</ol>})
     </section>
     
-<section class="desc markdown">
-  <p>Tags a revision.</p>
-<p>Tags are used to mark revisions for easy retrieval (e.g., 'approved',
-'published'). Some tags like 'published' have special semantics.</p>
-<p>Note: 'latest' is a reserved system tag managed by the server and cannot
-be set or removed manually.</p>
-</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;StatusResponse&gt; tagRevision(String kref, String tag) async {
-  final request = TagRevisionRequest()
-    ..kref = Kref(uri: kref)
-    ..tag = tag;
-  return stub.tagRevision(request, options: callOptions);
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">DiscoveryRecord({
+  required this.tenantId,
+  required this.serverUrl,
+  required this.expiresAt,
+});</code></pre>
 </section>
 
 
@@ -95,15 +84,15 @@ be set or removed manually.</p>
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">kumiho</a></li>
     <li><a href="../../kumiho/">kumiho</a></li>
-    <li><a href="../../kumiho/KumihoClient-class.html">KumihoClient</a></li>
-    <li class="self-crumb">tagRevision method</li>
+    <li><a href="../../kumiho/DiscoveryRecord-class.html">DiscoveryRecord</a></li>
+    <li class="self-crumb">DiscoveryRecord.new constructor</li>
 </ol>
 
-    <h5>KumihoClient class</h5>
+    <h5>DiscoveryRecord class</h5>
     <div id="dartdoc-sidebar-left-content"></div>
-  </div><!--/.sidebar-offcanvas-->
+  </div><!--/.sidebar-offcanvas-left-->
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
-</div><!--/.sidebar-offcanvas-->
+  </div><!--/.sidebar-offcanvas-->
 </main>
 <footer>
   <span class="no-break">

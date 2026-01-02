@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the AuthEnvVars class from the auth library, for the Dart programming language.">
-  <title>AuthEnvVars class - auth library - Dart API</title>
+  <meta name="description" content="API docs for the DiscoveryEnvVars class from the kumiho library, for the Dart programming language.">
+  <title>DiscoveryEnvVars class - kumiho library - Dart API</title>
 
 
   
@@ -25,10 +25,10 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">kumiho</a></li>
-    <li><a href="../auth/">auth.dart</a></li>
-    <li class="self-crumb">AuthEnvVars class</li>
+    <li><a href="../kumiho/">kumiho.dart</a></li>
+    <li class="self-crumb">DiscoveryEnvVars class</li>
   </ol>
-  <div class="self-name">AuthEnvVars</div>
+  <div class="self-name">DiscoveryEnvVars</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,16 +45,16 @@
 <div
     id="dartdoc-main-content"
     class="main-content"
-    data-above-sidebar="auth&#47;auth-library-sidebar.html"
-    data-below-sidebar="auth&#47;AuthEnvVars-class-sidebar.html">
+    data-above-sidebar="kumiho&#47;kumiho-library-sidebar.html"
+    data-below-sidebar="kumiho&#47;DiscoveryEnvVars-class-sidebar.html">
     <div>
-<h1><span class="kind-class">AuthEnvVars</span> class 
+<h1><span class="kind-class">DiscoveryEnvVars</span> class 
  
 </h1></div>
 
     
 <section class="desc markdown">
-  <p>Environment variable names for authentication.</p>
+  <p>Environment variables used by discovery.</p>
 </section>
 
 
@@ -155,110 +155,14 @@
   <section class="summary offset-anchor" id="constants">
     <h2>Constants</h2>
     <dl class="properties">
-        <dt id="authToken" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/authToken-constant.html">authToken</a></span>
+        <dt id="cacheFile" class="constant">
+    <span class="name "><a href="../kumiho/DiscoveryEnvVars/cacheFile-constant.html">cacheFile</a></span>
   <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
   
 
 </dt>
 <dd>
-  Primary auth token environment variable.
-  
-
-</dd>
-
-        <dt id="configDir" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/configDir-constant.html">configDir</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Custom config directory override.
-  
-
-</dd>
-
-        <dt id="controlPlaneApiUrl" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/controlPlaneApiUrl-constant.html">controlPlaneApiUrl</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Control Plane API URL.
-  
-
-</dd>
-
-        <dt id="controlPlaneUrl" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/controlPlaneUrl-constant.html">controlPlaneUrl</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Control Plane base URL.
-  
-
-</dd>
-
-        <dt id="enableAutoRefresh" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/enableAutoRefresh-constant.html">enableAutoRefresh</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Enable auto-refresh of tokens (opt-in).
-  
-
-</dd>
-
-        <dt id="firebaseApiKey" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/firebaseApiKey-constant.html">firebaseApiKey</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Firebase API key for token refresh.
-  
-
-</dd>
-
-        <dt id="firebaseToken" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/firebaseToken-constant.html">firebaseToken</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Firebase-specific token environment variable.
-  
-
-</dd>
-
-        <dt id="tokenGraceSeconds" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/tokenGraceSeconds-constant.html">tokenGraceSeconds</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Token grace period in seconds before expiry.
-  
-
-</dd>
-
-        <dt id="useControlPlaneToken" class="constant">
-    <span class="name "><a href="../auth/AuthEnvVars/useControlPlaneToken-constant.html">useControlPlaneToken</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Flag to prefer Control Plane token over Firebase token.
+  Overrides the discovery cache file path.
   
 
 </dd>
@@ -275,11 +179,11 @@
 </header>
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">kumiho</a></li>
-    <li><a href="../auth/">auth</a></li>
-    <li class="self-crumb">AuthEnvVars class</li>
+    <li><a href="../kumiho/">kumiho</a></li>
+    <li class="self-crumb">DiscoveryEnvVars class</li>
 </ol>
 
-    <h5>auth library</h5>
+    <h5>kumiho library</h5>
     <div id="dartdoc-sidebar-left-content"></div>
   </div>
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
