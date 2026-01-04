@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.client &mdash; Kumiho Python SDK v0.8.4</title>
+  <title>kumiho.client &mdash; Kumiho Python SDK v0.8.6</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=b41f4c93"></script>
+      <script src="../../_static/documentation_options.js?v=279f42e0"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -1683,18 +1683,28 @@
 <span class="sd">            The Artifact object.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If the kref URI does not contain an artifact name.</span>
+<span class="sd">            ValueError: If the kref URI does not contain an artifact name and no default artifact</span>
+<span class="sd">                can be resolved.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">artifact_name</span> <span class="o">=</span> <span class="n">kref</span><span class="o">.</span><span class="n">get_artifact_name</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">artifact_name</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid artifact kref format: </span><span class="si">{</span><span class="n">kref_uri</span><span class="si">}</span><span class="s2"> (missing &amp;a=artifact_name)&quot;</span><span class="p">)</span>
-        
-        <span class="c1"># Build the revision kref by removing the artifact part</span>
-        <span class="n">revision_kref_uri</span> <span class="o">=</span> <span class="n">kref_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&amp;a=&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">revision_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">revision_kref_uri</span><span class="p">)</span>
-        
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">,</span> <span class="n">artifact_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">artifact_name</span><span class="p">:</span>
+            <span class="c1"># Build the revision kref by removing the artifact part</span>
+            <span class="n">revision_kref_uri</span> <span class="o">=</span> <span class="n">kref_uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&amp;a=&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">revision_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="n">revision_kref_uri</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">,</span> <span class="n">artifact_name</span><span class="p">)</span>
+
+        <span class="c1"># If the caller passed an Item kref (or a Revision kref without &amp;a=), interpret it as</span>
+        <span class="c1"># &quot;fetch the default artifact&quot;.</span>
+        <span class="c1"># - Item kref -&gt; latest revision -&gt; default_artifact</span>
+        <span class="c1"># - Revision kref -&gt; that revision -&gt; default_artifact</span>
+        <span class="n">revision</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref_uri</span><span class="p">)</span>
+        <span class="n">default_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">revision</span><span class="p">,</span> <span class="s2">&quot;default_artifact&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">default_name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid artifact kref format: </span><span class="si">{</span><span class="n">kref_uri</span><span class="si">}</span><span class="s2"> (missing &amp;a=artifact_name and no default_artifact set)&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">revision</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">default_name</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_artifacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">revision_kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Artifact</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all artifacts for a revision.</span>
