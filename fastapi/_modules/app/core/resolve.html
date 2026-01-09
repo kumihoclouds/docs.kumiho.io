@@ -457,12 +457,29 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
         <span class="n">location</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
-        
+
+        <span class="c1"># `parse_kref_params()` only reflects what the caller provided.</span>
+        <span class="c1"># When the caller omits `a=...`, `kumiho.resolve()` can still resolve</span>
+        <span class="c1"># via the revision&#39;s default artifact. In that case, populate</span>
+        <span class="c1"># resolved_revision/resolved_artifact from the resolved revision.</span>
+        <span class="n">resolved_revision</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">revision</span>
+        <span class="n">resolved_artifact</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">artifact</span>
+        <span class="k">if</span> <span class="n">resolved_revision</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">resolved_artifact</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">resolved_revision</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">resolved_revision</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">revision</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">resolved_artifact</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">resolved_artifact</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">revision</span><span class="p">,</span> <span class="s2">&quot;default_artifact&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c1"># Best-effort enrichment only; keep the original fields.</span>
+                <span class="k">pass</span>
+
         <span class="k">return</span> <span class="n">ResolveResponse</span><span class="p">(</span>
             <span class="n">kref</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">,</span>
             <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span>
-            <span class="n">resolved_revision</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">revision</span><span class="p">,</span>
-            <span class="n">resolved_artifact</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">artifact</span>
+            <span class="n">resolved_revision</span><span class="o">=</span><span class="n">resolved_revision</span><span class="p">,</span>
+            <span class="n">resolved_artifact</span><span class="o">=</span><span class="n">resolved_artifact</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
