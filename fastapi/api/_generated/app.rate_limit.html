@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>app.rate_limit &mdash; Kumiho FastAPI v1.0.2</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -160,6 +160,7 @@
 <li class="toctree-l2"><a class="reference internal" href="app.core.items.html">app.core.items</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.list_items"><code class="docutils literal notranslate"><span class="pre">list_items()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.search_items"><code class="docutils literal notranslate"><span class="pre">search_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.fulltext_search"><code class="docutils literal notranslate"><span class="pre">fulltext_search()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.create_item"><code class="docutils literal notranslate"><span class="pre">create_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.get_item_by_kref"><code class="docutils literal notranslate"><span class="pre">get_item_by_kref()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.items.html#app.core.items.get_item_by_path"><code class="docutils literal notranslate"><span class="pre">get_item_by_path()</span></code></a></li>
@@ -181,6 +182,7 @@
 <li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.untag_revision"><code class="docutils literal notranslate"><span class="pre">untag_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.has_tag"><code class="docutils literal notranslate"><span class="pre">has_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.was_tagged"><code class="docutils literal notranslate"><span class="pre">was_tagged()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="app.core.revisions.html#app.core.revisions.get_revision_as_of"><code class="docutils literal notranslate"><span class="pre">get_revision_as_of()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="app.core.artifacts.html">app.core.artifacts</a><ul>
@@ -421,7 +423,7 @@ app.add_middleware(RateLimitMiddleware, requests_per_minute=60)</p>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="app.rate_limit.RateLimitMiddleware">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">app.rate_limit.</span></span><span class="sig-name descname"><span class="pre">RateLimitMiddleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_per_minute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burst_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/rate_limit.html#RateLimitMiddleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.rate_limit.RateLimitMiddleware" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.rate_limit.</span></span><span class="sig-name descname"><span class="pre">RateLimitMiddleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requests_per_minute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burst_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/rate_limit.html#RateLimitMiddleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.rate_limit.RateLimitMiddleware" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPMiddleware</span></code></p>
 <p>Simple in-memory rate limiting middleware.</p>
 <p>Tracks requests per client IP and enforces rate limits.
@@ -436,7 +438,7 @@ For production, consider using Redis or a dedicated rate limiting service.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="app.rate_limit.RateLimitMiddleware.dispatch">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/rate_limit.html#RateLimitMiddleware.dispatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.rate_limit.RateLimitMiddleware.dispatch" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/rate_limit.html#RateLimitMiddleware.dispatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.rate_limit.RateLimitMiddleware.dispatch" title="Link to this definition"></a></dt>
 <dd><p>Process the request and enforce rate limiting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
