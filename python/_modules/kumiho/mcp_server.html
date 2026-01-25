@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.9.0</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.9.1</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=39bb1c6d"></script>
+      <script src="../../_static/documentation_options.js?v=9dc39874"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -555,6 +555,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_artifact"><code class="docutils literal notranslate"><span class="pre">tool_get_artifact()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_bundle"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_search_items"><code class="docutils literal notranslate"><span class="pre">tool_search_items()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_fulltext_search"><code class="docutils literal notranslate"><span class="pre">tool_fulltext_search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_memory_store"><code class="docutils literal notranslate"><span class="pre">tool_memory_store()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_memory_retrieve"><code class="docutils literal notranslate"><span class="pre">tool_memory_retrieve()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_dependencies"><code class="docutils literal notranslate"><span class="pre">tool_get_dependencies()</span></code></a></li>
@@ -1111,7 +1112,7 @@
         <span class="n">name_filter</span><span class="o">=</span><span class="n">name_filter</span><span class="p">,</span>
         <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span><span class="p">,</span>
     <span class="p">)</span>
-    
+
     <span class="n">serialized</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">_serialize_item</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -1126,6 +1127,53 @@
             <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">context_filter</span><span class="p">,</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name_filter</span><span class="p">,</span>
             <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="n">kind_filter</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="tool_fulltext_search">
+<a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.tool_fulltext_search">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tool_fulltext_search</span><span class="p">(</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">include_revision_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">include_artifact_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">include_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Full-text fuzzy search across items (Google-like search).&quot;&quot;&quot;</span>
+    <span class="n">_ensure_configured</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+        <span class="n">query</span><span class="p">,</span>
+        <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span>
+        <span class="n">include_deprecated</span><span class="o">=</span><span class="n">include_deprecated</span><span class="p">,</span>
+        <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
+        <span class="n">include_artifact_metadata</span><span class="o">=</span><span class="n">include_artifact_metadata</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">serialized</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[:</span><span class="n">limit</span><span class="p">]:</span>
+        <span class="n">item_data</span> <span class="o">=</span> <span class="n">_serialize_item</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">include_metadata</span><span class="p">:</span>
+            <span class="n">item_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">serialized</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;item&quot;</span><span class="p">:</span> <span class="n">item_data</span><span class="p">,</span>
+            <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+            <span class="s2">&quot;matched_in&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">matched_in</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">serialized</span><span class="p">,</span>
+        <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">serialized</span><span class="p">),</span>
+        <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
+        <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span>
+        <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">context</span><span class="p">,</span>
+            <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="n">kind</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">}</span></div>
 
@@ -2338,6 +2386,55 @@
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">},</span>
     <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kumiho_fulltext_search&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Full-text fuzzy search across items (Google-like search). Supports automatic typo tolerance and multi-word queries. Results are ranked by relevance score. Use this for natural language queries instead of kumiho_search_items.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Search terms (supports fuzzy matching). E.g., &#39;hero model&#39;, &#39;texture character&#39;. Typos are automatically tolerated.&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Restrict to kref prefix (e.g., &#39;myproject&#39; or &#39;myproject/assets&#39;). Leave empty to search all.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Exact kind match (e.g., &#39;model&#39;, &#39;texture&#39;, &#39;conversation&#39;, &#39;bundle&#39;)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;include_deprecated&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Include soft-deleted items. Default: false&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;include_revision_metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Also search revision tags/metadata (slower but more comprehensive). Default: false&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;include_artifact_metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Also search artifact names/metadata (slower). Default: false&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;include_metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Include full item metadata in results. Default: false&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Maximum number of results to return. Default: 20&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
     <span class="c1"># Memory operations (production)</span>
     <span class="p">{</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kumiho_memory_store&quot;</span><span class="p">,</span>
@@ -3146,6 +3243,16 @@
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_metadata&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;kumiho_fulltext_search&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_fulltext_search</span><span class="p">(</span>
+        <span class="n">args</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;context&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_deprecated&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_revision_metadata&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_artifact_metadata&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_metadata&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;limit&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_memory_store&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_memory_store</span><span class="p">(</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="s2">&quot;CognitiveMemory&quot;</span><span class="p">),</span>
