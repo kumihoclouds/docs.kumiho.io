@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.9.1</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.9.2</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9dc39874"></script>
+      <script src="../../_static/documentation_options.js?v=aa3b121e"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -709,7 +709,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="c1"># MCP SDK imports</span>
 <span class="k">try</span><span class="p">:</span>
@@ -1335,8 +1335,14 @@
     <span class="n">memory_item_kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;conversation&quot;</span><span class="p">,</span>
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
     <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;search&quot;</span><span class="p">,</span>
+    <span class="n">include_revision_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve memory krefs with bundle-first search and safe fallbacks.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve memory krefs using fuzzy search with bundle and fallback support.</span>
+
+<span class="sd">    Uses Google-like fuzzy search (kumiho.search) as the primary method for natural</span>
+<span class="sd">    language queries. Falls back to pattern matching for specific modes or when</span>
+<span class="sd">    fuzzy search returns no results.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
 
     <span class="n">project_name</span> <span class="o">=</span> <span class="n">project</span> <span class="ow">or</span> <span class="s2">&quot;CognitiveMemory&quot;</span>
@@ -1358,11 +1364,13 @@
     <span class="n">spaces</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">space_paths</span><span class="p">)</span>
     <span class="n">bundles</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">bundle_names</span><span class="p">)</span>
 
-    <span class="n">query_text</span> <span class="o">=</span> <span class="p">(</span><span class="n">query</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">query_text</span> <span class="o">=</span> <span class="p">(</span><span class="n">query</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">query_lower</span> <span class="o">=</span> <span class="n">query_text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">mode_text</span> <span class="o">=</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">mode_text</span> <span class="ow">and</span> <span class="n">query_text</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">query_text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;earliest&quot;</span><span class="p">,</span> <span class="s2">&quot;oldest&quot;</span><span class="p">,</span> <span class="s2">&quot;initial&quot;</span><span class="p">]):</span>
+    <span class="c1"># Auto-detect &quot;first/earliest&quot; mode from query</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mode_text</span> <span class="ow">and</span> <span class="n">query_lower</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">token</span> <span class="ow">in</span> <span class="n">query_lower</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;earliest&quot;</span><span class="p">,</span> <span class="s2">&quot;oldest&quot;</span><span class="p">,</span> <span class="s2">&quot;initial&quot;</span><span class="p">]):</span>
             <span class="n">mode_text</span> <span class="o">=</span> <span class="s2">&quot;first&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">mode_text</span><span class="p">:</span>
         <span class="n">mode_text</span> <span class="o">=</span> <span class="s2">&quot;search&quot;</span>
@@ -1380,6 +1388,7 @@
     <span class="n">contexts</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize_context</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">spaces</span><span class="p">]</span> <span class="k">if</span> <span class="n">spaces</span> <span class="k">else</span> <span class="p">[</span><span class="n">project_name</span><span class="p">]</span>
     <span class="n">spaces_used</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
+    <span class="c1"># Mode: first/earliest - find oldest item by created_at</span>
     <span class="k">if</span> <span class="n">mode_text</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;earliest&quot;</span><span class="p">,</span> <span class="s2">&quot;oldest&quot;</span><span class="p">,</span> <span class="s2">&quot;initial&quot;</span><span class="p">]:</span>
         <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
             <span class="n">context_filter</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span>
@@ -1396,17 +1405,39 @@
             <span class="s2">&quot;spaces_used&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">project_name</span><span class="p">],</span>
         <span class="p">}</span>
 
-    <span class="n">name_filter</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">keyword_list</span><span class="p">:</span>
-        <span class="n">name_filter</span> <span class="o">=</span> <span class="n">keyword_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">topic_list</span><span class="p">:</span>
-        <span class="n">name_filter</span> <span class="o">=</span> <span class="n">topic_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">query_text</span><span class="p">:</span>
-        <span class="n">name_filter</span> <span class="o">=</span> <span class="n">query_text</span><span class="p">[:</span><span class="mi">64</span><span class="p">]</span>
+    <span class="c1"># Build search query from query + keywords + topics</span>
+    <span class="n">search_terms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">query_text</span><span class="p">:</span>
+        <span class="n">search_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query_text</span><span class="p">)</span>
+    <span class="n">search_terms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">keyword_list</span><span class="p">)</span>
+    <span class="n">search_terms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">topic_list</span><span class="p">)</span>
+    <span class="n">combined_query</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">search_terms</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
-    <span class="n">candidate_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># (item_kref, revision_kref, score)</span>
 
-    <span class="k">if</span> <span class="n">bundles</span><span class="p">:</span>
+    <span class="c1"># Primary: Use fuzzy search if we have a query</span>
+    <span class="k">if</span> <span class="n">combined_query</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">search_results</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                <span class="n">combined_query</span><span class="p">,</span>
+                <span class="n">context</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span>
+                <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
+                <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">]:</span>  <span class="c1"># Get extra for filtering</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">rev</span> <span class="o">=</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="p">:</span>
+                            <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># Fall through to bundle/pattern search</span>
+
+    <span class="c1"># Secondary: Bundle-based search if specified and fuzzy didn&#39;t find enough</span>
+    <span class="k">if</span> <span class="n">bundles</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">bundle_name</span> <span class="ow">in</span> <span class="n">bundles</span><span class="p">:</span>
                 <span class="n">bundle_items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
@@ -1421,11 +1452,22 @@
                         <span class="n">bundle</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle_item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
                         <span class="n">members</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
                         <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
-                            <span class="n">candidate_krefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+                                <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
                     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                         <span class="k">continue</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">candidate_krefs</span><span class="p">:</span>
+    <span class="c1"># Fallback: Pattern search if still no results</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">:</span>
+        <span class="n">name_filter</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">keyword_list</span><span class="p">:</span>
+            <span class="n">name_filter</span> <span class="o">=</span> <span class="n">keyword_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">topic_list</span><span class="p">:</span>
+            <span class="n">name_filter</span> <span class="o">=</span> <span class="n">topic_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
         <span class="k">for</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
             <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
                 <span class="n">context_filter</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
@@ -1435,66 +1477,46 @@
             <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
                 <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-                <span class="n">candidate_krefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">candidate_krefs</span> <span class="ow">and</span> <span class="n">contexts</span> <span class="o">!=</span> <span class="p">[</span><span class="n">project_name</span><span class="p">]:</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
-            <span class="n">context_filter</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span>
-            <span class="n">name_filter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">kind_filter</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
-            <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-            <span class="n">candidate_krefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
-
-    <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="n">deduped</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="n">candidate_krefs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">kref</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
-            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
-            <span class="n">deduped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">matches_query</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">query_text</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="n">query_text</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-
-    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">item_kref</span> <span class="ow">in</span> <span class="n">deduped</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
-            <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">rev</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">query_text</span><span class="p">:</span>
-                <span class="n">summary</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rev</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-                <span class="n">title</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rev</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">matches_query</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span> <span class="ow">or</span> <span class="n">matches_query</span><span class="p">(</span><span class="n">title</span><span class="p">)):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>
-            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item_kref</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">))</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
-            <span class="k">break</span>
 
-    <span class="k">if</span> <span class="n">query_text</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">results</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">item_kref</span> <span class="ow">in</span> <span class="n">deduped</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
-                <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">rev</span><span class="p">:</span>
+        <span class="c1"># Last resort: search entire project</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span> <span class="ow">and</span> <span class="n">contexts</span> <span class="o">!=</span> <span class="p">[</span><span class="n">project_name</span><span class="p">]:</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
+                <span class="n">context_filter</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span>
+                <span class="n">name_filter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">kind_filter</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
+                <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item_kref</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">))</span>
-            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
-                <span class="k">break</span>
+
+    <span class="c1"># Dedupe and sort by score (higher first)</span>
+    <span class="n">seen</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">deduped</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">item_kref</span><span class="p">,</span> <span class="n">rev_kref</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">item_kref</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
+            <span class="n">deduped</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item_kref</span><span class="p">,</span> <span class="n">rev_kref</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
+
+    <span class="n">deduped</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="n">deduped</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;item_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">results</span><span class="p">],</span>
-        <span class="s2">&quot;revision_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">rev</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">results</span><span class="p">],</span>
+        <span class="s2">&quot;item_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span><span class="p">],</span>
+        <span class="s2">&quot;revision_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">rev</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span><span class="p">],</span>
         <span class="s2">&quot;spaces_used&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">spaces_used</span><span class="p">)),</span>
+        <span class="s2">&quot;scores&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">score</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">final</span><span class="p">],</span>
     <span class="p">}</span></div>
 
 
@@ -2496,7 +2518,7 @@
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kumiho_memory_retrieve&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Retrieve memory krefs with bundle-first search and safe fallbacks.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Retrieve memory using Google-like fuzzy search with relevance ranking. Supports natural language queries with automatic typo tolerance. Falls back to bundle and pattern search when needed.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;inputSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
             <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -2505,21 +2527,49 @@
                     <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Project name (default: CognitiveMemory)&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;CognitiveMemory&quot;</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
-                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-                <span class="s2">&quot;topics&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-                <span class="s2">&quot;space_paths&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-                <span class="s2">&quot;bundle_names&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+                <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Natural language search query. Supports fuzzy matching and multi-word queries (e.g., &#39;conversation about travel&#39;, &#39;meeting notes&#39;)&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Additional keywords to include in search&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;topics&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Topic names to search for&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;space_paths&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Restrict search to specific space paths&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;bundle_names&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Search within specific bundles&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
                 <span class="s2">&quot;memory_item_kind&quot;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Item kind for memory entries (default: conversation)&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;conversation&quot;</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+                <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Maximum results to return (default: 5)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="p">},</span>
                 <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;search | first | latest (default: search)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;search (fuzzy) | first (oldest by date) | latest (default: search)&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;search&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;include_revision_metadata&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Also search revision metadata for deeper matching (default: true)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">},</span>
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[],</span>
@@ -3283,6 +3333,7 @@
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_item_kind&quot;</span><span class="p">,</span> <span class="s2">&quot;conversation&quot;</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;limit&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_revision_metadata&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_get_item_revisions&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_get_item_revisions</span><span class="p">(</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;item_kref&quot;</span><span class="p">],</span>

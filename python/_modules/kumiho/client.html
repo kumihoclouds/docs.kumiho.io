@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.client &mdash; Kumiho Python SDK v0.9.1</title>
+  <title>kumiho.client &mdash; Kumiho Python SDK v0.9.2</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9dc39874"></script>
+      <script src="../../_static/documentation_options.js?v=aa3b121e"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -715,6 +715,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BatchGetRevisionsRequest</span><span class="p">,</span>
     <span class="n">CreateSpaceRequest</span><span class="p">,</span>
     <span class="n">CreateEdgeRequest</span><span class="p">,</span>
     <span class="n">CreateItemRequest</span><span class="p">,</span>
@@ -1611,6 +1612,75 @@
             <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span><span class="p">()</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
             <span class="k">raise</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">batch_get_revisions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">item_krefs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span>
+        <span class="n">allow_partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Revision</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Batch fetch multiple revisions in a single call.</span>
+
+<span class="sd">        Supports two modes:</span>
+<span class="sd">        1. Direct revision krefs - fetch specific revisions by their krefs</span>
+<span class="sd">        2. Item krefs with tag - resolve a tag (default: &quot;latest&quot;) for each item</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            revision_krefs: List of revision kref URIs to fetch directly.</span>
+<span class="sd">            item_krefs: List of item kref URIs to resolve with the given tag.</span>
+<span class="sd">            tag: Tag to resolve when using item_krefs (default: &quot;latest&quot;).</span>
+<span class="sd">                 Common tags: &quot;latest&quot;, &quot;published&quot;.</span>
+<span class="sd">            allow_partial: If True, returns partial results when some krefs</span>
+<span class="sd">                          are not found. If False, raises an error if any</span>
+<span class="sd">                          kref is not found. Default: True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple of (revisions, not_found):</span>
+<span class="sd">            - revisions: List of Revision objects that were found</span>
+<span class="sd">            - not_found: List of kref URIs that were not found</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            grpc.RpcError: If allow_partial=False and some krefs were not found,</span>
+<span class="sd">                          or if there&#39;s a server error.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Fetch multiple revisions by their krefs</span>
+<span class="sd">            &gt;&gt;&gt; revisions, missing = client.batch_get_revisions(</span>
+<span class="sd">            ...     revision_krefs=[&quot;kref://proj/space/item.kind?r=1&quot;,</span>
+<span class="sd">            ...                     &quot;kref://proj/space/item2.kind?r=2&quot;]</span>
+<span class="sd">            ... )</span>
+
+<span class="sd">            &gt;&gt;&gt; # Fetch latest revisions for multiple items</span>
+<span class="sd">            &gt;&gt;&gt; revisions, missing = client.batch_get_revisions(</span>
+<span class="sd">            ...     item_krefs=[&quot;kref://proj/space/item1.kind&quot;,</span>
+<span class="sd">            ...                 &quot;kref://proj/space/item2.kind&quot;],</span>
+<span class="sd">            ...     tag=&quot;latest&quot;</span>
+<span class="sd">            ... )</span>
+
+<span class="sd">            &gt;&gt;&gt; # Fetch published revisions for multiple items</span>
+<span class="sd">            &gt;&gt;&gt; revisions, missing = client.batch_get_revisions(</span>
+<span class="sd">            ...     item_krefs=[&quot;kref://proj/space/item1.kind&quot;,</span>
+<span class="sd">            ...                 &quot;kref://proj/space/item2.kind&quot;],</span>
+<span class="sd">            ...     tag=&quot;published&quot;</span>
+<span class="sd">            ... )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rev_kref_pbs</span> <span class="o">=</span> <span class="p">[</span><span class="n">kumiho_pb2</span><span class="o">.</span><span class="n">Kref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="n">revision_krefs</span> <span class="ow">or</span> <span class="p">[])]</span>
+        <span class="n">item_kref_pbs</span> <span class="o">=</span> <span class="p">[</span><span class="n">kumiho_pb2</span><span class="o">.</span><span class="n">Kref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="n">item_krefs</span> <span class="ow">or</span> <span class="p">[])]</span>
+
+        <span class="n">req</span> <span class="o">=</span> <span class="n">BatchGetRevisionsRequest</span><span class="p">(</span>
+            <span class="n">revision_krefs</span><span class="o">=</span><span class="n">rev_kref_pbs</span><span class="p">,</span>
+            <span class="n">item_krefs</span><span class="o">=</span><span class="n">item_kref_pbs</span><span class="p">,</span>
+            <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+            <span class="n">allow_partial</span><span class="o">=</span><span class="n">allow_partial</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">BatchGetRevisions</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+
+        <span class="n">revisions</span> <span class="o">=</span> <span class="p">[</span><span class="n">Revision</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">revisions</span><span class="p">]</span>
+        <span class="n">not_found</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">not_found</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">revisions</span><span class="p">,</span> <span class="n">not_found</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">delete_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a revision.</span>
