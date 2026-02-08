@@ -1144,7 +1144,12 @@
     <span class="n">include_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Full-text fuzzy search across items (Google-like search).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Full-text fuzzy search across items (Google-like search).</span>
+
+<span class="sd">    For STUDIO+ tiers with vector embeddings enabled, uses hybrid search</span>
+<span class="sd">    (fulltext + vector similarity) for improved accuracy when searching</span>
+<span class="sd">    revision metadata.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
         <span class="n">query</span><span class="p">,</span>
@@ -1166,11 +1171,16 @@
             <span class="s2">&quot;matched_in&quot;</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">matched_in</span><span class="p">,</span>
         <span class="p">})</span>
 
+    <span class="c1"># Get search_mode from results if available (hybrid vs fulltext)</span>
+    <span class="c1"># This is populated for STUDIO+ tiers with vector embeddings enabled</span>
+    <span class="n">search_mode</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="s2">&quot;search_mode&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;fulltext&quot;</span>
+
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">serialized</span><span class="p">,</span>
         <span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">serialized</span><span class="p">),</span>
         <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
         <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span>
+        <span class="s2">&quot;search_mode&quot;</span><span class="p">:</span> <span class="n">search_mode</span><span class="p">,</span>  <span class="c1"># &quot;fulltext&quot; or &quot;hybrid&quot;</span>
         <span class="s2">&quot;filters&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">context</span><span class="p">,</span>
             <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="n">kind</span><span class="p">,</span>
@@ -2410,7 +2420,7 @@
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kumiho_fulltext_search&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Full-text fuzzy search across items (Google-like search). Supports automatic typo tolerance and multi-word queries. Results are ranked by relevance score. Use this for natural language queries instead of kumiho_search_items.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Full-text fuzzy search across items (Google-like search). Supports automatic typo tolerance and multi-word queries. Results are ranked by relevance score. For STUDIO+ tiers, uses hybrid search (fulltext + vector similarity) when searching revision metadata for improved semantic accuracy. Use this for natural language queries instead of kumiho_search_items.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;inputSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
             <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>

@@ -729,11 +729,11 @@
 <span class="c1"># Each path segment must be alphanumeric with dots, underscores, or hyphens.</span>
 <span class="n">_KREF_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
     <span class="sa">r</span><span class="s1">&#39;^kref://&#39;</span>                                    <span class="c1"># scheme</span>
-    <span class="sa">r</span><span class="s1">&#39;(/[a-zA-Z0-9][a-zA-Z0-9._-]*&#39;</span>               <span class="c1"># space path starting with / (root-level)</span>
-    <span class="sa">r</span><span class="s1">&#39;(/[a-zA-Z0-9][a-zA-Z0-9._-]*)*&#39;</span>             <span class="c1"># optional nested path segments</span>
+    <span class="sa">r</span><span class="s1">&#39;(/[a-zA-Z0-9_][a-zA-Z0-9._-]*&#39;</span>              <span class="c1"># space path starting with / (root-level)</span>
+    <span class="sa">r</span><span class="s1">&#39;(/[a-zA-Z0-9_][a-zA-Z0-9._-]*)*&#39;</span>            <span class="c1"># optional nested path segments</span>
     <span class="sa">r</span><span class="s1">&#39;|&#39;</span>                                           <span class="c1"># OR</span>
-    <span class="sa">r</span><span class="s1">&#39;[a-zA-Z0-9][a-zA-Z0-9._-]*&#39;</span>                 <span class="c1"># project/item path segment</span>
-    <span class="sa">r</span><span class="s1">&#39;(/[a-zA-Z0-9][a-zA-Z0-9._-]*)*)&#39;</span>            <span class="c1"># optional nested path segments</span>
+    <span class="sa">r</span><span class="s1">&#39;[a-zA-Z0-9_][a-zA-Z0-9._-]*&#39;</span>                <span class="c1"># project/item path segment</span>
+    <span class="sa">r</span><span class="s1">&#39;(/[a-zA-Z0-9_][a-zA-Z0-9._-]*)*)&#39;</span>           <span class="c1"># optional nested path segments</span>
     <span class="sa">r</span><span class="s1">&#39;(\?r=\d+(&amp;a=[a-zA-Z0-9._-]+)?)?$&#39;</span>           <span class="c1"># optional revision and artifact</span>
 <span class="p">)</span>
 
