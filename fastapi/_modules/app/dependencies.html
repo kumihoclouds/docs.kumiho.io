@@ -427,6 +427,13 @@
 <span class="n">_DISCOVERY_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_DISCOVERY_TIMEOUT_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">))</span>
 <span class="n">_CONTROL_PLANE_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_CONTROL_PLANE_URL&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;https://control.kumiho.cloud&quot;</span>
 
+<span class="c1"># Service identification for outbound HTTP requests (Cloudflare WAF requires a</span>
+<span class="c1"># recognisable User-Agent; raw urllib defaults to &quot;Python-urllib/3.x&quot; which is</span>
+<span class="c1"># commonly blocked).</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">_app_version</span>
+
+<span class="n">_USER_AGENT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;kumiho-fastapi/</span><span class="si">{</span><span class="n">_app_version</span><span class="si">}</span><span class="s2">&quot;</span>
+
 
 <div class="viewcode-block" id="TenantContext">
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext">[docs]</a>
@@ -541,6 +548,7 @@
     <span class="n">req_headers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">headers</span><span class="p">:</span>
         <span class="n">req_headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
@@ -701,7 +709,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_json</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">})</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span> <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">})</span>
         <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
             <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
