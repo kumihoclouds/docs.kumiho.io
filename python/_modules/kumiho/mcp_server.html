@@ -1743,8 +1743,12 @@
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>
 
-        <span class="c1"># Last resort: search entire project</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span> <span class="ow">and</span> <span class="n">contexts</span> <span class="o">!=</span> <span class="p">[</span><span class="n">project_name</span><span class="p">]:</span>
+        <span class="c1"># Last resort: search entire project — but ONLY when the caller</span>
+        <span class="c1"># did NOT explicitly scope to specific spaces.  When space_paths</span>
+        <span class="c1"># are provided the caller expects isolation; falling back to the</span>
+        <span class="c1"># whole project would leak cross-space data (e.g. memories from</span>
+        <span class="c1"># one benchmark entry appearing in another&#39;s recall).</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span> <span class="ow">and</span> <span class="n">contexts</span> <span class="o">!=</span> <span class="p">[</span><span class="n">project_name</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">spaces</span><span class="p">:</span>
             <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
                 <span class="n">context_filter</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span>
                 <span class="n">name_filter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>

@@ -751,6 +751,7 @@
     <span class="n">EdgeDirection</span><span class="p">,</span>
     <span class="n">PeekNextRevisionRequest</span><span class="p">,</span>
     <span class="n">ItemSearchRequest</span><span class="p">,</span>
+    <span class="n">ScoreRevisionsRequest</span><span class="p">,</span>
     <span class="n">SearchRequest</span><span class="p">,</span>
     <span class="n">ResolveKrefRequest</span><span class="p">,</span>
     <span class="n">ResolveLocationRequest</span><span class="p">,</span>
@@ -1482,6 +1483,49 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">results</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">score_revisions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">score_fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Score specific revisions against a query using server-side embeddings + fulltext.</span>
+
+<span class="sd">        The server uses its own vector embeddings and/or fulltext index to</span>
+<span class="sd">        compute per-revision relevance scores — no external embedding API</span>
+<span class="sd">        is needed on the client side.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: The query string to score against.</span>
+<span class="sd">            revision_krefs: List of revision kref URIs to score (max 100).</span>
+<span class="sd">            score_fields: When non-empty, re-embed revisions from only these</span>
+<span class="sd">                metadata fields instead of using stored (broad) embeddings.</span>
+<span class="sd">                E.g. ``[&quot;title&quot;, &quot;summary&quot;]`` for focused scoring that strips</span>
+<span class="sd">                implications/events.  ``None`` or empty uses stored embeddings.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of dicts with keys ``kref``, ``score``, ``score_method``,</span>
+<span class="sd">            sorted by score descending.  ``score_method`` is one of</span>
+<span class="sd">            ``&quot;vector&quot;``, ``&quot;fulltext&quot;``, or ``&quot;hybrid&quot;``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span> <span class="k">as</span> <span class="n">PbKref</span>
+
+        <span class="n">req</span> <span class="o">=</span> <span class="n">ScoreRevisionsRequest</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+            <span class="n">revision_krefs</span><span class="o">=</span><span class="p">[</span><span class="n">PbKref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">revision_krefs</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">score_fields</span><span class="p">:</span>
+            <span class="n">req</span><span class="o">.</span><span class="n">score_fields</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">score_fields</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ScoreRevisions</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;kref&quot;</span><span class="p">:</span> <span class="n">sr</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
+                <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
+                <span class="s2">&quot;score_method&quot;</span><span class="p">:</span> <span class="n">sr</span><span class="o">.</span><span class="n">score_method</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">scored_revisions</span>
+        <span class="p">]</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">update_item_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata for an item.</span>
 
@@ -1496,18 +1540,22 @@
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateItemMetadata</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Item</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Revision</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">embedding_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Revision</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new revision for an item.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            item_kref: The kref of the item.</span>
 <span class="sd">            metadata: Optional metadata for the revision.</span>
 <span class="sd">            number: Specific revision number to use (0 for auto-increment).</span>
+<span class="sd">            embedding_text: Optional override for the text used to generate</span>
+<span class="sd">                the server-side embedding. When empty the server auto-generates</span>
+<span class="sd">                from concatenated metadata. Pass a focused string (e.g. title +</span>
+<span class="sd">                summary) to produce more semantically distinctive embeddings.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The created Revision object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">req</span> <span class="o">=</span> <span class="n">CreateRevisionRequest</span><span class="p">(</span><span class="n">item_kref</span><span class="o">=</span><span class="n">item_kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{},</span> <span class="n">number</span><span class="o">=</span><span class="n">number</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">CreateRevisionRequest</span><span class="p">(</span><span class="n">item_kref</span><span class="o">=</span><span class="n">item_kref</span><span class="o">.</span><span class="n">to_pb</span><span class="p">(),</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{},</span> <span class="n">number</span><span class="o">=</span><span class="n">number</span><span class="p">,</span> <span class="n">embedding_text</span><span class="o">=</span><span class="n">embedding_text</span><span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateRevision</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Revision</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
 

@@ -1370,6 +1370,40 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">score_revisions</span><span class="p">(</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">score_fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score specific revisions against a query using server-side embeddings + fulltext.</span>
+
+<span class="sd">    The server uses its own vector embeddings and/or fulltext index to</span>
+<span class="sd">    compute per-revision relevance scores.  No external embedding API is</span>
+<span class="sd">    needed on the client side.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        query: The query string to score against.</span>
+<span class="sd">        revision_krefs: List of revision kref URIs to score (max 100).</span>
+<span class="sd">        score_fields: When non-empty, re-embed revisions from only these</span>
+<span class="sd">            metadata fields instead of using stored (broad) embeddings.</span>
+<span class="sd">            E.g. ``[&quot;title&quot;, &quot;summary&quot;]`` for focused scoring.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of dicts with keys ``kref``, ``score``, ``score_method``,</span>
+<span class="sd">        sorted by score descending.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; scored = kumiho.score_revisions(</span>
+<span class="sd">        ...     &quot;travel plans for summer&quot;,</span>
+<span class="sd">        ...     [&quot;kref://proj/space/item.conv?r=1&quot;, &quot;kref://proj/space/item.conv?r=2&quot;],</span>
+<span class="sd">        ...     score_fields=[&quot;title&quot;, &quot;summary&quot;],</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; for s in scored:</span>
+<span class="sd">        ...     print(f&quot;{s[&#39;kref&#39;]}: {s[&#39;score&#39;]:.3f} ({s[&#39;score_method&#39;]})&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">score_revisions</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">revision_krefs</span><span class="p">,</span> <span class="n">score_fields</span><span class="o">=</span><span class="n">score_fields</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="get_item">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_item">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_item</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
