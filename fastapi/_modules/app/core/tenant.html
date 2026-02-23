@@ -89,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#graph">graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#items">items</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#mcp">mcp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#playground">playground</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#projects">projects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#resolve">resolve</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../endpoints.html#revisions">revisions</a></li>
@@ -404,7 +405,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;Tenant API router - tenant info, usage, and auth bootstrap.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
 
@@ -448,24 +449,33 @@
 <a class="viewcode-back" href="../../../api/_generated/app.core.tenant.html#app.core.tenant.bootstrap">[docs]</a>
 <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/bootstrap&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">BootstrapResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bootstrap</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return public tenant configuration for frontend bootstrapping.</span>
-<span class="sd">    </span>
+
 <span class="sd">    This replaces the need for NEXT_PUBLIC_TENANT_ID and other build-time secrets.</span>
 <span class="sd">    The frontend can call this endpoint to discover tenant configuration dynamically.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">context</span> <span class="o">=</span> <span class="n">ensure_tenant_context</span><span class="p">()</span>
+        <span class="c1"># Use the tenant context already resolved by get_kumiho_client (per-request).</span>
+        <span class="c1"># Fall back to env-level context only when no per-request hint is available.</span>
+        <span class="n">tenant_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_tenant_hint&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
+            <span class="n">ctx</span> <span class="o">=</span> <span class="n">ensure_tenant_context</span><span class="p">()</span>
+            <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">tenant_id</span>
+
         <span class="n">projects</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
         <span class="n">project_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">]</span>
-        
+
         <span class="k">return</span> <span class="n">BootstrapResponse</span><span class="p">(</span>
-            <span class="n">tenant_id</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">,</span>
+            <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
             <span class="n">project_names</span><span class="o">=</span><span class="n">project_names</span><span class="p">,</span>
             <span class="n">anonymous_allowed</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Can be made configurable via tenant settings</span>
         <span class="p">)</span>
+    <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
+        <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Failed to bootstrap session: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
