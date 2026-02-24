@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.9.7</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.9.8</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=f2328ca0"></script>
+      <script src="../../_static/documentation_options.js?v=1a282f62"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -1692,8 +1692,12 @@
                             <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">pass</span>  <span class="c1"># Fall through to bundle/pattern search</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;tool_memory_retrieve: fulltext search failed: </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># Fall through to bundle/pattern search</span>
 
     <span class="c1"># Secondary: Bundle-based search if specified and fuzzy didn&#39;t find enough</span>
     <span class="k">if</span> <span class="n">bundles</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
@@ -3777,6 +3781,11 @@
     <span class="n">TOOL_HANDLERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">MEMORY_TOOL_HANDLERS</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">pass</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_exc</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_logging</span>
+    <span class="n">_logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.mcp_server&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+        <span class="s2">&quot;kumiho-memory auto-discovery failed (non-ImportError): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">_exc</span>
+    <span class="p">)</span>
 
 
 <span class="c1"># ============================================================================</span>
