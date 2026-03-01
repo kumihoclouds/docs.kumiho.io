@@ -942,14 +942,26 @@
         <span class="k">if</span> <span class="n">authority_override</span><span class="p">:</span>
             <span class="n">authority</span> <span class="o">=</span> <span class="n">authority_override</span>
 
+        <span class="c1"># HTTP/2 keepalive: prevent idle connections from being silently</span>
+        <span class="c1"># closed by intermediate proxies (Cloudflare, Cloud Run, firewalls).</span>
+        <span class="n">keepalive_options</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;grpc.keepalive_time_ms&quot;</span><span class="p">,</span> <span class="mi">30_000</span><span class="p">),</span>             <span class="c1"># ping every 30s</span>
+            <span class="p">(</span><span class="s2">&quot;grpc.keepalive_timeout_ms&quot;</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">),</span>          <span class="c1"># 10s to respond</span>
+            <span class="p">(</span><span class="s2">&quot;grpc.keepalive_permit_without_calls&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>  <span class="c1"># ping even when idle</span>
+            <span class="p">(</span><span class="s2">&quot;grpc.http2.min_time_between_pings_ms&quot;</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">),</span>
+        <span class="p">]</span>
+
         <span class="k">if</span> <span class="n">use_tls</span><span class="p">:</span>
             <span class="n">credentials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_ssl_credentials</span><span class="p">(</span><span class="n">ca_bundle</span><span class="p">)</span>
-            <span class="n">options</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;grpc.default_authority&quot;</span><span class="p">,</span> <span class="n">authority</span><span class="p">)]</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;grpc.default_authority&quot;</span><span class="p">,</span> <span class="n">authority</span><span class="p">),</span>
+                <span class="o">*</span><span class="n">keepalive_options</span><span class="p">,</span>
+            <span class="p">]</span>
             <span class="k">if</span> <span class="n">ssl_override</span><span class="p">:</span>
                 <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;grpc.ssl_target_name_override&quot;</span><span class="p">,</span> <span class="n">ssl_override</span><span class="p">))</span>
             <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">secure_channel</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">credentials</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">insecure_channel</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+            <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">insecure_channel</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">keepalive_options</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">resolved_token</span><span class="p">:</span>
             <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;authorization&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">resolved_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
