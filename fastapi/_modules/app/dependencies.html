@@ -791,6 +791,41 @@
 
     <span class="n">claims</span> <span class="o">=</span> <span class="n">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
     <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id_override</span> <span class="ow">or</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If the token is a Firebase ID token (no tenant_id in claims but has</span>
+    <span class="c1"># &#39;firebase&#39; key), exchange it for a control-plane JWT via discovery.</span>
+    <span class="c1"># This handles the case where a plugin sends a Firebase token directly</span>
+    <span class="c1"># instead of a pre-exchanged CP service token.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span> <span class="ow">and</span> <span class="s2">&quot;firebase&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Firebase ID token detected, exchanging for CP token via control plane&quot;</span><span class="p">)</span>
+        <span class="n">cp_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_CONTROL_PLANE_URL</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/api/control-plane/token&quot;</span>
+        <span class="n">response</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_post_json</span><span class="p">(</span>
+            <span class="n">cp_url</span><span class="p">,</span>
+            <span class="p">{},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">_DISCOVERY_TIMEOUT_SECONDS</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;CP token exchange failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">):</span>
+            <span class="n">cp_token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cp_token</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cp_token</span><span class="p">:</span>
+                <span class="c1"># Replace the token and re-decode claims from the CP JWT.</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">cp_token</span>
+                <span class="n">credentials</span><span class="p">[</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+                <span class="c1"># Stash the original Firebase token as id_token for discovery routing.</span>
+                <span class="k">if</span> <span class="s2">&quot;id_token&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span><span class="p">:</span>
+                    <span class="n">credentials</span><span class="p">[</span><span class="s2">&quot;id_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+                <span class="n">claims</span> <span class="o">=</span> <span class="n">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+                <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;CP token exchange succeeded, tenant_id=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error_msg</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span> <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;CP token exchange returned error: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
         <span class="c1"># Log enough context to diagnose token issues without leaking secrets.</span>
         <span class="n">token_prefix</span> <span class="o">=</span> <span class="n">token</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">12</span> <span class="k">else</span> <span class="n">token</span>
