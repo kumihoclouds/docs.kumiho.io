@@ -792,6 +792,18 @@
     <span class="n">claims</span> <span class="o">=</span> <span class="n">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
     <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id_override</span> <span class="ow">or</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
+        <span class="c1"># Log enough context to diagnose token issues without leaking secrets.</span>
+        <span class="n">token_prefix</span> <span class="o">=</span> <span class="n">token</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">12</span> <span class="k">else</span> <span class="n">token</span>
+        <span class="n">has_dots</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">token</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;Tenant ID resolution failed: token_prefix=</span><span class="si">%s</span><span class="s2"> is_jwt=</span><span class="si">%s</span><span class="s2"> &quot;</span>
+            <span class="s2">&quot;claims_keys=</span><span class="si">%s</span><span class="s2"> tenant_id_override=</span><span class="si">%s</span><span class="s2"> KUMIHO_TENANT_ID=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">token_prefix</span><span class="p">,</span>
+            <span class="n">has_dots</span><span class="p">,</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">claims</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">claims</span> <span class="k">else</span> <span class="s2">&quot;[]&quot;</span><span class="p">,</span>
+            <span class="n">tenant_id_override</span><span class="p">,</span>
+            <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)),</span>
+        <span class="p">)</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Tenant ID missing from control-plane token.&quot;</span><span class="p">)</span>
 
     <span class="n">tenant_slug</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_slug&quot;</span><span class="p">)</span>
@@ -813,7 +825,7 @@
         <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
             <span class="n">server_url</span> <span class="o">=</span> <span class="n">target</span>
-    
+
     <span class="k">if</span> <span class="ow">not</span> <span class="n">server_url</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">grpc_authority</span><span class="p">:</span>
         <span class="n">server_url</span><span class="p">,</span> <span class="n">grpc_authority</span><span class="p">,</span> <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="n">_resolve_routing_from_discovery</span><span class="p">(</span>
             <span class="n">id_token</span><span class="o">=</span><span class="n">id_token</span><span class="p">,</span>
