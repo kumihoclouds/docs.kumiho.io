@@ -172,6 +172,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api/_generated/app.core.revisions.html">app.core.revisions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.list_revisions"><code class="docutils literal notranslate"><span class="pre">list_revisions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.create_revision"><code class="docutils literal notranslate"><span class="pre">create_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.batch_get_revisions"><code class="docutils literal notranslate"><span class="pre">batch_get_revisions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.get_revision"><code class="docutils literal notranslate"><span class="pre">get_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">get_latest_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/_generated/app.core.revisions.html#app.core.revisions.peek_next_revision"><code class="docutils literal notranslate"><span class="pre">peek_next_revision()</span></code></a></li>
@@ -949,43 +950,47 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/as-of</span></code></p></td>
 <td><p>Get Revision As Of</p></td>
 </tr>
-<tr class="row-odd"><td><p>DELETE</p></td>
+<tr class="row-odd"><td><p>POST</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/batch</span></code></p></td>
+<td><p>Batch Get Revisions</p></td>
+</tr>
+<tr class="row-even"><td><p>DELETE</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/by-kref</span></code></p></td>
 <td><p>Delete Revision</p></td>
 </tr>
-<tr class="row-even"><td><p>GET</p></td>
+<tr class="row-odd"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/by-kref</span></code></p></td>
 <td><p>Get Revision</p></td>
 </tr>
-<tr class="row-odd"><td><p>PATCH</p></td>
+<tr class="row-even"><td><p>PATCH</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/by-kref</span></code></p></td>
 <td><p>Update Revision Metadata</p></td>
 </tr>
-<tr class="row-even"><td><p>POST</p></td>
+<tr class="row-odd"><td><p>POST</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/deprecate</span></code></p></td>
 <td><p>Deprecate Revision</p></td>
 </tr>
-<tr class="row-odd"><td><p>GET</p></td>
+<tr class="row-even"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/latest</span></code></p></td>
 <td><p>Get Latest Revision</p></td>
 </tr>
-<tr class="row-even"><td><p>GET</p></td>
+<tr class="row-odd"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/peek</span></code></p></td>
 <td><p>Peek Next Revision</p></td>
 </tr>
-<tr class="row-odd"><td><p>DELETE</p></td>
+<tr class="row-even"><td><p>DELETE</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags</span></code></p></td>
 <td><p>Untag Revision</p></td>
 </tr>
-<tr class="row-even"><td><p>POST</p></td>
+<tr class="row-odd"><td><p>POST</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags</span></code></p></td>
 <td><p>Tag Revision</p></td>
 </tr>
-<tr class="row-odd"><td><p>GET</p></td>
+<tr class="row-even"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags/check</span></code></p></td>
 <td><p>Has Tag</p></td>
 </tr>
-<tr class="row-even"><td><p>GET</p></td>
+<tr class="row-odd"><td><p>GET</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">/api/v1/revisions/tags/history</span></code></p></td>
 <td><p>Was Tagged</p></td>
 </tr>

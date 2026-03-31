@@ -171,6 +171,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/_generated/app.core.revisions.html">app.core.revisions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.list_revisions"><code class="docutils literal notranslate"><span class="pre">list_revisions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.create_revision"><code class="docutils literal notranslate"><span class="pre">create_revision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.batch_get_revisions"><code class="docutils literal notranslate"><span class="pre">batch_get_revisions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.get_revision"><code class="docutils literal notranslate"><span class="pre">get_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">get_latest_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.peek_next_revision"><code class="docutils literal notranslate"><span class="pre">peek_next_revision()</span></code></a></li>
@@ -415,6 +416,8 @@
     <span class="n">RevisionResponse</span><span class="p">,</span>
     <span class="n">TagRequest</span><span class="p">,</span>
     <span class="n">PeekRevisionResponse</span><span class="p">,</span>
+    <span class="n">BatchRevisionsRequest</span><span class="p">,</span>
+    <span class="n">BatchRevisionsResponse</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.models.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_kref_params</span><span class="p">,</span> <span class="n">StatusResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.core.kumiho_http</span><span class="w"> </span><span class="kn">import</span> <span class="n">translate_kumiho_exception</span>
@@ -458,6 +461,45 @@
             <span class="n">number</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">number</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">RevisionResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">revision</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="batch_get_revisions">
+<a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.batch_get_revisions">[docs]</a>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/batch&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">BatchRevisionsResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">batch_get_revisions</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">BatchRevisionsRequest</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Batch fetch multiple revisions in a single call.</span>
+
+<span class="sd">    Supports two modes:</span>
+<span class="sd">    1. Direct revision krefs — fetch specific revisions by their krefs</span>
+<span class="sd">    2. Item krefs with tag — resolve a tag (default: &quot;latest&quot;) for each item</span>
+
+<span class="sd">    Provide either revision_krefs or item_krefs, not both.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">revision_krefs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">item_krefs</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Provide either revision_krefs or item_krefs&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">revisions</span><span class="p">,</span> <span class="n">not_found</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">batch_get_revisions</span><span class="p">(</span>
+            <span class="n">revision_krefs</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">revision_krefs</span><span class="p">,</span>
+            <span class="n">item_krefs</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">item_krefs</span><span class="p">,</span>
+            <span class="n">tag</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
+            <span class="n">allow_partial</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">allow_partial</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">requested_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">revision_krefs</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">item_krefs</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="k">return</span> <span class="n">BatchRevisionsResponse</span><span class="p">(</span>
+            <span class="n">revisions</span><span class="o">=</span><span class="p">[</span><span class="n">RevisionResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">revisions</span><span class="p">],</span>
+            <span class="n">not_found</span><span class="o">=</span><span class="n">not_found</span><span class="p">,</span>
+            <span class="n">requested_count</span><span class="o">=</span><span class="n">requested_count</span><span class="p">,</span>
+            <span class="n">found_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">revisions</span><span class="p">),</span>
+        <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
