@@ -54,9 +54,9 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/ProjectResponse-class.html">ProjectResponse</a></span>&gt;</span></span>
-<span class="name ">createProject</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="createProject-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, {</span></li>
-<li><span class="parameter" id="createProject-param-description"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">description</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/ProjectResponse-class.html">ProjectResponse</a></span>&gt;</span></span>
+<span class="name ">createProject</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="createProject-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, {</span></li>
+<li><span class="parameter" id="createProject-param-description"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">description</span>, </span></li>
 </ol>})
 
       <div class="features"><span class="feature">inherited</span></div>
@@ -67,8 +67,9 @@
   <p>Creates a new project.</p>
 <p><code>name</code> must be URL-safe (alphanumeric with hyphens).
 <code>description</code> is an optional human-readable description.</p>
-<p>Throws a gRPC error if the project already exists or
-the project limit has been reached.</p>
+<p>Throws a gRPC error if the project already exists.</p>
+<p>Throws a <a href="../../kumiho/ProjectLimitError-class.html">ProjectLimitError</a> if the server returns <code>RESOURCE_EXHAUSTED</code>
+(for example, when the project limit has been reached).</p>
 </section>
 
 
@@ -82,7 +83,14 @@ the project limit has been reached.</p>
   final request = CreateProjectRequest()
     ..name = name
     ..description = description ?? &#39;&#39;;
-  return stub.createProject(request, options: callOptions);
+  try {
+    return await stub.createProject(request, options: callOptions);
+  } on GrpcError catch (e) {
+    if (e.code == StatusCode.resourceExhausted) {
+      throw ProjectLimitError(e.message ?? &#39;Project limit reached&#39;);
+    }
+    rethrow;
+  }
 }</code></pre>
 </section>
 

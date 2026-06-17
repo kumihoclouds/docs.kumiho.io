@@ -54,8 +54,9 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">delete</span>(<wbr>)
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">delete</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="delete-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span>, </span></li>
+</ol>})
 
       
 
@@ -63,6 +64,7 @@
     
 <section class="desc markdown">
   <p>Deletes this artifact.</p>
+<p>If <code>force</code> is true, force deletion regardless of normal rules.</p>
 <pre class="language-dart"><code class="language-dart">await artifact.delete();
 </code></pre>
 </section>
@@ -71,8 +73,8 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; delete() async {
-  await client.deleteArtifact(kref.uri);
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; delete({bool force = false}) async {
+  await client.deleteArtifact(kref.uri, force: force);
 }</code></pre>
 </section>
 

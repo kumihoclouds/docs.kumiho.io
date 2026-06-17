@@ -54,7 +54,7 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a>?</span>&gt;</span></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a>?</span>&gt;</span></span>
 <span class="name ">getLatestRevision</span>(<wbr>)
 
       
@@ -78,13 +78,12 @@ if (latest != null) {
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;Revision?&gt; getLatestRevision() async {
-  try {
-    final response = await client.getLatestRevision(kref.uri);
-    return Revision(response, client);
-  } catch (e) {
+  final response = await client.getLatestRevision(kref.uri);
+  if (response == null) {
     &#47;&#47; No revisions found
     return null;
   }
+  return Revision(response, client);
 }</code></pre>
 </section>
 

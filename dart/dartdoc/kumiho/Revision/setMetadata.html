@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">setMetadata</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="setMetadata-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">metadata</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">setMetadata</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="setMetadata-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">metadata</span></span></li>
 </ol>)
 
       
@@ -64,6 +64,7 @@
     
 <section class="desc markdown">
   <p>Sets metadata for this revision.</p>
+<p>Existing keys are overwritten and new keys are added in a single RPC.</p>
 <pre class="language-dart"><code class="language-dart">await revision.setMetadata({'notes': 'Updated mesh', 'artist': 'john'});
 </code></pre>
 </section>
@@ -73,9 +74,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; setMetadata(Map&lt;String, String&gt; metadata) async {
-  for (final entry in metadata.entries) {
-    await client.setAttribute(kref.uri, entry.key, entry.value);
-  }
+  await client.updateRevisionMetadata(kref.uri, metadata);
 }</code></pre>
 </section>
 

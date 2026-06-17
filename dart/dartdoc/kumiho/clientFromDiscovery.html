@@ -54,11 +54,11 @@
 
     <section class="multi-line-signature">
         
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/KumihoClient-class.html">KumihoClient</a></span>&gt;</span></span>
-<span class="name ">clientFromDiscovery</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="clientFromDiscovery-param-token"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">token</span>, </span></li>
-<li><span class="parameter" id="clientFromDiscovery-param-tenantHint"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantHint</span>, </span></li>
-<li><span class="parameter" id="clientFromDiscovery-param-controlPlaneUrl"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">controlPlaneUrl</span>, </span></li>
-<li><span class="parameter" id="clientFromDiscovery-param-forceRefresh"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">forceRefresh</span> = <span class="default-value">false</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/KumihoClient-class.html">KumihoClient</a></span>&gt;</span></span>
+<span class="name ">clientFromDiscovery</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="clientFromDiscovery-param-token"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">token</span>, </span></li>
+<li><span class="parameter" id="clientFromDiscovery-param-tenantHint"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantHint</span>, </span></li>
+<li><span class="parameter" id="clientFromDiscovery-param-controlPlaneUrl"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">controlPlaneUrl</span>, </span></li>
+<li><span class="parameter" id="clientFromDiscovery-param-forceRefresh"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">forceRefresh</span> = <span class="default-value">false</span>, </span></li>
 </ol>})
 
         
@@ -72,6 +72,12 @@
 <li>Sets <code>tenantId</code> so the base client injects <code>x-tenant-id</code>.</li>
 <li>If <code>token</code> is omitted, the client falls back to the standard token loader.</li>
 </ul>
+<p>As a cloud-safe fallback, when no token can be resolved and no explicit
+<code>controlPlaneUrl</code> is supplied, a loopback self-hosted CE server is probed
+first. If one is present a tokenless CE client is returned; otherwise the
+normal cloud discovery path runs (and surfaces its usual "token required"
+error). The CE probe never runs when a token or explicit endpoint is
+present, preserving the cloud path unchanged.</p>
 </section>
 
 
@@ -84,6 +90,26 @@
   String? controlPlaneUrl,
   bool forceRefresh = false,
 }) async {
+  final hasExplicitEndpoint =
+      controlPlaneUrl != null &amp;&amp; controlPlaneUrl.trim().isNotEmpty;
+  final resolvedToken =
+      (token != null &amp;&amp; token.trim().isNotEmpty) ? token : loadBearerToken();
+  &#47;&#47; A user authenticated only via KUMIHO_FIREBASE_ID_TOKEN is a valid cloud
+  &#47;&#47; credential that discoverTenant honours, but loadBearerToken() does not read
+  &#47;&#47; that env var. Treat it (and the cached Firebase id token) as &quot;has a token&quot;
+  &#47;&#47; too, otherwise such a user would be silently routed to a loopback CE server.
+  final firebaseToken = loadFirebaseToken();
+  final hasCloudToken =
+      (resolvedToken != null &amp;&amp; resolvedToken.trim().isNotEmpty) ||
+          (firebaseToken != null &amp;&amp; firebaseToken.trim().isNotEmpty);
+
+  if (!hasExplicitEndpoint &amp;&amp; !hasCloudToken) {
+    final ceClient = await clientFromLocalCe();
+    if (ceClient != null) {
+      return ceClient;
+    }
+  }
+
   final record = await discoverTenant(
     controlPlaneUrl: controlPlaneUrl,
     tenantHint: tenantHint,

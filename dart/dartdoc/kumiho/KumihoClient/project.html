@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Project-class.html">Project</a></span>&gt;</span></span>
-<span class="name ">project</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="project-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Project-class.html">Project</a>?</span>&gt;</span></span>
+<span class="name ">project</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="project-param-name"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span></span></li>
 </ol>)
 
       
@@ -63,9 +63,11 @@
     </section>
     
 <section class="desc markdown">
-  <p>Gets a project by name and returns a <a href="../../kumiho/Project-class.html">Project</a> model.</p>
+  <p>Gets a project by name and returns a <a href="../../kumiho/Project-class.html">Project</a> model, or <code>null</code> if no
+project with that name exists.</p>
+<p>Mirrors Python's <code>get_project</code>, which returns <code>Optional[Project]</code>.</p>
 <pre class="language-dart"><code class="language-dart">final project = await client.project('film-2024');
-final spaces = await project.getSpaces();
+final spaces = await project?.getSpaces();
 </code></pre>
 </section>
 
@@ -73,13 +75,14 @@ final spaces = await project.getSpaces();
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;models.Project&gt; project(String name) async {
+  <pre class="language-dart"><code class="language-dart">Future&lt;models.Project?&gt; project(String name) async {
   final projectList = await getProjects();
-  final pb = projectList.firstWhere(
-    (p) =&gt; p.name == name,
-    orElse: () =&gt; throw KumihoError(&#39;Project not found: $name&#39;),
-  );
-  return models.Project(pb, this);
+  for (final pb in projectList) {
+    if (pb.name == name) {
+      return models.Project(pb, this);
+    }
+  }
+  return null;
 }</code></pre>
 </section>
 

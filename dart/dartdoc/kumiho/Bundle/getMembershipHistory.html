@@ -54,20 +54,22 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/GetBundleHistoryResponse-class.html">GetBundleHistoryResponse</a></span>&gt;</span></span>
-<span class="name ">getMembershipHistory</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getMembershipHistory-param-memberKref"><span class="type-annotation"><a href="../../kumiho/Kref-class.html">Kref</a></span> <span class="parameter-name">memberKref</span></span></li>
-</ol>)
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/GetBundleHistoryResponse-class.html">GetBundleHistoryResponse</a></span>&gt;</span></span>
+<span class="name ">getMembershipHistory</span>(<wbr>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Gets the membership history for a specific member.</p>
-<p>Returns the history of when the member was added/removed from this
-bundle, including the metadata captured at each change. This is
-useful for audits and debugging automation.</p>
-<pre class="language-dart"><code class="language-dart">final history = await bundle.getMembershipHistory(hero.kref);
+  <p>Gets the full membership history of this bundle.</p>
+<p>Returns the complete chronological history of membership changes
+(additions and removals), including the metadata captured at each
+change. Useful for audits and debugging automation.</p>
+<p>Mirrors the Python SDK's <code>Bundle.get_history()</code>: the GetBundleHistory
+RPC returns the entire audit trail for the bundle and has no per-member
+filter.</p>
+<pre class="language-dart"><code class="language-dart">final history = await bundle.getMembershipHistory();
 </code></pre>
 </section>
 
@@ -75,8 +77,8 @@ useful for audits and debugging automation.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;pb.GetBundleHistoryResponse&gt; getMembershipHistory(Kref memberKref) async {
-  return client.getBundleHistory(kref.uri, memberKref.uri);
+  <pre class="language-dart"><code class="language-dart">Future&lt;pb.GetBundleHistoryResponse&gt; getMembershipHistory() async {
+  return client.getBundleHistory(kref.uri);
 }</code></pre>
 </section>
 

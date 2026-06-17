@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a>?</span>&gt;</span></span>
-<span class="name ">getRevisionByTag</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getRevisionByTag-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">tag</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a>?</span>&gt;</span></span>
+<span class="name ">getRevisionByTag</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getRevisionByTag-param-tag"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">tag</span></span></li>
 </ol>)
 
       
@@ -64,6 +64,9 @@
     
 <section class="desc markdown">
   <p>Gets a revision by tag.</p>
+<p>Resolves the tag server-side via the <code>ResolveKref</code> RPC, mirroring
+Python's <code>get_revision_by_tag</code>. Returns <code>null</code> if no revision carries
+the tag (NOT_FOUND).</p>
 <pre class="language-dart"><code class="language-dart">final approved = await item.getRevisionByTag('approved');
 </code></pre>
 </section>
@@ -73,13 +76,15 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;Revision?&gt; getRevisionByTag(String tag) async {
-  final revisions = await getRevisions();
-  for (final rev in revisions) {
-    if (rev.tags.contains(tag)) {
-      return rev;
+  try {
+    final response = await client.resolveKref(kref.uri, tag: tag);
+    return Revision(response, client);
+  } on GrpcError catch (e) {
+    if (e.code == StatusCode.notFound) {
+      return null;
     }
+    rethrow;
   }
-  return null;
 }</code></pre>
 </section>
 

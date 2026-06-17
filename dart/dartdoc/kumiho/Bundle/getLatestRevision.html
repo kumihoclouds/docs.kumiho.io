@@ -54,7 +54,7 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a>?</span>&gt;</span></span>
 <span class="name ">getLatestRevision</span>(<wbr>)
 
       
@@ -63,6 +63,8 @@
     
 <section class="desc markdown">
   <p>Gets the latest revision of this bundle.</p>
+<p>Returns <code>null</code> if the bundle has no revisions, mirroring Python's
+<code>Item.get_latest_revision</code> (which <code>Bundle</code> inherits).</p>
 <pre class="language-dart"><code class="language-dart">final latest = await bundle.getLatestRevision();
 </code></pre>
 </section>
@@ -71,8 +73,11 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Revision&gt; getLatestRevision() async {
+  <pre class="language-dart"><code class="language-dart">Future&lt;Revision?&gt; getLatestRevision() async {
   final response = await client.getLatestRevision(kref.uri);
+  if (response == null) {
+    return null;
+  }
   return Revision(response, client);
 }</code></pre>
 </section>

@@ -54,8 +54,10 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Space-class.html">Space</a></span>&gt;</span></span>&gt;</span></span>
-<span class="name ">getSpaces</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="getSpaces-param-recursive"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Space-class.html">Space</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">getSpaces</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="getSpaces-param-recursive"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>, </span></li>
+<li><span class="parameter" id="getSpaces-param-pageSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">pageSize</span>, </span></li>
+<li><span class="parameter" id="getSpaces-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span></li>
 </ol>})
 
       
@@ -64,9 +66,10 @@
     
 <section class="desc markdown">
   <p>Gets all child spaces of this project.</p>
-<p>If <code>recursive</code> is true, traverses the entire space tree depth-first
-and returns every space as a high-level <a href="../../kumiho/Space-class.html">Space</a> model. This keeps the
-caller insulated from the raw gRPC paging responses.</p>
+<p>If <code>recursive</code> is true, the server traverses the entire space tree and
+returns every descendant in a single RPC—no client-side fan-out. The
+optional <code>pageSize</code> and <code>cursor</code> mirror the server-side paging
+semantics. Every result is returned as a high-level <a href="../../kumiho/Space-class.html">Space</a> model.</p>
 <pre class="language-dart"><code class="language-dart">final spaces = await project.getSpaces();
 for (final space in spaces) {
   print(space.path);
@@ -78,20 +81,18 @@ for (final space in spaces) {
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;List&lt;Space&gt;&gt; getSpaces({bool recursive = false}) async {
-  final spaceResponses = await client.getChildSpaces(&#39;&#47;$name&#39;);
-  final spaces = spaceResponses.map&lt;Space&gt;((s) =&gt; Space(s, client)).toList();
-
-  if (recursive &amp;&amp; spaces.isNotEmpty) {
-    final allSpaces = &lt;Space&gt;[...spaces];
-    for (final space in spaces) {
-      final children = await space.getChildSpaces(recursive: true);
-      allSpaces.addAll(children);
-    }
-    return allSpaces;
-  }
-
-  return spaces;
+  <pre class="language-dart"><code class="language-dart">Future&lt;List&lt;Space&gt;&gt; getSpaces({
+  bool recursive = false,
+  int? pageSize,
+  String? cursor,
+}) async {
+  final spaceResponses = await client.getChildSpaces(
+    &#39;&#47;$name&#39;,
+    recursive: recursive,
+    pageSize: pageSize,
+    cursor: cursor,
+  );
+  return spaceResponses.map&lt;Space&gt;((s) =&gt; Space(s, client)).toList();
 }</code></pre>
 </section>
 

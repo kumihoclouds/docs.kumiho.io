@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Core Concepts &mdash; Kumiho Dart SDK v0.2.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=938c9ccc"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -57,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="getting-started.html#items">Items</a></li>
 <li class="toctree-l3"><a class="reference internal" href="getting-started.html#revisions">Revisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="getting-started.html#artifacts">Artifacts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#search">Search</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#why-kumiho">Why Kumiho?</a></li>
@@ -76,6 +77,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kref-uris">Kref URIs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#edges-relationships">Edges (Relationships)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search-and-discovery">Search and Discovery</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
 </ul>
@@ -108,6 +110,8 @@
 <li class="toctree-l2"><a class="reference internal" href="usage_guide.html#spaces-organizing-assets">Spaces: Organizing Assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage_guide.html#items-and-revisions">Items and Revisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage_guide.html#bundles">Bundles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage_guide.html#search-and-semantic-scoring">Search and Semantic Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage_guide.html#batch-and-by-kref-accessors">Batch and By-Kref Accessors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="usage_guide.html#events-and-tenants">Events and Tenants</a></li>
 </ul>
 </li>
@@ -376,6 +380,18 @@
 </pre></div>
 </div>
 </section>
+<section id="search-and-discovery">
+<h2>Search and Discovery<a class="headerlink" href="#search-and-discovery" title="Link to this heading"></a></h2>
+<p>Kumiho offers two complementary ways to find content:</p>
+<ul class="simple">
+<li><p><strong>Full-text fuzzy search</strong> (<code class="docutils literal notranslate"><span class="pre">search</span></code>): typo-tolerant matching across items, returning ranked results with relevance scores.</p></li>
+<li><p><strong>Semantic revision scoring</strong> (<code class="docutils literal notranslate"><span class="pre">scoreRevisions</span></code>): ranks a known set of revisions against a query using server-side embeddings.</p></li>
+</ul>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;hero robt&#39;</span><span class="p">,</span><span class="w"> </span><span class="nl">minScore:</span><span class="w"> </span><span class="m">0.2</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">scored</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">scoreRevisions</span><span class="p">(</span><span class="s1">&#39;weathered metal&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">revA</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="p">,</span><span class="w"> </span><span class="n">revB</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="p">]);</span>
+</pre></div>
+</div>
+</section>
 <section id="byo-storage-philosophy">
 <h2>BYO Storage Philosophy<a class="headerlink" href="#byo-storage-philosophy" title="Link to this heading"></a></h2>
 <p>Kumiho does <strong>not</strong> store your files. Instead, it tracks references (artifacts) to files that remain on your storage:</p>
@@ -402,8 +418,8 @@
 </ul>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// SDK handles tenant discovery automatically</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;api.kumiho.io&#39;</span><span class="p">,</span><span class="w"> </span><span class="nl">port:</span><span class="w"> </span><span class="m">443</span><span class="p">);</span>
-<span class="kd">final</span><span class="w"> </span><span class="n">tenantInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getTenant</span><span class="p">();</span>
-<span class="n">print</span><span class="p">(</span><span class="s1">&#39;Connected to tenant: </span><span class="si">${</span><span class="n">tenantInfo</span><span class="p">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">usage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getTenantUsage</span><span class="p">();</span>
+<span class="n">print</span><span class="p">(</span><span class="s1">&#39;Using </span><span class="si">${</span><span class="n">usage</span><span class="p">.</span><span class="n">nodeCount</span><span class="si">}</span><span class="s1"> of </span><span class="si">${</span><span class="n">usage</span><span class="p">.</span><span class="n">nodeLimit</span><span class="si">}</span><span class="s1"> nodes&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>

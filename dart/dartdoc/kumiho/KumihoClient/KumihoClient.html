@@ -54,13 +54,14 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">KumihoClient</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="-param-host"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">host</span> = <span class="default-value">&#39;localhost&#39;</span>, </span></li>
-<li><span class="parameter" id="-param-port"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/int-class.html">int</a></span> <span class="parameter-name">port</span> = <span class="default-value">8080</span>, </span></li>
-<li><span class="parameter" id="-param-token"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">token</span>, </span></li>
-<li><span class="parameter" id="-param-tenantId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantId</span>, </span></li>
-<li><span class="parameter" id="-param-channel"><span class="type-annotation"><a href="https://pub.dev/documentation/grpc/4.3.1/grpc_connection_interface/ClientChannelBase-class.html">ClientChannelBase</a>?</span> <span class="parameter-name">channel</span>, </span></li>
-<li><span class="parameter" id="-param-options"><span class="type-annotation"><a href="https://pub.dev/documentation/grpc/4.3.1/grpc/ChannelOptions-class.html">ChannelOptions</a>?</span> <span class="parameter-name">options</span>, </span></li>
-<li><span class="parameter" id="-param-secure"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">secure</span> = <span class="default-value">false</span>, </span></li>
+      <span class="name ">KumihoClient</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="param-host"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">host</span> = <span class="default-value">&#39;localhost&#39;</span>, </span></li>
+<li><span class="parameter" id="param-port"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/int-class.html">int</a></span> <span class="parameter-name">port</span> = <span class="default-value">8080</span>, </span></li>
+<li><span class="parameter" id="param-token"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">token</span>, </span></li>
+<li><span class="parameter" id="param-tenantId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantId</span>, </span></li>
+<li><span class="parameter" id="param-channel"><span class="type-annotation"><a href="https://pub.dev/documentation/grpc/4.3.1/grpc_connection_interface/ClientChannelBase-class.html">ClientChannelBase</a>?</span> <span class="parameter-name">channel</span>, </span></li>
+<li><span class="parameter" id="param-options"><span class="type-annotation"><a href="https://pub.dev/documentation/grpc/4.3.1/grpc/ChannelOptions-class.html">ChannelOptions</a>?</span> <span class="parameter-name">options</span>, </span></li>
+<li><span class="parameter" id="param-secure"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">secure</span> = <span class="default-value">false</span>, </span></li>
+<li><span class="parameter" id="param-autoLoadToken"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">autoLoadToken</span> = <span class="default-value">true</span>, </span></li>
 </ol>})
     </section>
     
@@ -86,6 +87,7 @@ to create a new channel.</p>
   ClientChannelBase? channel,
   ChannelOptions? options,
   bool secure = false,
+  bool autoLoadToken = true,
 }) : super(
         clientChannel: channel,
         host: host,
@@ -94,6 +96,7 @@ to create a new channel.</p>
         tenantId: tenantId,
         options: options,
         secure: secure,
+        autoLoadToken: autoLoadToken,
       );</code></pre>
 </section>
 

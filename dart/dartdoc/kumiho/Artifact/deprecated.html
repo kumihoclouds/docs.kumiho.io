@@ -55,20 +55,22 @@
     
       <section class="multi-line-signature">
         
-        <a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a>
+        <a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a>
         <span class="name ">deprecated</span>
-        <div class="features"><span class="feature">late</span><span class="feature">final</span></div>
+        <div class="features"><span class="feature">getter/setter pair</span></div>
 
       </section>
       
 <section class="desc markdown">
   <p>Whether the artifact is deprecated.</p>
+<p>Mutable so <a href="../../kumiho/Artifact/setDeprecated.html">setDeprecated</a> can keep the local model in sync with the
+server after a successful update.</p>
 </section>
 
       
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">late final bool deprecated;</code></pre>
+  <pre class="language-dart"><code class="language-dart">late bool deprecated;</code></pre>
 </section>
 
 

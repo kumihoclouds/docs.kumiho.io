@@ -54,8 +54,9 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a></span>&gt;</span></span>
-<span class="name ">createRevision</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="createRevision-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Revision-class.html">Revision</a></span>&gt;</span></span>
+<span class="name ">createRevision</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="createRevision-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span></li>
+<li><span class="parameter" id="createRevision-param-number"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">number</span>, </span></li>
 </ol>})
 
       
@@ -64,7 +65,10 @@
     
 <section class="desc markdown">
   <p>Creates a new revision of this item.</p>
+<p>If <code>number</code> is provided, the revision is created with that explicit
+number; otherwise the next available number is assigned by the server.</p>
 <pre class="language-dart"><code class="language-dart">final v1 = await item.createRevision(metadata: {'notes': 'Initial'});
+final v5 = await item.createRevision(number: 5);
 </code></pre>
 </section>
 
@@ -72,8 +76,15 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;Revision&gt; createRevision({Map&lt;String, String&gt;? metadata}) async {
-  final response = await client.createRevision(kref.uri, metadata: metadata);
+  <pre class="language-dart"><code class="language-dart">Future&lt;Revision&gt; createRevision({
+  Map&lt;String, String&gt;? metadata,
+  int? number,
+}) async {
+  final response = await client.createRevision(
+    kref.uri,
+    metadata: metadata,
+    number: number,
+  );
   return Revision(response, client);
 }</code></pre>
 </section>

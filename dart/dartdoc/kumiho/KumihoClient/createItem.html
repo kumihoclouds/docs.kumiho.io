@@ -54,11 +54,12 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
-<span class="name ">createItem</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="createItem-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, </span></li>
-<li><span class="parameter" id="createItem-param-itemName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemName</span>, </span></li>
-<li><span class="parameter" id="createItem-param-kind"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">kind</span>, {</span></li>
-<li><span class="parameter" id="createItem-param-existsError"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">existsError</span> = <span class="default-value">true</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
+<span class="name ">createItem</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="createItem-param-parentPath"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">parentPath</span>, </span></li>
+<li><span class="parameter" id="createItem-param-itemName"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemName</span>, </span></li>
+<li><span class="parameter" id="createItem-param-kind"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">kind</span>, {</span></li>
+<li><span class="parameter" id="createItem-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span></li>
+<li><span class="parameter" id="createItem-param-existsError"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">existsError</span> = <span class="default-value">false</span>, </span></li>
 </ol>})
 
       <div class="features"><span class="feature">inherited</span></div>
@@ -70,8 +71,11 @@
 <p><code>parentPath</code> is the space path where the item will be created.
 <code>itemName</code> is the name of the item (e.g., 'hero').
 <code>kind</code> is the type of item (e.g., 'model', 'texture', 'workflow').
+<code>metadata</code> is optional key-value metadata. Because the create RPC does
+not carry metadata, it is applied via a follow-up metadata update once
+the item exists, mirroring the Python SDK.
 <code>existsError</code> controls whether to throw an error if the item
-already exists (default: <code>true</code>).</p>
+already exists (default: <code>false</code>).</p>
 </section>
 
 
@@ -82,14 +86,28 @@ already exists (default: <code>true</code>).</p>
   String parentPath,
   String itemName,
   String kind, {
-  bool existsError = true,
+  Map&lt;String, String&gt;? metadata,
+  bool existsError = false,
 }) async {
+  &#47;&#47; The &#39;bundle&#39; kind is reserved; mirror Python&#39;s create_item which raises
+  &#47;&#47; ReservedKindError. Use createBundle() instead.
+  if (reservedKinds.contains(kind.toLowerCase())) {
+    throw ReservedKindError(
+      &quot;Item kind &#39;$kind&#39; is reserved. Use createBundle() instead.&quot;,
+    );
+  }
   final request = CreateItemRequest()
     ..parentPath = parentPath
     ..itemName = itemName
     ..kind = kind
     ..existsError = existsError;
-  return stub.createItem(request, options: callOptions);
+  final response = await stub.createItem(request, options: callOptions);
+  if (metadata != null &amp;&amp; metadata.isNotEmpty) {
+    &#47;&#47; Apply metadata via a follow-up update (the create RPC carries none),
+    &#47;&#47; but return the original create response like the Python SDK does.
+    await updateItemMetadata(response.kref.uri, metadata);
+  }
+  return response;
 }</code></pre>
 </section>
 

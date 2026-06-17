@@ -54,9 +54,9 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/AddBundleMemberResponse-class.html">AddBundleMemberResponse</a></span>&gt;</span></span>
 <span class="name ">addMember</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="addMember-param-memberKref"><span class="type-annotation"><a href="../../kumiho/Kref-class.html">Kref</a></span> <span class="parameter-name">memberKref</span>, {</span></li>
-<li><span class="parameter" id="addMember-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span></li>
+<li><span class="parameter" id="addMember-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span></li>
 </ol>})
 
       
@@ -65,9 +65,11 @@
     
 <section class="desc markdown">
   <p>Adds a member to this bundle.</p>
-<p>The optional <code>metadata</code> map is attached to the membership edge and
+<p>The optional <code>metadata</code> map is attached to the new bundle revision and
 can later be inspected via <a href="../../kumiho/Bundle/getMembershipHistory.html">getMembershipHistory</a>.</p>
-<pre class="language-dart"><code class="language-dart">await bundle.addMember(hero.kref, metadata: {'role': 'hero'});
+<p>Returns the <a href="../../kumiho/AddBundleMemberResponse-class.html">pb.AddBundleMemberResponse</a> (success/message/newRevision),
+mirroring the Python SDK's <code>Bundle.add_member</code>.</p>
+<pre class="language-dart"><code class="language-dart">final response = await bundle.addMember(hero.kref, metadata: {'role': 'hero'});
 </code></pre>
 </section>
 
@@ -75,8 +77,9 @@ can later be inspected via <a href="../../kumiho/Bundle/getMembershipHistory.htm
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; addMember(Kref memberKref, {Map&lt;String, String&gt;? metadata}) async {
-  await client.addBundleMember(kref.uri, memberKref.uri, metadata: metadata);
+  <pre class="language-dart"><code class="language-dart">Future&lt;pb.AddBundleMemberResponse&gt; addMember(Kref memberKref,
+    {Map&lt;String, String&gt;? metadata}) async {
+  return client.addBundleMember(kref.uri, memberKref.uri, metadata: metadata);
 }</code></pre>
 </section>
 

@@ -54,8 +54,9 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Kref-class.html">Kref</a></span>&gt;</span></span>&gt;</span></span>
-<span class="name ">getMembers</span>(<wbr>)
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/BundleMember-class.html">BundleMember</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">getMembers</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="getMembers-param-revisionNumber"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">revisionNumber</span>, </span></li>
+</ol>})
 
       
 
@@ -63,11 +64,14 @@
     
 <section class="desc markdown">
   <p>Gets all current members of this bundle.</p>
-<p>Returns the krefs of the linked items, allowing callers to lazily
-hydrate the items only when needed.</p>
+<p>Returns the rich <a href="../../kumiho/BundleMember-class.html">pb.BundleMember</a> entries (item kref plus audit fields:
+addedAt, addedBy, addedByUsername, addedInRevision), mirroring the Python
+SDK's <code>Bundle.get_members</code>.</p>
+<p><code>revisionNumber</code> optionally queries membership at a specific bundle
+revision; if omitted, returns the current (latest) membership.</p>
 <pre class="language-dart"><code class="language-dart">final members = await bundle.getMembers();
 for (final member in members) {
-  print(member.uri);
+  print(member.itemKref.uri);
 }
 </code></pre>
 </section>
@@ -76,9 +80,10 @@ for (final member in members) {
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;List&lt;Kref&gt;&gt; getMembers() async {
-  final response = await client.getBundleMembers(kref.uri);
-  return response.memberKrefs.map((k) =&gt; Kref(k.uri)).toList();
+  <pre class="language-dart"><code class="language-dart">Future&lt;List&lt;pb.BundleMember&gt;&gt; getMembers({int? revisionNumber}) async {
+  final response = await client.getBundleMembers(kref.uri,
+      revisionNumber: revisionNumber);
+  return response.members.toList();
 }</code></pre>
 </section>
 

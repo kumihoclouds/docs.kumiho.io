@@ -70,27 +70,16 @@
   <p>Creates <a href="https://pub.dev/documentation/grpc/4.3.1/grpc/CallOptions-class.html">CallOptions</a> with authentication metadata and correlation ID.</p>
 <p>Call this to get options with the Bearer token and correlation ID injected.
 A unique correlation ID is generated per call for end-to-end tracing.</p>
+<p>A default per-RPC deadline is applied (configurable via
+<code>KUMIHO_RPC_TIMEOUT_SECONDS</code>, default 30s). Use <code>streamCallOptions</code>
+for server-streaming RPCs that must stay open indefinitely.</p>
 </section>
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">CallOptions get callOptions {
-  final correlationId = _generateCorrelationId();
-  final metadata = &lt;String, String&gt;{
-    &#39;x-correlation-id&#39;: correlationId,
-  };
-
-  if (_token != null &amp;&amp; _token!.isNotEmpty) {
-    metadata[&#39;authorization&#39;] = &#39;Bearer $_token&#39;;
-  }
-
-  &#47;&#47; Add tenant ID for anonymous public access
-  if (_tenantId != null &amp;&amp; _tenantId!.isNotEmpty) {
-    metadata[&#39;x-tenant-id&#39;] = _tenantId!;
-  }
-
-  return CallOptions(metadata: metadata);
+  return CallOptions(metadata: _buildMetadata(), timeout: _rpcTimeout());
 }</code></pre>
 </section>
 

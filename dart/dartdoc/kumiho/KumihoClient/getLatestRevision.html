@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/RevisionResponse-class.html">RevisionResponse</a></span>&gt;</span></span>
-<span class="name ">getLatestRevision</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getLatestRevision-param-itemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemKref</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/RevisionResponse-class.html">RevisionResponse</a>?</span>&gt;</span></span>
+<span class="name ">getLatestRevision</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getLatestRevision-param-itemKref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">itemKref</span></span></li>
 </ol>)
 
       <div class="features"><span class="feature">inherited</span></div>
@@ -63,23 +63,25 @@
     </section>
     
 <section class="desc markdown">
-  <p>Gets the latest revision for an item.</p>
-<p>Convenience method that resolves to the revision with the 'latest' tag.</p>
+  <p>Gets the latest revision for an item, or <code>null</code> if none exist.</p>
+<p>Mirrors Python's <code>get_latest_revision</code>: resolves the item kref via the
+<code>ResolveKref</code> RPC and returns <code>null</code> when the control plane reports the
+item has no revisions (NOT_FOUND).</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;RevisionResponse&gt; getLatestRevision(String itemKref) async {
-  final revisions = await getRevisions(itemKref);
-  if (revisions.isEmpty) {
-    throw Exception(&#39;No revisions found&#39;);
+  <pre class="language-dart"><code class="language-dart">Future&lt;RevisionResponse?&gt; getLatestRevision(String itemKref) async {
+  try {
+    return await resolveKref(itemKref);
+  } on GrpcError catch (e) {
+    if (e.code == StatusCode.notFound) {
+      return null;
+    }
+    rethrow;
   }
-  return revisions.firstWhere(
-    (revision) =&gt; revision.latest,
-    orElse: () =&gt; revisions.first,
-  );
 }</code></pre>
 </section>
 

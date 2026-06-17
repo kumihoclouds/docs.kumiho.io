@@ -179,6 +179,22 @@
       ($core.List&lt;$core.int&gt; value) =&gt;
           $0.UpdateMetadataRequest.fromBuffer(value),
       ($0.ItemResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.SearchRequest, $0.SearchResponse&gt;(
+      &#39;Search&#39;,
+      search_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.SearchRequest.fromBuffer(value),
+      ($0.SearchResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ScoreRevisionsRequest,
+          $0.ScoreRevisionsResponse&gt;(
+      &#39;ScoreRevisions&#39;,
+      scoreRevisions_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.ScoreRevisionsRequest.fromBuffer(value),
+      ($0.ScoreRevisionsResponse value) =&gt; value.writeToBuffer()));
   $addMethod($grpc.ServiceMethod&lt;$0.ResolveKrefRequest, $0.RevisionResponse&gt;(
       &#39;ResolveKref&#39;,
       resolveKref_Pre,
@@ -221,6 +237,15 @@
           ($core.List&lt;$core.int&gt; value) =&gt;
               $0.GetRevisionsRequest.fromBuffer(value),
           ($0.GetRevisionsResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.BatchGetRevisionsRequest,
+          $0.BatchGetRevisionsResponse&gt;(
+      &#39;BatchGetRevisions&#39;,
+      batchGetRevisions_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.BatchGetRevisionsRequest.fromBuffer(value),
+      ($0.BatchGetRevisionsResponse value) =&gt; value.writeToBuffer()));
   $addMethod($grpc.ServiceMethod&lt;$0.DeleteRevisionRequest, $0.StatusResponse&gt;(
       &#39;DeleteRevision&#39;,
       deleteRevision_Pre,

@@ -54,9 +54,13 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Event-class.html">Event</a></span>&gt;</span></span>
-<span class="name ">eventStream</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="eventStream-param-routingKeyFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">routingKeyFilter</span>, </span></li>
-<li><span class="parameter" id="eventStream-param-krefFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">krefFilter</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Event-class.html">Event</a></span>&gt;</span></span>
+<span class="name ">eventStream</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="eventStream-param-routingKeyFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">routingKeyFilter</span>, </span></li>
+<li><span class="parameter" id="eventStream-param-krefFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">krefFilter</span>, </span></li>
+<li><span class="parameter" id="eventStream-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span></li>
+<li><span class="parameter" id="eventStream-param-consumerGroup"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">consumerGroup</span>, </span></li>
+<li><span class="parameter" id="eventStream-param-fromBeginning"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">fromBeginning</span> = <span class="default-value">false</span>, </span></li>
+<li><span class="parameter" id="eventStream-param-timeout"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Duration-class.html">Duration</a>?</span> <span class="parameter-name">timeout</span>, </span></li>
 </ol>})
 
       <div class="features"><span class="feature">inherited</span></div>
@@ -66,9 +70,17 @@
 <section class="desc markdown">
   <p>Subscribes to real-time events.</p>
 <p><code>routingKeyFilter</code> filters by routing key pattern (supports wildcards).
-<code>krefFilter</code> filters by kref pattern (supports wildcards).</p>
+<code>krefFilter</code> filters by kref pattern (supports wildcards).
+<code>cursor</code> resumes from a previous cursor position (Creator tier+). Pass
+the cursor from the last received event to continue after reconnection.
+<code>consumerGroup</code> enables load-balanced delivery across consumers in the
+same group (Enterprise tier only).
+<code>fromBeginning</code> starts from the earliest available events instead of
+live-only (Creator tier+, subject to retention).
+<code>timeout</code> optionally bounds the gRPC stream; when reached the stream
+terminates with a <code>DEADLINE_EXCEEDED</code> error.</p>
 <p>Returns a stream of <a href="../../kumiho/Event-class.html">Event</a> objects. The stream stays open until
-cancelled or the connection is lost.</p>
+cancelled, the connection is lost, or <code>timeout</code> elapses.</p>
 </section>
 
 
@@ -78,6 +90,10 @@ cancelled or the connection is lost.</p>
   <pre class="language-dart"><code class="language-dart">Stream&lt;Event&gt; eventStream({
   String? routingKeyFilter,
   String? krefFilter,
+  String? cursor,
+  String? consumerGroup,
+  bool fromBeginning = false,
+  Duration? timeout,
 }) {
   final request = EventStreamRequest();
   if (routingKeyFilter != null &amp;&amp; routingKeyFilter.isNotEmpty) {
@@ -86,7 +102,21 @@ cancelled or the connection is lost.</p>
   if (krefFilter != null &amp;&amp; krefFilter.isNotEmpty) {
     request.krefFilter = krefFilter;
   }
-  return stub.eventStream(request, options: callOptions);
+  if (cursor != null &amp;&amp; cursor.isNotEmpty) {
+    request.cursor = cursor;
+  }
+  if (consumerGroup != null &amp;&amp; consumerGroup.isNotEmpty) {
+    request.consumerGroup = consumerGroup;
+  }
+  if (fromBeginning) {
+    request.fromBeginning = true;
+  }
+  &#47;&#47; Streaming opts out of the default per-RPC deadline; only apply a
+  &#47;&#47; deadline when the caller explicitly passes one.
+  final options = timeout == null
+      ? streamCallOptions
+      : streamCallOptions.mergedWith(CallOptions(timeout: timeout));
+  return stub.eventStream(request, options: options);
 }</code></pre>
 </section>
 

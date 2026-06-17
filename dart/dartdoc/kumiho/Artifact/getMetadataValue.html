@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
-<span class="name ">getMetadataValue</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getMetadataValue-param-key"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.10.7/dart-core/String-class.html">String</a></span> <span class="parameter-name">key</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
+<span class="name ">getMetadataValue</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getMetadataValue-param-key"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">key</span></span></li>
 </ol>)
 
       
@@ -64,7 +64,8 @@
     
 <section class="desc markdown">
   <p>Gets a metadata value by key.</p>
-<p>Returns <code>null</code> when the attribute is not set.</p>
+<p>Returns <code>null</code> only when the attribute is not set. An attribute that
+exists with an empty-string value returns <code>''</code>, not <code>null</code>.</p>
 <pre class="language-dart"><code class="language-dart">final format = await artifact.getMetadataValue('format');
 </code></pre>
 </section>
@@ -75,7 +76,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;String?&gt; getMetadataValue(String key) async {
   final response = await client.getAttribute(kref.uri, key);
-  return response.value.isEmpty ? null : response.value;
+  return response.exists ? response.value : null;
 }</code></pre>
 </section>
 

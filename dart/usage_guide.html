@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Usage Guide &mdash; Kumiho Dart SDK v0.2.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=938c9ccc"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -57,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="getting-started.html#items">Items</a></li>
 <li class="toctree-l3"><a class="reference internal" href="getting-started.html#revisions">Revisions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="getting-started.html#artifacts">Artifacts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#search">Search</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#why-kumiho">Why Kumiho?</a></li>
@@ -76,6 +77,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html#kref-uris">Kref URIs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html#edges-relationships">Edges (Relationships)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="concepts.html#search-and-discovery">Search and Discovery</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html#byo-storage-philosophy">BYO Storage Philosophy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="concepts.html#multi-tenant-architecture">Multi-Tenant Architecture</a></li>
 </ul>
@@ -108,6 +110,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#spaces-organizing-assets">Spaces: Organizing Assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#items-and-revisions">Items and Revisions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#bundles">Bundles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search-and-semantic-scoring">Search and Semantic Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#batch-and-by-kref-accessors">Batch and By-Kref Accessors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#events-and-tenants">Events and Tenants</a></li>
 </ul>
 </li>
@@ -217,16 +221,51 @@
 </pre></div>
 </div>
 </section>
-<section id="events-and-tenants">
-<h2>Events and Tenants<a class="headerlink" href="#events-and-tenants" title="Link to this heading"></a></h2>
-<p>Subscribe to event streams to monitor changes, or query tenant metadata when running inside a multi-tenant deployment.</p>
-<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">subscribeEvents</span><span class="p">();</span>
-<span class="kd">await</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Event: </span><span class="si">${</span><span class="n">event</span><span class="p">.</span><span class="n">kind</span><span class="si">}</span><span class="s1"> on </span><span class="si">${</span><span class="n">event</span><span class="p">.</span><span class="n">kref</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+<section id="search-and-semantic-scoring">
+<h2>Search and Semantic Scoring<a class="headerlink" href="#search-and-semantic-scoring" title="Link to this heading"></a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">search</span></code> for full-text fuzzy (typo-tolerant) matching across items, returning <code class="docutils literal notranslate"><span class="pre">SearchResult</span></code> entries ordered by relevance. Use <code class="docutils literal notranslate"><span class="pre">scoreRevisions</span></code> to rank a known set of revisions against a query with server-side embeddings (no client-side embedding needed).</p>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// Ranked fuzzy search; minScore filters weak matches (0.0-1.0)</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;hero robt&#39;</span><span class="p">,</span><span class="w"> </span><span class="nl">contextFilter:</span><span class="w"> </span><span class="s1">&#39;film-2025/*&#39;</span><span class="p">,</span><span class="w"> </span><span class="nl">minScore:</span><span class="w"> </span><span class="m">0.2</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">results</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">item</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> (score </span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">score</span><span class="si">}</span><span class="s1">, matched in </span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">matchedIn</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="kd">final</span><span class="w"> </span><span class="n">tenantInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getTenant</span><span class="p">();</span>
-<span class="n">print</span><span class="p">(</span><span class="s1">&#39;Tenant: </span><span class="si">${</span><span class="n">tenantInfo</span><span class="p">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+<span class="c1">// Semantic scoring of specific revisions</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">scored</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">scoreRevisions</span><span class="p">(</span><span class="s1">&#39;battle damaged armor&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">revA</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="p">,</span><span class="w"> </span><span class="n">revB</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="p">]);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">scored</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">: </span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="n">score</span><span class="si">}</span><span class="s1"> (</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="n">scoreMethod</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-and-by-kref-accessors">
+<h2>Batch and By-Kref Accessors<a class="headerlink" href="#batch-and-by-kref-accessors" title="Link to this heading"></a></h2>
+<p>Fetch many revisions in one round-trip with <code class="docutils literal notranslate"><span class="pre">batchGetRevisions</span></code> (by revision kref, or by item kref resolved with a <code class="docutils literal notranslate"><span class="pre">tag</span></code>), and resolve related objects directly from a kref.</p>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="p">(</span><span class="o">:</span><span class="n">revisions</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="n">notFound</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">batchGetRevisions</span><span class="p">(</span>
+<span class="w">  </span><span class="nl">itemKrefs:</span><span class="w"> </span><span class="p">[</span><span class="n">itemA</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="p">,</span><span class="w"> </span><span class="n">itemB</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="p">],</span>
+<span class="w">  </span><span class="nl">tag:</span><span class="w"> </span><span class="s1">&#39;latest&#39;</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="kd">final</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getItemFromRevision</span><span class="p">(</span><span class="n">revisions</span><span class="p">.</span><span class="n">first</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">mesh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getArtifactByKref</span><span class="p">(</span><span class="s1">&#39;kref://film-2025/assets/hero.model?r=1&amp;a=mesh&#39;</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">bundle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getBundleByKref</span><span class="p">(</span><span class="s1">&#39;kref://film-2025/assets/release.bundle&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="events-and-tenants">
+<h2>Events and Tenants<a class="headerlink" href="#events-and-tenants" title="Link to this heading"></a></h2>
+<p>Stream events to monitor changes, or query tenant usage when running inside a multi-tenant deployment. Advanced <code class="docutils literal notranslate"><span class="pre">eventStream</span></code> parameters (<code class="docutils literal notranslate"><span class="pre">cursor</span></code> resume, <code class="docutils literal notranslate"><span class="pre">consumerGroup</span></code>, <code class="docutils literal notranslate"><span class="pre">fromBeginning</span></code>, <code class="docutils literal notranslate"><span class="pre">timeout</span></code>) depend on your tenant tier; call <code class="docutils literal notranslate"><span class="pre">getEventCapabilities</span></code> first to discover what is available.</p>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="n">caps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getEventCapabilities</span><span class="p">();</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">eventStream</span><span class="p">(</span>
+<span class="w">  </span><span class="nl">routingKeyFilter:</span><span class="w"> </span><span class="s1">&#39;revision.tagged.*&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">fromBeginning:</span><span class="w"> </span><span class="n">caps</span><span class="p">.</span><span class="n">supportsReplay</span><span class="p">,</span>
+<span class="p">);</span>
+<span class="kd">await</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Event: </span><span class="si">${</span><span class="n">event</span><span class="p">.</span><span class="n">routingKey</span><span class="si">}</span><span class="s1"> on </span><span class="si">${</span><span class="n">event</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">final</span><span class="w"> </span><span class="n">usage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getTenantUsage</span><span class="p">();</span>
+<span class="n">print</span><span class="p">(</span><span class="s1">&#39;Using </span><span class="si">${</span><span class="n">usage</span><span class="p">.</span><span class="n">nodeCount</span><span class="si">}</span><span class="s1"> of </span><span class="si">${</span><span class="n">usage</span><span class="p">.</span><span class="n">nodeLimit</span><span class="si">}</span><span class="s1"> nodes&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>

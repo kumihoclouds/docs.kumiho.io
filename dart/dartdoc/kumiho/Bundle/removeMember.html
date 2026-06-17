@@ -54,9 +54,10 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">removeMember</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="removeMember-param-memberKref"><span class="type-annotation"><a href="../../kumiho/Kref-class.html">Kref</a></span> <span class="parameter-name">memberKref</span></span></li>
-</ol>)
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/RemoveBundleMemberResponse-class.html">RemoveBundleMemberResponse</a></span>&gt;</span></span>
+<span class="name ">removeMember</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="removeMember-param-memberKref"><span class="type-annotation"><a href="../../kumiho/Kref-class.html">Kref</a></span> <span class="parameter-name">memberKref</span>, {</span></li>
+<li><span class="parameter" id="removeMember-param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span></li>
+</ol>})
 
       
 
@@ -64,6 +65,10 @@
     
 <section class="desc markdown">
   <p>Removes a member from this bundle.</p>
+<p>The optional <code>metadata</code> map is attached to the new bundle revision and
+can later be inspected via <a href="../../kumiho/Bundle/getMembershipHistory.html">getMembershipHistory</a>.</p>
+<p>Returns the <a href="../../kumiho/RemoveBundleMemberResponse-class.html">pb.RemoveBundleMemberResponse</a> (success/message/newRevision),
+mirroring the Python SDK's <code>Bundle.remove_member</code>.</p>
 <pre class="language-dart"><code class="language-dart">await bundle.removeMember(hero.kref);
 </code></pre>
 </section>
@@ -72,8 +77,10 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; removeMember(Kref memberKref) async {
-  await client.removeBundleMember(kref.uri, memberKref.uri);
+  <pre class="language-dart"><code class="language-dart">Future&lt;pb.RemoveBundleMemberResponse&gt; removeMember(Kref memberKref,
+    {Map&lt;String, String&gt;? metadata}) async {
+  return client.removeBundleMember(kref.uri, memberKref.uri,
+      metadata: metadata);
 }</code></pre>
 </section>
 

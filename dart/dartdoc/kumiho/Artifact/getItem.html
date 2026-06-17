@@ -54,7 +54,7 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.10.7/dart-core/Future-class.html">Future</a></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Item-class.html">Item</a></span>&gt;</span></span>
 <span class="name ">getItem</span>(<wbr>)
 
       
@@ -62,7 +62,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Gets the parent item of this artifact.</p>
+  <p>Gets the parent item of this artifact as an <a href="../../kumiho/Item-class.html">Item</a> model.</p>
 <pre class="language-dart"><code class="language-dart">final item = await artifact.getItem();
 </code></pre>
 </section>
@@ -71,9 +71,10 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;dynamic&gt; getItem() async {
+  <pre class="language-dart"><code class="language-dart">Future&lt;Item&gt; getItem() async {
   final targetKref = itemKref ?? revisionKref.itemKref;
-  return client.getItemByKref(targetKref.uri);
+  final response = await client.getItemByKref(targetKref.uri);
+  return Item(response, client);
 }</code></pre>
 </section>
 

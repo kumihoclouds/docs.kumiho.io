@@ -4,9 +4,12 @@
         <li><a href="kumiho/AddBundleMemberResponse-class.html">AddBundleMemberResponse</a></li>
         <li><a href="kumiho/Artifact-class.html">Artifact</a></li>
         <li><a href="kumiho/ArtifactResponse-class.html">ArtifactResponse</a></li>
+        <li><a href="kumiho/BatchGetRevisionsRequest-class.html">BatchGetRevisionsRequest</a></li>
+        <li><a href="kumiho/BatchGetRevisionsResponse-class.html">BatchGetRevisionsResponse</a></li>
         <li><a href="kumiho/Bundle-class.html">Bundle</a></li>
         <li><a href="kumiho/BundleMember-class.html">BundleMember</a></li>
         <li><a href="kumiho/BundleRevisionHistory-class.html">BundleRevisionHistory</a></li>
+        <li><a href="kumiho/CeDiscoveryEnvVars-class.html">CeDiscoveryEnvVars</a></li>
         <li><a href="kumiho/CreateArtifactRequest-class.html">CreateArtifactRequest</a></li>
         <li><a href="kumiho/CreateBundleRequest-class.html">CreateBundleRequest</a></li>
         <li><a href="kumiho/CreateEdgeRequest-class.html">CreateEdgeRequest</a></li>
@@ -67,7 +70,6 @@
         <li><a href="kumiho/KumihoClient-class.html">KumihoClient</a></li>
         <li><a href="kumiho/KumihoClientBase-class.html">KumihoClientBase</a></li>
         <li><a href="kumiho/KumihoObject-class.html">KumihoObject</a></li>
-        <li><a href="kumiho/KumihoServiceApi-class.html">KumihoServiceApi</a></li>
         <li><a href="kumiho/KumihoServiceBase-class.html">KumihoServiceBase</a></li>
         <li><a href="kumiho/KumihoServiceClient-class.html">KumihoServiceClient</a></li>
         <li><a href="kumiho/PagedList-class.html">PagedList</a></li>
@@ -86,6 +88,12 @@
         <li><a href="kumiho/Revision-class.html">Revision</a></li>
         <li><a href="kumiho/RevisionPath-class.html">RevisionPath</a></li>
         <li><a href="kumiho/RevisionResponse-class.html">RevisionResponse</a></li>
+        <li><a href="kumiho/ScoredRevision-class.html">ScoredRevision</a></li>
+        <li><a href="kumiho/ScoreRevisionsRequest-class.html">ScoreRevisionsRequest</a></li>
+        <li><a href="kumiho/ScoreRevisionsResponse-class.html">ScoreRevisionsResponse</a></li>
+        <li><a href="kumiho/SearchRequest-class.html">SearchRequest</a></li>
+        <li><a href="kumiho/SearchResponse-class.html">SearchResponse</a></li>
+        <li><a href="kumiho/SearchResult-class.html">SearchResult</a></li>
         <li><a href="kumiho/SetAttributeRequest-class.html">SetAttributeRequest</a></li>
         <li><a href="kumiho/SetDefaultArtifactRequest-class.html">SetDefaultArtifactRequest</a></li>
         <li><a href="kumiho/SetDeprecatedRequest-class.html">SetDeprecatedRequest</a></li>
@@ -109,21 +117,33 @@
 
 
 
+      <li class="section-title"><a href="kumiho/#constants">Constants</a></li>
+        <li><a href="discovery/kDefaultLocalCePort-constant.html">kDefaultLocalCePort</a></li>
+        <li><a href="discovery/kDefaultLocalCeTarget-constant.html">kDefaultLocalCeTarget</a></li>
+        <li><a href="models/reservedKinds-constant.html">reservedKinds</a></li>
 
 
       <li class="section-title"><a href="kumiho/#functions">Functions</a></li>
         <li><a href="kumiho/clientFromDiscovery.html">clientFromDiscovery</a></li>
+        <li><a href="kumiho/clientFromLocalCe.html">clientFromLocalCe</a></li>
         <li><a href="kumiho/discoverTenant.html">discoverTenant</a></li>
         <li><a href="kumiho/getDefaultDiscoveryCacheFile.html">getDefaultDiscoveryCacheFile</a></li>
+        <li><a href="kumiho/isValidEdgeType.html">isValidEdgeType</a></li>
         <li><a href="kumiho/isValidKref.html">isValidKref</a></li>
+        <li><a href="kumiho/resolveLocalCeEndpoint.html">resolveLocalCeEndpoint</a></li>
+        <li><a href="kumiho/validateEdgeType.html">validateEdgeType</a></li>
         <li><a href="kumiho/validateKref.html">validateKref</a></li>
 
       <li class="section-title"><a href="kumiho/#typedefs">Typedefs</a></li>
         <li><a class="deprecated" href="kumiho/KumihoApiClient.html">KumihoApiClient</a></li>
 
       <li class="section-title"><a href="kumiho/#exceptions">Exceptions</a></li>
+        <li><a href="kumiho/CeDiscoveryError-class.html">CeDiscoveryError</a></li>
+        <li><a href="kumiho/EdgeTypeValidationError-class.html">EdgeTypeValidationError</a></li>
         <li><a href="kumiho/KrefValidationError-class.html">KrefValidationError</a></li>
         <li><a href="kumiho/KumihoError-class.html">KumihoError</a></li>
+        <li><a href="kumiho/ProjectLimitError-class.html">ProjectLimitError</a></li>
+        <li><a href="kumiho/ReservedKindError-class.html">ReservedKindError</a></li>
 
       <li class="section-title"><a href="kumiho/#extensions">Extensions</a></li>
         <li><a href="https://pub.dev/documentation/protobuf/5.1.0/protobuf/GeneratedMessageGenericExtensions.html">GeneratedMessageGenericExtensions</a></li>
