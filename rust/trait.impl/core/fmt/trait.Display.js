@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["kumiho",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.96.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"kumiho/enum.Error.html\" title=\"enum kumiho::Error\">Error</a>",0],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.96.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"struct\" href=\"kumiho/struct.DiscoveryError.html\" title=\"struct kumiho::DiscoveryError\">DiscoveryError</a>",0],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.96.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"struct\" href=\"kumiho/struct.EdgeTypeValidationError.html\" title=\"struct kumiho::EdgeTypeValidationError\">EdgeTypeValidationError</a>",0],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.96.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"struct\" href=\"kumiho/struct.Kref.html\" title=\"struct kumiho::Kref\">Kref</a>",0],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.96.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"struct\" href=\"kumiho/struct.KrefValidationError.html\" title=\"struct kumiho::KrefValidationError\">KrefValidationError</a>",0]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[1356]}

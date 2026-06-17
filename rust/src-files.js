@@ -1,0 +1,2 @@
+createSrcSidebar('[["kumiho",["",[["models",[],["artifact.rs","bundle.rs","event.rs","item.rs","mod.rs","project.rs","revision.rs","space.rs"]]],["client.rs","discovery.rs","edge.rs","error.rs","kref.rs","lib.rs","token_loader.rs"]]]]');
+//{"start":19,"fragment_lengths":[214]}
