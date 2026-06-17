@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho &mdash; Kumiho Python SDK v0.9.14</title>
+  <title>kumiho &mdash; Kumiho Python SDK v0.10.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=d0ba2447"></script>
+      <script src="../_static/documentation_options.js?v=82662543"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -466,6 +466,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.client_from_local_ce"><code class="docutils literal notranslate"><span class="pre">client_from_local_ce()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
@@ -574,6 +575,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mcp_server.html#kumiho.mcp_server.tool_get_item_revisions"><code class="docutils literal notranslate"><span class="pre">tool_get_item_revisions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcp_server.html#kumiho.mcp_server.tool_get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_by_tag()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcp_server.html#kumiho.mcp_server.tool_get_revision_as_of"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_as_of()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp_server.html#kumiho.mcp_server.tool_batch_get_revisions"><code class="docutils literal notranslate"><span class="pre">tool_batch_get_revisions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcp_server.html#kumiho.mcp_server.tool_create_revision"><code class="docutils literal notranslate"><span class="pre">tool_create_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcp_server.html#kumiho.mcp_server.tool_tag_revision"><code class="docutils literal notranslate"><span class="pre">tool_tag_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcp_server.html#kumiho.mcp_server.tool_create_edge"><code class="docutils literal notranslate"><span class="pre">tool_create_edge()</span></code></a></li>
@@ -604,25 +606,30 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.10.0] - 2026-06-17</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id4">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id2">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id7">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id7">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id10">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id11">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -1065,7 +1072,7 @@ creates the bundle at the project root (<code class="docutils literal notranslat
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Bundle" title="kumiho.Bundle">Bundle</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the bundle name is already taken or if there
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the bundle name is already taken or if there
     is a connection error.</p>
 </dd>
 </dl>
@@ -1114,7 +1121,7 @@ creates the item at the project root (<code class="docutils literal notranslate"
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Item" title="kumiho.Item">Item</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the item name/kind combination is already taken
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the item name/kind combination is already taken
     or if there is a connection error.</p>
 </dd>
 </dl>
@@ -1153,7 +1160,7 @@ looks in the project root (<code class="docutils literal notranslate"><span clas
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Item" title="kumiho.Item">Item</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the item is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the item is not found.</p>
 </dd>
 </dl>
 <p>Example:</p>
@@ -1192,7 +1199,7 @@ looks in the project root (<code class="docutils literal notranslate"><span clas
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the item exists but is not a bundle.</p></li>
-<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the bundle is not found.</p></li>
+<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the bundle is not found.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1335,7 +1342,7 @@ directly (e.g. <code class="docutils literal notranslate"><span class="pre">proj
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Space" title="kumiho.Space">Space</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the space is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the space is not found.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1357,7 +1364,7 @@ directly (e.g. <code class="docutils literal notranslate"><span class="pre">proj
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kumiho.Project.get_spaces">
-<span class="sig-name descname"><span class="pre">get_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Project.get_spaces" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/project.html#Project.get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Project.get_spaces" title="Link to this definition"></a></dt>
 <dd><p>List spaces within this project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1365,6 +1372,8 @@ directly (e.g. <code class="docutils literal notranslate"><span class="pre">proj
 <li><p><strong>parent_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional path to start from. Defaults to project root.</p></li>
 <li><p><strong>recursive</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, include all nested spaces. If False (default),
 only direct children.</p></li>
+<li><p><strong>page_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Optional page size for pagination.</p></li>
+<li><p><strong>cursor</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional cursor for pagination.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1615,7 +1624,7 @@ and can store custom metadata.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Space" title="kumiho.Space">Space</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the space is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the space is not found.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1629,12 +1638,16 @@ and can store custom metadata.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kumiho.Space.get_spaces">
-<span class="sig-name descname"><span class="pre">get_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/space.html#Space.get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Space.get_spaces" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/space.html#Space.get_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Space.get_spaces" title="Link to this definition"></a></dt>
 <dd><p>List child spaces under this space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>recursive</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, include all nested spaces. If False (default),
-only direct children.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recursive</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, include all nested spaces. If False (default),
+only direct children.</p></li>
+<li><p><strong>page_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Optional page size for pagination.</p></li>
+<li><p><strong>cursor</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Optional cursor for pagination.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of Space objects.</p>
@@ -1708,7 +1721,7 @@ the space.</p></li>
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Bundle" title="kumiho.Bundle">Bundle</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the bundle name is already taken or if there
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the bundle name is already taken or if there
     is a connection error.</p>
 </dd>
 </dl>
@@ -1791,7 +1804,7 @@ If pagination is used, returns a PagedList with next_cursor.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Item" title="kumiho.Item">Item</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the item is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the item is not found.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1821,7 +1834,7 @@ get_members(), etc.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Bundle" title="kumiho.Bundle">Bundle</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the bundle is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the bundle is not found.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1953,7 +1966,7 @@ items. If False (default), deletion fails if space
 is not empty.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If deletion fails (e.g., space not empty
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If deletion fails (e.g., space not empty
     and force=False).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -2661,7 +2674,7 @@ revisions. If False (default), deletion may fail if the
 item has revisions.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If deletion fails.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If deletion fails.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
@@ -3191,7 +3204,7 @@ to the newest revision.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Artifact" title="kumiho.Artifact">Artifact</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the artifact is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the artifact is not found.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -3363,7 +3376,7 @@ without specifying an artifact name.</p>
 artifacts. If False (default), deletion may fail.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If deletion fails.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If deletion fails.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
@@ -3950,7 +3963,7 @@ metadata map.</p>
 deletion rules apply.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If deletion fails.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If deletion fails.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
@@ -4650,8 +4663,7 @@ such as creating versions, applying tags, or deleting resources. Use
 <span class="sig-name descname"><span class="pre">cursor</span></span><a class="headerlink" href="#kumiho.Event.cursor" title="Link to this definition"></a></dt>
 <dd><p>Opaque cursor for resumable streaming.
 Save this value and pass it to <code class="docutils literal notranslate"><span class="pre">event_stream(cursor=...)</span></code> to
-resume from this event after reconnection. Only available on
-Creator tier and above.</p>
+resume from this event after reconnection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
@@ -4922,7 +4934,7 @@ This metadata becomes part of the immutable audit trail.</p></li>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If trying to add the bundle to itself.</p></li>
-<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the member is already in the bundle
+<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the member is already in the bundle
     (status code <code class="docutils literal notranslate"><span class="pre">ALREADY_EXISTS</span></code>).</p></li>
 </ul>
 </dd>
@@ -4972,7 +4984,7 @@ This metadata becomes part of the immutable audit trail.</p></li>
 <dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Optional[<a class="reference internal" href="#kumiho.Revision" title="kumiho.Revision">Revision</a>]]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the member is not in the bundle
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the member is not in the bundle
     (status code <code class="docutils literal notranslate"><span class="pre">NOT_FOUND</span></code>).</p>
 </dd>
 </dl>
@@ -5778,6 +5790,23 @@ for interactive login. Defaults to False for script safety.</p></li>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.client_from_local_ce">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">client_from_local_ce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/discovery.html#client_from_local_ce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.client_from_local_ce" title="Link to this definition"></a></dt>
+<dd><p>Create a tokenless Client for a loopback self-hosted CE server, if present.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">_Client</span></code>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>default_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.14)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py data">
 <dt class="sig sig-object py" id="id16">
 <span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">LATEST_TAG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'latest'</span></span><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
@@ -6401,7 +6430,7 @@ comprehensive search across all entity metadata.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Item" title="kumiho.Item">Item</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the item is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the item is not found.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -6434,7 +6463,7 @@ comprehensive search across all entity metadata.</p>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the item exists but is not a bundle.</p></li>
-<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the bundle is not found.</p></li>
+<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the bundle is not found.</p></li>
 </ul>
 </dd>
 </dl>
@@ -6465,7 +6494,7 @@ comprehensive search across all entity metadata.</p>
 <dd class="field-odd"><p><a class="reference internal" href="#kumiho.Revision" title="kumiho.Revision">Revision</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the revision is not found.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the revision is not found.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -6498,7 +6527,7 @@ comprehensive search across all entity metadata.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the artifact is not found.</p></li>
+<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the artifact is not found.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the kref is missing the artifact name (&amp;a=).</p></li>
 </ul>
 </dd>
@@ -6566,7 +6595,7 @@ or Space) identified by kref.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the entity is not found or the key is reserved.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the entity is not found or the key is reserved.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -6630,7 +6659,7 @@ or Space) identified by kref.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.78.1)"><strong>grpc.RpcError</strong></a> – If the entity is not found or the key is reserved.</p>
+<dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.81.0)"><strong>grpc.RpcError</strong></a> – If the entity is not found or the key is reserved.</p>
 </dd>
 </dl>
 <div class="admonition-example admonition">

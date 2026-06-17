@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.edge &mdash; Kumiho Python SDK v0.10.0</title>
+  <title>kumiho.discovery &mdash; Kumiho Python SDK v0.10.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
@@ -658,7 +658,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.edge</li>
+      <li class="breadcrumb-item active">kumiho.discovery</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -667,502 +667,648 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.edge</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Edge module for Kumiho asset management.</span>
+  <h1>Source code for kumiho.discovery</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Helpers for bootstrapping a Client via the control-plane discovery endpoint.&quot;&quot;&quot;</span>
 
-<span class="sd">This module provides the :class:`Edge` class and related constants for</span>
-<span class="sd">tracking relationships between revisions. Edges enable dependency tracking,</span>
-<span class="sd">lineage visualization, and impact analysis.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="sd">Edge Types:</span>
-<span class="sd">    - ``DEPENDS_ON``: Source depends on target (e.g., model uses texture).</span>
-<span class="sd">    - ``DERIVED_FROM``: Source was created from target (e.g., LOD from highpoly).</span>
-<span class="sd">    - ``REFERENCED``: Source references target (soft dependency).</span>
-<span class="sd">    - ``CONTAINS``: Source contains target (composition).</span>
-<span class="sd">    - ``CREATED_FROM``: Source was generated from target.</span>
-<span class="sd">    - ``BELONGS_TO``: Source belongs to target (grouping).</span>
-<span class="sd">    - ``SUPERSEDES``: Source replaces/supersedes target (belief revision).</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hmac</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ipaddress</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">secrets</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
 
-<span class="sd">Example::</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
-<span class="sd">    import kumiho</span>
-
-<span class="sd">    # Get revisions</span>
-<span class="sd">    model = kumiho.get_revision(&quot;kref://project/models/hero.model?r=1&quot;)</span>
-<span class="sd">    texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?r=2&quot;)</span>
-
-<span class="sd">    # Create a dependency edge</span>
-<span class="sd">    edge = model.create_edge(texture, kumiho.DEPENDS_ON)</span>
-
-<span class="sd">    # Query edges</span>
-<span class="sd">    deps = model.get_edges(kumiho.DEPENDS_ON, kumiho.OUTGOING)</span>
-<span class="sd">    for dep in deps:</span>
-<span class="sd">        print(f&quot;{dep.source_kref} depends on {dep.target_kref}&quot;)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Edge</span> <span class="k">as</span> <span class="n">PbEdge</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">._token_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_bearer_token</span><span class="p">,</span> <span class="n">load_firebase_token</span>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span> <span class="k">as</span> <span class="n">ClientType</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ClientType</span> <span class="o">=</span> <span class="n">Any</span>
+
+<span class="n">Client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">DEFAULT_CONTROL_PLANE_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_CONTROL_PLANE_URL&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;https://control.kumiho.cloud&quot;</span>
+<span class="n">DEFAULT_CACHE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_DISCOVERY_CACHE_FILE&quot;</span><span class="p">)</span>
+    <span class="ow">or</span> <span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.kumiho&quot;</span> <span class="o">/</span> <span class="s2">&quot;discovery-cache.json&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">_DEFAULT_TIMEOUT</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_DISCOVERY_TIMEOUT_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">))</span>
+<span class="n">_DEFAULT_CACHE_KEY</span> <span class="o">=</span> <span class="s2">&quot;__default__&quot;</span>
+<span class="n">_LOCAL_CE_ENDPOINT_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_LOCAL_SERVER_ENDPOINT&quot;</span>
+<span class="n">_LOCAL_CE_PORT_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_LOCAL_SERVER_PORT&quot;</span>
+<span class="n">_LOCAL_CE_TIMEOUT_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_LOCAL_DISCOVERY_TIMEOUT_SECONDS&quot;</span>
+<span class="c1"># Self-hosted CE default loopback port. Must match the server&#39;s CE default</span>
+<span class="c1"># (kumiho-server config/apply_deployment_defaults) and the installer scripts.</span>
+<span class="n">_DEFAULT_LOCAL_CE_PORT</span> <span class="o">=</span> <span class="mi">9190</span>
+<span class="n">_DEFAULT_LOCAL_CE_TARGET</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;127.0.0.1:</span><span class="si">{</span><span class="n">_DEFAULT_LOCAL_CE_PORT</span><span class="si">}</span><span class="s2">&quot;</span>
 
 
-<div class="viewcode-block" id="EdgeTypeValidationError">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.EdgeTypeValidationError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">EdgeTypeValidationError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when an edge type is invalid or potentially malicious.&quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiscoveryError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when the discovery endpoint cannot be reached or returns an error.&quot;&quot;&quot;</span>
 
 
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RegionRouting</span><span class="p">:</span>
+    <span class="n">region_code</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">server_url</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">grpc_authority</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="c1"># Regex for validating edge types - must match Rust server validation</span>
-<span class="n">_EDGE_TYPE_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[A-Z][A-Z0-9_]{0,49}$&#39;</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="validate_edge_type">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.validate_edge_type">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">validate_edge_type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate an edge type for security and correctness.</span>
-<span class="sd">    </span>
-<span class="sd">    Edge types must:</span>
-<span class="sd">    - Start with an uppercase letter</span>
-<span class="sd">    - Contain only uppercase letters, digits, and underscores</span>
-<span class="sd">    - Be 1-50 characters long</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        edge_type: The edge type to validate.</span>
-<span class="sd">        </span>
-<span class="sd">    Raises:</span>
-<span class="sd">        EdgeTypeValidationError: If the edge type is invalid.</span>
-<span class="sd">        </span>
-<span class="sd">    Example::</span>
-<span class="sd">    </span>
-<span class="sd">        from kumiho.edge import validate_edge_type, EdgeTypeValidationError</span>
-<span class="sd">        </span>
-<span class="sd">        try:</span>
-<span class="sd">            validate_edge_type(&quot;DEPENDS_ON&quot;)  # OK</span>
-<span class="sd">            validate_edge_type(&quot;depends_on&quot;)  # Raises error</span>
-<span class="sd">        except EdgeTypeValidationError as e:</span>
-<span class="sd">            print(f&quot;Invalid edge type: {e}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">EdgeTypeValidationError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Edge type must be a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;RegionRouting&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">region_code</span><span class="o">=</span><span class="n">payload</span><span class="p">[</span><span class="s2">&quot;region_code&quot;</span><span class="p">],</span>
+            <span class="n">server_url</span><span class="o">=</span><span class="n">payload</span><span class="p">[</span><span class="s2">&quot;server_url&quot;</span><span class="p">],</span>
+            <span class="n">grpc_authority</span><span class="o">=</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grpc_authority&quot;</span><span class="p">),</span>
         <span class="p">)</span>
-    
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_EDGE_TYPE_PATTERN</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">edge_type</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">EdgeTypeValidationError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid edge_type &#39;</span><span class="si">{</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&#39;. Must start with uppercase letter, &quot;</span>
-            <span class="s2">&quot;contain only uppercase letters, digits, underscores, and be 1-50 chars.&quot;</span>
-        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;region_code&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">region_code</span><span class="p">,</span>
+            <span class="s2">&quot;server_url&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grpc_authority</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;grpc_authority&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grpc_authority</span>
+        <span class="k">return</span> <span class="n">data</span>
 
 
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CacheControl</span><span class="p">:</span>
+    <span class="n">issued_at</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">refresh_at</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">expires_at</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">expires_in_seconds</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">refresh_after_seconds</span><span class="p">:</span> <span class="nb">int</span>
 
-<div class="viewcode-block" id="is_valid_edge_type">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.is_valid_edge_type">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">is_valid_edge_type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if an edge type is valid without raising exceptions.</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;CacheControl&quot;</span><span class="p">:</span>
+        <span class="n">issued_at</span> <span class="o">=</span> <span class="n">_parse_iso8601</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;issued_at&quot;</span><span class="p">))</span>
+        <span class="n">refresh_at</span> <span class="o">=</span> <span class="n">_parse_iso8601</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;refresh_at&quot;</span><span class="p">))</span>
+        <span class="n">expires_at</span> <span class="o">=</span> <span class="n">_parse_iso8601</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expires_at&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">issued_at</span><span class="o">=</span><span class="n">issued_at</span><span class="p">,</span>
+            <span class="n">refresh_at</span><span class="o">=</span><span class="n">refresh_at</span><span class="p">,</span>
+            <span class="n">expires_at</span><span class="o">=</span><span class="n">expires_at</span><span class="p">,</span>
+            <span class="n">expires_in_seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expires_in_seconds&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+            <span class="n">refresh_after_seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;refresh_after_seconds&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;issued_at&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">issued_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">&quot;refresh_at&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">&quot;expires_at&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expires_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">&quot;expires_in_seconds&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expires_in_seconds</span><span class="p">,</span>
+            <span class="s2">&quot;refresh_after_seconds&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_after_seconds</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_expired</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">now</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">moment</span> <span class="o">=</span> <span class="n">now</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">moment</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expires_at</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">should_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">now</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">moment</span> <span class="o">=</span> <span class="n">now</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">moment</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_at</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiscoveryRecord</span><span class="p">:</span>
+    <span class="n">tenant_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">tenant_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">roles</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">guardrails</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
+    <span class="n">region</span><span class="p">:</span> <span class="n">RegionRouting</span>
+    <span class="n">cache_control</span><span class="p">:</span> <span class="n">CacheControl</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;DiscoveryRecord&quot;</span><span class="p">:</span>
+        <span class="n">cache_section</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cache_control&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cache_section</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="s2">&quot;Discovery payload is missing cache_control metadata&quot;</span><span class="p">)</span>
+        <span class="n">region_section</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">region_section</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="s2">&quot;Discovery payload is missing region metadata&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">tenant_id</span><span class="o">=</span><span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">],</span>
+            <span class="n">tenant_name</span><span class="o">=</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_name&quot;</span><span class="p">),</span>
+            <span class="n">roles</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;roles&quot;</span><span class="p">,</span> <span class="p">[])),</span>
+            <span class="n">guardrails</span><span class="o">=</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;guardrails&quot;</span><span class="p">),</span>
+            <span class="n">region</span><span class="o">=</span><span class="n">RegionRouting</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">region_section</span><span class="p">),</span>
+            <span class="n">cache_control</span><span class="o">=</span><span class="n">CacheControl</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">cache_section</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">,</span>
+            <span class="s2">&quot;tenant_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tenant_name</span><span class="p">,</span>
+            <span class="s2">&quot;roles&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roles</span><span class="p">),</span>
+            <span class="s2">&quot;guardrails&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">guardrails</span><span class="p">,</span>
+            <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+            <span class="s2">&quot;cache_control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_control</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_machine_id</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a stable machine identifier for deriving encryption keys.</span>
 <span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        edge_type: The edge type to validate.</span>
-<span class="sd">        </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        True if the edge type is valid, False otherwise.</span>
+<span class="sd">    This provides defense-in-depth by making cache files non-portable</span>
+<span class="sd">    between machines. Falls back to a random ID stored in config dir.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Try platform-specific methods</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">validate_edge_type</span><span class="p">(</span><span class="n">edge_type</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">except</span> <span class="n">EdgeTypeValidationError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+        <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
+            <span class="c1"># Linux: use machine-id</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;/etc/machine-id&quot;</span><span class="p">,</span> <span class="s2">&quot;/var/lib/dbus/machine-id&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
+            <span class="c1"># macOS: use hardware UUID</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;ioreg&quot;</span><span class="p">,</span> <span class="s2">&quot;-rd1&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;IOPlatformExpertDevice&quot;</span><span class="p">],</span>
+                <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="s2">&quot;IOPlatformUUID&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+            <span class="c1"># Windows: use machine GUID</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">winreg</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">winreg</span><span class="o">.</span><span class="n">OpenKey</span><span class="p">(</span>
+                <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_LOCAL_MACHINE</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s2">&quot;SOFTWARE\Microsoft\Cryptography&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">value</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">winreg</span><span class="o">.</span><span class="n">QueryValueEx</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;MachineGuid&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>  <span class="c1"># Fall through to file-based ID</span>
+    
+    <span class="c1"># Fallback: use a randomly generated ID stored in config dir</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._token_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">_config_dir</span>
+    <span class="n">id_file</span> <span class="o">=</span> <span class="n">_config_dir</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;.machine_id&quot;</span>
+    <span class="k">if</span> <span class="n">id_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">id_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    
+    <span class="c1"># Generate and store new ID</span>
+    <span class="n">new_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+    <span class="n">id_file</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">id_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">new_id</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_id</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_derive_cache_key</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Derive an encryption key from machine ID + user context.&quot;&quot;&quot;</span>
+    <span class="n">machine_id</span> <span class="o">=</span> <span class="n">_get_machine_id</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">login</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getlogin</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="n">login</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">uid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">())</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s2">&quot;getuid&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">user_context</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">login</span><span class="si">}{</span><span class="n">uid</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">key_material</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;kumiho-discovery-cache-v1:</span><span class="si">{</span><span class="n">machine_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">user_context</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">key_material</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
 
-<div class="viewcode-block" id="EdgeType">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.EdgeType">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">EdgeType</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standard edge types for Kumiho relationships.</span>
 
-<span class="sd">    These constants define the semantic meaning of relationships between</span>
-<span class="sd">    revisions. Use them when creating or querying edges.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_encrypt_cache_data</span><span class="p">(</span><span class="n">plaintext</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encrypt cache data using XOR cipher with HMAC authentication.</span>
 <span class="sd">    </span>
-<span class="sd">    All edge types use UPPERCASE format as required by the Neo4j graph database.</span>
+<span class="sd">    This provides defense-in-depth, not cryptographic security against</span>
+<span class="sd">    determined attackers. The goal is to prevent casual inspection and</span>
+<span class="sd">    make cache files non-portable between machines.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">_derive_cache_key</span><span class="p">()</span>
+    
+    <span class="c1"># Generate random IV</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">token_bytes</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+    
+    <span class="c1"># XOR encryption (simple but effective for this use case)</span>
+    <span class="n">plaintext_bytes</span> <span class="o">=</span> <span class="n">plaintext</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="n">key_stream</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="n">iv</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    
+    <span class="c1"># Extend key stream for longer plaintexts</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">key_stream</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">plaintext_bytes</span><span class="p">):</span>
+        <span class="n">key_stream</span> <span class="o">+=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="n">key_stream</span><span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">:])</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    
+    <span class="n">ciphertext</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">p</span> <span class="o">^</span> <span class="n">k</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">plaintext_bytes</span><span class="p">,</span> <span class="n">key_stream</span><span class="p">))</span>
+    
+    <span class="c1"># Add HMAC for integrity</span>
+    <span class="n">mac</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span> <span class="o">+</span> <span class="n">ciphertext</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()[:</span><span class="mi">16</span><span class="p">]</span>
+    
+    <span class="c1"># Format: base64(iv + ciphertext + mac)</span>
+    <span class="n">encrypted</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">iv</span> <span class="o">+</span> <span class="n">ciphertext</span> <span class="o">+</span> <span class="n">mac</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;enc:v1:</span><span class="si">{</span><span class="n">encrypted</span><span class="si">}</span><span class="s2">&quot;</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        BELONGS_TO (str): Indicates ownership or grouping relationship.</span>
-<span class="sd">        CREATED_FROM (str): Indicates the source was generated from target.</span>
-<span class="sd">        REFERENCED (str): Indicates a soft reference relationship.</span>
-<span class="sd">        DEPENDS_ON (str): Indicates the source requires the target.</span>
-<span class="sd">        DERIVED_FROM (str): Indicates the source was derived/modified from target.</span>
-<span class="sd">        CONTAINS (str): Indicates the source contains or includes the target.</span>
-<span class="sd">        SUPERSEDES (str): Indicates the source replaces/supersedes the target (belief revision).</span>
 
-<span class="sd">    Example::</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_decrypt_cache_data</span><span class="p">(</span><span class="n">encrypted</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decrypt cache data. Returns None if decryption fails.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">encrypted</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;enc:v1:&quot;</span><span class="p">):</span>
+        <span class="c1"># Unencrypted legacy format - migrate on next write</span>
+        <span class="k">return</span> <span class="n">encrypted</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">_derive_cache_key</span><span class="p">()</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encrypted</span><span class="p">[</span><span class="mi">7</span><span class="p">:])</span>  <span class="c1"># Skip &quot;enc:v1:&quot; prefix</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">:</span>  <span class="c1"># iv(16) + mac(16) minimum</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        
+        <span class="n">iv</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[:</span><span class="mi">16</span><span class="p">]</span>
+        <span class="n">mac</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="o">-</span><span class="mi">16</span><span class="p">:]</span>
+        <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="o">-</span><span class="mi">16</span><span class="p">]</span>
+        
+        <span class="c1"># Verify HMAC</span>
+        <span class="n">expected_mac</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span> <span class="o">+</span> <span class="n">ciphertext</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()[:</span><span class="mi">16</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hmac</span><span class="o">.</span><span class="n">compare_digest</span><span class="p">(</span><span class="n">mac</span><span class="p">,</span> <span class="n">expected_mac</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Integrity check failed</span>
+        
+        <span class="c1"># Decrypt</span>
+        <span class="n">key_stream</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="n">iv</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">key_stream</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">):</span>
+            <span class="n">key_stream</span> <span class="o">+=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="n">key_stream</span><span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">:])</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        
+        <span class="n">plaintext</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">c</span> <span class="o">^</span> <span class="n">k</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">,</span> <span class="n">key_stream</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">plaintext</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
-<span class="sd">        import kumiho</span>
 
-<span class="sd">        # Model depends on texture</span>
-<span class="sd">        model_v1.create_edge(texture_v2, kumiho.DEPENDS_ON)</span>
-
-<span class="sd">        # LOD derived from high-poly</span>
-<span class="sd">        lod_v1.create_edge(highpoly_v1, kumiho.DERIVED_FROM)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiscoveryCache</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encrypted JSON file cache keyed by tenant hint.</span>
+<span class="sd">    </span>
+<span class="sd">    Cache data is encrypted at rest using a machine-specific key,</span>
+<span class="sd">    providing defense-in-depth protection for tenant metadata.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">BELONGS_TO</span> <span class="o">=</span> <span class="s2">&quot;BELONGS_TO&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ownership or grouping relationship.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">encrypt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="ow">or</span> <span class="n">DEFAULT_CACHE_PATH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_encrypt</span> <span class="o">=</span> <span class="n">encrypt</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DiscoveryRecord</span><span class="p">]:</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_all</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">payload</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DiscoveryRecord</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">DiscoveryError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">DiscoveryRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_all</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">tmp_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.tmp&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Serialize to JSON</span>
+        <span class="n">json_content</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="c1"># Encrypt if enabled</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encrypt</span><span class="p">:</span>
+            <span class="n">content_to_write</span> <span class="o">=</span> <span class="n">_encrypt_cache_data</span><span class="p">(</span><span class="n">json_content</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">content_to_write</span> <span class="o">=</span> <span class="n">json_content</span>
+        
+        <span class="k">with</span> <span class="n">tmp_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+            <span class="n">handle</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content_to_write</span><span class="p">)</span>
+        
+        <span class="c1"># Retry replacement to handle Windows file locking</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+        <span class="n">max_retries</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_retries</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tmp_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">max_retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">max_retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="n">handle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            
+            <span class="c1"># Try to decrypt if encrypted</span>
+            <span class="n">decrypted</span> <span class="o">=</span> <span class="n">_decrypt_cache_data</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">decrypted</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Decryption failed - cache may be from different machine</span>
+                <span class="k">return</span> <span class="p">{}</span>
+            
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">decrypted</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DiscoveryManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Coordinates cache usage and remote discovery calls.&quot;&quot;&quot;</span>
 
-    <span class="n">CREATED_FROM</span> <span class="o">=</span> <span class="s2">&quot;CREATED_FROM&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source was generated/created from target.&quot;&quot;&quot;</span>
-
-    <span class="n">REFERENCED</span> <span class="o">=</span> <span class="s2">&quot;REFERENCED&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft reference relationship.&quot;&quot;&quot;</span>
-
-    <span class="n">DEPENDS_ON</span> <span class="o">=</span> <span class="s2">&quot;DEPENDS_ON&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source requires target to function.&quot;&quot;&quot;</span>
-
-    <span class="n">DERIVED_FROM</span> <span class="o">=</span> <span class="s2">&quot;DERIVED_FROM&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source was derived or modified from target.&quot;&quot;&quot;</span>
-
-    <span class="n">CONTAINS</span> <span class="o">=</span> <span class="s2">&quot;CONTAINS&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source contains or includes target.&quot;&quot;&quot;</span>
-
-    <span class="n">SUPERSEDES</span> <span class="o">=</span> <span class="s2">&quot;SUPERSEDES&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Source replaces or supersedes target (belief revision).&quot;&quot;&quot;</span></div>
-
-
-<div class="viewcode-block" id="EdgeDirection">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.EdgeDirection">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">EdgeDirection</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Direction constants for edge traversal queries.</span>
-
-<span class="sd">    When querying edges, you can specify which direction to traverse:</span>
-<span class="sd">    outgoing edges (from source), incoming edges (to target), or both.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        OUTGOING (int): Edges where the queried revision is the source.</span>
-<span class="sd">        INCOMING (int): Edges where the queried revision is the target.</span>
-<span class="sd">        BOTH (int): Edges in either direction.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        import kumiho</span>
-
-<span class="sd">        # Get dependencies (what this revision depends on)</span>
-<span class="sd">        deps = revision.get_edges(kumiho.DEPENDS_ON, kumiho.OUTGOING)</span>
-
-<span class="sd">        # Get dependents (what depends on this revision)</span>
-<span class="sd">        dependents = revision.get_edges(kumiho.DEPENDS_ON, kumiho.INCOMING)</span>
-
-<span class="sd">        # Get all relationships</span>
-<span class="sd">        all_edges = revision.get_edges(direction=kumiho.BOTH)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">OUTGOING</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edges where the queried revision is the source.&quot;&quot;&quot;</span>
-
-    <span class="n">INCOMING</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edges where the queried revision is the target.&quot;&quot;&quot;</span>
-
-    <span class="n">BOTH</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Edges in either direction.&quot;&quot;&quot;</span></div>
-
-
-
-<div class="viewcode-block" id="Edge">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Edge</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A relationship between two revisions in the Kumiho system.</span>
-
-<span class="sd">    Edges represent semantic relationships between revisions, enabling</span>
-<span class="sd">    dependency tracking, lineage visualization, and impact analysis.</span>
-<span class="sd">    They are directional (source -&gt; target) and typed.</span>
-
-<span class="sd">    Common use cases:</span>
-<span class="sd">        - Track which textures a model uses (DEPENDS_ON)</span>
-<span class="sd">        - Record that a LOD was created from a high-poly model (DERIVED_FROM)</span>
-<span class="sd">        - Link a render to the scene file that created it (CREATED_FROM)</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        source_kref (Kref): Reference to the source revision.</span>
-<span class="sd">        target_kref (Kref): Reference to the target revision.</span>
-<span class="sd">        edge_type (str): The type of relationship (see :class:`EdgeType`).</span>
-<span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
-<span class="sd">        created_at (Optional[str]): ISO timestamp when the edge was created.</span>
-<span class="sd">        author (str): The user ID who created the edge.</span>
-<span class="sd">        username (str): Display name of the creator.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        import kumiho</span>
-
-<span class="sd">        # Get revisions</span>
-<span class="sd">        model = kumiho.get_revision(&quot;kref://project/models/hero.model?r=1&quot;)</span>
-<span class="sd">        texture = kumiho.get_revision(&quot;kref://project/tex/skin.texture?r=2&quot;)</span>
-
-<span class="sd">        # Create edge with metadata</span>
-<span class="sd">        edge = model.create_edge(texture, kumiho.DEPENDS_ON, {</span>
-<span class="sd">            &quot;channel&quot;: &quot;diffuse&quot;,</span>
-<span class="sd">            &quot;uv_set&quot;: &quot;0&quot;</span>
-<span class="sd">        })</span>
-
-<span class="sd">        # Inspect edge</span>
-<span class="sd">        print(f&quot;Type: {edge.edge_type}&quot;)</span>
-<span class="sd">        print(f&quot;From: {edge.source_kref}&quot;)</span>
-<span class="sd">        print(f&quot;To: {edge.target_kref}&quot;)</span>
-
-<span class="sd">        # Delete edge</span>
-<span class="sd">        edge.delete()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="Edge.__init__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb_edge</span><span class="p">:</span> <span class="n">PbEdge</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an Edge from a protobuf message.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            pb_edge: The protobuf Edge message.</span>
-<span class="sd">            client: The client instance for making API calls.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">source_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="o">.</span><span class="n">from_pb</span><span class="p">(</span><span class="n">pb_edge</span><span class="o">.</span><span class="n">source_kref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="o">.</span><span class="n">from_pb</span><span class="p">(</span><span class="n">pb_edge</span><span class="o">.</span><span class="n">target_kref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">edge_type</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">edge_type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pb_edge</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">author</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">pb_edge</span><span class="o">.</span><span class="n">username</span></div>
-
-
-<div class="viewcode-block" id="Edge.__repr__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge.__repr__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the Edge.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Edge </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">target_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&gt;&quot;</span></div>
-
-
-<div class="viewcode-block" id="Edge.delete">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.edge.Edge.delete">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete this edge.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            force: Reserved for future use.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; edge = model.create_edge(texture, kumiho.DEPENDS_ON)</span>
-<span class="sd">            &gt;&gt;&gt; edge.delete()  # Remove the relationship</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_kref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_kref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_type</span><span class="p">)</span></div>
-</div>
-
-
-
-<span class="c1"># --- Graph Traversal Result Classes ---</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
-
-
-<div class="viewcode-block" id="PathStep">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.PathStep">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">PathStep</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A single step in a traversal path.</span>
-
-<span class="sd">    Represents one hop in a graph traversal, including the revision</span>
-<span class="sd">    reached and the edge type used to reach it.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        revision_kref (Kref): The revision at this step.</span>
-<span class="sd">        edge_type (str): The relationship type used to reach this revision.</span>
-<span class="sd">        depth (int): Distance from the origin (0 = origin).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        for step in path.steps:</span>
-<span class="sd">            print(f&quot;Step {step.depth}: {step.revision_kref} via {step.edge_type}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">revision_kref</span><span class="p">:</span> <span class="n">Kref</span>
-    <span class="n">edge_type</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span></div>
-
-
-
-<div class="viewcode-block" id="RevisionPath">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.RevisionPath">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">RevisionPath</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A complete path between revisions.</span>
-
-<span class="sd">    Represents a sequence of steps from one revision to another,</span>
-<span class="sd">    used in traversal and shortest-path queries.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        steps (List[PathStep]): The sequence of steps in the path.</span>
-<span class="sd">        total_depth (int): Total length of the path.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        path = source_revision.find_path_to(target_revision)</span>
-<span class="sd">        if path:</span>
-<span class="sd">            print(f&quot;Path length: {path.total_depth}&quot;)</span>
-<span class="sd">            for step in path.steps:</span>
-<span class="sd">                print(f&quot;  -&gt; {step.revision_kref}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PathStep</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="n">total_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
-
-
-
-<div class="viewcode-block" id="ImpactedRevision">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.ImpactedRevision">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">ImpactedRevision</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A revision impacted by changes to another revision.</span>
-
-<span class="sd">    Represents a revision that directly or indirectly depends on</span>
-<span class="sd">    a target revision, used in impact analysis.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        revision_kref (Kref): The impacted revision.</span>
-<span class="sd">        item_kref (Kref): The item containing the impacted revision.</span>
-<span class="sd">        impact_depth (int): How many hops away from the target.</span>
-<span class="sd">        impact_path_types (List[str]): Edge types in the impact chain.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        impact = texture_v1.analyze_impact()</span>
-<span class="sd">        for iv in impact:</span>
-<span class="sd">            print(f&quot;{iv.revision_kref} at depth {iv.impact_depth}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">revision_kref</span><span class="p">:</span> <span class="n">Kref</span>
-    <span class="n">item_kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Kref</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">impact_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">impact_path_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="TraversalResult">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.TraversalResult">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TraversalResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a graph traversal query.</span>
-
-<span class="sd">    Contains all revisions discovered during a multi-hop traversal,</span>
-<span class="sd">    along with optional path information.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        revision_krefs (List[Kref]): Flat list of discovered revision references.</span>
-<span class="sd">        paths (List[RevisionPath]): Path information if requested.</span>
-<span class="sd">        edges (List[Edge]): All traversed edges.</span>
-<span class="sd">        total_count (int): Total number of discovered revisions.</span>
-<span class="sd">        truncated (bool): True if results were limited by max_depth or limit.</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        # Get all transitive dependencies</span>
-<span class="sd">        result = revision.get_all_dependencies(max_depth=5)</span>
-<span class="sd">        </span>
-<span class="sd">        print(f&quot;Found {result.total_count} dependencies&quot;)</span>
-<span class="sd">        if result.truncated:</span>
-<span class="sd">            print(&quot;Results were truncated&quot;)</span>
-<span class="sd">        </span>
-<span class="sd">        for kref in result.revision_krefs:</span>
-<span class="sd">            print(f&quot;  - {kref}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="TraversalResult.__init__">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.TraversalResult.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Kref</span><span class="p">],</span>
-        <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RevisionPath</span><span class="p">],</span>
-        <span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Edge&#39;</span><span class="p">],</span>
-        <span class="n">total_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">truncated</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-        <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;_Client&#39;</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">control_plane_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cache_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">revision_krefs</span> <span class="o">=</span> <span class="n">revision_krefs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">total_count</span> <span class="o">=</span> <span class="n">total_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">truncated</span> <span class="o">=</span> <span class="n">truncated</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">control_plane_url</span> <span class="ow">or</span> <span class="n">DEFAULT_CONTROL_PLANE_URL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">DiscoveryCache</span><span class="p">(</span><span class="n">cache_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span> <span class="ow">or</span> <span class="n">_DEFAULT_TIMEOUT</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">id_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">force_refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DiscoveryRecord</span><span class="p">:</span>
+        <span class="n">cache_key</span> <span class="o">=</span> <span class="n">tenant_hint</span> <span class="ow">or</span> <span class="n">_DEFAULT_CACHE_KEY</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">fetch_fresh</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DiscoveryRecord</span><span class="p">:</span>
+            <span class="n">last_error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DiscoveryError</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">_discovery_token_candidates</span><span class="p">(</span><span class="n">id_token</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">fresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_remote</span><span class="p">(</span><span class="n">id_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="o">=</span><span class="n">tenant_hint</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="n">fresh</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">fresh</span>
+                <span class="k">except</span> <span class="n">DiscoveryError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="n">last_error</span> <span class="o">=</span> <span class="n">exc</span>
+                    <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">last_error</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">last_error</span>
+            <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="s2">&quot;Discovery failed without a usable bearer token&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">force_refresh</span><span class="p">:</span>
+            <span class="n">cached</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cached</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">cached</span><span class="o">.</span><span class="n">cache_control</span><span class="o">.</span><span class="n">is_expired</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">cached</span><span class="o">.</span><span class="n">cache_control</span><span class="o">.</span><span class="n">should_refresh</span><span class="p">():</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">fetch_fresh</span><span class="p">()</span>
+                    <span class="k">except</span> <span class="n">DiscoveryError</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">cached</span><span class="o">.</span><span class="n">cache_control</span><span class="o">.</span><span class="n">is_expired</span><span class="p">():</span>
+                            <span class="k">return</span> <span class="n">cached</span>
+                        <span class="k">raise</span>
+                <span class="k">return</span> <span class="n">cached</span>
+
+        <span class="k">return</span> <span class="n">fetch_fresh</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_remote</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">id_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DiscoveryRecord</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">kumiho</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">_sdk_version</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="n">_build_discovery_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">id_token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;kumiho-python/</span><span class="si">{</span><span class="n">_sdk_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">&quot;tenant_hint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tenant_hint</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Discovery endpoint returned </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="s2">&quot;Discovery endpoint returned invalid JSON&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+        <span class="k">return</span> <span class="n">DiscoveryRecord</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;TraversalResult count=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_count</span><span class="si">}</span><span class="s2"> truncated=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">truncated</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">client_from_discovery</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">id_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">control_plane_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cache_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">force_refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">default_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ClientType&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a Client configured via the public discovery endpoint.</span>
 
-<div class="viewcode-block" id="TraversalResult.get_revisions">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.TraversalResult.get_revisions">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_revisions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Revision&#39;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch full Revision objects for all discovered revisions.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[Revision]: List of Revision objects.</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            result = revision.get_all_dependencies()</span>
-<span class="sd">            for v in result.get_revisions():</span>
-<span class="sd">                print(f&quot;{v.kref} - {v.metadata}&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span> <span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">revision_krefs</span><span class="p">]</span></div>
-</div>
-
-
-
-<div class="viewcode-block" id="ShortestPathResult">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.ShortestPathResult">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ShortestPathResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a shortest path query.</span>
-
-<span class="sd">    Contains path(s) between two revisions if found.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        paths (List[RevisionPath]): One or more shortest paths found.</span>
-<span class="sd">        path_exists (bool): True if any path was found.</span>
-<span class="sd">        path_length (int): Length of the shortest path(s).</span>
-
-<span class="sd">    Example::</span>
-
-<span class="sd">        result = source_revision.find_path_to(target_revision)</span>
-<span class="sd">        if result.path_exists:</span>
-<span class="sd">            print(f&quot;Found path of length {result.path_length}&quot;)</span>
-<span class="sd">            for path in result.paths:</span>
-<span class="sd">                for step in path.steps:</span>
-<span class="sd">                    print(f&quot;  {step.depth}: {step.revision_kref}&quot;)</span>
+<span class="sd">    The helper caches discovery payloads based on the tenant hint, respects the</span>
+<span class="sd">    cache-control metadata emitted by the control plane, and refreshes the</span>
+<span class="sd">    routing info once the `refresh_after_seconds` deadline passes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ShortestPathResult.__init__">
-<a class="viewcode-back" href="../../api/edge.html#kumiho.edge.ShortestPathResult.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RevisionPath</span><span class="p">],</span>
-        <span class="n">path_exists</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-        <span class="n">path_length</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="n">paths</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path_exists</span> <span class="o">=</span> <span class="n">path_exists</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">path_length</span> <span class="o">=</span> <span class="n">path_length</span></div>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">id_token</span> <span class="ow">or</span> <span class="n">load_bearer_token</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span>
+            <span class="s2">&quot;A bearer token is required. Set KUMIHO_AUTH_TOKEN or run kumiho-auth login.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">DiscoveryManager</span><span class="p">(</span>
+        <span class="n">control_plane_url</span><span class="o">=</span><span class="n">control_plane_url</span><span class="p">,</span>
+        <span class="n">cache_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">cache_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">cache_path</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">id_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="o">=</span><span class="n">tenant_hint</span><span class="p">,</span> <span class="n">force_refresh</span><span class="o">=</span><span class="n">force_refresh</span><span class="p">)</span>
+
+    <span class="n">target</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">grpc_authority</span> <span class="ow">or</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">server_url</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_metadata</span> <span class="ow">or</span> <span class="p">[])</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">,</span> <span class="n">record</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">))</span>
+
+    <span class="n">client_cls</span> <span class="o">=</span> <span class="n">_get_client_class</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">client_cls</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">auth_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span> <span class="n">default_metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;ShortestPathResult exists=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path_exists</span><span class="si">}</span><span class="s2"> length=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path_length</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+<div class="viewcode-block" id="client_from_local_ce">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.client_from_local_ce">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">client_from_local_ce</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">default_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;ClientType&quot;</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a tokenless Client for a loopback self-hosted CE server, if present.&quot;&quot;&quot;</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">first_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RevisionPath</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the first (or only) shortest path.</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">resolve_local_ce_endpoint</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            RevisionPath if a path exists, None otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="k">else</span> <span class="kc">None</span></div>
+    <span class="n">client_cls</span> <span class="o">=</span> <span class="n">_get_client_class</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">client_cls</span><span class="p">(</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+        <span class="n">auth_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">default_metadata</span><span class="o">=</span><span class="n">default_metadata</span><span class="p">,</span>
+        <span class="n">use_discovery</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">enable_auto_login</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">skip_auth_token_load</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_local_ce_endpoint</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a loopback CE gRPC target when a local server advertises CE mode.&quot;&quot;&quot;</span>
+
+    <span class="n">probe_timeout</span> <span class="o">=</span> <span class="n">timeout</span> <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_local_ce_timeout</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">_local_ce_candidates</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">_probe_local_ce_candidate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">probe_timeout</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">target</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_local_ce_timeout</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_LOCAL_CE_TIMEOUT_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.5</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">raw</span><span class="p">),</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.5</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_local_ce_candidates</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">endpoint</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_LOCAL_CE_ENDPOINT_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">endpoint</span> <span class="ow">and</span> <span class="n">endpoint</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_normalise_local_ce_target</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)]</span>
+
+    <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_LOCAL_CE_PORT_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">port</span> <span class="ow">and</span> <span class="n">port</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_LOCAL_CE_PORT_ENV</span><span class="si">}</span><span class="s2"> must be a numeric loopback port&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;127.0.0.1:</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">_DEFAULT_LOCAL_CE_TARGET</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalise_local_ce_target</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">text</span> <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;//</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">hostname</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_LOCAL_CE_ENDPOINT_ENV</span><span class="si">}</span><span class="s2"> must include a loopback host&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_loopback_host</span><span class="p">(</span><span class="n">host</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_LOCAL_CE_ENDPOINT_ENV</span><span class="si">}</span><span class="s2"> must point to localhost, 127.0.0.1, or ::1&quot;</span>
+        <span class="p">)</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">port</span> <span class="ow">or</span> <span class="n">_DEFAULT_LOCAL_CE_PORT</span>
+    <span class="k">if</span> <span class="n">port</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">port</span> <span class="o">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_LOCAL_CE_ENDPOINT_ENV</span><span class="si">}</span><span class="s2"> port must be between 1 and 65535&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_format_host_for_target</span><span class="p">(</span><span class="n">host</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_loopback_host</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">host</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;localhost&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_address</span><span class="p">(</span><span class="n">host</span><span class="p">)</span><span class="o">.</span><span class="n">is_loopback</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_host_for_target</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">host</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">host</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">]&quot;</span>
+    <span class="k">return</span> <span class="n">host</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_probe_local_ce_candidate</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">/api/_live&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;deployment_mode&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;self_hosted_ce&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_iso8601</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DiscoveryError</span><span class="p">(</span><span class="s2">&quot;Discovery payload missing required timestamp&quot;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;Z&quot;</span><span class="p">):</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;+00:00&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_discovery_url</span><span class="p">(</span><span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api/discovery/tenant&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">base</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api/discovery&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/tenant&quot;</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/discovery/tenant&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/api/discovery/tenant&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_discovery_token_candidates</span><span class="p">(</span><span class="n">candidate</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">candidate</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_control_plane_token</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">candidates</span>
+
+    <span class="n">firebase</span> <span class="o">=</span> <span class="n">load_firebase_token</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">firebase</span> <span class="ow">and</span> <span class="n">firebase</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">firebase</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">candidates</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_decode_claims</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">padding</span> <span class="o">=</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64decode</span><span class="p">((</span><span class="n">payload</span> <span class="o">+</span> <span class="n">padding</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">obj</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_control_plane_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">claims</span> <span class="o">=</span> <span class="n">_decode_claims</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">claims</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">iss</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;iss&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">iss</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">iss</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https://control.kumiho.cloud&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">aud</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aud&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aud</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">aud</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;kumiho-server&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_client_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+    <span class="k">global</span> <span class="n">Client</span>
+    <span class="k">if</span> <span class="n">Client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span> <span class="k">as</span> <span class="n">RealClient</span>
+
+        <span class="n">Client</span> <span class="o">=</span> <span class="n">RealClient</span>
+    <span class="k">return</span> <span class="n">Client</span>
 </pre></div>
 
            </div>

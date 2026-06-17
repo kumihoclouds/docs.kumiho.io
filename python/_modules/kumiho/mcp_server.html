@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.9.14</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.10.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d0ba2447"></script>
+      <script src="../../_static/documentation_options.js?v=82662543"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -463,6 +463,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.client_from_local_ce"><code class="docutils literal notranslate"><span class="pre">client_from_local_ce()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id16"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id17"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
@@ -571,6 +572,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_item_revisions"><code class="docutils literal notranslate"><span class="pre">tool_get_item_revisions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_by_tag()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_revision_as_of"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_as_of()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_batch_get_revisions"><code class="docutils literal notranslate"><span class="pre">tool_batch_get_revisions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_create_revision"><code class="docutils literal notranslate"><span class="pre">tool_create_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_tag_revision"><code class="docutils literal notranslate"><span class="pre">tool_tag_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_create_edge"><code class="docutils literal notranslate"><span class="pre">tool_create_edge()</span></code></a></li>
@@ -601,25 +603,30 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.10.0] - 2026-06-17</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id4">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id2">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id11">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -1262,9 +1269,13 @@
     <span class="n">context_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">include_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">include_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for items across projects and spaces.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+    <span class="k">if</span> <span class="n">auth_token</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;KUMIHO_AUTH_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_token</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
     <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
         <span class="n">context_filter</span><span class="o">=</span><span class="n">context_filter</span><span class="p">,</span>
@@ -1302,6 +1313,7 @@
     <span class="n">include_artifact_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">include_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Full-text fuzzy search across items (Google-like search).</span>
 
@@ -1309,6 +1321,9 @@
 <span class="sd">    (fulltext + vector similarity) for improved accuracy when searching</span>
 <span class="sd">    revision metadata.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+    <span class="k">if</span> <span class="n">auth_token</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;KUMIHO_AUTH_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_token</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
         <span class="n">query</span><span class="p">,</span>
@@ -1563,6 +1578,7 @@
     <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;search&quot;</span><span class="p">,</span>
     <span class="n">include_revision_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">unroll_revisions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">memory_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve memory krefs using fuzzy search with bundle and fallback support.</span>
 
@@ -2113,6 +2129,44 @@
     <span class="k">except</span> <span class="n">grpc</span><span class="o">.</span><span class="n">RpcError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span><span class="p">()</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Item not found&quot;</span><span class="p">,</span> <span class="s2">&quot;not_found&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+
+
+<div class="viewcode-block" id="tool_batch_get_revisions">
+<a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.tool_batch_get_revisions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tool_batch_get_revisions</span><span class="p">(</span>
+    <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">item_krefs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span>
+    <span class="n">allow_partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Batch-fetch multiple revisions in a single call.</span>
+
+<span class="sd">    Supports two modes:</span>
+<span class="sd">    - **Direct revision krefs**: provide ``revision_krefs`` to fetch specific revisions.</span>
+<span class="sd">    - **Item krefs + tag**: provide ``item_krefs`` and a ``tag`` to resolve</span>
+<span class="sd">      that tag (e.g. &#39;latest&#39;, &#39;published&#39;) for each item.</span>
+
+<span class="sd">    Returns found revisions and a list of krefs that could not be resolved.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_ensure_configured</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">revisions</span><span class="p">,</span> <span class="n">not_found</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">batch_get_revisions</span><span class="p">(</span>
+            <span class="n">revision_krefs</span><span class="o">=</span><span class="n">revision_krefs</span> <span class="ow">or</span> <span class="p">[],</span>
+            <span class="n">item_krefs</span><span class="o">=</span><span class="n">item_krefs</span> <span class="ow">or</span> <span class="p">[],</span>
+            <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+            <span class="n">allow_partial</span><span class="o">=</span><span class="n">allow_partial</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;revisions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">_serialize_revision</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">revisions</span><span class="p">],</span>
+            <span class="s2">&quot;not_found&quot;</span><span class="p">:</span> <span class="n">not_found</span><span class="p">,</span>
+            <span class="s2">&quot;found_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">revisions</span><span class="p">),</span>
+            <span class="s2">&quot;requested_count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">revision_krefs</span> <span class="ow">or</span> <span class="p">[])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">item_krefs</span> <span class="ow">or</span> <span class="p">[]),</span>
+        <span class="p">}</span>
+    <span class="k">except</span> <span class="n">grpc</span><span class="o">.</span><span class="n">RpcError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
@@ -2689,6 +2743,11 @@
                     <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Whether to include full metadata for each item. Default: false&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                 <span class="p">},</span>
+                <span class="s2">&quot;auth_token&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal: bearer token to use for this call (overrides subprocess credentials). Pass the current session token to enable cross-project access.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
             <span class="p">},</span>
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">},</span>
@@ -2737,6 +2796,11 @@
                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Maximum number of results to return. Default: 20&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;auth_token&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal: bearer token to use for this call (overrides subprocess credentials). Pass the current session token to enable cross-project access.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">},</span>
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span>
@@ -2807,7 +2871,7 @@
                     <span class="p">),</span>
                 <span class="p">},</span>
             <span class="p">},</span>
-            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;user_text&quot;</span><span class="p">,</span> <span class="s2">&quot;assistant_text&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;user_text&quot;</span><span class="p">],</span>
         <span class="p">},</span>
     <span class="p">},</span>
     <span class="p">{</span>
@@ -2864,6 +2928,11 @@
                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Also search revision metadata for deeper matching (default: true)&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;memory_types&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Filter by memory type (e.g. [&#39;decision&#39;, &#39;summary&#39;, &#39;error&#39;])&quot;</span><span class="p">,</span>
                 <span class="p">},</span>
             <span class="p">},</span>
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[],</span>
@@ -2941,6 +3010,35 @@
                 <span class="p">},</span>
             <span class="p">},</span>
             <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;item_kref&quot;</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;kumiho_batch_get_revisions&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Batch-fetch multiple revisions in a single call. Two modes: (1) provide revision_krefs to fetch specific revisions, or (2) provide item_krefs + tag to resolve that tag for each item. Returns found revisions and a list of krefs that could not be resolved.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;revision_krefs&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;List of revision kref URIs to fetch directly (e.g., [&#39;kref://proj/space/item.kind?r=1&#39;, ...])&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;item_krefs&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;List of item kref URIs to resolve a tag for (e.g., [&#39;kref://proj/space/item.kind&#39;, ...])&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Tag to resolve when using item_krefs mode (default: &#39;latest&#39;)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;allow_partial&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;If true, return partial results when some krefs are not found (default: true)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
         <span class="p">},</span>
     <span class="p">},</span>
     <span class="c1"># Read operations - Artifacts</span>
@@ -3587,6 +3685,7 @@
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind_filter&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_metadata&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;auth_token&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_fulltext_search&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_fulltext_search</span><span class="p">(</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">],</span>
@@ -3597,6 +3696,7 @@
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_artifact_metadata&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_metadata&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;limit&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;auth_token&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_memory_store&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_memory_store</span><span class="p">(</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="s2">&quot;CognitiveMemory&quot;</span><span class="p">),</span>
@@ -3629,6 +3729,7 @@
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;limit&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">),</span>
         <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;include_revision_metadata&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="n">memory_types</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_types&quot;</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_get_item_revisions&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_get_item_revisions</span><span class="p">(</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;item_kref&quot;</span><span class="p">],</span>
@@ -3643,6 +3744,12 @@
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;item_kref&quot;</span><span class="p">],</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">],</span>
         <span class="n">args</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;kumiho_batch_get_revisions&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_batch_get_revisions</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;revision_krefs&quot;</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;item_krefs&quot;</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="s2">&quot;latest&quot;</span><span class="p">),</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;allow_partial&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">&quot;kumiho_get_artifacts&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_get_artifacts</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;revision_kref&quot;</span><span class="p">]),</span>
     <span class="s2">&quot;kumiho_get_artifact&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">args</span><span class="p">:</span> <span class="n">tool_get_artifact</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;artifact_kref&quot;</span><span class="p">]),</span>

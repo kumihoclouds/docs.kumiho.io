@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; Kumiho Python SDK v0.9.14</title>
+  <title>Changelog &mdash; Kumiho Python SDK v0.10.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=d0ba2447"></script>
+      <script src="_static/documentation_options.js?v=82662543"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -466,6 +466,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.client_from_local_ce"><code class="docutils literal notranslate"><span class="pre">client_from_local_ce()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#id16"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#id17"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
@@ -574,6 +575,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_item_revisions"><code class="docutils literal notranslate"><span class="pre">tool_get_item_revisions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_by_tag()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_get_revision_as_of"><code class="docutils literal notranslate"><span class="pre">tool_get_revision_as_of()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_batch_get_revisions"><code class="docutils literal notranslate"><span class="pre">tool_batch_get_revisions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_revision"><code class="docutils literal notranslate"><span class="pre">tool_create_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_tag_revision"><code class="docutils literal notranslate"><span class="pre">tool_tag_revision()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/mcp_server.html#kumiho.mcp_server.tool_create_edge"><code class="docutils literal notranslate"><span class="pre">tool_create_edge()</span></code></a></li>
@@ -604,25 +606,30 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[0.10.0] - 2026-06-17</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -668,9 +675,33 @@
 <p>The format is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
 and this project adheres to <a class="reference external" href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <section id="id1">
-<h2>[0.4.0] - 2025-12-03<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>[0.10.0] - 2026-06-17<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <section id="added">
 <h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full-text fuzzy search</strong> — <code class="docutils literal notranslate"><span class="pre">search(query,</span> <span class="pre">...)</span></code> returns ranked items
+(<code class="docutils literal notranslate"><span class="pre">SearchResult</span></code> with <code class="docutils literal notranslate"><span class="pre">item</span></code>, <code class="docutils literal notranslate"><span class="pre">score</span></code>, <code class="docutils literal notranslate"><span class="pre">matched_in</span></code>), with automatic typo tolerance.</p></li>
+<li><p><strong>Semantic revision scoring</strong> — <code class="docutils literal notranslate"><span class="pre">score_revisions(query,</span> <span class="pre">revision_krefs)</span></code> scores
+revisions against a query using server-side embeddings and/or fulltext.</p></li>
+<li><p><strong>Batch revision fetch</strong> — <code class="docutils literal notranslate"><span class="pre">batch_get_revisions(revision_krefs=...,</span> <span class="pre">item_krefs=...,</span> <span class="pre">tag=...)</span></code>
+fetches many revisions in a single call, returning <code class="docutils literal notranslate"><span class="pre">(revisions,</span> <span class="pre">not_found)</span></code>.</p></li>
+<li><p><strong>By-kref accessors</strong> — <code class="docutils literal notranslate"><span class="pre">get_artifact_by_kref()</span></code>, <code class="docutils literal notranslate"><span class="pre">get_bundle_by_kref()</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">client.get_item_from_revision()</span></code>.</p></li>
+</ul>
+</section>
+<section id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The advanced <code class="docutils literal notranslate"><span class="pre">event_stream()</span></code> parameters (<code class="docutils literal notranslate"><span class="pre">cursor</span></code>, <code class="docutils literal notranslate"><span class="pre">consumer_group</span></code>,
+<code class="docutils literal notranslate"><span class="pre">from_beginning</span></code>) and <code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code> are now generally available.</p></li>
+<li><p>The C++ and Dart SDKs now have full feature parity with the Python SDK.</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>[0.4.0] - 2025-12-03<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>Added<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Event streaming cursor support</strong>: <code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code> attribute for resumable streaming</p></li>
 <li><p><strong>EventCapabilities API</strong>: <code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code> to query tier-based streaming features</p></li>
@@ -684,8 +715,8 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <li><p>Tier capability documentation with Coming Soon markers</p></li>
 </ul>
 </section>
-<section id="changed">
-<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<section id="id4">
+<h3>Changed<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Updated event streaming documentation with tier matrix</p></li>
 <li><p>Event object now includes <code class="docutils literal notranslate"><span class="pre">cursor</span></code> attribute (None for Free tier)</p></li>
@@ -701,8 +732,8 @@ and this project adheres to <a class="reference external" href="https://semver.o
 </section>
 <section id="xx-xx">
 <h2>[0.3.0] - 2024-XX-XX<a class="headerlink" href="#xx-xx" title="Link to this heading"></a></h2>
-<section id="id2">
-<h3>Added<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<section id="id5">
+<h3>Added<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Comprehensive Google-style docstrings for all public APIs</p></li>
 <li><p>Sphinx documentation with ReadTheDocs theme</p></li>
@@ -711,8 +742,8 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <li><p>Type hints throughout the codebase</p></li>
 </ul>
 </section>
-<section id="id3">
-<h3>Changed<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="id6">
+<h3>Changed<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> with full PyPI metadata</p></li>
 <li><p>Improved error messages with more context</p></li>
@@ -725,28 +756,28 @@ and this project adheres to <a class="reference external" href="https://semver.o
 </ul>
 </section>
 </section>
-<section id="id4">
-<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
-<section id="id5">
-<h3>Added<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="id7">
+<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>Added<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Event streaming support with <code class="docutils literal notranslate"><span class="pre">stream_events()</span></code></p></li>
 <li><p>Link traversal for lineage tracking</p></li>
 <li><p>Batch operations for multiple artifacts</p></li>
 </ul>
 </section>
-<section id="id6">
-<h3>Changed<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Changed<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Switched to context-variable-based client management</p></li>
 <li><p>Improved connection pooling for gRPC channels</p></li>
 </ul>
 </section>
 </section>
-<section id="id7">
-<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
-<section id="id8">
-<h3>Added<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<section id="id10">
+<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h3>Added<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Initial release</p></li>
 <li><p>Core entity classes: Project, Space, Item, Revision, Artifact, Edge</p></li>
