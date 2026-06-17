@@ -1,0 +1,189 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; Kumiho Go SDK 0.10.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=82662543"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="kumiho" href="api.html" />
+    <link rel="prev" title="Kumiho Go SDK" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Kumiho Go SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connect-authenticate">Connect &amp; authenticate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-assets">Create assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search-discovery">Search &amp; discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">kumiho</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#kumihopb">kumihopb</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#quickstart">quickstart</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Kumiho Go SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting-started.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>This guide walks through installing the Kumiho Go SDK and creating your first
+assets. For the complete, generated API reference see <a class="reference internal" href="api.html"><span class="std std-doc">API Reference</span></a>.</p>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>go<span class="w"> </span>get<span class="w"> </span>github.com/KumihoIO/kumiho-SDKs/go
+</pre></div>
+</div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nx">kumiho</span><span class="w"> </span><span class="s">&quot;github.com/KumihoIO/kumiho-SDKs/go&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="connect-authenticate">
+<h2>Connect &amp; authenticate<a class="headerlink" href="#connect-authenticate" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Connect</span></code> dials a Kumiho data-plane endpoint. Authentication is loaded
+automatically from the <code class="docutils literal notranslate"><span class="pre">KUMIHO_AUTH_TOKEN</span></code> environment variable or from the
+credentials file written by <code class="docutils literal notranslate"><span class="pre">kumiho-cli</span> <span class="pre">login</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">kumiho</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;https://us-central.kumiho.cloud&quot;</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">defer</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="create-assets">
+<h2>Create assets<a class="headerlink" href="#create-assets" title="Link to this heading"></a></h2>
+<p>The fluent domain types mirror the Python SDK:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">project</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">CreateProject</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-vfx-project&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;VFX assets&quot;</span><span class="p">)</span>
+<span class="nx">space</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w">   </span><span class="o">:=</span><span class="w"> </span><span class="nx">project</span><span class="p">.</span><span class="nx">CreateSpace</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;characters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w">    </span><span class="o">:=</span><span class="w"> </span><span class="nx">space</span><span class="p">.</span><span class="nx">CreateItem</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hero&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">)</span>
+<span class="nx">rev</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w">     </span><span class="o">:=</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">CreateRevision</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="nx">art</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w">     </span><span class="o">:=</span><span class="w"> </span><span class="nx">rev</span><span class="p">.</span><span class="nx">CreateArtifact</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mesh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/assets/hero.fbx&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="nx">rev</span><span class="p">.</span><span class="nx">Tag</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;approved&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <strong>Kref</strong> is a URI that identifies any object:
+<code class="docutils literal notranslate"><span class="pre">kref://project/space/item.kind?r=REVISION&amp;a=ARTIFACT</span></code>.</p>
+</section>
+<section id="search-discovery">
+<h2>Search &amp; discovery<a class="headerlink" href="#search-discovery" title="Link to this heading"></a></h2>
+<p>The Go SDK has full parity with Python, including the newer retrieval features:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Full-text fuzzy search (typo-tolerant), ranked by relevance.</span>
+<span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Search</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hero&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">kumiho</span><span class="p">.</span><span class="nx">SearchOptions</span><span class="p">{</span><span class="nx">KindFilter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">})</span>
+
+<span class="c1">// Semantic scoring of specific revisions against a query.</span>
+<span class="c1">// (scoreFields = nil uses the stored embeddings.)</span>
+<span class="nx">scored</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">ScoreRevisions</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;approved hero&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;kref://my-vfx-project/characters/hero.model?r=1&quot;</span><span class="p">},</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+
+<span class="c1">// Fetch many revisions in one round-trip (by item kref + tag here).</span>
+<span class="nx">revs</span><span class="p">,</span><span class="w"> </span><span class="nx">notFound</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">BatchGetRevisions</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span>
+<span class="w">    </span><span class="kc">nil</span><span class="p">,</span><span class="w">                                                   </span><span class="c1">// revisionKrefs</span>
+<span class="w">    </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;kref://my-vfx-project/characters/hero.model&quot;</span><span class="p">},</span><span class="w"> </span><span class="c1">// itemKrefs</span>
+<span class="w">    </span><span class="s">&quot;latest&quot;</span><span class="p">,</span><span class="w">                                              </span><span class="c1">// tag</span>
+<span class="w">    </span><span class="kc">true</span><span class="p">,</span><span class="w">                                                  </span><span class="c1">// allowPartial</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>These mirror the Python <code class="docutils literal notranslate"><span class="pre">search</span></code>, <code class="docutils literal notranslate"><span class="pre">score_revisions</span></code>, and <code class="docutils literal notranslate"><span class="pre">batch_get_revisions</span></code>.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Browse the full <a class="reference internal" href="api.html"><span class="std std-doc">API Reference</span></a>.</p></li>
+<li><p>See the other SDKs at <a class="reference external" href="https://docs.kumiho.io">docs.kumiho.io</a>.</p></li>
+<li><p>The canonical Go package docs are also on
+<a class="reference external" href="https://pkg.go.dev/github.com/KumihoIO/kumiho-SDKs/go">pkg.go.dev</a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Kumiho Go SDK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="kumiho" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, kumihoclouds.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

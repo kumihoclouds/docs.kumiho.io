@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kumiho Go SDK &mdash; Kumiho Go SDK 0.10.0</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=82662543"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting-started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Kumiho Go SDK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">kumiho</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#kumihopb">kumihopb</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#quickstart">quickstart</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Kumiho Go SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Kumiho Go SDK</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="kumiho-go-sdk">
+<h1>Kumiho Go SDK<a class="headerlink" href="#kumiho-go-sdk" title="Link to this heading"></a></h1>
+<p><strong>Graph-native creative &amp; AI asset management for Go</strong></p>
+<p>Kumiho is the Go client for <a class="reference external" href="https://kumiho.io">Kumiho Cloud</a>, a graph-native
+creative and AI asset-management system. Kumiho tracks revisions, relationships,
+and lineage <strong>without uploading your files</strong> (“BYO storage”) — it stores paths,
+metadata, and the dependency graph.</p>
+<p>The Go SDK mirrors the Python gold-standard SDK: a low-level <code class="docutils literal notranslate"><span class="pre">Client</span></code> that
+wraps every gRPC method, plus fluent domain types (<code class="docutils literal notranslate"><span class="pre">Project</span></code>, <code class="docutils literal notranslate"><span class="pre">Space</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Item</span></code>, <code class="docutils literal notranslate"><span class="pre">Revision</span></code>, <code class="docutils literal notranslate"><span class="pre">Artifact</span></code>, <code class="docutils literal notranslate"><span class="pre">Edge</span></code>, <code class="docutils literal notranslate"><span class="pre">Bundle</span></code>). It has <strong>full
+feature parity</strong> with the Python SDK.</p>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Graph-Native Design</strong>: track asset relationships, dependencies, and lineage</p></li>
+<li><p><strong>Version Control</strong>: immutable revisions with full history and tagging</p></li>
+<li><p><strong>BYO Storage</strong>: files stay on your local / NAS / on-prem storage</p></li>
+<li><p><strong>Full-text fuzzy search &amp; semantic scoring</strong>: <code class="docutils literal notranslate"><span class="pre">Search</span></code> and <code class="docutils literal notranslate"><span class="pre">ScoreRevisions</span></code></p></li>
+<li><p><strong>Batch fetch</strong>: <code class="docutils literal notranslate"><span class="pre">BatchGetRevisions</span></code> for many revisions in one round-trip</p></li>
+<li><p><strong>Event streaming</strong>: <code class="docutils literal notranslate"><span class="pre">EventStream</span></code> with cursor resume, consumer groups, and
+<code class="docutils literal notranslate"><span class="pre">GetEventCapabilities</span></code></p></li>
+<li><p><strong>Idiomatic Go</strong>: <code class="docutils literal notranslate"><span class="pre">context.Context</span></code> throughout, typed errors, no globals</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>go<span class="w"> </span>get<span class="w"> </span>github.com/KumihoIO/kumiho-SDKs/go
+</pre></div>
+</div>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">kumiho</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;https://us-central.kumiho.cloud&quot;</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">defer</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="nx">project</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">CreateProject</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-vfx-project&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;VFX assets&quot;</span><span class="p">)</span>
+<span class="nx">space</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">project</span><span class="p">.</span><span class="nx">CreateSpace</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;characters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">space</span><span class="p">.</span><span class="nx">CreateItem</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hero&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">)</span>
+<span class="nx">rev</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">CreateRevision</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="nx">rev</span><span class="p">.</span><span class="nx">CreateArtifact</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mesh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/assets/hero.fbx&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="nx">rev</span><span class="p">.</span><span class="nx">Tag</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;approved&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The full, generated API reference is in <a class="reference internal" href="api.html"><span class="doc">kumiho</span></a>.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#connect-authenticate">Connect &amp; authenticate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#create-assets">Create assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#search-discovery">Search &amp; discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">kumiho</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#quick-start">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#index">Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#constants">Constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#variables">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#func-isnotfound">func IsNotFound</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#func-isvalidedgetype">func IsValidEdgeType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#func-isvalidkref">func IsValidKref</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#func-tenantslug">func TenantSlug</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#func-validateedgetype">func ValidateEdgeType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#func-validatekref">func ValidateKref</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-artifact">type Artifact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-bundle">type Bundle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-bundlemember">type BundleMember</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-bundlerevisionhistory">type BundleRevisionHistory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-cachecontrol">type CacheControl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-client">type Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-clientbuilder">type ClientBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-discoveryerror">type DiscoveryError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-discoveryrecord">type DiscoveryRecord</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-edge">type Edge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-edgedirection">type EdgeDirection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-edgetypevalidationerror">type EdgeTypeValidationError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-event">type Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-eventcapabilities">type EventCapabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-eventstream">type EventStream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-impactedrevision">type ImpactedRevision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-invalidargumenterror">type InvalidArgumentError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-item">type Item</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-kref">type Kref</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-krefvalidationerror">type KrefValidationError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-kumihoerror">type KumihoError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-page">type Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-pathstep">type PathStep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-project">type Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-projectlimiterror">type ProjectLimitError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-regionrouting">type RegionRouting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-reservedkinderror">type ReservedKindError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-revision">type Revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-revisionpath">type RevisionPath</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-scoredrevision">type ScoredRevision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-searchoptions">type SearchOptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-searchresult">type SearchResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-shortestpathresult">type ShortestPathResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-space">type Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-tenantusage">type TenantUsage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-traversalresult">type TraversalResult</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#kumihopb">kumihopb</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id1">Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id2">Constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id3">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#func-registerkumihoserviceserver">func RegisterKumihoServiceServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-addbundlememberrequest">type AddBundleMemberRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-addbundlememberresponse">type AddBundleMemberResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-artifactresponse">type ArtifactResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-batchgetrevisionsrequest">type BatchGetRevisionsRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-batchgetrevisionsresponse">type BatchGetRevisionsResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id4">type BundleMember</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">type BundleRevisionHistory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-createartifactrequest">type CreateArtifactRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-createbundlerequest">type CreateBundleRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-createedgerequest">type CreateEdgeRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-createitemrequest">type CreateItemRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-createprojectrequest">type CreateProjectRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-createrevisionrequest">type CreateRevisionRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-createspacerequest">type CreateSpaceRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-deleteartifactrequest">type DeleteArtifactRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-deleteattributerequest">type DeleteAttributeRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-deleteedgerequest">type DeleteEdgeRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-deleteitemrequest">type DeleteItemRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-deleteprojectrequest">type DeleteProjectRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-deleterevisionrequest">type DeleteRevisionRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-deletespacerequest">type DeleteSpaceRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id6">type Edge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id7">type EdgeDirection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id8">type Event</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id9">type EventCapabilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-eventstreamrequest">type EventStreamRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-eventstreamrequest-frombeginning">type EventStreamRequest_FromBeginning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-eventstreamrequest-fromcursor">type EventStreamRequest_FromCursor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-eventstreamrequest-fromlatest">type EventStreamRequest_FromLatest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-eventstreamrequest-fromtimestamp">type EventStreamRequest_FromTimestamp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getartifactrequest">type GetArtifactRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getartifactsbylocationrequest">type GetArtifactsByLocationRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getartifactsbylocationresponse">type GetArtifactsByLocationResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getartifactsrequest">type GetArtifactsRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getartifactsresponse">type GetArtifactsResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getattributerequest">type GetAttributeRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getattributeresponse">type GetAttributeResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getbundlehistoryrequest">type GetBundleHistoryRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getbundlehistoryresponse">type GetBundleHistoryResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getbundlemembersrequest">type GetBundleMembersRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getbundlemembersresponse">type GetBundleMembersResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getchildspacesrequest">type GetChildSpacesRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getchildspacesresponse">type GetChildSpacesResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getedgesrequest">type GetEdgesRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getedgesresponse">type GetEdgesResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-geteventcapabilitiesrequest">type GetEventCapabilitiesRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getitemrequest">type GetItemRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getitemsrequest">type GetItemsRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getitemsresponse">type GetItemsResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getprojectsrequest">type GetProjectsRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getprojectsresponse">type GetProjectsResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getrevisionsrequest">type GetRevisionsRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getrevisionsresponse">type GetRevisionsResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-getspacerequest">type GetSpaceRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-gettenantusagerequest">type GetTenantUsageRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-hastagrequest">type HasTagRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-hastagresponse">type HasTagResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-impactanalysisrequest">type ImpactAnalysisRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-impactanalysisresponse">type ImpactAnalysisResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id10">type ImpactedRevision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-itemresponse">type ItemResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-itemsearchrequest">type ItemSearchRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id11">type Kref</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-krefrequest">type KrefRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-kumihoserviceclient">type KumihoServiceClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-kumihoserviceserver">type KumihoServiceServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-kumihoservice-eventstreamclient">type KumihoService_EventStreamClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-kumihoservice-eventstreamserver">type KumihoService_EventStreamServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-paginationrequest">type PaginationRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-paginationresponse">type PaginationResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id13">type PathStep</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-peeknextrevisionrequest">type PeekNextRevisionRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-peeknextrevisionresponse">type PeekNextRevisionResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-projectresponse">type ProjectResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-removebundlememberrequest">type RemoveBundleMemberRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-removebundlememberresponse">type RemoveBundleMemberResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-resolvekrefrequest">type ResolveKrefRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-resolvelocationrequest">type ResolveLocationRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-resolvelocationresponse">type ResolveLocationResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id14">type RevisionPath</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-revisionresponse">type RevisionResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-scorerevisionsrequest">type ScoreRevisionsRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-scorerevisionsresponse">type ScoreRevisionsResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id15">type ScoredRevision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-searchrequest">type SearchRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-searchresponse">type SearchResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id16">type SearchResult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-setattributerequest">type SetAttributeRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-setdefaultartifactrequest">type SetDefaultArtifactRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-setdeprecatedrequest">type SetDeprecatedRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-shortestpathrequest">type ShortestPathRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-shortestpathresponse">type ShortestPathResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-spaceresponse">type SpaceResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-statusresponse">type StatusResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-tagrevisionrequest">type TagRevisionRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-tenantusageresponse">type TenantUsageResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-traverseedgesrequest">type TraverseEdgesRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-traverseedgesresponse">type TraverseEdgesResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-untagrevisionrequest">type UnTagRevisionRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-unimplementedkumihoserviceserver">type UnimplementedKumihoServiceServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-unsafekumihoserviceserver">type UnsafeKumihoServiceServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-updatemetadatarequest">type UpdateMetadataRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-updateprojectrequest">type UpdateProjectRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-wastaggedrequest">type WasTaggedRequest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-wastaggedresponse">type WasTaggedResponse</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#quickstart">quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id17">Index</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<p>For the other Kumiho SDKs see <a class="reference external" href="https://docs.kumiho.io">docs.kumiho.io</a>
+(Python, C++, Dart, Rust). The canonical Go package reference is also available
+on <a class="reference external" href="https://pkg.go.dev/github.com/KumihoIO/kumiho-SDKs/go">pkg.go.dev</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting-started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, kumihoclouds.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
