@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!-- deck gallery index · docs.kumiho.io/deck -->
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decks · Kumiho</title>
+<meta name="description" content="브라우저에서 바로 여는 자체 완결형 HTML 프레젠테이션 — Kumiho · Revka.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css">
+<style>
+:root{
+  --ink:#08070D; --ink2:#0C0A14;
+  --surface:#120F1D; --surface2:#181329; --surface3:#211B38;
+  --text:#F3F0FB; --muted:#B4ADC9; --dim:rgba(180,173,201,.55);
+  --brand:#8B5CF6; --brand-soft:#B5A2FB; --brand2:#E44AD2; --indigo:#5B31FA;
+  --line:rgba(180,173,201,.16); --line2:rgba(180,173,201,.26);
+  --glass:rgba(24,19,41,.55);
+  --grad:linear-gradient(96deg,#8C30F9 0%,#B5A2FB 32%,#E44AD2 100%);
+  --grad-flow:linear-gradient(90deg,#5B31FA 0%,#8B5CF6 50%,#E44AD2 100%);
+  --mono:"Geist Mono",ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Malgun Gothic",monospace;
+  --sans:"Geist","Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI","Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{min-height:100%;background:
+  radial-gradient(1200px 720px at 15% -10%, rgba(139,92,246,.13), transparent 60%),
+  radial-gradient(1100px 680px at 92% 4%, rgba(228,74,210,.10), transparent 62%),
+  radial-gradient(1000px 800px at 60% 116%, rgba(91,49,250,.09), transparent 60%),
+  var(--ink);
+  color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6}
+.wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:96px 32px 80px}
+
+/* header */
+header{text-align:center}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:var(--brand-soft);font-weight:600}
+h1{font-size:64px;line-height:1.05;font-weight:700;letter-spacing:-.03em;margin-top:20px}
+h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.rule{width:80px;height:4px;background:var(--grad-flow);border-radius:3px;margin:26px auto}
+.lead{font-size:19px;line-height:1.6;color:var(--muted);max-width:600px;margin:0 auto}
+
+/* grid */
+.grid{margin-top:56px;display:flex;flex-wrap:wrap;justify-content:center;gap:26px}
+
+/* card */
+.card{position:relative;width:390px;max-width:100%;display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);
+  border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  box-shadow:inset 0 1px rgba(255,255,255,.06), 0 18px 50px rgba(3,2,8,.5);
+  transition:transform .38s cubic-bezier(.2,.7,.2,1), border-color .38s, box-shadow .38s}
+.card::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;
+  background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .38s;pointer-events:none}
+.card:hover{transform:translateY(-8px);border-color:transparent;
+  box-shadow:inset 0 1px rgba(255,255,255,.09), 0 30px 70px rgba(3,2,8,.6), 0 0 60px rgba(139,92,246,.22)}
+.card:hover::before{opacity:1}
+
+/* card cover — echoes the deck's own cover */
+.cover{position:relative;aspect-ratio:16/9;padding:26px 28px;display:flex;flex-direction:column;justify-content:center;
+  background:radial-gradient(600px 380px at 30% -10%, #14111f 0%, #0a0812 62%), #0a0812;overflow:hidden}
+.cover::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(circle, rgba(181,162,251,.18) 1px, transparent 1.6px);background-size:42px 42px;
+  -webkit-mask-image:radial-gradient(420px 260px at 40% 30%,#000,transparent 78%);mask-image:radial-gradient(420px 260px at 40% 30%,#000,transparent 78%);opacity:.5}
+.cover .glowdot{position:absolute;width:320px;height:220px;right:-40px;top:-40px;
+  background:radial-gradient(circle, rgba(228,74,210,.16), transparent 66%);pointer-events:none}
+.c-eyebrow{position:relative;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--brand-soft);font-weight:600}
+.c-title{position:relative;font-size:26px;line-height:1.18;font-weight:700;letter-spacing:-.02em;margin-top:12px}
+.c-title .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.c-rule{position:relative;width:52px;height:3px;background:var(--grad-flow);border-radius:3px;margin-top:16px}
+.c-badge{position:absolute;top:16px;right:16px;z-index:2;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--brand-soft);background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.4);border-radius:20px;padding:4px 10px}
+
+/* card body */
+.body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.body h2{font-size:18px;line-height:1.35;font-weight:600;color:var(--text)}
+.body p{font-size:14px;line-height:1.6;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.meta span{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--line2);border-radius:20px;padding:4px 10px}
+.cta{margin-top:auto;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--brand-soft);letter-spacing:.02em;display:inline-flex;align-items:center;gap:7px;transition:gap .3s}
+.card:hover .cta{gap:12px;color:#d7c9ff}
+
+/* footer */
+footer{position:relative;z-index:2;text-align:center;padding:8px 32px 56px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--dim)}
+footer a{color:var(--brand-soft);text-decoration:none}
+
+@media (max-width:640px){
+  .wrap{padding:64px 20px 48px}
+  h1{font-size:44px}
+  .lead{font-size:17px}
+  .grid{grid-template-columns:1fr;gap:20px}
+}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">KUMIHO · DOCS</div>
+    <h1>프레젠테이션 <span class="grad">덱</span></h1>
+    <div class="rule"></div>
+    <p class="lead">브라우저에서 바로 여는 자체 완결형 HTML 슬라이드. 서버도 빌드도 필요 없습니다. — Kumiho · Revka.</p>
+  </header>
+
+  <main class="grid">
+    <a class="card" href="revka-hook-architecture.html">
+      <div class="cover">
+        <div class="glowdot"></div>
+        <span class="c-badge">12 슬라이드</span>
+        <div class="c-eyebrow">REVKA · HOOK ARCHITECTURE</div>
+        <div class="c-title">런타임에 심은 <span class="grad">가드레일</span></div>
+        <div class="c-rule"></div>
+      </div>
+      <div class="body">
+        <h2>런타임에 심은 가드레일 — Revka의 훅 아키텍처</h2>
+        <p>Revka의 agent 훅 아키텍처를 Claude Code 하네스 훅과 나란히 놓고, 훅이 어디에·어떤 형태로 존재해야 하는가를 살핍니다.</p>
+        <div class="meta"><span>발표</span><span>KO</span><span>2026</span></div>
+        <div class="cta">열기 →</div>
+      </div>
+    </a>
+  </main>
+</div>
+<footer><a href="https://docs.kumiho.io">docs.kumiho.io</a> · Kumiho</footer>
+
+<script>
+(function(){
+  var c=document.getElementById('bg'); if(!c||!c.getContext) return;
+  var ctx=c.getContext('2d'); if(!ctx) return;
+  var W,H,dpr=Math.min(window.devicePixelRatio||1,2),nodes=[];
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var seed=20260701>>>0; function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
+  function resize(){
+    W=window.innerWidth; H=window.innerHeight;
+    c.width=W*dpr; c.height=H*dpr; c.style.width=W+'px'; c.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var count=Math.max(26,Math.min(52,Math.round(W*H/42000)));
+    nodes=[]; for(var i=0;i<count;i++){ nodes.push({x:rnd()*W,y:rnd()*H,vx:(rnd()-0.5)*0.10,vy:(rnd()-0.5)*0.10,r:1.0+rnd()*1.5}); }
+  }
+  resize(); window.addEventListener('resize', resize);
+  var LINK=170, col=[139,92,246];
+  function rgba(a){ return 'rgba('+col[0]+','+col[1]+','+col[2]+','+a+')'; }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var a=0;a<nodes.length;a++){ for(var b=a+1;b<nodes.length;b++){
+      var dx=nodes[a].x-nodes[b].x, dy=nodes[a].y-nodes[b].y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<LINK){ ctx.strokeStyle=rgba(((1-d/LINK)*0.12).toFixed(3)); ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(nodes[a].x,nodes[a].y); ctx.lineTo(nodes[b].x,nodes[b].y); ctx.stroke(); }
+    }}
+    for(var i=0;i<nodes.length;i++){ var p=nodes[i], halo=p.r*4.2;
+      var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,halo);
+      g.addColorStop(0,rgba(0.5)); g.addColorStop(1,rgba(0));
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,halo,0,6.2832); ctx.fill();
+      ctx.fillStyle=rgba(0.8); ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832); ctx.fill();
+    }
+  }
+  function step(){
+    for(var i=0;i<nodes.length;i++){ var p=nodes[i]; p.x+=p.vx; p.y+=p.vy;
+      if(p.x<-30)p.x=W+30; else if(p.x>W+30)p.x=-30;
+      if(p.y<-30)p.y=H+30; else if(p.y>H+30)p.y=-30; }
+    draw(); requestAnimationFrame(step);
+  }
+  if(reduce){ draw(); } else { requestAnimationFrame(step); }
+})();
+</script>
+</body></html>
