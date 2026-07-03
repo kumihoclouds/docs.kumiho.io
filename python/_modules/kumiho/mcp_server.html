@@ -1118,6 +1118,23 @@
         <span class="k">return</span> <span class="kc">None</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_most_recent_items</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">cap</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Newest-first slice bounding fallback revision resolution.</span>
+
+<span class="sd">    The pattern fallback resolves published/latest via 1-2 RPCs per item.</span>
+<span class="sd">    Unbounded, that is O(items-in-project) serial round-trips (measured in</span>
+<span class="sd">    production: 457 items -&gt; 914 RPCs -&gt; ~185s over a ~200ms link) only to</span>
+<span class="sd">    keep ``limit`` of them after sorting by a constant score.  Prefer the</span>
+<span class="sd">    newest items — fallback hits when relevance search found nothing, so</span>
+<span class="sd">    recency is the only signal left.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_created</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">_parse_timestamp</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;created_at&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ts</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">ts</span> <span class="ow">and</span> <span class="n">ts</span><span class="o">.</span><span class="n">tzinfo</span> <span class="k">else</span> <span class="p">(</span><span class="n">ts</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">_created</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">cap</span><span class="p">]</span>
+
+
 <span class="c1"># ============================================================================</span>
 <span class="c1"># Tool Implementations</span>
 <span class="c1"># ============================================================================</span>
@@ -1679,6 +1696,27 @@
                     <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
                     <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
                 <span class="p">))</span>
+            <span class="c1"># The deep search variant (include_revision_metadata=True) can</span>
+            <span class="c1"># return zero results on some deployments even when the plain</span>
+            <span class="c1"># item search matches (observed in production: every deep query</span>
+            <span class="c1"># returned 0 while the same query without revision metadata</span>
+            <span class="c1"># returned 100).  Retry shallow before giving up — falling</span>
+            <span class="c1"># through to the pattern fallback instead costs 1-2 RPCs per</span>
+            <span class="c1"># item in the project.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">search_results</span> <span class="ow">and</span> <span class="n">include_revision_metadata</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
+                    <span class="n">search_results</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                        <span class="n">combined_query</span><span class="p">,</span>
+                        <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
+                        <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
+                        <span class="n">include_revision_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="p">))</span>
+                <span class="k">if</span> <span class="n">search_results</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">&quot;tool_memory_retrieve: deep search returned 0 results &quot;</span>
+                        <span class="s2">&quot;but shallow retry matched </span><span class="si">%d</span><span class="s2"> — deep search may be &quot;</span>
+                        <span class="s2">&quot;broken on this server&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_results</span><span class="p">),</span>
+                    <span class="p">)</span>
             <span class="c1"># Sort by score descending after merging contexts</span>
             <span class="n">search_results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">sr</span><span class="p">:</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">]:</span>  <span class="c1"># Get extra for filtering</span>
@@ -1733,6 +1771,11 @@
                         <span class="n">bundle</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_bundle</span><span class="p">(</span><span class="n">bundle_item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
                         <span class="n">members</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
                         <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+                            <span class="c1"># Bounded: each member costs 2-3 RPCs and only</span>
+                            <span class="c1"># `limit` results survive — large auto-collected</span>
+                            <span class="c1"># bundles must not turn into an RPC storm.</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
+                                <span class="k">break</span>
                             <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]:</span>
                                 <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
                                 <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
@@ -1757,7 +1800,10 @@
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
                 <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="c1"># Bounded: resolving published/latest costs 1-2 RPCs per item,</span>
+            <span class="c1"># and only `limit` results survive — never resolve the whole</span>
+            <span class="c1"># project (see _most_recent_items).</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_most_recent_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
@@ -1778,7 +1824,7 @@
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
                 <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_most_recent_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
