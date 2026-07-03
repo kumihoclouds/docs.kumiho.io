@@ -838,13 +838,19 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_serialize_revision</span><span class="p">(</span><span class="n">revision</span><span class="p">:</span> <span class="n">Revision</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize a Revision to a JSON-friendly dict.&quot;&quot;&quot;</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">revision</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span> <span class="k">if</span> <span class="n">revision</span><span class="o">.</span><span class="n">metadata</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="c1"># The server reserves the &quot;type&quot; metadata key and strips it from reads;</span>
+    <span class="c1"># newer writes mirror it as &quot;memory_type&quot;. Alias it back so legacy</span>
+    <span class="c1"># consumers reading metadata[&quot;type&quot;] keep working.</span>
+    <span class="k">if</span> <span class="s2">&quot;memory_type&quot;</span> <span class="ow">in</span> <span class="n">metadata</span> <span class="ow">and</span> <span class="s2">&quot;type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">:</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;memory_type&quot;</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;kref&quot;</span><span class="p">:</span> <span class="n">revision</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
         <span class="s2">&quot;item_kref&quot;</span><span class="p">:</span> <span class="n">revision</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
         <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
         <span class="s2">&quot;latest&quot;</span><span class="p">:</span> <span class="n">revision</span><span class="o">.</span><span class="n">latest</span><span class="p">,</span>
         <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">revision</span><span class="o">.</span><span class="n">_cached_tags</span><span class="p">),</span>
-        <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">revision</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span> <span class="k">if</span> <span class="n">revision</span><span class="o">.</span><span class="n">metadata</span> <span class="k">else</span> <span class="p">{},</span>
+        <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
         <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="n">revision</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
         <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="n">revision</span><span class="o">.</span><span class="n">author</span><span class="p">,</span>
         <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">revision</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
@@ -1133,6 +1139,21 @@
         <span class="k">return</span> <span class="n">ts</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">ts</span> <span class="ow">and</span> <span class="n">ts</span><span class="o">.</span><span class="n">tzinfo</span> <span class="k">else</span> <span class="p">(</span><span class="n">ts</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">_created</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">cap</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">allowed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;True when the revision&#39;s memory type passes the filter.</span>
+
+<span class="sd">    The server reserves the &quot;type&quot; metadata key and strips it from reads,</span>
+<span class="sd">    so newer writes mirror the type as &quot;memory_type&quot; — check both.</span>
+<span class="sd">    Revisions without a readable type (anything stored before the</span>
+<span class="sd">    &quot;memory_type&quot; mirror existed) only match when no filter is set.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">allowed</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">mem_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_type&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mem_type</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">allowed</span>
 
 
 <span class="c1"># ============================================================================</span>
@@ -1502,7 +1523,11 @@
 
     <span class="n">base_metadata</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;schema&quot;</span><span class="p">:</span> <span class="n">schema_version</span> <span class="ow">or</span> <span class="s2">&quot;kumiho.agent_memory.v1&quot;</span><span class="p">,</span>
+        <span class="c1"># &quot;type&quot; is a server-reserved metadata key and is stripped from</span>
+        <span class="c1"># every read — &quot;memory_type&quot; is the readable carrier. &quot;type&quot; is</span>
+        <span class="c1"># still written for raw-database consumers.</span>
         <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">memory_type</span><span class="p">,</span>
+        <span class="s2">&quot;memory_type&quot;</span><span class="p">:</span> <span class="n">memory_type</span><span class="p">,</span>
         <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">final_title</span><span class="p">,</span>
         <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="n">final_summary</span><span class="p">,</span>
         <span class="s2">&quot;space&quot;</span><span class="p">:</span> <span class="n">normalized_space_path</span><span class="p">,</span>
@@ -1630,6 +1655,12 @@
     <span class="n">topic_list</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">topics</span><span class="p">)</span>
     <span class="n">spaces</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">space_paths</span><span class="p">)</span>
     <span class="n">bundles</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">bundle_names</span><span class="p">)</span>
+    <span class="c1"># Normalized memory-type filter (see _matches_memory_types). Only</span>
+    <span class="c1"># revisions stored with the &quot;memory_type&quot; metadata mirror are</span>
+    <span class="c1"># matchable — older revisions have no readable type.</span>
+    <span class="n">allowed_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">to_list</span><span class="p">(</span><span class="n">memory_types</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="p">}</span> <span class="ow">or</span> <span class="kc">None</span>
 
     <span class="n">query_text</span> <span class="o">=</span> <span class="p">(</span><span class="n">query</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="n">query_lower</span> <span class="o">=</span> <span class="n">query_text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -1662,15 +1693,23 @@
             <span class="n">name_filter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="n">kind_filter</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;item_krefs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;revision_krefs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;spaces_used&quot;</span><span class="p">:</span> <span class="p">[]}</span>
-        <span class="n">earliest</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">_parse_timestamp</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
-        <span class="n">rev</span> <span class="o">=</span> <span class="n">earliest</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">earliest</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;item_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">earliest</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">],</span>
-            <span class="s2">&quot;revision_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="k">if</span> <span class="n">rev</span> <span class="k">else</span> <span class="p">[],</span>
-            <span class="s2">&quot;spaces_used&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">project_name</span><span class="p">],</span>
-        <span class="p">}</span>
+        <span class="c1"># Oldest-first, returning the first item whose revision passes the</span>
+        <span class="c1"># memory_types filter — min() alone would ignore the filter.</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">_parse_timestamp</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">max</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;item_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">],</span>
+                <span class="s2">&quot;revision_krefs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="k">if</span> <span class="n">rev</span> <span class="k">else</span> <span class="p">[],</span>
+                <span class="s2">&quot;spaces_used&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">project_name</span><span class="p">],</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;item_krefs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;revision_krefs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;spaces_used&quot;</span><span class="p">:</span> <span class="p">[]}</span>
 
     <span class="c1"># Build search query from query + keywords + topics</span>
     <span class="n">search_terms</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1727,6 +1766,8 @@
                         <span class="n">revisions</span> <span class="o">=</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_revisions</span><span class="p">()</span>
                         <span class="k">if</span> <span class="n">revisions</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">revisions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">revisions</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="ow">not</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
+                                    <span class="k">continue</span>
                                 <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
                                     <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
                                     <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
@@ -1742,7 +1783,7 @@
                         <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
                         <span class="ow">or</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
                         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">))</span>
                         <span class="k">if</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="p">:</span>
                             <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
@@ -1779,7 +1820,7 @@
                             <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]:</span>
                                 <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
                                 <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
-                                <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
                                     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
                     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                         <span class="k">continue</span>
@@ -1806,7 +1847,7 @@
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_most_recent_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
                         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>
@@ -1827,7 +1868,7 @@
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_most_recent_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
                         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>

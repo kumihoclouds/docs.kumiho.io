@@ -712,6 +712,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
@@ -2943,23 +2944,40 @@
         <span class="k">return</span> <span class="n">continuation</span><span class="p">(</span><span class="n">updated</span><span class="p">,</span> <span class="n">request_iterator</span><span class="p">)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_interactive_login_allowed</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interactive login prompts are only safe on a real terminal.</span>
+
+<span class="sd">    Inside headless processes (MCP stdio servers, CI, pipelines) stdin is</span>
+<span class="sd">    a protocol pipe — an input() prompt blocks the process forever.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;KUMIHO_NO_INTERACTIVE_LOGIN&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
 <span class="k">class</span><span class="w"> </span><span class="nc">_AutoLoginInterceptor</span><span class="p">(</span>
     <span class="n">grpc</span><span class="o">.</span><span class="n">UnaryUnaryClientInterceptor</span><span class="p">,</span>
     <span class="n">grpc</span><span class="o">.</span><span class="n">UnaryStreamClientInterceptor</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Client interceptor that automatically prompts for login on auth failures.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Client interceptor that automatically refreshes credentials on auth failures.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">intercept_unary_unary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">continuation</span><span class="p">,</span> <span class="n">client_call_details</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">continuation</span><span class="p">(</span><span class="n">client_call_details</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
-        
+
         <span class="c1"># Check if this is an auth error</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Force the response to be evaluated</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">):</span>
                 <span class="n">code</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">code</span><span class="p">()</span>
                 <span class="n">should_refresh</span> <span class="o">=</span> <span class="kc">False</span>
-                
-                <span class="k">if</span> <span class="n">code</span> <span class="ow">in</span> <span class="p">(</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">UNAUTHENTICATED</span><span class="p">,</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">PERMISSION_DENIED</span><span class="p">):</span>
+
+                <span class="c1"># PERMISSION_DENIED is deliberately NOT a trigger: the server</span>
+                <span class="c1"># uses it for authorization/immutability rejections (e.g.</span>
+                <span class="c1"># tagging a published-frozen revision), not for bad tokens.</span>
+                <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">UNAUTHENTICATED</span><span class="p">:</span>
                     <span class="n">should_refresh</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">UNAVAILABLE</span><span class="p">:</span>
                     <span class="c1"># Handle JWKS errors which often manifest as UNAVAILABLE</span>
@@ -2968,10 +2986,15 @@
                         <span class="n">should_refresh</span> <span class="o">=</span> <span class="kc">True</span>
 
                 <span class="k">if</span> <span class="n">should_refresh</span><span class="p">:</span>
-                    <span class="n">_LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Authentication error detected, prompting for login...&quot;</span><span class="p">)</span>
+                    <span class="n">interactive</span> <span class="o">=</span> <span class="n">_interactive_login_allowed</span><span class="p">()</span>
+                    <span class="n">_LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;Authentication error detected, </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;prompting for login&quot;</span> <span class="k">if</span> <span class="n">interactive</span> <span class="k">else</span>
+                        <span class="s2">&quot;attempting silent credential refresh&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth_cli</span>
-                        <span class="n">new_token</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">auth_cli</span><span class="o">.</span><span class="n">ensure_token</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">new_token</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">auth_cli</span><span class="o">.</span><span class="n">ensure_token</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="n">interactive</span><span class="p">,</span> <span class="n">force_refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                         
                         <span class="c1"># Update the authorization header with the new token</span>
                         <span class="n">existing_metadata</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
