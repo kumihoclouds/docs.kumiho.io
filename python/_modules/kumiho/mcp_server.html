@@ -719,6 +719,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
@@ -883,7 +885,6 @@
     <span class="p">}</span>
 
 
-<span class="n">_SLUG_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-z0-9]+&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_json_object</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -915,11 +916,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_slugify</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">48</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">base</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="n">base</span> <span class="o">=</span> <span class="n">_SLUG_PATTERN</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">base</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">base</span><span class="p">[:</span><span class="n">max_len</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="c1"># Delegates to the canonical Unicode-aware slug so non-Latin space/item</span>
+    <span class="c1"># hints (Korean, CJK) no longer collapse to an empty slug.</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">kumiho._text</span><span class="w"> </span><span class="kn">import</span> <span class="n">slugify</span>
+
+    <span class="k">return</span> <span class="n">slugify</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_short_hash</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1028,14 +1029,21 @@
         <span class="k">return</span> <span class="n">normalized</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="n">normalized</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">created_any</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">for</span> <span class="n">segment</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+            <span class="n">created_any</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="n">grpc</span><span class="o">.</span><span class="n">RpcError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="p">()</span> <span class="o">!=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">ALREADY_EXISTS</span><span class="p">:</span>
                 <span class="k">raise</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parent</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">segment</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="n">_known_spaces</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span>
+    <span class="c1"># A new space invalidates the registry listing so the next hint resolves</span>
+    <span class="c1"># against it (otherwise back-to-back stores wouldn&#39;t see each other&#39;s</span>
+    <span class="c1"># freshly-created spaces within the cache TTL).</span>
+    <span class="k">if</span> <span class="n">created_any</span><span class="p">:</span>
+        <span class="n">_invalidate_space_registry</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">normalized</span>
 
 
@@ -1046,6 +1054,139 @@
         <span class="k">if</span> <span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="p">()</span> <span class="o">==</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">ALREADY_EXISTS</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">project</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">item_name</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="n">space_path</span><span class="p">)</span>
         <span class="k">raise</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Memory kinds — the recommended write-time taxonomy</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># The kinds tool_memory_store recommends. A policy item can widen this via a</span>
+<span class="c1"># &quot;memory_kinds&quot; list in its policy JSON; an out-of-vocabulary kind is warned</span>
+<span class="c1"># (not rejected) so the calling LLM is nudged away from ad-hoc taxonomies</span>
+<span class="c1"># without breaking existing callers. &quot;decision&quot; is reserved for decision</span>
+<span class="c1"># promotion (follow-up); &quot;skill&quot; and &quot;space-profile&quot; are written by</span>
+<span class="c1"># kumiho-memory through its own paths but belong to the same vocabulary.</span>
+<span class="n">DEFAULT_MEMORY_KINDS</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;conversation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;skill&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;space-profile&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;entity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decision&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Space registry — resolve a hint against existing spaces before creating</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Freeform space hints drift: &quot;AI Memory&quot; / &quot;ai memory&quot; arrive across</span>
+<span class="c1"># sessions and would each mint a distinct Space, fragmenting both scoped</span>
+<span class="c1"># recall and fulltext term statistics. Before creating a space from a *hint*</span>
+<span class="c1"># (never an explicit space_path), the leaf segment is matched against</span>
+<span class="c1"># existing sibling spaces — exact by default (which already unifies</span>
+<span class="c1"># case/spacing via slugging). Opt-in stem matching (plural/gerund) also</span>
+<span class="c1"># unifies &quot;benchmarks&quot;/&quot;benchmarking&quot; but risks false-merges</span>
+<span class="c1"># (&quot;meeting&quot;-&gt;&quot;meet&quot;), so it stays behind an env flag until measured. A</span>
+<span class="c1"># unified variant is recorded on the canonical space&#39;s &quot;memory_aliases&quot;</span>
+<span class="c1"># attribute for auditability.</span>
+
+<span class="n">_SPACE_REGISTRY_TTL_SECONDS</span> <span class="o">=</span> <span class="mf">60.0</span>
+
+<span class="c1"># project name -&gt; (fetched_at_monotonic, {normalized space paths}). Guarded</span>
+<span class="c1"># by _space_registry_lock since stores can run concurrently.</span>
+<span class="n">_space_registry_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">_space_registry_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_space_registry_enabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;KUMIHO_MEMORY_SPACE_REGISTRY&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;0&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_space_stem_match_enabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;KUMIHO_MEMORY_SPACE_STEM_MATCH&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stem_slug</span><span class="p">(</span><span class="n">segment</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Conservative stem for slug comparison: strips a plural/gerund suffix</span>
+<span class="sd">    only when a reasonable stem length remains. Lexical and English-only —</span>
+<span class="sd">    used only when stem matching is explicitly enabled, since it can</span>
+<span class="sd">    false-merge distinct words (&quot;meeting&quot;-&gt;&quot;meet&quot;).&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ing&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">segment</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">segment</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">segment</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_existing_space_paths</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;All space paths in *project*, cached briefly per process.&quot;&quot;&quot;</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">_space_registry_lock</span><span class="p">:</span>
+        <span class="n">cached</span> <span class="o">=</span> <span class="n">_space_registry_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cached</span> <span class="ow">and</span> <span class="n">now</span> <span class="o">-</span> <span class="n">cached</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">_SPACE_REGISTRY_TTL_SECONDS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cached</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># List outside the lock (network call); last writer wins on the cache.</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="p">{</span><span class="n">space</span><span class="o">.</span><span class="n">path</span> <span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+    <span class="k">with</span> <span class="n">_space_registry_lock</span><span class="p">:</span>
+        <span class="n">_space_registry_cache</span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="n">paths</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">paths</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_invalidate_space_registry</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">_space_registry_lock</span><span class="p">:</span>
+        <span class="n">_space_registry_cache</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">project_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_record_space_alias</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">canonical_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">alias_slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Best-effort: append *alias_slug* to the canonical space&#39;s</span>
+<span class="sd">    &quot;memory_aliases&quot; attribute so unifications stay auditable server-side.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">canonical_path</span><span class="p">)</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s2">&quot;memory_aliases&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">existing</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span> <span class="k">if</span> <span class="n">a</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">alias_slug</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">:</span>
+            <span class="n">aliases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alias_slug</span><span class="p">)</span>
+            <span class="n">space</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;memory_aliases&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aliases</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># noqa: BLE001 - alias bookkeeping must never fail a store</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Failed to record space alias </span><span class="si">%s</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">alias_slug</span><span class="p">,</span> <span class="n">canonical_path</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_space_hint_path</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a hint-derived space path against existing spaces.</span>
+
+<span class="sd">    Returns a (normalized) path of an existing space when the leaf segment</span>
+<span class="sd">    matches a sibling exactly or by stem; otherwise returns the normalized</span>
+<span class="sd">    input unchanged for the caller to create.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">space_path</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="n">_existing_space_paths</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># noqa: BLE001 - registry is best-effort, never block a store</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Space registry listing failed; storing to </span><span class="si">%s</span><span class="s2"> as-is&quot;</span><span class="p">,</span> <span class="n">normalized</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">normalized</span>
+
+    <span class="k">if</span> <span class="n">normalized</span> <span class="ow">in</span> <span class="n">existing</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">normalized</span>
+
+    <span class="c1"># Stem matching is opt-in — it can false-merge distinct spaces, which is</span>
+    <span class="c1"># worse than drift because a memory then lands in the wrong space.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_space_stem_match_enabled</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">normalized</span>
+
+    <span class="n">parent</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">leaf</span> <span class="o">=</span> <span class="n">normalized</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">leaf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">normalized</span>
+    <span class="n">leaf_stem</span> <span class="o">=</span> <span class="n">_stem_slug</span><span class="p">(</span><span class="n">leaf</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">existing</span><span class="p">):</span>
+        <span class="n">cand_parent</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">cand_leaf</span> <span class="o">=</span> <span class="n">candidate</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cand_parent</span> <span class="o">!=</span> <span class="n">parent</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">cand_leaf</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">_stem_slug</span><span class="p">(</span><span class="n">cand_leaf</span><span class="p">)</span> <span class="o">==</span> <span class="n">leaf_stem</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Space registry: unifying hint space </span><span class="si">%r</span><span class="s2"> into existing </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">normalized</span><span class="p">,</span> <span class="n">candidate</span>
+            <span class="p">)</span>
+            <span class="n">_record_space_alias</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">candidate</span><span class="p">,</span> <span class="n">leaf</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">candidate</span>
+    <span class="k">return</span> <span class="n">normalized</span>
 
 
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -1466,20 +1607,59 @@
             <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Failed to load policy_kref: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
 
     <span class="n">memory_kind</span> <span class="o">=</span> <span class="n">memory_item_kind</span> <span class="ow">or</span> <span class="n">policy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_item_kind&quot;</span><span class="p">,</span> <span class="s2">&quot;conversation&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Recommended kind vocabulary: a policy may widen it with an explicit</span>
+    <span class="c1"># &quot;memory_kinds&quot; list. An out-of-vocabulary kind is *warned, not</span>
+    <span class="c1"># rejected* — kind is part of the kref identity, so nudging toward a</span>
+    <span class="c1"># closed set curbs drift, but hard-rejecting on day one would break</span>
+    <span class="c1"># existing callers/policies that already use other kinds. (Use `is None`</span>
+    <span class="c1"># so a policy setting memory_kinds: [] is honored, not silently ignored.)</span>
+    <span class="n">policy_kinds</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_kinds&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">policy_kinds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">allowed_kinds</span> <span class="o">=</span> <span class="n">DEFAULT_MEMORY_KINDS</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">policy_kinds</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">policy_kinds</span><span class="p">):</span>
+        <span class="n">allowed_kinds</span> <span class="o">=</span> <span class="n">policy_kinds</span>  <span class="c1"># a well-formed override (incl. [] to warn on all)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># A non-list override (e.g. the string &quot;conversation,entity&quot;) would</span>
+        <span class="c1"># silently degrade `not in` into a *substring* test — &quot;con&quot;, &quot;tity&quot;,</span>
+        <span class="c1"># even &quot;,&quot; wrongly accepted and baked into the kref identity — and the</span>
+        <span class="c1"># reject message would iterate char-by-char. Reject the malformed</span>
+        <span class="c1"># override and fall back to the closed default vocabulary.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;policy &#39;memory_kinds&#39; must be a list of strings, got </span><span class="si">%s</span><span class="s2">; &quot;</span>
+            <span class="s2">&quot;ignoring the override and using the default vocabulary.&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="p">(</span><span class="n">policy_kinds</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">allowed_kinds</span> <span class="o">=</span> <span class="n">DEFAULT_MEMORY_KINDS</span>
+    <span class="k">if</span> <span class="n">memory_kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_kinds</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;memory_item_kind </span><span class="si">%r</span><span class="s2"> is outside the recommended vocabulary (</span><span class="si">%s</span><span class="s2">); &quot;</span>
+            <span class="s2">&quot;accepting, but ad-hoc kinds fragment the taxonomy.&quot;</span><span class="p">,</span>
+            <span class="n">memory_kind</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">allowed_kinds</span><span class="p">),</span>
+        <span class="p">)</span>
+
     <span class="n">space_root</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;space_root&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
 
+    <span class="n">space_from_hint</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span><span class="p">:</span>
         <span class="n">hint</span> <span class="o">=</span> <span class="n">space_hint</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">hint</span><span class="p">:</span>
             <span class="n">segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">seg</span> <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">hint</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">seg</span><span class="p">]</span>
             <span class="n">slugged</span> <span class="o">=</span> <span class="p">[</span><span class="n">_slugify</span><span class="p">(</span><span class="n">seg</span><span class="p">)</span> <span class="ow">or</span> <span class="n">seg</span> <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">]</span>
             <span class="n">space_path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slugged</span><span class="p">)</span>
+            <span class="n">space_from_hint</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">space_root</span> <span class="ow">and</span> <span class="n">space_root</span> <span class="o">!=</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
         <span class="n">base_root</span> <span class="o">=</span> <span class="n">space_root</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">space_path</span><span class="p">:</span>
             <span class="n">space_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_root</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">space_path</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">space_path</span> <span class="o">=</span> <span class="n">base_root</span>
+
+    <span class="c1"># Hint-derived paths are resolved against existing spaces (exact/stem)</span>
+    <span class="c1"># before creation so topic variants converge on one space. An explicit</span>
+    <span class="c1"># space_path is honored verbatim, as before.</span>
+    <span class="k">if</span> <span class="n">space_from_hint</span> <span class="ow">and</span> <span class="n">space_path</span> <span class="ow">and</span> <span class="n">_space_registry_enabled</span><span class="p">():</span>
+        <span class="n">space_path</span> <span class="o">=</span> <span class="n">_resolve_space_hint_path</span><span class="p">(</span><span class="n">project_obj</span><span class="p">,</span> <span class="n">space_path</span><span class="p">)</span>
 
     <span class="n">normalized_space_path</span> <span class="o">=</span> <span class="n">_ensure_space_path</span><span class="p">(</span><span class="n">project_obj</span><span class="p">,</span> <span class="n">space_path</span><span class="p">)</span>
 
@@ -2921,7 +3101,12 @@
                 <span class="p">},</span>
                 <span class="s2">&quot;memory_item_kind&quot;</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Item kind for memory entries (default: conversation)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="s2">&quot;Item kind for memory entries. Recommended vocabulary: &quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DEFAULT_MEMORY_KINDS</span><span class="p">)</span>
+                        <span class="o">+</span> <span class="s2">&quot; (a policy_kref may widen it via a &#39;memory_kinds&#39; &quot;</span>
+                        <span class="s2">&quot;list, so this is not enforced as a strict enum).&quot;</span>
+                    <span class="p">),</span>
                     <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;conversation&quot;</span><span class="p">,</span>
                 <span class="p">},</span>
                 <span class="s2">&quot;bundle_name&quot;</span><span class="p">:</span> <span class="p">{</span>
