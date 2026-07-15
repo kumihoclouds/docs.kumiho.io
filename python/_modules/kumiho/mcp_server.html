@@ -607,38 +607,42 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.10.7] - 2026-07-14</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.10.7] - 2026-07-14</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id4">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id7">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id10">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id10">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id11">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id13">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id13">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id14">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id15">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id14">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id15">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id16">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id17">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -726,11 +730,13 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
@@ -4559,6 +4565,314 @@
 
 
 
+<span class="c1"># ============================================================================</span>
+<span class="c1"># Process lifecycle hardening</span>
+<span class="c1"># ============================================================================</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_windows_parent_pid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the parent PID via NtQueryInformationProcess (Windows only).&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ctypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">wintypes</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_PROCESS_BASIC_INFORMATION</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+        <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;Reserved1&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;PebBaseAddress&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Reserved2&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;UniqueProcessId&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;InheritedFromUniqueProcessId&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ntdll</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinDLL</span><span class="p">(</span><span class="s2">&quot;ntdll&quot;</span><span class="p">)</span>
+        <span class="n">kernel32</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinDLL</span><span class="p">(</span><span class="s2">&quot;kernel32&quot;</span><span class="p">)</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">GetCurrentProcess</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
+        <span class="n">ntdll</span><span class="o">.</span><span class="n">NtQueryInformationProcess</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span>
+            <span class="n">wintypes</span><span class="o">.</span><span class="n">ULONG</span><span class="p">,</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">wintypes</span><span class="o">.</span><span class="n">ULONG</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">pbi</span> <span class="o">=</span> <span class="n">_PROCESS_BASIC_INFORMATION</span><span class="p">()</span>
+        <span class="n">ret_len</span> <span class="o">=</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">ULONG</span><span class="p">()</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">ntdll</span><span class="o">.</span><span class="n">NtQueryInformationProcess</span><span class="p">(</span>
+            <span class="n">kernel32</span><span class="o">.</span><span class="n">GetCurrentProcess</span><span class="p">(),</span>
+            <span class="mi">0</span><span class="p">,</span>  <span class="c1"># ProcessBasicInformation</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">pbi</span><span class="p">),</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="n">pbi</span><span class="p">),</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">ret_len</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">pbi</span><span class="o">.</span><span class="n">InheritedFromUniqueProcessId</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">pbi</span><span class="o">.</span><span class="n">InheritedFromUniqueProcessId</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_exit_orphaned</span><span class="p">(</span><span class="n">pid</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># A dead ancestor usually means dead stderr too: the farewell message</span>
+    <span class="c1"># is best-effort, and os._exit must run no matter what the print does.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[kumiho-mcp] Watched ancestor process </span><span class="si">{</span><span class="n">pid</span><span class="si">}</span><span class="s2"> exited; shutting down.&quot;</span><span class="p">,</span>
+            <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span>
+            <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_select_watch_pids</span><span class="p">(</span>
+    <span class="n">table</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+    <span class="n">own_pid</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">max_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pick which ancestor PIDs the Windows watchdog must watch.</span>
+
+<span class="sd">    ``table`` maps pid -&gt; (parent pid, lowercase exe basename) for every</span>
+<span class="sd">    live process (a Toolhelp snapshot). Watching only the direct parent is</span>
+<span class="sd">    not enough: on python.org Windows installs the venv&#39;s</span>
+<span class="sd">    ``Scripts\\python.exe`` is a redirecting stub that runs the base</span>
+<span class="sd">    interpreter as a separate child, so the real server is a *grandchild*</span>
+<span class="sd">    (or deeper) of the launcher::</span>
+
+<span class="sd">        client (claude/node)                 &lt;- watched (last hop)</span>
+<span class="sd">          └─ run_kumiho_mcp.py launcher      &lt;- watched</span>
+<span class="sd">               └─ venv Scripts\\python.exe   &lt;- watched (redirector stub)</span>
+<span class="sd">                    └─ base python.exe -m kumiho.mcp_server   &lt;- this process</span>
+
+<span class="sd">    We watch the contiguous run of python-named ancestors (stubs and</span>
+<span class="sd">    launcher hops — session plumbing whose death always means the session</span>
+<span class="sd">    is dead) plus the first non-python ancestor (the client), and stop</span>
+<span class="sd">    there: anything further (terminal, explorer) can die and restart</span>
+<span class="sd">    without invalidating the session.</span>
+
+<span class="sd">    Returns ``(watch_pids, broken_pid)``; a non-None ``broken_pid`` means</span>
+<span class="sd">    a recorded ancestor is already gone — the chain is broken and this</span>
+<span class="sd">    process is already orphaned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">watch</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="p">{</span><span class="n">own_pid</span><span class="p">}</span>
+    <span class="n">child</span> <span class="o">=</span> <span class="n">own_pid</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_depth</span><span class="p">):</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">ppid</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ppid</span> <span class="ow">or</span> <span class="n">ppid</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="k">break</span>  <span class="c1"># unknown or cyclic (recycled-PID loop): stop here</span>
+        <span class="k">if</span> <span class="n">ppid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">watch</span><span class="p">,</span> <span class="n">ppid</span>
+        <span class="n">watch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ppid</span><span class="p">)</span>
+        <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ppid</span><span class="p">)</span>
+        <span class="n">exe</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">ppid</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">exe</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;py.exe&quot;</span><span class="p">)):</span>
+            <span class="k">break</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">ppid</span>
+    <span class="k">return</span> <span class="n">watch</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_windows_process_table</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;pid -&gt; (parent pid, lowercase exe basename) via a Toolhelp snapshot.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ctypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">wintypes</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_PROCESSENTRY32W</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+        <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;dwSize&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;cntUsage&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;th32ProcessID&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;th32DefaultHeapID&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">),</span>  <span class="c1"># ULONG_PTR</span>
+            <span class="p">(</span><span class="s2">&quot;th32ModuleID&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;cntThreads&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;th32ParentProcessID&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;pcPriClassBase&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">LONG</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;dwFlags&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;szExeFile&quot;</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">WCHAR</span> <span class="o">*</span> <span class="mi">260</span><span class="p">),</span>
+        <span class="p">]</span>
+
+    <span class="n">table</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kernel32</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinDLL</span><span class="p">(</span><span class="s2">&quot;kernel32&quot;</span><span class="p">,</span> <span class="n">use_last_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">CreateToolhelp32Snapshot</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">CreateToolhelp32Snapshot</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">]</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">Process32FirstW</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">BOOL</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">Process32FirstW</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">Process32NextW</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">BOOL</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">Process32NextW</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">CloseHandle</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span>
+
+        <span class="n">TH32CS_SNAPPROCESS</span> <span class="o">=</span> <span class="mh">0x00000002</span>
+        <span class="n">snap</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">CreateToolhelp32Snapshot</span><span class="p">(</span><span class="n">TH32CS_SNAPPROCESS</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">snap</span> <span class="ow">or</span> <span class="n">snap</span> <span class="o">==</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="n">_PROCESSENTRY32W</span><span class="p">()</span>
+            <span class="n">entry</span><span class="o">.</span><span class="n">dwSize</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="n">_PROCESSENTRY32W</span><span class="p">)</span>
+            <span class="n">ok</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">Process32FirstW</span><span class="p">(</span><span class="n">snap</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span>
+            <span class="k">while</span> <span class="n">ok</span><span class="p">:</span>
+                <span class="n">table</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">th32ProcessID</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">th32ParentProcessID</span><span class="p">),</span>
+                    <span class="n">entry</span><span class="o">.</span><span class="n">szExeFile</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+                <span class="p">)</span>
+                <span class="n">ok</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">Process32NextW</span><span class="p">(</span><span class="n">snap</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">entry</span><span class="p">))</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">kernel32</span><span class="o">.</span><span class="n">CloseHandle</span><span class="p">(</span><span class="n">snap</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">table</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_start_windows_watchdog</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ctypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">wintypes</span>
+
+    <span class="n">kernel32</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinDLL</span><span class="p">(</span><span class="s2">&quot;kernel32&quot;</span><span class="p">,</span> <span class="n">use_last_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">GetCurrentProcess</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">OpenProcess</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">OpenProcess</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">BOOL</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">]</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">WaitForMultipleObjects</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">WaitForMultipleObjects</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+        <span class="n">wintypes</span><span class="o">.</span><span class="n">BOOL</span><span class="p">,</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">GetProcessTimes</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">wintypes</span><span class="o">.</span><span class="n">BOOL</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">GetProcessTimes</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span>
+        <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">wintypes</span><span class="o">.</span><span class="n">FILETIME</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">SYNCHRONIZE</span> <span class="o">=</span> <span class="mh">0x00100000</span>
+    <span class="n">PROCESS_QUERY_LIMITED_INFORMATION</span> <span class="o">=</span> <span class="mh">0x1000</span>
+    <span class="n">INFINITE</span> <span class="o">=</span> <span class="mh">0xFFFFFFFF</span>
+    <span class="n">ERROR_INVALID_PARAMETER</span> <span class="o">=</span> <span class="mi">87</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_creation_time</span><span class="p">(</span><span class="n">proc_handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="p">(</span><span class="n">wintypes</span><span class="o">.</span><span class="n">FILETIME</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)()</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">GetProcessTimes</span><span class="p">(</span>
+            <span class="n">proc_handle</span><span class="p">,</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dwHighDateTime</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span><span class="p">)</span> <span class="o">|</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dwLowDateTime</span>
+
+    <span class="n">watch_pids</span><span class="p">,</span> <span class="n">broken_pid</span> <span class="o">=</span> <span class="n">_select_watch_pids</span><span class="p">(</span>
+        <span class="n">_windows_process_table</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">broken_pid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># A recorded ancestor no longer exists: the launch chain broke</span>
+        <span class="c1"># while this module was importing — already the orphan case.</span>
+        <span class="n">_exit_orphaned</span><span class="p">(</span><span class="n">broken_pid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">watch_pids</span><span class="p">:</span>
+        <span class="c1"># Snapshot unavailable: fall back to watching the direct parent.</span>
+        <span class="n">ppid</span> <span class="o">=</span> <span class="n">_windows_parent_pid</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ppid</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">watch_pids</span> <span class="o">=</span> <span class="p">[</span><span class="n">ppid</span><span class="p">]</span>
+
+    <span class="n">own_created</span> <span class="o">=</span> <span class="n">_creation_time</span><span class="p">(</span><span class="n">kernel32</span><span class="o">.</span><span class="n">GetCurrentProcess</span><span class="p">())</span>
+    <span class="n">handles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">watched</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">watch_pids</span><span class="p">:</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">OpenProcess</span><span class="p">(</span>
+            <span class="n">SYNCHRONIZE</span> <span class="o">|</span> <span class="n">PROCESS_QUERY_LIMITED_INFORMATION</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pid</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">handle</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">get_last_error</span><span class="p">()</span> <span class="o">==</span> <span class="n">ERROR_INVALID_PARAMETER</span><span class="p">:</span>
+                <span class="c1"># No such PID: that ancestor died since the snapshot.</span>
+                <span class="n">_exit_orphaned</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+            <span class="k">continue</span>  <span class="c1"># unopenable (access denied, ...): skip this hop</span>
+        <span class="n">created</span> <span class="o">=</span> <span class="n">_creation_time</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">created</span> <span class="ow">and</span> <span class="n">own_created</span> <span class="ow">and</span> <span class="n">created</span> <span class="o">&gt;</span> <span class="n">own_created</span><span class="p">:</span>
+            <span class="c1"># A real ancestor is strictly older than this process, so</span>
+            <span class="c1"># this PID was recycled: the actual ancestor is already gone.</span>
+            <span class="n">_exit_orphaned</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+        <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="n">watched</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">handles</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">handle_array</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">handles</span><span class="p">))(</span><span class="o">*</span><span class="n">handles</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_watch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">WaitForMultipleObjects</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">handles</span><span class="p">),</span> <span class="n">handle_array</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">INFINITE</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">ret</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">handles</span><span class="p">):</span>  <span class="c1"># WAIT_OBJECT_0 + index</span>
+            <span class="n">_exit_orphaned</span><span class="p">(</span><span class="n">watched</span><span class="p">[</span><span class="n">ret</span><span class="p">])</span>
+        <span class="c1"># Any other result (e.g. WAIT_FAILED) is an ambiguous signal:</span>
+        <span class="c1"># fail open rather than ever self-killing a healthy server.</span>
+
+    <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">_watch</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;kumiho-orphan-watchdog&quot;</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_start_orphan_watchdog</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exit when the parent process dies, so a dead client or launcher can</span>
+<span class="sd">    never strand a live server.</span>
+
+<span class="sd">    On Windows, MCP clients spawn this server behind a launcher process</span>
+<span class="sd">    (e.g. kumiho-plugins&#39; ``run_kumiho_mcp.py``), and a venv&#39;s</span>
+<span class="sd">    ``Scripts\\python.exe`` adds a further redirector-stub hop, so the</span>
+<span class="sd">    real server can be a grandchild or deeper. ``TerminateProcess`` on</span>
+<span class="sd">    any hop does not kill its children, and a pipe handle leaked by a</span>
+<span class="sd">    still-running client suppresses the stdin EOF a well-behaved server</span>
+<span class="sd">    would exit on — so orphaned servers accumulate across session</span>
+<span class="sd">    restarts (kumiho-plugins#25). Coverage:</span>
+
+<span class="sd">    - Windows: block on the launching ancestor chain&#39;s process handles</span>
+<span class="sd">      (event-driven, ``WaitForMultipleObjects``); the chain is the</span>
+<span class="sd">      contiguous python-named ancestors plus the first non-python one</span>
+<span class="sd">      (the client) — see :func:`_select_watch_pids`.</span>
+<span class="sd">    - POSIX: poll ``getppid()``; reparenting (to init or a subreaper)</span>
+<span class="sd">      means the parent died.</span>
+
+<span class="sd">    If an ancestor died while this module was still importing, Windows</span>
+<span class="sd">    detects it at arm time (missing PID, or a recycled PID younger than</span>
+<span class="sd">    this process) and exits immediately; POSIX cannot distinguish that</span>
+<span class="sd">    from a legitimate init/subreaper parent, so it disarms and relies on</span>
+<span class="sd">    the stdin-EOF backstop, as before. Disable with</span>
+<span class="sd">    ``KUMIHO_MCP_DISABLE_ORPHAN_WATCHDOG=1``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">disable</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;KUMIHO_MCP_DISABLE_ORPHAN_WATCHDOG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">disable</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;nt&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_start_windows_watchdog</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># degrade to no-watchdog, never block startup</span>
+        <span class="k">return</span>
+
+    <span class="n">initial_ppid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">initial_ppid</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Direct child of init/subreaper (e.g. a container top process):</span>
+        <span class="c1"># reparenting can never be observed. stdin EOF remains the</span>
+        <span class="c1"># shutdown signal, as before.</span>
+        <span class="k">return</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">poll</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;KUMIHO_MCP_ORPHAN_WATCHDOG_POLL&quot;</span><span class="p">,</span> <span class="s2">&quot;5.0&quot;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">poll</span> <span class="o">=</span> <span class="mf">5.0</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">poll</span><span class="p">):</span>
+        <span class="n">poll</span> <span class="o">=</span> <span class="mf">5.0</span>
+    <span class="n">poll</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">poll</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="mf">3600.0</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_watch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">os</span><span class="o">.</span><span class="n">getppid</span><span class="p">()</span> <span class="o">==</span> <span class="n">initial_ppid</span><span class="p">:</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">poll</span><span class="p">)</span>
+        <span class="n">_exit_orphaned</span><span class="p">(</span><span class="n">initial_ppid</span><span class="p">)</span>
+
+    <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">_watch</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;kumiho-orphan-watchdog&quot;</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+
 <div class="viewcode-block" id="run_server">
 <a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.run_server">[docs]</a>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_server</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4586,8 +4900,40 @@
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Entry point for the MCP server CLI.&quot;&quot;&quot;</span>
-    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_server</span><span class="p">())</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Entry point for the MCP server CLI.</span>
+
+<span class="sd">    Ends with ``os._exit``: once the stdio transport is gone there is</span>
+<span class="sd">    nothing left for this process to do, and lingering non-daemon threads</span>
+<span class="sd">    (thread pools, gRPC channels) must never keep a dead server alive —</span>
+<span class="sd">    orphaned servers accumulate across client restarts (kumiho-plugins#25).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_start_orphan_watchdog</span><span class="p">()</span>
+    <span class="n">exit_code</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">run_server</span><span class="p">())</span>
+    <span class="k">except</span> <span class="ne">SystemExit</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">exit_code</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">code</span>
+        <span class="k">elif</span> <span class="n">exc</span><span class="o">.</span><span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Match the interpreter&#39;s behavior for sys.exit(&quot;message&quot;).</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">exit_code</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">exit_code</span> <span class="o">=</span> <span class="mi">130</span>
+    <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+        <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+        <span class="n">exit_code</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># The mcp stdio transport closes the real stdio on shutdown</span>
+            <span class="c1"># (modelcontextprotocol/python-sdk#1933).</span>
+            <span class="k">pass</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="n">exit_code</span><span class="p">)</span></div>
 
 
 

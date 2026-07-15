@@ -610,38 +610,42 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[0.10.7] - 2026-07-14</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">[0.10.7] - 2026-07-14</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -687,7 +691,29 @@
 <p>The format is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
 and this project adheres to <a class="reference external" href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <section id="id1">
-<h2>[0.10.7] - 2026-07-14<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>[0.10.8] - 2026-07-15<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="fixed">
+<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>MCP server orphan hardening</strong> — <code class="docutils literal notranslate"><span class="pre">kumiho.mcp_server</span></code> now exits when its
+launching ancestor chain dies: event-driven on Windows (a watchdog thread
+blocks on the ancestor process handles via <code class="docutils literal notranslate"><span class="pre">WaitForMultipleObjects</span></code>),
+ppid-reparent polling on POSIX. On Windows, MCP clients restart sessions
+by terminating the launcher process, which does <strong>not</strong> kill its children
+— and because a venv’s <code class="docutils literal notranslate"><span class="pre">Scripts\python.exe</span></code> is a redirector stub that runs
+the base interpreter as a separate child, the real server is a grandchild
+or deeper, so the whole contiguous python-named ancestor chain plus the
+client is watched, not just the direct parent. The stranded
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">kumiho.mcp_server</span></code> processes previously accumulated without
+bound (KumihoIO/kumiho-plugins#25). Additionally, <code class="docutils literal notranslate"><span class="pre">main()</span></code> now hard-exits
+once the stdio transport closes, so lingering non-daemon threads (thread
+pools, gRPC channels) can never keep a dead server alive. Opt out with
+<code class="docutils literal notranslate"><span class="pre">KUMIHO_MCP_DISABLE_ORPHAN_WATCHDOG=1</span></code>.</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>[0.10.7] - 2026-07-14<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <section id="added">
 <h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -703,10 +729,10 @@ capture keeps the byte-identical per-capture path.</p></li>
 </ul>
 </section>
 </section>
-<section id="id2">
-<h2>[0.10.6] - 2026-07-15<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <section id="id3">
-<h3>Added<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h2>[0.10.6] - 2026-07-15<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>Added<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Batch revision creation</strong> — <code class="docutils literal notranslate"><span class="pre">batch_create_revisions(revisions,</span> <span class="pre">idempotency_prefix=...)</span></code>
 writes up to 200 captures (item + revision + optional artifacts) in a single
@@ -719,10 +745,10 @@ kumiho-server &gt;= 1.6.3.</p></li>
 </ul>
 </section>
 </section>
-<section id="id4">
-<h2>[0.10.0] - 2026-06-17<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <section id="id5">
-<h3>Added<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<h2>[0.10.0] - 2026-06-17<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h3>Added<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Full-text fuzzy search</strong> — <code class="docutils literal notranslate"><span class="pre">search(query,</span> <span class="pre">...)</span></code> returns ranked items
 (<code class="docutils literal notranslate"><span class="pre">SearchResult</span></code> with <code class="docutils literal notranslate"><span class="pre">item</span></code>, <code class="docutils literal notranslate"><span class="pre">score</span></code>, <code class="docutils literal notranslate"><span class="pre">matched_in</span></code>), with automatic typo tolerance.</p></li>
@@ -743,10 +769,10 @@ fetches many revisions in a single call, returning <code class="docutils literal
 </ul>
 </section>
 </section>
-<section id="id6">
-<h2>[0.4.0] - 2025-12-03<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <section id="id7">
-<h3>Added<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<h2>[0.4.0] - 2025-12-03<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>Added<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Event streaming cursor support</strong>: <code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code> attribute for resumable streaming</p></li>
 <li><p><strong>EventCapabilities API</strong>: <code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code> to query tier-based streaming features</p></li>
@@ -760,8 +786,8 @@ fetches many revisions in a single call, returning <code class="docutils literal
 <li><p>Tier capability documentation with Coming Soon markers</p></li>
 </ul>
 </section>
-<section id="id8">
-<h3>Changed<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Changed<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Updated event streaming documentation with tier matrix</p></li>
 <li><p>Event object now includes <code class="docutils literal notranslate"><span class="pre">cursor</span></code> attribute (None for Free tier)</p></li>
@@ -777,8 +803,8 @@ fetches many revisions in a single call, returning <code class="docutils literal
 </section>
 <section id="xx-xx">
 <h2>[0.3.0] - 2024-XX-XX<a class="headerlink" href="#xx-xx" title="Link to this heading"></a></h2>
-<section id="id9">
-<h3>Added<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id10">
+<h3>Added<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Comprehensive Google-style docstrings for all public APIs</p></li>
 <li><p>Sphinx documentation with ReadTheDocs theme</p></li>
@@ -787,42 +813,42 @@ fetches many revisions in a single call, returning <code class="docutils literal
 <li><p>Type hints throughout the codebase</p></li>
 </ul>
 </section>
-<section id="id10">
-<h3>Changed<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<section id="id11">
+<h3>Changed<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> with full PyPI metadata</p></li>
 <li><p>Improved error messages with more context</p></li>
 </ul>
 </section>
-<section id="fixed">
-<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h3>
+<section id="id12">
+<h3>Fixed<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Kref parsing for artifact URIs with special characters</p></li>
 </ul>
 </section>
 </section>
-<section id="id11">
-<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
-<section id="id12">
-<h3>Added<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<section id="id13">
+<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>Added<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Event streaming support with <code class="docutils literal notranslate"><span class="pre">stream_events()</span></code></p></li>
 <li><p>Link traversal for lineage tracking</p></li>
 <li><p>Batch operations for multiple artifacts</p></li>
 </ul>
 </section>
-<section id="id13">
-<h3>Changed<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id15">
+<h3>Changed<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Switched to context-variable-based client management</p></li>
 <li><p>Improved connection pooling for gRPC channels</p></li>
 </ul>
 </section>
 </section>
-<section id="id14">
-<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
-<section id="id15">
-<h3>Added<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<section id="id16">
+<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="id17">
+<h3>Added<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Initial release</p></li>
 <li><p>Core entity classes: Project, Space, Item, Revision, Artifact, Edge</p></li>
