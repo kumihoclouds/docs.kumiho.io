@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.client &mdash; Kumiho Python SDK v0.10.5</title>
+  <title>kumiho.client &mdash; Kumiho Python SDK v0.10.6</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=da6fbbfd"></script>
+      <script src="../../_static/documentation_options.js?v=ed973197"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -81,6 +81,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#bundle">Bundle</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts.html#bulk-ingest-batch-writes">Bulk Ingest (Batch Writes)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../concepts.html#metadata">Metadata</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#setting-metadata">Setting Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../concepts.html#granular-attribute-operations">Granular Attribute Operations</a></li>
@@ -605,30 +606,34 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.10.6] - 2026-07-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id4">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id7">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id10">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id11">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id11">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id12">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id13">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -729,6 +734,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BatchCreateRevisionsRequest</span><span class="p">,</span>
     <span class="n">BatchGetRevisionsRequest</span><span class="p">,</span>
     <span class="n">CreateSpaceRequest</span><span class="p">,</span>
     <span class="n">CreateEdgeRequest</span><span class="p">,</span>
@@ -1817,6 +1823,114 @@
         <span class="n">not_found</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">not_found</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">revisions</span><span class="p">,</span> <span class="n">not_found</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">batch_create_revisions</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">revisions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+        <span class="n">idempotency_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Revision</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create many revisions in a single call (one server transaction).</span>
+
+<span class="sd">        The bulk-write counterpart of create_revision(): N revisions (and any</span>
+<span class="sd">        missing parent items, derived from each row&#39;s item_kref) land in one</span>
+<span class="sd">        server transaction and one batched embedding pass instead of N serial</span>
+<span class="sd">        writes. Use it for backfill and other high-volume ingest.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            revisions: One dict per revision to create, in order:</span>
+<span class="sd">                - &quot;item_kref&quot; (str or Kref, required): the parent item.</span>
+<span class="sd">                  Missing items are auto-created; the parent space must</span>
+<span class="sd">                  already exist or the row fails.</span>
+<span class="sd">                - &quot;metadata&quot; (dict, optional): revision metadata.</span>
+<span class="sd">                - &quot;embedding_text&quot; (str, optional): override for the</span>
+<span class="sd">                  server-side embedding text (same as create_revision).</span>
+<span class="sd">                - &quot;artifacts&quot; (list of dicts, optional): artifacts to attach</span>
+<span class="sd">                  to the created revision, each {&quot;name&quot; (kref-safe, unique</span>
+<span class="sd">                  within the row), &quot;location&quot;, &quot;metadata&quot; (optional),</span>
+<span class="sd">                  &quot;default&quot; (bool, optional - at most one per row; makes the</span>
+<span class="sd">                  artifact resolvable straight from the item kref)}. An</span>
+<span class="sd">                  invalid artifact spec fails its whole row.</span>
+<span class="sd">                Rows targeting the same item are applied in list order</span>
+<span class="sd">                (consecutive numbers; the last row becomes &quot;latest&quot;).</span>
+<span class="sd">            idempotency_prefix: When non-empty, each row is recorded under</span>
+<span class="sd">                the key &quot;{prefix}:{index}&quot; server-side, so re-submitting the</span>
+<span class="sd">                same batch returns the already-created revisions instead of</span>
+<span class="sd">                writing duplicates. Keep it stable across retries of the</span>
+<span class="sd">                same batch.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple of (results, failures):</span>
+<span class="sd">            - results: positional, one entry per input row - the created</span>
+<span class="sd">              (or idempotently replayed) Revision, or None for rows the</span>
+<span class="sd">              server rejected.</span>
+<span class="sd">            - failures: (row_index, reason) for each rejected row. All</span>
+<span class="sd">              valid rows commit atomically; any other failure raises.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a row is missing &quot;item_kref&quot; (client-side).</span>
+<span class="sd">            grpc.RpcError: On whole-batch failures (batch too large, quota,</span>
+<span class="sd">                server errors). The server caps batches at 200 rows.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; results, failures = client.batch_create_revisions(</span>
+<span class="sd">            ...     [</span>
+<span class="sd">            ...         # two revisions of the SAME item -&gt; r=1, r=2 (&quot;latest&quot;)</span>
+<span class="sd">            ...         {&quot;item_kref&quot;: &quot;kref://proj/space/mem1.memory&quot;,</span>
+<span class="sd">            ...          &quot;metadata&quot;: {&quot;title&quot;: &quot;first draft&quot;}},</span>
+<span class="sd">            ...         {&quot;item_kref&quot;: &quot;kref://proj/space/mem1.memory&quot;,</span>
+<span class="sd">            ...          &quot;metadata&quot;: {&quot;title&quot;: &quot;revised&quot;}},</span>
+<span class="sd">            ...         # a different item, with its artifact chain attached</span>
+<span class="sd">            ...         {&quot;item_kref&quot;: &quot;kref://proj/space/mem2.memory&quot;,</span>
+<span class="sd">            ...          &quot;metadata&quot;: {&quot;title&quot;: &quot;second memory&quot;},</span>
+<span class="sd">            ...          &quot;embedding_text&quot;: &quot;second memory&quot;,</span>
+<span class="sd">            ...          &quot;artifacts&quot;: [{&quot;name&quot;: &quot;transcript&quot;,</span>
+<span class="sd">            ...                         &quot;location&quot;: &quot;s3://bucket/mem2.md&quot;,</span>
+<span class="sd">            ...                         &quot;default&quot;: True}]},</span>
+<span class="sd">            ...     ],</span>
+<span class="sd">            ...     idempotency_prefix=&quot;backfill-20260714&quot;,</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; created = [r for r in results if r is not None]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">revisions</span><span class="p">):</span>
+            <span class="n">item_kref</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;item_kref&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item_kref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;revisions[</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">] is missing &#39;item_kref&#39;&quot;</span><span class="p">)</span>
+            <span class="n">uri</span> <span class="o">=</span> <span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item_kref</span><span class="p">,</span> <span class="n">Kref</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
+            <span class="n">artifacts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">kumiho_pb2</span><span class="o">.</span><span class="n">BatchArtifactInput</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">artifact</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                    <span class="n">location</span><span class="o">=</span><span class="n">artifact</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="n">artifact</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{},</span>
+                    <span class="n">is_default</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">artifact</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">artifact</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;artifacts&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+            <span class="p">]</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">kumiho_pb2</span><span class="o">.</span><span class="n">BatchRevisionRow</span><span class="p">(</span>
+                    <span class="n">revision</span><span class="o">=</span><span class="n">CreateRevisionRequest</span><span class="p">(</span>
+                        <span class="n">item_kref</span><span class="o">=</span><span class="n">kumiho_pb2</span><span class="o">.</span><span class="n">Kref</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">uri</span><span class="p">),</span>
+                        <span class="n">metadata</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{},</span>
+                        <span class="n">embedding_text</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;embedding_text&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="n">artifacts</span><span class="o">=</span><span class="n">artifacts</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">req</span> <span class="o">=</span> <span class="n">BatchCreateRevisionsRequest</span><span class="p">(</span>
+            <span class="n">revisions</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span>
+            <span class="n">idempotency_prefix</span><span class="o">=</span><span class="n">idempotency_prefix</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">BatchCreateRevisions</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+
+        <span class="n">failed_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">failure</span><span class="o">.</span><span class="n">index</span> <span class="k">for</span> <span class="n">failure</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">failures</span><span class="p">}</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Revision</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="kc">None</span> <span class="k">if</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">failed_indices</span> <span class="k">else</span> <span class="n">Revision</span><span class="p">(</span><span class="n">pb</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">pb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">failures</span> <span class="o">=</span> <span class="p">[(</span><span class="n">failure</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">failure</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span> <span class="k">for</span> <span class="n">failure</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">failures</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">results</span><span class="p">,</span> <span class="n">failures</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">delete_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kref</span><span class="p">:</span> <span class="n">Kref</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a revision.</span>

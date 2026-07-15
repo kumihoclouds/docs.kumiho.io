@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Core Concepts &mdash; Kumiho Python SDK v0.10.5</title>
+  <title>Core Concepts &mdash; Kumiho Python SDK v0.10.6</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=da6fbbfd"></script>
+      <script src="_static/documentation_options.js?v=ed973197"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -84,6 +84,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bundle">Bundle</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#bulk-ingest-batch-writes">Bulk Ingest (Batch Writes)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setting-metadata">Setting Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#granular-attribute-operations">Granular Attribute Operations</a></li>
@@ -608,30 +609,34 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.10.6] - 2026-07-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#added">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#changed">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id6">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id6">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id7">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id8">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id8">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id10">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id11">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id11">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -911,6 +916,54 @@
 <li><p>Can query members at any specific revision in history</p></li>
 </ul>
 </section>
+</section>
+<section id="bulk-ingest-batch-writes">
+<h2>Bulk Ingest (Batch Writes)<a class="headerlink" href="#bulk-ingest-batch-writes" title="Link to this heading"></a></h2>
+<p>For high-volume writes — onboarding backfill, migrations, session mining — use
+<code class="docutils literal notranslate"><span class="pre">batch_create_revisions()</span></code> instead of looping over <code class="docutils literal notranslate"><span class="pre">create_item()</span></code> +
+<code class="docutils literal notranslate"><span class="pre">create_revision()</span></code>. One call writes up to 200 <em>captures</em> in a single server
+transaction and one batched embedding pass, which is both faster and safer:
+concurrent single-writes can deadlock at bulk volume, batches cannot.</p>
+<p>Each row is one capture — an item, a revision, and optionally its artifacts,
+created (or rejected) as a unit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">,</span> <span class="n">failures</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">batch_create_revisions</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="c1"># two revisions of the SAME item -&gt; r=1, r=2 (&quot;latest&quot;)</span>
+        <span class="p">{</span><span class="s2">&quot;item_kref&quot;</span><span class="p">:</span> <span class="s2">&quot;kref://proj/space/mem1.memory&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;first draft&quot;</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s2">&quot;item_kref&quot;</span><span class="p">:</span> <span class="s2">&quot;kref://proj/space/mem1.memory&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;revised&quot;</span><span class="p">}},</span>
+        <span class="c1"># a different item, auto-created, with its artifact chain</span>
+        <span class="p">{</span><span class="s2">&quot;item_kref&quot;</span><span class="p">:</span> <span class="s2">&quot;kref://proj/space/mem2.memory&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;second memory&quot;</span><span class="p">},</span>
+         <span class="s2">&quot;artifacts&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;transcript&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;s3://bucket/mem2.md&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}]},</span>
+    <span class="p">],</span>
+    <span class="n">idempotency_prefix</span><span class="o">=</span><span class="s2">&quot;backfill-20260714-chunk0&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">created</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>   <span class="c1"># positional with the input</span>
+</pre></div>
+</div>
+<p>Key semantics:</p>
+<ul class="simple">
+<li><p><strong>Items are auto-created</strong> from each row’s <code class="docutils literal notranslate"><span class="pre">item_kref</span></code> — there is no
+separate batch item call. The parent <em>space</em> must already exist (create
+spaces once, up front); a row pointing at a missing space fails
+individually without affecting the rest.</p></li>
+<li><p><strong>Row metadata targets the revision</strong> (items never take metadata at
+creation — that is <code class="docutils literal notranslate"><span class="pre">update_metadata()</span></code> territory).</p></li>
+<li><p><strong>Same-item rows apply in list order</strong>: consecutive numbers, the last row
+becomes <code class="docutils literal notranslate"><span class="pre">latest</span></code>.</p></li>
+<li><p><strong>Artifacts</strong> attach in the same transaction; <code class="docutils literal notranslate"><span class="pre">&quot;default&quot;:</span> <span class="pre">True</span></code> (at most
+one per row) makes <code class="docutils literal notranslate"><span class="pre">get_artifact(item_kref)</span></code> and location resolution work
+immediately after ingest.</p></li>
+<li><p><strong>Idempotency</strong>: with a stable <code class="docutils literal notranslate"><span class="pre">idempotency_prefix</span></code>, re-submitting the same
+batch is a no-op that returns the already-created revisions — chunk your
+source in a stable order and resume by simply re-sending.</p></li>
+<li><p><strong>Failures are positional</strong>: <code class="docutils literal notranslate"><span class="pre">failures</span></code> is <code class="docutils literal notranslate"><span class="pre">[(row_index,</span> <span class="pre">reason)]</span></code> for rows
+rejected by validation; everything valid commits atomically.</p></li>
+</ul>
 </section>
 <section id="metadata">
 <h2>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h2>
