@@ -66,6 +66,7 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func FromLocalCE\(ctx context.Context\) \(\*Client, error\)](<#FromLocalCE>)
   - [func \(c \*Client\) AddBundleMember\(ctx context.Context, bundleKref, memberItemKref Kref, metadata map\[string\]string\) \(success bool, message string, newRev \*Revision, err error\)](<#Client.AddBundleMember>)
   - [func \(c \*Client\) AnalyzeImpact\(ctx context.Context, revisionKref Kref, edgeTypeFilter \[\]string, maxDepth, limit int32\) \(\[\]ImpactedRevision, error\)](<#Client.AnalyzeImpact>)
+  - [func \(c \*Client\) AnalyzeProjectDeletion\(ctx context.Context, projectID string\) \(\*pb.ProjectDeletionImpactResponse, error\)](<#Client.AnalyzeProjectDeletion>)
   - [func \(c \*Client\) BatchGetRevisions\(ctx context.Context, revisionKrefs, itemKrefs \[\]string, tag string, allowPartial bool\) \(\[\]\*Revision, \[\]string, error\)](<#Client.BatchGetRevisions>)
   - [func \(c \*Client\) Close\(\) error](<#Client.Close>)
   - [func \(c \*Client\) CreateArtifact\(ctx context.Context, revisionKref Kref, name, location string, metadata map\[string\]string\) \(\*Artifact, error\)](<#Client.CreateArtifact>)
@@ -106,12 +107,18 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func \(c \*Client\) GetRevisions\(ctx context.Context, itemKref Kref\) \(\[\]\*Revision, error\)](<#Client.GetRevisions>)
   - [func \(c \*Client\) GetSpace\(ctx context.Context, path string\) \(\*Space, error\)](<#Client.GetSpace>)
   - [func \(c \*Client\) GetTenantUsage\(ctx context.Context\) \(\*TenantUsage, error\)](<#Client.GetTenantUsage>)
+  - [func \(c \*Client\) HardDeleteProject\(ctx context.Context, impact \*pb.ProjectDeletionImpactResponse, confirmed bool\) error](<#Client.HardDeleteProject>)
   - [func \(c \*Client\) HasTag\(ctx context.Context, kref Kref, tag string\) \(bool, error\)](<#Client.HasTag>)
   - [func \(c \*Client\) ItemSearch\(ctx context.Context, contextFilter, nameFilter, kindFilter string, pageSize int, cursor string, includeDeprecated bool\) \(\*Page\[\*Item\], error\)](<#Client.ItemSearch>)
+  - [func \(c \*Client\) MoveItem\(ctx context.Context, kref Kref, targetSpacePath string\) \(\*Item, error\)](<#Client.MoveItem>)
+  - [func \(c \*Client\) MoveItemWithGuard\(ctx context.Context, kref Kref, targetSpacePath, deletionGuardID string\) \(\*Item, error\)](<#Client.MoveItemWithGuard>)
   - [func \(c \*Client\) PeekNextRevision\(ctx context.Context, itemKref Kref\) \(int32, error\)](<#Client.PeekNextRevision>)
+  - [func \(c \*Client\) RegisterProjectDeletionGuard\(ctx context.Context, projectID, guardID, resourceKref string, operations, metadataKeys \[\]string\) \(\*pb.ProjectDeletionGuardResponse, error\)](<#Client.RegisterProjectDeletionGuard>)
   - [func \(c \*Client\) RemoveBundleMember\(ctx context.Context, bundleKref, memberItemKref Kref, metadata map\[string\]string\) \(success bool, message string, newRev \*Revision, err error\)](<#Client.RemoveBundleMember>)
   - [func \(c \*Client\) Resolve\(ctx context.Context, kref string\) \(string, error\)](<#Client.Resolve>)
   - [func \(c \*Client\) ResolveKref\(ctx context.Context, kref string, tag, t \*string\) \(\*Revision, error\)](<#Client.ResolveKref>)
+  - [func \(c \*Client\) ResolveProjectDeletionGuard\(ctx context.Context, projectID, guardID string\) error](<#Client.ResolveProjectDeletionGuard>)
+  - [func \(c \*Client\) ResolveProjectReference\(ctx context.Context, projectID, insideKref, outsideKref, edgeType, action, replacementKref string\) error](<#Client.ResolveProjectReference>)
   - [func \(c \*Client\) ScoreRevisions\(ctx context.Context, query string, revisionKrefs, scoreFields \[\]string\) \(\[\]ScoredRevision, error\)](<#Client.ScoreRevisions>)
   - [func \(c \*Client\) Search\(ctx context.Context, query string, opts SearchOptions\) \(\*Page\[\*SearchResult\], error\)](<#Client.Search>)
   - [func \(c \*Client\) SetAttribute\(ctx context.Context, kref Kref, key, value string\) \(bool, error\)](<#Client.SetAttribute>)
@@ -166,6 +173,8 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func \(i \*Item\) GetRevisionByTime\(ctx context.Context, time string, tag string\) \(\*Revision, error\)](<#Item.GetRevisionByTime>)
   - [func \(i \*Item\) GetRevisions\(ctx context.Context\) \(\[\]\*Revision, error\)](<#Item.GetRevisions>)
   - [func \(i \*Item\) GetSpace\(ctx context.Context\) \(\*Space, error\)](<#Item.GetSpace>)
+  - [func \(i \*Item\) MoveTo\(ctx context.Context, targetSpacePath string\) \(\*Item, error\)](<#Item.MoveTo>)
+  - [func \(i \*Item\) MoveToWithGuard\(ctx context.Context, targetSpacePath, deletionGuardID string\) \(\*Item, error\)](<#Item.MoveToWithGuard>)
   - [func \(i \*Item\) PeekNextRevision\(ctx context.Context\) \(int32, error\)](<#Item.PeekNextRevision>)
   - [func \(i \*Item\) Project\(\) string](<#Item.Project>)
   - [func \(i \*Item\) SetAttribute\(ctx context.Context, key, value string\) \(bool, error\)](<#Item.SetAttribute>)
@@ -189,6 +198,7 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
 - [type Page](<#Page>)
 - [type PathStep](<#PathStep>)
 - [type Project](<#Project>)
+  - [func \(p \*Project\) AnalyzeDeletion\(ctx context.Context\) \(\*pb.ProjectDeletionImpactResponse, error\)](<#Project.AnalyzeDeletion>)
   - [func \(p \*Project\) CreateBundle\(ctx context.Context, bundleName, parentPath string, metadata map\[string\]string\) \(\*Bundle, error\)](<#Project.CreateBundle>)
   - [func \(p \*Project\) CreateItem\(ctx context.Context, itemName, kind, parentPath string, metadata map\[string\]string\) \(\*Item, error\)](<#Project.CreateItem>)
   - [func \(p \*Project\) CreateSpace\(ctx context.Context, name, parentPath string\) \(\*Space, error\)](<#Project.CreateSpace>)
@@ -198,6 +208,8 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func \(p \*Project\) GetItems\(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string\) \(\*Page\[\*Item\], error\)](<#Project.GetItems>)
   - [func \(p \*Project\) GetSpace\(ctx context.Context, name, parentPath string\) \(\*Space, error\)](<#Project.GetSpace>)
   - [func \(p \*Project\) GetSpaces\(ctx context.Context, parentPath string, recursive bool, pageSize int, cursor string\) \(\*Page\[\*Space\], error\)](<#Project.GetSpaces>)
+  - [func \(p \*Project\) HardDelete\(ctx context.Context, impact \*pb.ProjectDeletionImpactResponse, confirmed bool\) error](<#Project.HardDelete>)
+  - [func \(p \*Project\) ResolveReference\(ctx context.Context, insideKref, outsideKref, edgeType, action, replacementKref string\) error](<#Project.ResolveReference>)
   - [func \(p \*Project\) SetAllowPublic\(ctx context.Context, allowPublic bool\) \(\*Project, error\)](<#Project.SetAllowPublic>)
   - [func \(p \*Project\) SetPublic\(ctx context.Context, public bool\) \(\*Project, error\)](<#Project.SetPublic>)
   - [func \(p \*Project\) Update\(ctx context.Context, description \*string, allowPublic \*bool\) \(\*Project, error\)](<#Project.Update>)
@@ -651,6 +663,15 @@ func (c *Client) AnalyzeImpact(ctx context.Context, revisionKref Kref, edgeTypeF
 
 AnalyzeImpact analyzes which revisions are impacted by changes to a revision.
 
+<a name="Client.AnalyzeProjectDeletion"></a>
+### func \(\*Client\) AnalyzeProjectDeletion
+
+```go
+func (c *Client) AnalyzeProjectDeletion(ctx context.Context, projectID string) (*pb.ProjectDeletionImpactResponse, error)
+```
+
+AnalyzeProjectDeletion creates a server\-authoritative deletion snapshot.
+
 <a name="Client.BatchGetRevisions"></a>
 ### func \(\*Client\) BatchGetRevisions
 
@@ -775,7 +796,7 @@ DeleteItem deletes an item \(force=true to delete with revisions\).
 func (c *Client) DeleteProject(ctx context.Context, projectID string, force bool) error
 ```
 
-DeleteProject deletes \(force=true\) or deprecates a project.
+DeleteProject forwards the legacy delete/deprecate request unchanged. New servers require AnalyzeProjectDeletion followed by HardDeleteProject for permanent deletion, while older servers can still honor force=true.
 
 <a name="Client.DeleteRevision"></a>
 ### func \(\*Client\) DeleteRevision
@@ -1013,6 +1034,15 @@ func (c *Client) GetTenantUsage(ctx context.Context) (*TenantUsage, error)
 
 GetTenantUsage returns the current tenant's node usage and limit.
 
+<a name="Client.HardDeleteProject"></a>
+### func \(\*Client\) HardDeleteProject
+
+```go
+func (c *Client) HardDeleteProject(ctx context.Context, impact *pb.ProjectDeletionImpactResponse, confirmed bool) error
+```
+
+HardDeleteProject permanently deletes an archived Project with explicit confirmation.
+
 <a name="Client.HasTag"></a>
 ### func \(\*Client\) HasTag
 
@@ -1031,6 +1061,24 @@ func (c *Client) ItemSearch(ctx context.Context, contextFilter, nameFilter, kind
 
 ItemSearch searches items across the system by filters.
 
+<a name="Client.MoveItem"></a>
+### func \(\*Client\) MoveItem
+
+```go
+func (c *Client) MoveItem(ctx context.Context, kref Kref, targetSpacePath string) (*Item, error)
+```
+
+MoveItem moves an Item to a Space in another Project without changing its kref.
+
+<a name="Client.MoveItemWithGuard"></a>
+### func \(\*Client\) MoveItemWithGuard
+
+```go
+func (c *Client) MoveItemWithGuard(ctx context.Context, kref Kref, targetSpacePath, deletionGuardID string) (*Item, error)
+```
+
+MoveItemWithGuard moves an archived Item under an exact deletion guard.
+
 <a name="Client.PeekNextRevision"></a>
 ### func \(\*Client\) PeekNextRevision
 
@@ -1039,6 +1087,15 @@ func (c *Client) PeekNextRevision(ctx context.Context, itemKref Kref) (int32, er
 ```
 
 PeekNextRevision returns the next revision number for an item.
+
+<a name="Client.RegisterProjectDeletionGuard"></a>
+### func \(\*Client\) RegisterProjectDeletionGuard
+
+```go
+func (c *Client) RegisterProjectDeletionGuard(ctx context.Context, projectID, guardID, resourceKref string, operations, metadataKeys []string) (*pb.ProjectDeletionGuardResponse, error)
+```
+
+RegisterProjectDeletionGuard registers an opaque application guard while active.
 
 <a name="Client.RemoveBundleMember"></a>
 ### func \(\*Client\) RemoveBundleMember
@@ -1066,6 +1123,24 @@ func (c *Client) ResolveKref(ctx context.Context, kref string, tag, t *string) (
 ```
 
 ResolveKref resolves an item kref to a revision by tag and/or time.
+
+<a name="Client.ResolveProjectDeletionGuard"></a>
+### func \(\*Client\) ResolveProjectDeletionGuard
+
+```go
+func (c *Client) ResolveProjectDeletionGuard(ctx context.Context, projectID, guardID string) error
+```
+
+ResolveProjectDeletionGuard resolves a previously registered guard.
+
+<a name="Client.ResolveProjectReference"></a>
+### func \(\*Client\) ResolveProjectReference
+
+```go
+func (c *Client) ResolveProjectReference(ctx context.Context, projectID, insideKref, outsideKref, edgeType, action, replacementKref string) error
+```
+
+ResolveProjectReference resolves one current cross\-Project Revision reference.
 
 <a name="Client.ScoreRevisions"></a>
 ### func \(\*Client\) ScoreRevisions
@@ -1618,6 +1693,24 @@ func (i *Item) GetSpace(ctx context.Context) (*Space, error)
 
 GetSpace returns the containing space.
 
+<a name="Item.MoveTo"></a>
+### func \(\*Item\) MoveTo
+
+```go
+func (i *Item) MoveTo(ctx context.Context, targetSpacePath string) (*Item, error)
+```
+
+MoveTo moves this Item to a Space in another Project, preserving its kref.
+
+<a name="Item.MoveToWithGuard"></a>
+### func \(\*Item\) MoveToWithGuard
+
+```go
+func (i *Item) MoveToWithGuard(ctx context.Context, targetSpacePath, deletionGuardID string) (*Item, error)
+```
+
+MoveToWithGuard moves this archived Item under an exact deletion guard.
+
 <a name="Item.PeekNextRevision"></a>
 ### func \(\*Item\) PeekNextRevision
 
@@ -1851,6 +1944,15 @@ type Project struct {
 }
 ```
 
+<a name="Project.AnalyzeDeletion"></a>
+### func \(\*Project\) AnalyzeDeletion
+
+```go
+func (p *Project) AnalyzeDeletion(ctx context.Context) (*pb.ProjectDeletionImpactResponse, error)
+```
+
+
+
 <a name="Project.CreateBundle"></a>
 ### func \(\*Project\) CreateBundle
 
@@ -1885,7 +1987,7 @@ CreateSpace creates a space \(parentPath "" defaults to the project root\).
 func (p *Project) Delete(ctx context.Context, force bool) error
 ```
 
-Delete deletes \(force=true\) or deprecates this project.
+Delete forwards the legacy delete/deprecate request to the connected server. New servers require AnalyzeDeletion followed by HardDelete for permanence.
 
 <a name="Project.GetBundle"></a>
 ### func \(\*Project\) GetBundle
@@ -1931,6 +2033,24 @@ func (p *Project) GetSpaces(ctx context.Context, parentPath string, recursive bo
 ```
 
 GetSpaces lists spaces in this project.
+
+<a name="Project.HardDelete"></a>
+### func \(\*Project\) HardDelete
+
+```go
+func (p *Project) HardDelete(ctx context.Context, impact *pb.ProjectDeletionImpactResponse, confirmed bool) error
+```
+
+
+
+<a name="Project.ResolveReference"></a>
+### func \(\*Project\) ResolveReference
+
+```go
+func (p *Project) ResolveReference(ctx context.Context, insideKref, outsideKref, edgeType, action, replacementKref string) error
+```
+
+
 
 <a name="Project.SetAllowPublic"></a>
 ### func \(\*Project\) SetAllowPublic
@@ -2603,6 +2723,34 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(x \*ArtifactResponse\) ProtoReflect\(\) protoreflect.Message](<#ArtifactResponse.ProtoReflect>)
   - [func \(x \*ArtifactResponse\) Reset\(\)](<#ArtifactResponse.Reset>)
   - [func \(x \*ArtifactResponse\) String\(\) string](<#ArtifactResponse.String>)
+- [type BatchArtifactInput](<#BatchArtifactInput>)
+  - [func \(\*BatchArtifactInput\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#BatchArtifactInput.Descriptor>)
+  - [func \(x \*BatchArtifactInput\) GetIsDefault\(\) bool](<#BatchArtifactInput.GetIsDefault>)
+  - [func \(x \*BatchArtifactInput\) GetLocation\(\) string](<#BatchArtifactInput.GetLocation>)
+  - [func \(x \*BatchArtifactInput\) GetMetadata\(\) map\[string\]string](<#BatchArtifactInput.GetMetadata>)
+  - [func \(x \*BatchArtifactInput\) GetName\(\) string](<#BatchArtifactInput.GetName>)
+  - [func \(\*BatchArtifactInput\) ProtoMessage\(\)](<#BatchArtifactInput.ProtoMessage>)
+  - [func \(x \*BatchArtifactInput\) ProtoReflect\(\) protoreflect.Message](<#BatchArtifactInput.ProtoReflect>)
+  - [func \(x \*BatchArtifactInput\) Reset\(\)](<#BatchArtifactInput.Reset>)
+  - [func \(x \*BatchArtifactInput\) String\(\) string](<#BatchArtifactInput.String>)
+- [type BatchCreateRevisionsRequest](<#BatchCreateRevisionsRequest>)
+  - [func \(\*BatchCreateRevisionsRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#BatchCreateRevisionsRequest.Descriptor>)
+  - [func \(x \*BatchCreateRevisionsRequest\) GetIdempotencyPrefix\(\) string](<#BatchCreateRevisionsRequest.GetIdempotencyPrefix>)
+  - [func \(x \*BatchCreateRevisionsRequest\) GetRevisions\(\) \[\]\*BatchRevisionRow](<#BatchCreateRevisionsRequest.GetRevisions>)
+  - [func \(\*BatchCreateRevisionsRequest\) ProtoMessage\(\)](<#BatchCreateRevisionsRequest.ProtoMessage>)
+  - [func \(x \*BatchCreateRevisionsRequest\) ProtoReflect\(\) protoreflect.Message](<#BatchCreateRevisionsRequest.ProtoReflect>)
+  - [func \(x \*BatchCreateRevisionsRequest\) Reset\(\)](<#BatchCreateRevisionsRequest.Reset>)
+  - [func \(x \*BatchCreateRevisionsRequest\) String\(\) string](<#BatchCreateRevisionsRequest.String>)
+- [type BatchCreateRevisionsResponse](<#BatchCreateRevisionsResponse>)
+  - [func \(\*BatchCreateRevisionsResponse\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#BatchCreateRevisionsResponse.Descriptor>)
+  - [func \(x \*BatchCreateRevisionsResponse\) GetFailures\(\) \[\]\*BatchRevisionFailure](<#BatchCreateRevisionsResponse.GetFailures>)
+  - [func \(x \*BatchCreateRevisionsResponse\) GetRequestedCount\(\) int32](<#BatchCreateRevisionsResponse.GetRequestedCount>)
+  - [func \(x \*BatchCreateRevisionsResponse\) GetResults\(\) \[\]\*RevisionResponse](<#BatchCreateRevisionsResponse.GetResults>)
+  - [func \(x \*BatchCreateRevisionsResponse\) GetSucceededCount\(\) int32](<#BatchCreateRevisionsResponse.GetSucceededCount>)
+  - [func \(\*BatchCreateRevisionsResponse\) ProtoMessage\(\)](<#BatchCreateRevisionsResponse.ProtoMessage>)
+  - [func \(x \*BatchCreateRevisionsResponse\) ProtoReflect\(\) protoreflect.Message](<#BatchCreateRevisionsResponse.ProtoReflect>)
+  - [func \(x \*BatchCreateRevisionsResponse\) Reset\(\)](<#BatchCreateRevisionsResponse.Reset>)
+  - [func \(x \*BatchCreateRevisionsResponse\) String\(\) string](<#BatchCreateRevisionsResponse.String>)
 - [type BatchGetRevisionsRequest](<#BatchGetRevisionsRequest>)
   - [func \(\*BatchGetRevisionsRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#BatchGetRevisionsRequest.Descriptor>)
   - [func \(x \*BatchGetRevisionsRequest\) GetAllowPartial\(\) bool](<#BatchGetRevisionsRequest.GetAllowPartial>)
@@ -2623,6 +2771,22 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(x \*BatchGetRevisionsResponse\) ProtoReflect\(\) protoreflect.Message](<#BatchGetRevisionsResponse.ProtoReflect>)
   - [func \(x \*BatchGetRevisionsResponse\) Reset\(\)](<#BatchGetRevisionsResponse.Reset>)
   - [func \(x \*BatchGetRevisionsResponse\) String\(\) string](<#BatchGetRevisionsResponse.String>)
+- [type BatchRevisionFailure](<#BatchRevisionFailure>)
+  - [func \(\*BatchRevisionFailure\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#BatchRevisionFailure.Descriptor>)
+  - [func \(x \*BatchRevisionFailure\) GetIndex\(\) int32](<#BatchRevisionFailure.GetIndex>)
+  - [func \(x \*BatchRevisionFailure\) GetReason\(\) string](<#BatchRevisionFailure.GetReason>)
+  - [func \(\*BatchRevisionFailure\) ProtoMessage\(\)](<#BatchRevisionFailure.ProtoMessage>)
+  - [func \(x \*BatchRevisionFailure\) ProtoReflect\(\) protoreflect.Message](<#BatchRevisionFailure.ProtoReflect>)
+  - [func \(x \*BatchRevisionFailure\) Reset\(\)](<#BatchRevisionFailure.Reset>)
+  - [func \(x \*BatchRevisionFailure\) String\(\) string](<#BatchRevisionFailure.String>)
+- [type BatchRevisionRow](<#BatchRevisionRow>)
+  - [func \(\*BatchRevisionRow\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#BatchRevisionRow.Descriptor>)
+  - [func \(x \*BatchRevisionRow\) GetArtifacts\(\) \[\]\*BatchArtifactInput](<#BatchRevisionRow.GetArtifacts>)
+  - [func \(x \*BatchRevisionRow\) GetRevision\(\) \*CreateRevisionRequest](<#BatchRevisionRow.GetRevision>)
+  - [func \(\*BatchRevisionRow\) ProtoMessage\(\)](<#BatchRevisionRow.ProtoMessage>)
+  - [func \(x \*BatchRevisionRow\) ProtoReflect\(\) protoreflect.Message](<#BatchRevisionRow.ProtoReflect>)
+  - [func \(x \*BatchRevisionRow\) Reset\(\)](<#BatchRevisionRow.Reset>)
+  - [func \(x \*BatchRevisionRow\) String\(\) string](<#BatchRevisionRow.String>)
 - [type BundleMember](<#BundleMember>)
   - [func \(\*BundleMember\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#BundleMember.Descriptor>)
   - [func \(x \*BundleMember\) GetAddedAt\(\) string](<#BundleMember.GetAddedAt>)
@@ -2691,6 +2855,7 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
 - [type CreateProjectRequest](<#CreateProjectRequest>)
   - [func \(\*CreateProjectRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#CreateProjectRequest.Descriptor>)
   - [func \(x \*CreateProjectRequest\) GetDescription\(\) string](<#CreateProjectRequest.GetDescription>)
+  - [func \(x \*CreateProjectRequest\) GetMetadata\(\) map\[string\]string](<#CreateProjectRequest.GetMetadata>)
   - [func \(x \*CreateProjectRequest\) GetName\(\) string](<#CreateProjectRequest.GetName>)
   - [func \(\*CreateProjectRequest\) ProtoMessage\(\)](<#CreateProjectRequest.ProtoMessage>)
   - [func \(x \*CreateProjectRequest\) ProtoReflect\(\) protoreflect.Message](<#CreateProjectRequest.ProtoReflect>)
@@ -2710,6 +2875,7 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
 - [type CreateSpaceRequest](<#CreateSpaceRequest>)
   - [func \(\*CreateSpaceRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#CreateSpaceRequest.Descriptor>)
   - [func \(x \*CreateSpaceRequest\) GetExistsError\(\) bool](<#CreateSpaceRequest.GetExistsError>)
+  - [func \(x \*CreateSpaceRequest\) GetMetadata\(\) map\[string\]string](<#CreateSpaceRequest.GetMetadata>)
   - [func \(x \*CreateSpaceRequest\) GetParentPath\(\) string](<#CreateSpaceRequest.GetParentPath>)
   - [func \(x \*CreateSpaceRequest\) GetSpaceName\(\) string](<#CreateSpaceRequest.GetSpaceName>)
   - [func \(\*CreateSpaceRequest\) ProtoMessage\(\)](<#CreateSpaceRequest.ProtoMessage>)
@@ -2994,6 +3160,7 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(x \*GetItemsResponse\) String\(\) string](<#GetItemsResponse.String>)
 - [type GetProjectsRequest](<#GetProjectsRequest>)
   - [func \(\*GetProjectsRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#GetProjectsRequest.Descriptor>)
+  - [func \(x \*GetProjectsRequest\) GetIncludeDeprecated\(\) bool](<#GetProjectsRequest.GetIncludeDeprecated>)
   - [func \(\*GetProjectsRequest\) ProtoMessage\(\)](<#GetProjectsRequest.ProtoMessage>)
   - [func \(x \*GetProjectsRequest\) ProtoReflect\(\) protoreflect.Message](<#GetProjectsRequest.ProtoReflect>)
   - [func \(x \*GetProjectsRequest\) Reset\(\)](<#GetProjectsRequest.Reset>)
@@ -3034,6 +3201,16 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(x \*GetTenantUsageRequest\) ProtoReflect\(\) protoreflect.Message](<#GetTenantUsageRequest.ProtoReflect>)
   - [func \(x \*GetTenantUsageRequest\) Reset\(\)](<#GetTenantUsageRequest.Reset>)
   - [func \(x \*GetTenantUsageRequest\) String\(\) string](<#GetTenantUsageRequest.String>)
+- [type HardDeleteProjectRequest](<#HardDeleteProjectRequest>)
+  - [func \(\*HardDeleteProjectRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#HardDeleteProjectRequest.Descriptor>)
+  - [func \(x \*HardDeleteProjectRequest\) GetConfirmed\(\) bool](<#HardDeleteProjectRequest.GetConfirmed>)
+  - [func \(x \*HardDeleteProjectRequest\) GetImpactSnapshotHash\(\) string](<#HardDeleteProjectRequest.GetImpactSnapshotHash>)
+  - [func \(x \*HardDeleteProjectRequest\) GetImpactSnapshotId\(\) string](<#HardDeleteProjectRequest.GetImpactSnapshotId>)
+  - [func \(x \*HardDeleteProjectRequest\) GetProjectId\(\) string](<#HardDeleteProjectRequest.GetProjectId>)
+  - [func \(\*HardDeleteProjectRequest\) ProtoMessage\(\)](<#HardDeleteProjectRequest.ProtoMessage>)
+  - [func \(x \*HardDeleteProjectRequest\) ProtoReflect\(\) protoreflect.Message](<#HardDeleteProjectRequest.ProtoReflect>)
+  - [func \(x \*HardDeleteProjectRequest\) Reset\(\)](<#HardDeleteProjectRequest.Reset>)
+  - [func \(x \*HardDeleteProjectRequest\) String\(\) string](<#HardDeleteProjectRequest.String>)
 - [type HasTagRequest](<#HasTagRequest>)
   - [func \(\*HasTagRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#HasTagRequest.Descriptor>)
   - [func \(x \*HasTagRequest\) GetKref\(\) \*Kref](<#HasTagRequest.GetKref>)
@@ -3124,6 +3301,14 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
 - [type KumihoServiceServer](<#KumihoServiceServer>)
 - [type KumihoService\_EventStreamClient](<#KumihoService_EventStreamClient>)
 - [type KumihoService\_EventStreamServer](<#KumihoService_EventStreamServer>)
+- [type MoveItemRequest](<#MoveItemRequest>)
+  - [func \(\*MoveItemRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#MoveItemRequest.Descriptor>)
+  - [func \(x \*MoveItemRequest\) GetItemKref\(\) string](<#MoveItemRequest.GetItemKref>)
+  - [func \(x \*MoveItemRequest\) GetTargetSpacePath\(\) string](<#MoveItemRequest.GetTargetSpacePath>)
+  - [func \(\*MoveItemRequest\) ProtoMessage\(\)](<#MoveItemRequest.ProtoMessage>)
+  - [func \(x \*MoveItemRequest\) ProtoReflect\(\) protoreflect.Message](<#MoveItemRequest.ProtoReflect>)
+  - [func \(x \*MoveItemRequest\) Reset\(\)](<#MoveItemRequest.Reset>)
+  - [func \(x \*MoveItemRequest\) String\(\) string](<#MoveItemRequest.String>)
 - [type PaginationRequest](<#PaginationRequest>)
   - [func \(\*PaginationRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#PaginationRequest.Descriptor>)
   - [func \(x \*PaginationRequest\) GetCursor\(\) string](<#PaginationRequest.GetCursor>)
@@ -3164,12 +3349,45 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(x \*PeekNextRevisionResponse\) ProtoReflect\(\) protoreflect.Message](<#PeekNextRevisionResponse.ProtoReflect>)
   - [func \(x \*PeekNextRevisionResponse\) Reset\(\)](<#PeekNextRevisionResponse.Reset>)
   - [func \(x \*PeekNextRevisionResponse\) String\(\) string](<#PeekNextRevisionResponse.String>)
+- [type ProjectDeletionGuardResponse](<#ProjectDeletionGuardResponse>)
+  - [func \(\*ProjectDeletionGuardResponse\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#ProjectDeletionGuardResponse.Descriptor>)
+  - [func \(x \*ProjectDeletionGuardResponse\) GetAllowedMetadataKeys\(\) \[\]string](<#ProjectDeletionGuardResponse.GetAllowedMetadataKeys>)
+  - [func \(x \*ProjectDeletionGuardResponse\) GetAllowedOperations\(\) \[\]string](<#ProjectDeletionGuardResponse.GetAllowedOperations>)
+  - [func \(x \*ProjectDeletionGuardResponse\) GetCreatedAt\(\) string](<#ProjectDeletionGuardResponse.GetCreatedAt>)
+  - [func \(x \*ProjectDeletionGuardResponse\) GetGuardId\(\) string](<#ProjectDeletionGuardResponse.GetGuardId>)
+  - [func \(x \*ProjectDeletionGuardResponse\) GetProjectId\(\) string](<#ProjectDeletionGuardResponse.GetProjectId>)
+  - [func \(x \*ProjectDeletionGuardResponse\) GetResourceKref\(\) string](<#ProjectDeletionGuardResponse.GetResourceKref>)
+  - [func \(\*ProjectDeletionGuardResponse\) ProtoMessage\(\)](<#ProjectDeletionGuardResponse.ProtoMessage>)
+  - [func \(x \*ProjectDeletionGuardResponse\) ProtoReflect\(\) protoreflect.Message](<#ProjectDeletionGuardResponse.ProtoReflect>)
+  - [func \(x \*ProjectDeletionGuardResponse\) Reset\(\)](<#ProjectDeletionGuardResponse.Reset>)
+  - [func \(x \*ProjectDeletionGuardResponse\) String\(\) string](<#ProjectDeletionGuardResponse.String>)
+- [type ProjectDeletionImpactRequest](<#ProjectDeletionImpactRequest>)
+  - [func \(\*ProjectDeletionImpactRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#ProjectDeletionImpactRequest.Descriptor>)
+  - [func \(x \*ProjectDeletionImpactRequest\) GetProjectId\(\) string](<#ProjectDeletionImpactRequest.GetProjectId>)
+  - [func \(\*ProjectDeletionImpactRequest\) ProtoMessage\(\)](<#ProjectDeletionImpactRequest.ProtoMessage>)
+  - [func \(x \*ProjectDeletionImpactRequest\) ProtoReflect\(\) protoreflect.Message](<#ProjectDeletionImpactRequest.ProtoReflect>)
+  - [func \(x \*ProjectDeletionImpactRequest\) Reset\(\)](<#ProjectDeletionImpactRequest.Reset>)
+  - [func \(x \*ProjectDeletionImpactRequest\) String\(\) string](<#ProjectDeletionImpactRequest.String>)
+- [type ProjectDeletionImpactResponse](<#ProjectDeletionImpactResponse>)
+  - [func \(\*ProjectDeletionImpactResponse\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#ProjectDeletionImpactResponse.Descriptor>)
+  - [func \(x \*ProjectDeletionImpactResponse\) GetBlockers\(\) \[\]string](<#ProjectDeletionImpactResponse.GetBlockers>)
+  - [func \(x \*ProjectDeletionImpactResponse\) GetCreatedAt\(\) string](<#ProjectDeletionImpactResponse.GetCreatedAt>)
+  - [func \(x \*ProjectDeletionImpactResponse\) GetDescendants\(\) \[\]string](<#ProjectDeletionImpactResponse.GetDescendants>)
+  - [func \(x \*ProjectDeletionImpactResponse\) GetImpactSnapshotHash\(\) string](<#ProjectDeletionImpactResponse.GetImpactSnapshotHash>)
+  - [func \(x \*ProjectDeletionImpactResponse\) GetImpactSnapshotId\(\) string](<#ProjectDeletionImpactResponse.GetImpactSnapshotId>)
+  - [func \(x \*ProjectDeletionImpactResponse\) GetProjectId\(\) string](<#ProjectDeletionImpactResponse.GetProjectId>)
+  - [func \(x \*ProjectDeletionImpactResponse\) GetProjectName\(\) string](<#ProjectDeletionImpactResponse.GetProjectName>)
+  - [func \(\*ProjectDeletionImpactResponse\) ProtoMessage\(\)](<#ProjectDeletionImpactResponse.ProtoMessage>)
+  - [func \(x \*ProjectDeletionImpactResponse\) ProtoReflect\(\) protoreflect.Message](<#ProjectDeletionImpactResponse.ProtoReflect>)
+  - [func \(x \*ProjectDeletionImpactResponse\) Reset\(\)](<#ProjectDeletionImpactResponse.Reset>)
+  - [func \(x \*ProjectDeletionImpactResponse\) String\(\) string](<#ProjectDeletionImpactResponse.String>)
 - [type ProjectResponse](<#ProjectResponse>)
   - [func \(\*ProjectResponse\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#ProjectResponse.Descriptor>)
   - [func \(x \*ProjectResponse\) GetAllowPublic\(\) bool](<#ProjectResponse.GetAllowPublic>)
   - [func \(x \*ProjectResponse\) GetCreatedAt\(\) string](<#ProjectResponse.GetCreatedAt>)
   - [func \(x \*ProjectResponse\) GetDeprecated\(\) bool](<#ProjectResponse.GetDeprecated>)
   - [func \(x \*ProjectResponse\) GetDescription\(\) string](<#ProjectResponse.GetDescription>)
+  - [func \(x \*ProjectResponse\) GetMetadata\(\) map\[string\]string](<#ProjectResponse.GetMetadata>)
   - [func \(x \*ProjectResponse\) GetName\(\) string](<#ProjectResponse.GetName>)
   - [func \(x \*ProjectResponse\) GetProjectId\(\) string](<#ProjectResponse.GetProjectId>)
   - [func \(x \*ProjectResponse\) GetUpdatedAt\(\) string](<#ProjectResponse.GetUpdatedAt>)
@@ -3177,6 +3395,17 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(x \*ProjectResponse\) ProtoReflect\(\) protoreflect.Message](<#ProjectResponse.ProtoReflect>)
   - [func \(x \*ProjectResponse\) Reset\(\)](<#ProjectResponse.Reset>)
   - [func \(x \*ProjectResponse\) String\(\) string](<#ProjectResponse.String>)
+- [type RegisterProjectDeletionGuardRequest](<#RegisterProjectDeletionGuardRequest>)
+  - [func \(\*RegisterProjectDeletionGuardRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#RegisterProjectDeletionGuardRequest.Descriptor>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) GetAllowedMetadataKeys\(\) \[\]string](<#RegisterProjectDeletionGuardRequest.GetAllowedMetadataKeys>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) GetAllowedOperations\(\) \[\]string](<#RegisterProjectDeletionGuardRequest.GetAllowedOperations>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) GetGuardId\(\) string](<#RegisterProjectDeletionGuardRequest.GetGuardId>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) GetProjectId\(\) string](<#RegisterProjectDeletionGuardRequest.GetProjectId>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) GetResourceKref\(\) string](<#RegisterProjectDeletionGuardRequest.GetResourceKref>)
+  - [func \(\*RegisterProjectDeletionGuardRequest\) ProtoMessage\(\)](<#RegisterProjectDeletionGuardRequest.ProtoMessage>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) ProtoReflect\(\) protoreflect.Message](<#RegisterProjectDeletionGuardRequest.ProtoReflect>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) Reset\(\)](<#RegisterProjectDeletionGuardRequest.Reset>)
+  - [func \(x \*RegisterProjectDeletionGuardRequest\) String\(\) string](<#RegisterProjectDeletionGuardRequest.String>)
 - [type RemoveBundleMemberRequest](<#RemoveBundleMemberRequest>)
   - [func \(\*RemoveBundleMemberRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#RemoveBundleMemberRequest.Descriptor>)
   - [func \(x \*RemoveBundleMemberRequest\) GetBundleKref\(\) \*Kref](<#RemoveBundleMemberRequest.GetBundleKref>)
@@ -3222,6 +3451,26 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(x \*ResolveLocationResponse\) ProtoReflect\(\) protoreflect.Message](<#ResolveLocationResponse.ProtoReflect>)
   - [func \(x \*ResolveLocationResponse\) Reset\(\)](<#ResolveLocationResponse.Reset>)
   - [func \(x \*ResolveLocationResponse\) String\(\) string](<#ResolveLocationResponse.String>)
+- [type ResolveProjectDeletionGuardRequest](<#ResolveProjectDeletionGuardRequest>)
+  - [func \(\*ResolveProjectDeletionGuardRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#ResolveProjectDeletionGuardRequest.Descriptor>)
+  - [func \(x \*ResolveProjectDeletionGuardRequest\) GetGuardId\(\) string](<#ResolveProjectDeletionGuardRequest.GetGuardId>)
+  - [func \(x \*ResolveProjectDeletionGuardRequest\) GetProjectId\(\) string](<#ResolveProjectDeletionGuardRequest.GetProjectId>)
+  - [func \(\*ResolveProjectDeletionGuardRequest\) ProtoMessage\(\)](<#ResolveProjectDeletionGuardRequest.ProtoMessage>)
+  - [func \(x \*ResolveProjectDeletionGuardRequest\) ProtoReflect\(\) protoreflect.Message](<#ResolveProjectDeletionGuardRequest.ProtoReflect>)
+  - [func \(x \*ResolveProjectDeletionGuardRequest\) Reset\(\)](<#ResolveProjectDeletionGuardRequest.Reset>)
+  - [func \(x \*ResolveProjectDeletionGuardRequest\) String\(\) string](<#ResolveProjectDeletionGuardRequest.String>)
+- [type ResolveProjectReferenceRequest](<#ResolveProjectReferenceRequest>)
+  - [func \(\*ResolveProjectReferenceRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#ResolveProjectReferenceRequest.Descriptor>)
+  - [func \(x \*ResolveProjectReferenceRequest\) GetAction\(\) string](<#ResolveProjectReferenceRequest.GetAction>)
+  - [func \(x \*ResolveProjectReferenceRequest\) GetEdgeType\(\) string](<#ResolveProjectReferenceRequest.GetEdgeType>)
+  - [func \(x \*ResolveProjectReferenceRequest\) GetInsideRevisionKref\(\) string](<#ResolveProjectReferenceRequest.GetInsideRevisionKref>)
+  - [func \(x \*ResolveProjectReferenceRequest\) GetOutsideRevisionKref\(\) string](<#ResolveProjectReferenceRequest.GetOutsideRevisionKref>)
+  - [func \(x \*ResolveProjectReferenceRequest\) GetProjectId\(\) string](<#ResolveProjectReferenceRequest.GetProjectId>)
+  - [func \(x \*ResolveProjectReferenceRequest\) GetReplacementRevisionKref\(\) string](<#ResolveProjectReferenceRequest.GetReplacementRevisionKref>)
+  - [func \(\*ResolveProjectReferenceRequest\) ProtoMessage\(\)](<#ResolveProjectReferenceRequest.ProtoMessage>)
+  - [func \(x \*ResolveProjectReferenceRequest\) ProtoReflect\(\) protoreflect.Message](<#ResolveProjectReferenceRequest.ProtoReflect>)
+  - [func \(x \*ResolveProjectReferenceRequest\) Reset\(\)](<#ResolveProjectReferenceRequest.Reset>)
+  - [func \(x \*ResolveProjectReferenceRequest\) String\(\) string](<#ResolveProjectReferenceRequest.String>)
 - [type RevisionPath](<#RevisionPath>)
   - [func \(\*RevisionPath\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#RevisionPath.Descriptor>)
   - [func \(x \*RevisionPath\) GetSteps\(\) \[\]\*PathStep](<#RevisionPath.GetSteps>)
@@ -3426,6 +3675,8 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
 - [type UnimplementedKumihoServiceServer](<#UnimplementedKumihoServiceServer>)
   - [func \(UnimplementedKumihoServiceServer\) AddBundleMember\(context.Context, \*AddBundleMemberRequest\) \(\*AddBundleMemberResponse, error\)](<#UnimplementedKumihoServiceServer.AddBundleMember>)
   - [func \(UnimplementedKumihoServiceServer\) AnalyzeImpact\(context.Context, \*ImpactAnalysisRequest\) \(\*ImpactAnalysisResponse, error\)](<#UnimplementedKumihoServiceServer.AnalyzeImpact>)
+  - [func \(UnimplementedKumihoServiceServer\) AnalyzeProjectDeletion\(context.Context, \*ProjectDeletionImpactRequest\) \(\*ProjectDeletionImpactResponse, error\)](<#UnimplementedKumihoServiceServer.AnalyzeProjectDeletion>)
+  - [func \(UnimplementedKumihoServiceServer\) BatchCreateRevisions\(context.Context, \*BatchCreateRevisionsRequest\) \(\*BatchCreateRevisionsResponse, error\)](<#UnimplementedKumihoServiceServer.BatchCreateRevisions>)
   - [func \(UnimplementedKumihoServiceServer\) BatchGetRevisions\(context.Context, \*BatchGetRevisionsRequest\) \(\*BatchGetRevisionsResponse, error\)](<#UnimplementedKumihoServiceServer.BatchGetRevisions>)
   - [func \(UnimplementedKumihoServiceServer\) CreateArtifact\(context.Context, \*CreateArtifactRequest\) \(\*ArtifactResponse, error\)](<#UnimplementedKumihoServiceServer.CreateArtifact>)
   - [func \(UnimplementedKumihoServiceServer\) CreateBundle\(context.Context, \*CreateBundleRequest\) \(\*ItemResponse, error\)](<#UnimplementedKumihoServiceServer.CreateBundle>)
@@ -3459,12 +3710,17 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
   - [func \(UnimplementedKumihoServiceServer\) GetRevisions\(context.Context, \*GetRevisionsRequest\) \(\*GetRevisionsResponse, error\)](<#UnimplementedKumihoServiceServer.GetRevisions>)
   - [func \(UnimplementedKumihoServiceServer\) GetSpace\(context.Context, \*GetSpaceRequest\) \(\*SpaceResponse, error\)](<#UnimplementedKumihoServiceServer.GetSpace>)
   - [func \(UnimplementedKumihoServiceServer\) GetTenantUsage\(context.Context, \*GetTenantUsageRequest\) \(\*TenantUsageResponse, error\)](<#UnimplementedKumihoServiceServer.GetTenantUsage>)
+  - [func \(UnimplementedKumihoServiceServer\) HardDeleteProject\(context.Context, \*HardDeleteProjectRequest\) \(\*StatusResponse, error\)](<#UnimplementedKumihoServiceServer.HardDeleteProject>)
   - [func \(UnimplementedKumihoServiceServer\) HasTag\(context.Context, \*HasTagRequest\) \(\*HasTagResponse, error\)](<#UnimplementedKumihoServiceServer.HasTag>)
   - [func \(UnimplementedKumihoServiceServer\) ItemSearch\(context.Context, \*ItemSearchRequest\) \(\*GetItemsResponse, error\)](<#UnimplementedKumihoServiceServer.ItemSearch>)
+  - [func \(UnimplementedKumihoServiceServer\) MoveItem\(context.Context, \*MoveItemRequest\) \(\*ItemResponse, error\)](<#UnimplementedKumihoServiceServer.MoveItem>)
   - [func \(UnimplementedKumihoServiceServer\) PeekNextRevision\(context.Context, \*PeekNextRevisionRequest\) \(\*PeekNextRevisionResponse, error\)](<#UnimplementedKumihoServiceServer.PeekNextRevision>)
+  - [func \(UnimplementedKumihoServiceServer\) RegisterProjectDeletionGuard\(context.Context, \*RegisterProjectDeletionGuardRequest\) \(\*ProjectDeletionGuardResponse, error\)](<#UnimplementedKumihoServiceServer.RegisterProjectDeletionGuard>)
   - [func \(UnimplementedKumihoServiceServer\) RemoveBundleMember\(context.Context, \*RemoveBundleMemberRequest\) \(\*RemoveBundleMemberResponse, error\)](<#UnimplementedKumihoServiceServer.RemoveBundleMember>)
   - [func \(UnimplementedKumihoServiceServer\) ResolveKref\(context.Context, \*ResolveKrefRequest\) \(\*RevisionResponse, error\)](<#UnimplementedKumihoServiceServer.ResolveKref>)
   - [func \(UnimplementedKumihoServiceServer\) ResolveLocation\(context.Context, \*ResolveLocationRequest\) \(\*ResolveLocationResponse, error\)](<#UnimplementedKumihoServiceServer.ResolveLocation>)
+  - [func \(UnimplementedKumihoServiceServer\) ResolveProjectDeletionGuard\(context.Context, \*ResolveProjectDeletionGuardRequest\) \(\*StatusResponse, error\)](<#UnimplementedKumihoServiceServer.ResolveProjectDeletionGuard>)
+  - [func \(UnimplementedKumihoServiceServer\) ResolveProjectReference\(context.Context, \*ResolveProjectReferenceRequest\) \(\*StatusResponse, error\)](<#UnimplementedKumihoServiceServer.ResolveProjectReference>)
   - [func \(UnimplementedKumihoServiceServer\) ScoreRevisions\(context.Context, \*ScoreRevisionsRequest\) \(\*ScoreRevisionsResponse, error\)](<#UnimplementedKumihoServiceServer.ScoreRevisions>)
   - [func \(UnimplementedKumihoServiceServer\) Search\(context.Context, \*SearchRequest\) \(\*SearchResponse, error\)](<#UnimplementedKumihoServiceServer.Search>)
   - [func \(UnimplementedKumihoServiceServer\) SetAttribute\(context.Context, \*SetAttributeRequest\) \(\*StatusResponse, error\)](<#UnimplementedKumihoServiceServer.SetAttribute>)
@@ -3491,7 +3747,9 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
 - [type UpdateProjectRequest](<#UpdateProjectRequest>)
   - [func \(\*UpdateProjectRequest\) Descriptor\(\) \(\[\]byte, \[\]int\)](<#UpdateProjectRequest.Descriptor>)
   - [func \(x \*UpdateProjectRequest\) GetAllowPublic\(\) bool](<#UpdateProjectRequest.GetAllowPublic>)
+  - [func \(x \*UpdateProjectRequest\) GetDeprecated\(\) bool](<#UpdateProjectRequest.GetDeprecated>)
   - [func \(x \*UpdateProjectRequest\) GetDescription\(\) string](<#UpdateProjectRequest.GetDescription>)
+  - [func \(x \*UpdateProjectRequest\) GetMetadata\(\) map\[string\]string](<#UpdateProjectRequest.GetMetadata>)
   - [func \(x \*UpdateProjectRequest\) GetProjectId\(\) string](<#UpdateProjectRequest.GetProjectId>)
   - [func \(\*UpdateProjectRequest\) ProtoMessage\(\)](<#UpdateProjectRequest.ProtoMessage>)
   - [func \(x \*UpdateProjectRequest\) ProtoReflect\(\) protoreflect.Message](<#UpdateProjectRequest.ProtoReflect>)
@@ -3520,61 +3778,68 @@ import "github.com/KumihoIO/kumiho-SDKs/go/kumihopb"
 
 ```go
 const (
-    KumihoService_CreateProject_FullMethodName          = "/kumiho.KumihoService/CreateProject"
-    KumihoService_GetProjects_FullMethodName            = "/kumiho.KumihoService/GetProjects"
-    KumihoService_UpdateProject_FullMethodName          = "/kumiho.KumihoService/UpdateProject"
-    KumihoService_DeleteProject_FullMethodName          = "/kumiho.KumihoService/DeleteProject"
-    KumihoService_CreateSpace_FullMethodName            = "/kumiho.KumihoService/CreateSpace"
-    KumihoService_GetSpace_FullMethodName               = "/kumiho.KumihoService/GetSpace"
-    KumihoService_GetChildSpaces_FullMethodName         = "/kumiho.KumihoService/GetChildSpaces"
-    KumihoService_DeleteSpace_FullMethodName            = "/kumiho.KumihoService/DeleteSpace"
-    KumihoService_UpdateSpaceMetadata_FullMethodName    = "/kumiho.KumihoService/UpdateSpaceMetadata"
-    KumihoService_CreateItem_FullMethodName             = "/kumiho.KumihoService/CreateItem"
-    KumihoService_GetItem_FullMethodName                = "/kumiho.KumihoService/GetItem"
-    KumihoService_GetItems_FullMethodName               = "/kumiho.KumihoService/GetItems"
-    KumihoService_ItemSearch_FullMethodName             = "/kumiho.KumihoService/ItemSearch"
-    KumihoService_DeleteItem_FullMethodName             = "/kumiho.KumihoService/DeleteItem"
-    KumihoService_UpdateItemMetadata_FullMethodName     = "/kumiho.KumihoService/UpdateItemMetadata"
-    KumihoService_Search_FullMethodName                 = "/kumiho.KumihoService/Search"
-    KumihoService_ScoreRevisions_FullMethodName         = "/kumiho.KumihoService/ScoreRevisions"
-    KumihoService_ResolveKref_FullMethodName            = "/kumiho.KumihoService/ResolveKref"
-    KumihoService_ResolveLocation_FullMethodName        = "/kumiho.KumihoService/ResolveLocation"
-    KumihoService_CreateRevision_FullMethodName         = "/kumiho.KumihoService/CreateRevision"
-    KumihoService_GetRevision_FullMethodName            = "/kumiho.KumihoService/GetRevision"
-    KumihoService_GetRevisions_FullMethodName           = "/kumiho.KumihoService/GetRevisions"
-    KumihoService_BatchGetRevisions_FullMethodName      = "/kumiho.KumihoService/BatchGetRevisions"
-    KumihoService_DeleteRevision_FullMethodName         = "/kumiho.KumihoService/DeleteRevision"
-    KumihoService_PeekNextRevision_FullMethodName       = "/kumiho.KumihoService/PeekNextRevision"
-    KumihoService_UpdateRevisionMetadata_FullMethodName = "/kumiho.KumihoService/UpdateRevisionMetadata"
-    KumihoService_TagRevision_FullMethodName            = "/kumiho.KumihoService/TagRevision"
-    KumihoService_UnTagRevision_FullMethodName          = "/kumiho.KumihoService/UnTagRevision"
-    KumihoService_HasTag_FullMethodName                 = "/kumiho.KumihoService/HasTag"
-    KumihoService_WasTagged_FullMethodName              = "/kumiho.KumihoService/WasTagged"
-    KumihoService_SetDefaultArtifact_FullMethodName     = "/kumiho.KumihoService/SetDefaultArtifact"
-    KumihoService_CreateArtifact_FullMethodName         = "/kumiho.KumihoService/CreateArtifact"
-    KumihoService_GetArtifact_FullMethodName            = "/kumiho.KumihoService/GetArtifact"
-    KumihoService_GetArtifacts_FullMethodName           = "/kumiho.KumihoService/GetArtifacts"
-    KumihoService_GetArtifactsByLocation_FullMethodName = "/kumiho.KumihoService/GetArtifactsByLocation"
-    KumihoService_DeleteArtifact_FullMethodName         = "/kumiho.KumihoService/DeleteArtifact"
-    KumihoService_UpdateArtifactMetadata_FullMethodName = "/kumiho.KumihoService/UpdateArtifactMetadata"
-    KumihoService_SetAttribute_FullMethodName           = "/kumiho.KumihoService/SetAttribute"
-    KumihoService_GetAttribute_FullMethodName           = "/kumiho.KumihoService/GetAttribute"
-    KumihoService_DeleteAttribute_FullMethodName        = "/kumiho.KumihoService/DeleteAttribute"
-    KumihoService_CreateEdge_FullMethodName             = "/kumiho.KumihoService/CreateEdge"
-    KumihoService_GetEdges_FullMethodName               = "/kumiho.KumihoService/GetEdges"
-    KumihoService_DeleteEdge_FullMethodName             = "/kumiho.KumihoService/DeleteEdge"
-    KumihoService_TraverseEdges_FullMethodName          = "/kumiho.KumihoService/TraverseEdges"
-    KumihoService_FindShortestPath_FullMethodName       = "/kumiho.KumihoService/FindShortestPath"
-    KumihoService_AnalyzeImpact_FullMethodName          = "/kumiho.KumihoService/AnalyzeImpact"
-    KumihoService_CreateBundle_FullMethodName           = "/kumiho.KumihoService/CreateBundle"
-    KumihoService_AddBundleMember_FullMethodName        = "/kumiho.KumihoService/AddBundleMember"
-    KumihoService_RemoveBundleMember_FullMethodName     = "/kumiho.KumihoService/RemoveBundleMember"
-    KumihoService_GetBundleMembers_FullMethodName       = "/kumiho.KumihoService/GetBundleMembers"
-    KumihoService_GetBundleHistory_FullMethodName       = "/kumiho.KumihoService/GetBundleHistory"
-    KumihoService_GetTenantUsage_FullMethodName         = "/kumiho.KumihoService/GetTenantUsage"
-    KumihoService_EventStream_FullMethodName            = "/kumiho.KumihoService/EventStream"
-    KumihoService_GetEventCapabilities_FullMethodName   = "/kumiho.KumihoService/GetEventCapabilities"
-    KumihoService_SetDeprecated_FullMethodName          = "/kumiho.KumihoService/SetDeprecated"
+    KumihoService_CreateProject_FullMethodName                = "/kumiho.KumihoService/CreateProject"
+    KumihoService_GetProjects_FullMethodName                  = "/kumiho.KumihoService/GetProjects"
+    KumihoService_UpdateProject_FullMethodName                = "/kumiho.KumihoService/UpdateProject"
+    KumihoService_AnalyzeProjectDeletion_FullMethodName       = "/kumiho.KumihoService/AnalyzeProjectDeletion"
+    KumihoService_RegisterProjectDeletionGuard_FullMethodName = "/kumiho.KumihoService/RegisterProjectDeletionGuard"
+    KumihoService_ResolveProjectDeletionGuard_FullMethodName  = "/kumiho.KumihoService/ResolveProjectDeletionGuard"
+    KumihoService_ResolveProjectReference_FullMethodName      = "/kumiho.KumihoService/ResolveProjectReference"
+    KumihoService_DeleteProject_FullMethodName                = "/kumiho.KumihoService/DeleteProject"
+    KumihoService_HardDeleteProject_FullMethodName            = "/kumiho.KumihoService/HardDeleteProject"
+    KumihoService_CreateSpace_FullMethodName                  = "/kumiho.KumihoService/CreateSpace"
+    KumihoService_GetSpace_FullMethodName                     = "/kumiho.KumihoService/GetSpace"
+    KumihoService_GetChildSpaces_FullMethodName               = "/kumiho.KumihoService/GetChildSpaces"
+    KumihoService_DeleteSpace_FullMethodName                  = "/kumiho.KumihoService/DeleteSpace"
+    KumihoService_UpdateSpaceMetadata_FullMethodName          = "/kumiho.KumihoService/UpdateSpaceMetadata"
+    KumihoService_CreateItem_FullMethodName                   = "/kumiho.KumihoService/CreateItem"
+    KumihoService_GetItem_FullMethodName                      = "/kumiho.KumihoService/GetItem"
+    KumihoService_GetItems_FullMethodName                     = "/kumiho.KumihoService/GetItems"
+    KumihoService_ItemSearch_FullMethodName                   = "/kumiho.KumihoService/ItemSearch"
+    KumihoService_DeleteItem_FullMethodName                   = "/kumiho.KumihoService/DeleteItem"
+    KumihoService_UpdateItemMetadata_FullMethodName           = "/kumiho.KumihoService/UpdateItemMetadata"
+    KumihoService_MoveItem_FullMethodName                     = "/kumiho.KumihoService/MoveItem"
+    KumihoService_Search_FullMethodName                       = "/kumiho.KumihoService/Search"
+    KumihoService_ScoreRevisions_FullMethodName               = "/kumiho.KumihoService/ScoreRevisions"
+    KumihoService_ResolveKref_FullMethodName                  = "/kumiho.KumihoService/ResolveKref"
+    KumihoService_ResolveLocation_FullMethodName              = "/kumiho.KumihoService/ResolveLocation"
+    KumihoService_CreateRevision_FullMethodName               = "/kumiho.KumihoService/CreateRevision"
+    KumihoService_GetRevision_FullMethodName                  = "/kumiho.KumihoService/GetRevision"
+    KumihoService_GetRevisions_FullMethodName                 = "/kumiho.KumihoService/GetRevisions"
+    KumihoService_BatchGetRevisions_FullMethodName            = "/kumiho.KumihoService/BatchGetRevisions"
+    KumihoService_BatchCreateRevisions_FullMethodName         = "/kumiho.KumihoService/BatchCreateRevisions"
+    KumihoService_DeleteRevision_FullMethodName               = "/kumiho.KumihoService/DeleteRevision"
+    KumihoService_PeekNextRevision_FullMethodName             = "/kumiho.KumihoService/PeekNextRevision"
+    KumihoService_UpdateRevisionMetadata_FullMethodName       = "/kumiho.KumihoService/UpdateRevisionMetadata"
+    KumihoService_TagRevision_FullMethodName                  = "/kumiho.KumihoService/TagRevision"
+    KumihoService_UnTagRevision_FullMethodName                = "/kumiho.KumihoService/UnTagRevision"
+    KumihoService_HasTag_FullMethodName                       = "/kumiho.KumihoService/HasTag"
+    KumihoService_WasTagged_FullMethodName                    = "/kumiho.KumihoService/WasTagged"
+    KumihoService_SetDefaultArtifact_FullMethodName           = "/kumiho.KumihoService/SetDefaultArtifact"
+    KumihoService_CreateArtifact_FullMethodName               = "/kumiho.KumihoService/CreateArtifact"
+    KumihoService_GetArtifact_FullMethodName                  = "/kumiho.KumihoService/GetArtifact"
+    KumihoService_GetArtifacts_FullMethodName                 = "/kumiho.KumihoService/GetArtifacts"
+    KumihoService_GetArtifactsByLocation_FullMethodName       = "/kumiho.KumihoService/GetArtifactsByLocation"
+    KumihoService_DeleteArtifact_FullMethodName               = "/kumiho.KumihoService/DeleteArtifact"
+    KumihoService_UpdateArtifactMetadata_FullMethodName       = "/kumiho.KumihoService/UpdateArtifactMetadata"
+    KumihoService_SetAttribute_FullMethodName                 = "/kumiho.KumihoService/SetAttribute"
+    KumihoService_GetAttribute_FullMethodName                 = "/kumiho.KumihoService/GetAttribute"
+    KumihoService_DeleteAttribute_FullMethodName              = "/kumiho.KumihoService/DeleteAttribute"
+    KumihoService_CreateEdge_FullMethodName                   = "/kumiho.KumihoService/CreateEdge"
+    KumihoService_GetEdges_FullMethodName                     = "/kumiho.KumihoService/GetEdges"
+    KumihoService_DeleteEdge_FullMethodName                   = "/kumiho.KumihoService/DeleteEdge"
+    KumihoService_TraverseEdges_FullMethodName                = "/kumiho.KumihoService/TraverseEdges"
+    KumihoService_FindShortestPath_FullMethodName             = "/kumiho.KumihoService/FindShortestPath"
+    KumihoService_AnalyzeImpact_FullMethodName                = "/kumiho.KumihoService/AnalyzeImpact"
+    KumihoService_CreateBundle_FullMethodName                 = "/kumiho.KumihoService/CreateBundle"
+    KumihoService_AddBundleMember_FullMethodName              = "/kumiho.KumihoService/AddBundleMember"
+    KumihoService_RemoveBundleMember_FullMethodName           = "/kumiho.KumihoService/RemoveBundleMember"
+    KumihoService_GetBundleMembers_FullMethodName             = "/kumiho.KumihoService/GetBundleMembers"
+    KumihoService_GetBundleHistory_FullMethodName             = "/kumiho.KumihoService/GetBundleHistory"
+    KumihoService_GetTenantUsage_FullMethodName               = "/kumiho.KumihoService/GetTenantUsage"
+    KumihoService_EventStream_FullMethodName                  = "/kumiho.KumihoService/EventStream"
+    KumihoService_GetEventCapabilities_FullMethodName         = "/kumiho.KumihoService/GetEventCapabilities"
+    KumihoService_SetDeprecated_FullMethodName                = "/kumiho.KumihoService/SetDeprecated"
 )
 ```
 
@@ -3623,8 +3888,28 @@ var KumihoService_ServiceDesc = grpc.ServiceDesc{
             Handler:    _KumihoService_UpdateProject_Handler,
         },
         {
+            MethodName: "AnalyzeProjectDeletion",
+            Handler:    _KumihoService_AnalyzeProjectDeletion_Handler,
+        },
+        {
+            MethodName: "RegisterProjectDeletionGuard",
+            Handler:    _KumihoService_RegisterProjectDeletionGuard_Handler,
+        },
+        {
+            MethodName: "ResolveProjectDeletionGuard",
+            Handler:    _KumihoService_ResolveProjectDeletionGuard_Handler,
+        },
+        {
+            MethodName: "ResolveProjectReference",
+            Handler:    _KumihoService_ResolveProjectReference_Handler,
+        },
+        {
             MethodName: "DeleteProject",
             Handler:    _KumihoService_DeleteProject_Handler,
+        },
+        {
+            MethodName: "HardDeleteProject",
+            Handler:    _KumihoService_HardDeleteProject_Handler,
         },
         {
             MethodName: "CreateSpace",
@@ -3671,6 +3956,10 @@ var KumihoService_ServiceDesc = grpc.ServiceDesc{
             Handler:    _KumihoService_UpdateItemMetadata_Handler,
         },
         {
+            MethodName: "MoveItem",
+            Handler:    _KumihoService_MoveItem_Handler,
+        },
+        {
             MethodName: "Search",
             Handler:    _KumihoService_Search_Handler,
         },
@@ -3701,6 +3990,10 @@ var KumihoService_ServiceDesc = grpc.ServiceDesc{
         {
             MethodName: "BatchGetRevisions",
             Handler:    _KumihoService_BatchGetRevisions_Handler,
+        },
+        {
+            MethodName: "BatchCreateRevisions",
+            Handler:    _KumihoService_BatchCreateRevisions_Handler,
         },
         {
             MethodName: "DeleteRevision",
@@ -4185,6 +4478,300 @@ func (x *ArtifactResponse) String() string
 
 
 
+<a name="BatchArtifactInput"></a>
+## type BatchArtifactInput
+
+Batch revision creation \- write many revisions in a single call. The bulk\-write RPC behind backfill, dream state, and migrations: N rows land in one transaction and one \(chunked\) embedding pass instead of N serial single\-writes. An artifact to attach to a batch\-created revision, completing the Item \-\> Revision \-\> Artifact chain in the same transaction.
+
+```go
+type BatchArtifactInput struct {
+
+    // Artifact name; must be kref-safe ([A-Za-z0-9._-]+) and unique within
+    // the row. The artifact kref becomes "{revision_kref}&a={name}".
+    Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+    // Storage location the artifact points at.
+    Location string            `protobuf:"bytes,2,opt,name=location,proto3" json:"location,omitempty"`
+    Metadata map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+    // Make this artifact the revision's default, so the location resolves
+    // straight from an item kref (GetArtifact/ResolveLocation without an
+    // artifact name). At most one artifact per row may set this.
+    IsDefault bool `protobuf:"varint,4,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="BatchArtifactInput.Descriptor"></a>
+### func \(\*BatchArtifactInput\) Descriptor
+
+```go
+func (*BatchArtifactInput) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use BatchArtifactInput.ProtoReflect.Descriptor instead.
+
+<a name="BatchArtifactInput.GetIsDefault"></a>
+### func \(\*BatchArtifactInput\) GetIsDefault
+
+```go
+func (x *BatchArtifactInput) GetIsDefault() bool
+```
+
+
+
+<a name="BatchArtifactInput.GetLocation"></a>
+### func \(\*BatchArtifactInput\) GetLocation
+
+```go
+func (x *BatchArtifactInput) GetLocation() string
+```
+
+
+
+<a name="BatchArtifactInput.GetMetadata"></a>
+### func \(\*BatchArtifactInput\) GetMetadata
+
+```go
+func (x *BatchArtifactInput) GetMetadata() map[string]string
+```
+
+
+
+<a name="BatchArtifactInput.GetName"></a>
+### func \(\*BatchArtifactInput\) GetName
+
+```go
+func (x *BatchArtifactInput) GetName() string
+```
+
+
+
+<a name="BatchArtifactInput.ProtoMessage"></a>
+### func \(\*BatchArtifactInput\) ProtoMessage
+
+```go
+func (*BatchArtifactInput) ProtoMessage()
+```
+
+
+
+<a name="BatchArtifactInput.ProtoReflect"></a>
+### func \(\*BatchArtifactInput\) ProtoReflect
+
+```go
+func (x *BatchArtifactInput) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="BatchArtifactInput.Reset"></a>
+### func \(\*BatchArtifactInput\) Reset
+
+```go
+func (x *BatchArtifactInput) Reset()
+```
+
+
+
+<a name="BatchArtifactInput.String"></a>
+### func \(\*BatchArtifactInput\) String
+
+```go
+func (x *BatchArtifactInput) String() string
+```
+
+
+
+<a name="BatchCreateRevisionsRequest"></a>
+## type BatchCreateRevisionsRequest
+
+
+
+```go
+type BatchCreateRevisionsRequest struct {
+
+    // Rows to write, in request order. As with CreateRevision, each row's
+    // `number` and `exists_error` are ignored (revision numbers are always
+    // server-assigned next-available).
+    // Missing parent Items are auto-created from revision.item_kref (the
+    // parent Space must exist, or the row fails). Rows targeting the same
+    // item are applied in request order: consecutive numbers, SUPERSEDES
+    // chained between them, and the last row carries the 'latest' tag.
+    Revisions []*BatchRevisionRow `protobuf:"bytes,1,rep,name=revisions,proto3" json:"revisions,omitempty"`
+    // Optional idempotency prefix. When non-empty, each row is recorded under
+    // the key "{prefix}:{row_index}" transactionally with the write, so
+    // re-submitting the same batch returns the already-created revisions
+    // instead of writing duplicates (replayed rows skip artifact creation
+    // too). Empty = no idempotency.
+    IdempotencyPrefix string `protobuf:"bytes,2,opt,name=idempotency_prefix,json=idempotencyPrefix,proto3" json:"idempotency_prefix,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="BatchCreateRevisionsRequest.Descriptor"></a>
+### func \(\*BatchCreateRevisionsRequest\) Descriptor
+
+```go
+func (*BatchCreateRevisionsRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use BatchCreateRevisionsRequest.ProtoReflect.Descriptor instead.
+
+<a name="BatchCreateRevisionsRequest.GetIdempotencyPrefix"></a>
+### func \(\*BatchCreateRevisionsRequest\) GetIdempotencyPrefix
+
+```go
+func (x *BatchCreateRevisionsRequest) GetIdempotencyPrefix() string
+```
+
+
+
+<a name="BatchCreateRevisionsRequest.GetRevisions"></a>
+### func \(\*BatchCreateRevisionsRequest\) GetRevisions
+
+```go
+func (x *BatchCreateRevisionsRequest) GetRevisions() []*BatchRevisionRow
+```
+
+
+
+<a name="BatchCreateRevisionsRequest.ProtoMessage"></a>
+### func \(\*BatchCreateRevisionsRequest\) ProtoMessage
+
+```go
+func (*BatchCreateRevisionsRequest) ProtoMessage()
+```
+
+
+
+<a name="BatchCreateRevisionsRequest.ProtoReflect"></a>
+### func \(\*BatchCreateRevisionsRequest\) ProtoReflect
+
+```go
+func (x *BatchCreateRevisionsRequest) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="BatchCreateRevisionsRequest.Reset"></a>
+### func \(\*BatchCreateRevisionsRequest\) Reset
+
+```go
+func (x *BatchCreateRevisionsRequest) Reset()
+```
+
+
+
+<a name="BatchCreateRevisionsRequest.String"></a>
+### func \(\*BatchCreateRevisionsRequest\) String
+
+```go
+func (x *BatchCreateRevisionsRequest) String() string
+```
+
+
+
+<a name="BatchCreateRevisionsResponse"></a>
+## type BatchCreateRevisionsResponse
+
+
+
+```go
+type BatchCreateRevisionsResponse struct {
+
+    // Positional, 1:1 with the request rows. Failed rows are empty stubs
+    // (kref unset); consult `failures` for the reason.
+    Results []*RevisionResponse `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+    // Rows rejected by per-row validation. All valid rows commit atomically:
+    // any other failure fails the whole RPC with a gRPC error instead.
+    Failures       []*BatchRevisionFailure `protobuf:"bytes,2,rep,name=failures,proto3" json:"failures,omitempty"`
+    RequestedCount int32                   `protobuf:"varint,3,opt,name=requested_count,json=requestedCount,proto3" json:"requested_count,omitempty"`
+    // Rows that now have a revision (newly created or idempotent replay).
+    SucceededCount int32 `protobuf:"varint,4,opt,name=succeeded_count,json=succeededCount,proto3" json:"succeeded_count,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="BatchCreateRevisionsResponse.Descriptor"></a>
+### func \(\*BatchCreateRevisionsResponse\) Descriptor
+
+```go
+func (*BatchCreateRevisionsResponse) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use BatchCreateRevisionsResponse.ProtoReflect.Descriptor instead.
+
+<a name="BatchCreateRevisionsResponse.GetFailures"></a>
+### func \(\*BatchCreateRevisionsResponse\) GetFailures
+
+```go
+func (x *BatchCreateRevisionsResponse) GetFailures() []*BatchRevisionFailure
+```
+
+
+
+<a name="BatchCreateRevisionsResponse.GetRequestedCount"></a>
+### func \(\*BatchCreateRevisionsResponse\) GetRequestedCount
+
+```go
+func (x *BatchCreateRevisionsResponse) GetRequestedCount() int32
+```
+
+
+
+<a name="BatchCreateRevisionsResponse.GetResults"></a>
+### func \(\*BatchCreateRevisionsResponse\) GetResults
+
+```go
+func (x *BatchCreateRevisionsResponse) GetResults() []*RevisionResponse
+```
+
+
+
+<a name="BatchCreateRevisionsResponse.GetSucceededCount"></a>
+### func \(\*BatchCreateRevisionsResponse\) GetSucceededCount
+
+```go
+func (x *BatchCreateRevisionsResponse) GetSucceededCount() int32
+```
+
+
+
+<a name="BatchCreateRevisionsResponse.ProtoMessage"></a>
+### func \(\*BatchCreateRevisionsResponse\) ProtoMessage
+
+```go
+func (*BatchCreateRevisionsResponse) ProtoMessage()
+```
+
+
+
+<a name="BatchCreateRevisionsResponse.ProtoReflect"></a>
+### func \(\*BatchCreateRevisionsResponse\) ProtoReflect
+
+```go
+func (x *BatchCreateRevisionsResponse) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="BatchCreateRevisionsResponse.Reset"></a>
+### func \(\*BatchCreateRevisionsResponse\) Reset
+
+```go
+func (x *BatchCreateRevisionsResponse) Reset()
+```
+
+
+
+<a name="BatchCreateRevisionsResponse.String"></a>
+### func \(\*BatchCreateRevisionsResponse\) String
+
+```go
+func (x *BatchCreateRevisionsResponse) String() string
+```
+
+
+
 <a name="BatchGetRevisionsRequest"></a>
 ## type BatchGetRevisionsRequest
 
@@ -4382,6 +4969,166 @@ func (x *BatchGetRevisionsResponse) Reset()
 
 ```go
 func (x *BatchGetRevisionsResponse) String() string
+```
+
+
+
+<a name="BatchRevisionFailure"></a>
+## type BatchRevisionFailure
+
+
+
+```go
+type BatchRevisionFailure struct {
+
+    // Zero-based index of the failed row in the request.
+    Index int32 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+    // Why the row was rejected (validation error, missing parent space, ...).
+    Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="BatchRevisionFailure.Descriptor"></a>
+### func \(\*BatchRevisionFailure\) Descriptor
+
+```go
+func (*BatchRevisionFailure) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use BatchRevisionFailure.ProtoReflect.Descriptor instead.
+
+<a name="BatchRevisionFailure.GetIndex"></a>
+### func \(\*BatchRevisionFailure\) GetIndex
+
+```go
+func (x *BatchRevisionFailure) GetIndex() int32
+```
+
+
+
+<a name="BatchRevisionFailure.GetReason"></a>
+### func \(\*BatchRevisionFailure\) GetReason
+
+```go
+func (x *BatchRevisionFailure) GetReason() string
+```
+
+
+
+<a name="BatchRevisionFailure.ProtoMessage"></a>
+### func \(\*BatchRevisionFailure\) ProtoMessage
+
+```go
+func (*BatchRevisionFailure) ProtoMessage()
+```
+
+
+
+<a name="BatchRevisionFailure.ProtoReflect"></a>
+### func \(\*BatchRevisionFailure\) ProtoReflect
+
+```go
+func (x *BatchRevisionFailure) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="BatchRevisionFailure.Reset"></a>
+### func \(\*BatchRevisionFailure\) Reset
+
+```go
+func (x *BatchRevisionFailure) Reset()
+```
+
+
+
+<a name="BatchRevisionFailure.String"></a>
+### func \(\*BatchRevisionFailure\) String
+
+```go
+func (x *BatchRevisionFailure) String() string
+```
+
+
+
+<a name="BatchRevisionRow"></a>
+## type BatchRevisionRow
+
+One batch row: a revision to create plus any artifacts that go with it.
+
+```go
+type BatchRevisionRow struct {
+
+    // The revision to create. As with CreateRevision, `number` and
+    // `exists_error` are ignored (numbers are server-assigned).
+    Revision *CreateRevisionRequest `protobuf:"bytes,1,opt,name=revision,proto3" json:"revision,omitempty"`
+    // Artifacts to attach to the created revision. An invalid artifact spec
+    // (bad name, duplicate name, >1 default) fails the whole row.
+    Artifacts []*BatchArtifactInput `protobuf:"bytes,2,rep,name=artifacts,proto3" json:"artifacts,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="BatchRevisionRow.Descriptor"></a>
+### func \(\*BatchRevisionRow\) Descriptor
+
+```go
+func (*BatchRevisionRow) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use BatchRevisionRow.ProtoReflect.Descriptor instead.
+
+<a name="BatchRevisionRow.GetArtifacts"></a>
+### func \(\*BatchRevisionRow\) GetArtifacts
+
+```go
+func (x *BatchRevisionRow) GetArtifacts() []*BatchArtifactInput
+```
+
+
+
+<a name="BatchRevisionRow.GetRevision"></a>
+### func \(\*BatchRevisionRow\) GetRevision
+
+```go
+func (x *BatchRevisionRow) GetRevision() *CreateRevisionRequest
+```
+
+
+
+<a name="BatchRevisionRow.ProtoMessage"></a>
+### func \(\*BatchRevisionRow\) ProtoMessage
+
+```go
+func (*BatchRevisionRow) ProtoMessage()
+```
+
+
+
+<a name="BatchRevisionRow.ProtoReflect"></a>
+### func \(\*BatchRevisionRow\) ProtoReflect
+
+```go
+func (x *BatchRevisionRow) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="BatchRevisionRow.Reset"></a>
+### func \(\*BatchRevisionRow\) Reset
+
+```go
+func (x *BatchRevisionRow) Reset()
+```
+
+
+
+<a name="BatchRevisionRow.String"></a>
+### func \(\*BatchRevisionRow\) String
+
+```go
+func (x *BatchRevisionRow) String() string
 ```
 
 
@@ -5019,8 +5766,9 @@ func (x *CreateItemRequest) String() string
 
 ```go
 type CreateProjectRequest struct {
-    Name        string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-    Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+    Name        string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+    Description string            `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+    Metadata    map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
     // contains filtered or unexported fields
 }
 ```
@@ -5039,6 +5787,15 @@ Deprecated: Use CreateProjectRequest.ProtoReflect.Descriptor instead.
 
 ```go
 func (x *CreateProjectRequest) GetDescription() string
+```
+
+
+
+<a name="CreateProjectRequest.GetMetadata"></a>
+### func \(\*CreateProjectRequest\) GetMetadata
+
+```go
+func (x *CreateProjectRequest) GetMetadata() map[string]string
 ```
 
 
@@ -5201,9 +5958,10 @@ func (x *CreateRevisionRequest) String() string
 
 ```go
 type CreateSpaceRequest struct {
-    ParentPath  string `protobuf:"bytes,1,opt,name=parent_path,json=parentPath,proto3" json:"parent_path,omitempty"`
-    SpaceName   string `protobuf:"bytes,2,opt,name=space_name,json=spaceName,proto3" json:"space_name,omitempty"`
-    ExistsError bool   `protobuf:"varint,3,opt,name=exists_error,json=existsError,proto3" json:"exists_error,omitempty"`
+    ParentPath  string            `protobuf:"bytes,1,opt,name=parent_path,json=parentPath,proto3" json:"parent_path,omitempty"`
+    SpaceName   string            `protobuf:"bytes,2,opt,name=space_name,json=spaceName,proto3" json:"space_name,omitempty"`
+    ExistsError bool              `protobuf:"varint,3,opt,name=exists_error,json=existsError,proto3" json:"exists_error,omitempty"`
+    Metadata    map[string]string `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
     // contains filtered or unexported fields
 }
 ```
@@ -5222,6 +5980,15 @@ Deprecated: Use CreateSpaceRequest.ProtoReflect.Descriptor instead.
 
 ```go
 func (x *CreateSpaceRequest) GetExistsError() bool
+```
+
+
+
+<a name="CreateSpaceRequest.GetMetadata"></a>
+### func \(\*CreateSpaceRequest\) GetMetadata
+
+```go
+func (x *CreateSpaceRequest) GetMetadata() map[string]string
 ```
 
 
@@ -5602,7 +6369,8 @@ func (x *DeleteItemRequest) String() string
 ```go
 type DeleteProjectRequest struct {
     ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-    // force=true lets owner/admin hard-delete; otherwise deprecates.
+    // Legacy contract: owner/admin force=true performs immediate permanent
+    // deletion; other calls archive the Project.
     Force bool `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
     // contains filtered or unexported fields
 }
@@ -7971,6 +8739,7 @@ func (x *GetItemsResponse) String() string
 
 ```go
 type GetProjectsRequest struct {
+    IncludeDeprecated bool `protobuf:"varint,1,opt,name=include_deprecated,json=includeDeprecated,proto3" json:"include_deprecated,omitempty"`
     // contains filtered or unexported fields
 }
 ```
@@ -7983,6 +8752,15 @@ func (*GetProjectsRequest) Descriptor() ([]byte, []int)
 ```
 
 Deprecated: Use GetProjectsRequest.ProtoReflect.Descriptor instead.
+
+<a name="GetProjectsRequest.GetIncludeDeprecated"></a>
+### func \(\*GetProjectsRequest\) GetIncludeDeprecated
+
+```go
+func (x *GetProjectsRequest) GetIncludeDeprecated() bool
+```
+
+
 
 <a name="GetProjectsRequest.ProtoMessage"></a>
 ### func \(\*GetProjectsRequest\) ProtoMessage
@@ -8358,6 +9136,102 @@ func (x *GetTenantUsageRequest) Reset()
 
 ```go
 func (x *GetTenantUsageRequest) String() string
+```
+
+
+
+<a name="HardDeleteProjectRequest"></a>
+## type HardDeleteProjectRequest
+
+Snapshot\-bound permanent deletion. New clients should prefer this API over DeleteProject\(force=true\); the legacy operation remains for compatibility.
+
+```go
+type HardDeleteProjectRequest struct {
+    ProjectId          string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    ImpactSnapshotId   string `protobuf:"bytes,2,opt,name=impact_snapshot_id,json=impactSnapshotId,proto3" json:"impact_snapshot_id,omitempty"`
+    ImpactSnapshotHash string `protobuf:"bytes,3,opt,name=impact_snapshot_hash,json=impactSnapshotHash,proto3" json:"impact_snapshot_hash,omitempty"`
+    Confirmed          bool   `protobuf:"varint,4,opt,name=confirmed,proto3" json:"confirmed,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="HardDeleteProjectRequest.Descriptor"></a>
+### func \(\*HardDeleteProjectRequest\) Descriptor
+
+```go
+func (*HardDeleteProjectRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use HardDeleteProjectRequest.ProtoReflect.Descriptor instead.
+
+<a name="HardDeleteProjectRequest.GetConfirmed"></a>
+### func \(\*HardDeleteProjectRequest\) GetConfirmed
+
+```go
+func (x *HardDeleteProjectRequest) GetConfirmed() bool
+```
+
+
+
+<a name="HardDeleteProjectRequest.GetImpactSnapshotHash"></a>
+### func \(\*HardDeleteProjectRequest\) GetImpactSnapshotHash
+
+```go
+func (x *HardDeleteProjectRequest) GetImpactSnapshotHash() string
+```
+
+
+
+<a name="HardDeleteProjectRequest.GetImpactSnapshotId"></a>
+### func \(\*HardDeleteProjectRequest\) GetImpactSnapshotId
+
+```go
+func (x *HardDeleteProjectRequest) GetImpactSnapshotId() string
+```
+
+
+
+<a name="HardDeleteProjectRequest.GetProjectId"></a>
+### func \(\*HardDeleteProjectRequest\) GetProjectId
+
+```go
+func (x *HardDeleteProjectRequest) GetProjectId() string
+```
+
+
+
+<a name="HardDeleteProjectRequest.ProtoMessage"></a>
+### func \(\*HardDeleteProjectRequest\) ProtoMessage
+
+```go
+func (*HardDeleteProjectRequest) ProtoMessage()
+```
+
+
+
+<a name="HardDeleteProjectRequest.ProtoReflect"></a>
+### func \(\*HardDeleteProjectRequest\) ProtoReflect
+
+```go
+func (x *HardDeleteProjectRequest) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="HardDeleteProjectRequest.Reset"></a>
+### func \(\*HardDeleteProjectRequest\) Reset
+
+```go
+func (x *HardDeleteProjectRequest) Reset()
+```
+
+
+
+<a name="HardDeleteProjectRequest.String"></a>
+### func \(\*HardDeleteProjectRequest\) String
+
+```go
+func (x *HardDeleteProjectRequest) String() string
 ```
 
 
@@ -9192,7 +10066,12 @@ type KumihoServiceClient interface {
     CreateProject(ctx context.Context, in *CreateProjectRequest, opts ...grpc.CallOption) (*ProjectResponse, error)
     GetProjects(ctx context.Context, in *GetProjectsRequest, opts ...grpc.CallOption) (*GetProjectsResponse, error)
     UpdateProject(ctx context.Context, in *UpdateProjectRequest, opts ...grpc.CallOption) (*ProjectResponse, error)
+    AnalyzeProjectDeletion(ctx context.Context, in *ProjectDeletionImpactRequest, opts ...grpc.CallOption) (*ProjectDeletionImpactResponse, error)
+    RegisterProjectDeletionGuard(ctx context.Context, in *RegisterProjectDeletionGuardRequest, opts ...grpc.CallOption) (*ProjectDeletionGuardResponse, error)
+    ResolveProjectDeletionGuard(ctx context.Context, in *ResolveProjectDeletionGuardRequest, opts ...grpc.CallOption) (*StatusResponse, error)
+    ResolveProjectReference(ctx context.Context, in *ResolveProjectReferenceRequest, opts ...grpc.CallOption) (*StatusResponse, error)
     DeleteProject(ctx context.Context, in *DeleteProjectRequest, opts ...grpc.CallOption) (*StatusResponse, error)
+    HardDeleteProject(ctx context.Context, in *HardDeleteProjectRequest, opts ...grpc.CallOption) (*StatusResponse, error)
     // Space methods
     CreateSpace(ctx context.Context, in *CreateSpaceRequest, opts ...grpc.CallOption) (*SpaceResponse, error)
     GetSpace(ctx context.Context, in *GetSpaceRequest, opts ...grpc.CallOption) (*SpaceResponse, error)
@@ -9206,6 +10085,7 @@ type KumihoServiceClient interface {
     ItemSearch(ctx context.Context, in *ItemSearchRequest, opts ...grpc.CallOption) (*GetItemsResponse, error)
     DeleteItem(ctx context.Context, in *DeleteItemRequest, opts ...grpc.CallOption) (*StatusResponse, error)
     UpdateItemMetadata(ctx context.Context, in *UpdateMetadataRequest, opts ...grpc.CallOption) (*ItemResponse, error)
+    MoveItem(ctx context.Context, in *MoveItemRequest, opts ...grpc.CallOption) (*ItemResponse, error)
     // Full-text search (Google-like fuzzy search across items)
     Search(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error)
     // Score specific revisions against a query (server-side embeddings + fulltext)
@@ -9217,6 +10097,7 @@ type KumihoServiceClient interface {
     GetRevision(ctx context.Context, in *KrefRequest, opts ...grpc.CallOption) (*RevisionResponse, error)
     GetRevisions(ctx context.Context, in *GetRevisionsRequest, opts ...grpc.CallOption) (*GetRevisionsResponse, error)
     BatchGetRevisions(ctx context.Context, in *BatchGetRevisionsRequest, opts ...grpc.CallOption) (*BatchGetRevisionsResponse, error)
+    BatchCreateRevisions(ctx context.Context, in *BatchCreateRevisionsRequest, opts ...grpc.CallOption) (*BatchCreateRevisionsResponse, error)
     DeleteRevision(ctx context.Context, in *DeleteRevisionRequest, opts ...grpc.CallOption) (*StatusResponse, error)
     PeekNextRevision(ctx context.Context, in *PeekNextRevisionRequest, opts ...grpc.CallOption) (*PeekNextRevisionResponse, error)
     UpdateRevisionMetadata(ctx context.Context, in *UpdateMetadataRequest, opts ...grpc.CallOption) (*RevisionResponse, error)
@@ -9284,7 +10165,12 @@ type KumihoServiceServer interface {
     CreateProject(context.Context, *CreateProjectRequest) (*ProjectResponse, error)
     GetProjects(context.Context, *GetProjectsRequest) (*GetProjectsResponse, error)
     UpdateProject(context.Context, *UpdateProjectRequest) (*ProjectResponse, error)
+    AnalyzeProjectDeletion(context.Context, *ProjectDeletionImpactRequest) (*ProjectDeletionImpactResponse, error)
+    RegisterProjectDeletionGuard(context.Context, *RegisterProjectDeletionGuardRequest) (*ProjectDeletionGuardResponse, error)
+    ResolveProjectDeletionGuard(context.Context, *ResolveProjectDeletionGuardRequest) (*StatusResponse, error)
+    ResolveProjectReference(context.Context, *ResolveProjectReferenceRequest) (*StatusResponse, error)
     DeleteProject(context.Context, *DeleteProjectRequest) (*StatusResponse, error)
+    HardDeleteProject(context.Context, *HardDeleteProjectRequest) (*StatusResponse, error)
     // Space methods
     CreateSpace(context.Context, *CreateSpaceRequest) (*SpaceResponse, error)
     GetSpace(context.Context, *GetSpaceRequest) (*SpaceResponse, error)
@@ -9298,6 +10184,7 @@ type KumihoServiceServer interface {
     ItemSearch(context.Context, *ItemSearchRequest) (*GetItemsResponse, error)
     DeleteItem(context.Context, *DeleteItemRequest) (*StatusResponse, error)
     UpdateItemMetadata(context.Context, *UpdateMetadataRequest) (*ItemResponse, error)
+    MoveItem(context.Context, *MoveItemRequest) (*ItemResponse, error)
     // Full-text search (Google-like fuzzy search across items)
     Search(context.Context, *SearchRequest) (*SearchResponse, error)
     // Score specific revisions against a query (server-side embeddings + fulltext)
@@ -9309,6 +10196,7 @@ type KumihoServiceServer interface {
     GetRevision(context.Context, *KrefRequest) (*RevisionResponse, error)
     GetRevisions(context.Context, *GetRevisionsRequest) (*GetRevisionsResponse, error)
     BatchGetRevisions(context.Context, *BatchGetRevisionsRequest) (*BatchGetRevisionsResponse, error)
+    BatchCreateRevisions(context.Context, *BatchCreateRevisionsRequest) (*BatchCreateRevisionsResponse, error)
     DeleteRevision(context.Context, *DeleteRevisionRequest) (*StatusResponse, error)
     PeekNextRevision(context.Context, *PeekNextRevisionRequest) (*PeekNextRevisionResponse, error)
     UpdateRevisionMetadata(context.Context, *UpdateMetadataRequest) (*RevisionResponse, error)
@@ -9372,6 +10260,82 @@ This type alias is provided for backwards compatibility with existing code that 
 ```go
 type KumihoService_EventStreamServer = grpc.ServerStreamingServer[Event]
 ```
+
+<a name="MoveItemRequest"></a>
+## type MoveItemRequest
+
+Move an Item between tenant\-owned Spaces while preserving its immutable kref. This is a graph ownership operation; application\-specific metadata is not interpreted by Kumiho.
+
+```go
+type MoveItemRequest struct {
+    ItemKref        string `protobuf:"bytes,1,opt,name=item_kref,json=itemKref,proto3" json:"item_kref,omitempty"`
+    TargetSpacePath string `protobuf:"bytes,2,opt,name=target_space_path,json=targetSpacePath,proto3" json:"target_space_path,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="MoveItemRequest.Descriptor"></a>
+### func \(\*MoveItemRequest\) Descriptor
+
+```go
+func (*MoveItemRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use MoveItemRequest.ProtoReflect.Descriptor instead.
+
+<a name="MoveItemRequest.GetItemKref"></a>
+### func \(\*MoveItemRequest\) GetItemKref
+
+```go
+func (x *MoveItemRequest) GetItemKref() string
+```
+
+
+
+<a name="MoveItemRequest.GetTargetSpacePath"></a>
+### func \(\*MoveItemRequest\) GetTargetSpacePath
+
+```go
+func (x *MoveItemRequest) GetTargetSpacePath() string
+```
+
+
+
+<a name="MoveItemRequest.ProtoMessage"></a>
+### func \(\*MoveItemRequest\) ProtoMessage
+
+```go
+func (*MoveItemRequest) ProtoMessage()
+```
+
+
+
+<a name="MoveItemRequest.ProtoReflect"></a>
+### func \(\*MoveItemRequest\) ProtoReflect
+
+```go
+func (x *MoveItemRequest) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="MoveItemRequest.Reset"></a>
+### func \(\*MoveItemRequest\) Reset
+
+```go
+func (x *MoveItemRequest) Reset()
+```
+
+
+
+<a name="MoveItemRequest.String"></a>
+### func \(\*MoveItemRequest\) String
+
+```go
+func (x *MoveItemRequest) String() string
+```
+
+
 
 <a name="PaginationRequest"></a>
 ## type PaginationRequest
@@ -9760,6 +10724,314 @@ func (x *PeekNextRevisionResponse) String() string
 
 
 
+<a name="ProjectDeletionGuardResponse"></a>
+## type ProjectDeletionGuardResponse
+
+
+
+```go
+type ProjectDeletionGuardResponse struct {
+    ProjectId           string   `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    GuardId             string   `protobuf:"bytes,2,opt,name=guard_id,json=guardId,proto3" json:"guard_id,omitempty"`
+    ResourceKref        string   `protobuf:"bytes,3,opt,name=resource_kref,json=resourceKref,proto3" json:"resource_kref,omitempty"`
+    AllowedOperations   []string `protobuf:"bytes,4,rep,name=allowed_operations,json=allowedOperations,proto3" json:"allowed_operations,omitempty"`
+    AllowedMetadataKeys []string `protobuf:"bytes,5,rep,name=allowed_metadata_keys,json=allowedMetadataKeys,proto3" json:"allowed_metadata_keys,omitempty"`
+    CreatedAt           string   `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ProjectDeletionGuardResponse.Descriptor"></a>
+### func \(\*ProjectDeletionGuardResponse\) Descriptor
+
+```go
+func (*ProjectDeletionGuardResponse) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use ProjectDeletionGuardResponse.ProtoReflect.Descriptor instead.
+
+<a name="ProjectDeletionGuardResponse.GetAllowedMetadataKeys"></a>
+### func \(\*ProjectDeletionGuardResponse\) GetAllowedMetadataKeys
+
+```go
+func (x *ProjectDeletionGuardResponse) GetAllowedMetadataKeys() []string
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.GetAllowedOperations"></a>
+### func \(\*ProjectDeletionGuardResponse\) GetAllowedOperations
+
+```go
+func (x *ProjectDeletionGuardResponse) GetAllowedOperations() []string
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.GetCreatedAt"></a>
+### func \(\*ProjectDeletionGuardResponse\) GetCreatedAt
+
+```go
+func (x *ProjectDeletionGuardResponse) GetCreatedAt() string
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.GetGuardId"></a>
+### func \(\*ProjectDeletionGuardResponse\) GetGuardId
+
+```go
+func (x *ProjectDeletionGuardResponse) GetGuardId() string
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.GetProjectId"></a>
+### func \(\*ProjectDeletionGuardResponse\) GetProjectId
+
+```go
+func (x *ProjectDeletionGuardResponse) GetProjectId() string
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.GetResourceKref"></a>
+### func \(\*ProjectDeletionGuardResponse\) GetResourceKref
+
+```go
+func (x *ProjectDeletionGuardResponse) GetResourceKref() string
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.ProtoMessage"></a>
+### func \(\*ProjectDeletionGuardResponse\) ProtoMessage
+
+```go
+func (*ProjectDeletionGuardResponse) ProtoMessage()
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.ProtoReflect"></a>
+### func \(\*ProjectDeletionGuardResponse\) ProtoReflect
+
+```go
+func (x *ProjectDeletionGuardResponse) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.Reset"></a>
+### func \(\*ProjectDeletionGuardResponse\) Reset
+
+```go
+func (x *ProjectDeletionGuardResponse) Reset()
+```
+
+
+
+<a name="ProjectDeletionGuardResponse.String"></a>
+### func \(\*ProjectDeletionGuardResponse\) String
+
+```go
+func (x *ProjectDeletionGuardResponse) String() string
+```
+
+
+
+<a name="ProjectDeletionImpactRequest"></a>
+## type ProjectDeletionImpactRequest
+
+
+
+```go
+type ProjectDeletionImpactRequest struct {
+    ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ProjectDeletionImpactRequest.Descriptor"></a>
+### func \(\*ProjectDeletionImpactRequest\) Descriptor
+
+```go
+func (*ProjectDeletionImpactRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use ProjectDeletionImpactRequest.ProtoReflect.Descriptor instead.
+
+<a name="ProjectDeletionImpactRequest.GetProjectId"></a>
+### func \(\*ProjectDeletionImpactRequest\) GetProjectId
+
+```go
+func (x *ProjectDeletionImpactRequest) GetProjectId() string
+```
+
+
+
+<a name="ProjectDeletionImpactRequest.ProtoMessage"></a>
+### func \(\*ProjectDeletionImpactRequest\) ProtoMessage
+
+```go
+func (*ProjectDeletionImpactRequest) ProtoMessage()
+```
+
+
+
+<a name="ProjectDeletionImpactRequest.ProtoReflect"></a>
+### func \(\*ProjectDeletionImpactRequest\) ProtoReflect
+
+```go
+func (x *ProjectDeletionImpactRequest) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="ProjectDeletionImpactRequest.Reset"></a>
+### func \(\*ProjectDeletionImpactRequest\) Reset
+
+```go
+func (x *ProjectDeletionImpactRequest) Reset()
+```
+
+
+
+<a name="ProjectDeletionImpactRequest.String"></a>
+### func \(\*ProjectDeletionImpactRequest\) String
+
+```go
+func (x *ProjectDeletionImpactRequest) String() string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse"></a>
+## type ProjectDeletionImpactResponse
+
+
+
+```go
+type ProjectDeletionImpactResponse struct {
+    ImpactSnapshotId   string   `protobuf:"bytes,1,opt,name=impact_snapshot_id,json=impactSnapshotId,proto3" json:"impact_snapshot_id,omitempty"`
+    ImpactSnapshotHash string   `protobuf:"bytes,2,opt,name=impact_snapshot_hash,json=impactSnapshotHash,proto3" json:"impact_snapshot_hash,omitempty"`
+    ProjectId          string   `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    ProjectName        string   `protobuf:"bytes,4,opt,name=project_name,json=projectName,proto3" json:"project_name,omitempty"`
+    Blockers           []string `protobuf:"bytes,5,rep,name=blockers,proto3" json:"blockers,omitempty"`
+    Descendants        []string `protobuf:"bytes,6,rep,name=descendants,proto3" json:"descendants,omitempty"`
+    CreatedAt          string   `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ProjectDeletionImpactResponse.Descriptor"></a>
+### func \(\*ProjectDeletionImpactResponse\) Descriptor
+
+```go
+func (*ProjectDeletionImpactResponse) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use ProjectDeletionImpactResponse.ProtoReflect.Descriptor instead.
+
+<a name="ProjectDeletionImpactResponse.GetBlockers"></a>
+### func \(\*ProjectDeletionImpactResponse\) GetBlockers
+
+```go
+func (x *ProjectDeletionImpactResponse) GetBlockers() []string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.GetCreatedAt"></a>
+### func \(\*ProjectDeletionImpactResponse\) GetCreatedAt
+
+```go
+func (x *ProjectDeletionImpactResponse) GetCreatedAt() string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.GetDescendants"></a>
+### func \(\*ProjectDeletionImpactResponse\) GetDescendants
+
+```go
+func (x *ProjectDeletionImpactResponse) GetDescendants() []string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.GetImpactSnapshotHash"></a>
+### func \(\*ProjectDeletionImpactResponse\) GetImpactSnapshotHash
+
+```go
+func (x *ProjectDeletionImpactResponse) GetImpactSnapshotHash() string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.GetImpactSnapshotId"></a>
+### func \(\*ProjectDeletionImpactResponse\) GetImpactSnapshotId
+
+```go
+func (x *ProjectDeletionImpactResponse) GetImpactSnapshotId() string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.GetProjectId"></a>
+### func \(\*ProjectDeletionImpactResponse\) GetProjectId
+
+```go
+func (x *ProjectDeletionImpactResponse) GetProjectId() string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.GetProjectName"></a>
+### func \(\*ProjectDeletionImpactResponse\) GetProjectName
+
+```go
+func (x *ProjectDeletionImpactResponse) GetProjectName() string
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.ProtoMessage"></a>
+### func \(\*ProjectDeletionImpactResponse\) ProtoMessage
+
+```go
+func (*ProjectDeletionImpactResponse) ProtoMessage()
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.ProtoReflect"></a>
+### func \(\*ProjectDeletionImpactResponse\) ProtoReflect
+
+```go
+func (x *ProjectDeletionImpactResponse) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.Reset"></a>
+### func \(\*ProjectDeletionImpactResponse\) Reset
+
+```go
+func (x *ProjectDeletionImpactResponse) Reset()
+```
+
+
+
+<a name="ProjectDeletionImpactResponse.String"></a>
+### func \(\*ProjectDeletionImpactResponse\) String
+
+```go
+func (x *ProjectDeletionImpactResponse) String() string
+```
+
+
+
 <a name="ProjectResponse"></a>
 ## type ProjectResponse
 
@@ -9767,13 +11039,14 @@ func (x *PeekNextRevisionResponse) String() string
 
 ```go
 type ProjectResponse struct {
-    ProjectId   string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-    Name        string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-    Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-    CreatedAt   string `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-    UpdatedAt   string `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-    Deprecated  bool   `protobuf:"varint,6,opt,name=deprecated,proto3" json:"deprecated,omitempty"`
-    AllowPublic bool   `protobuf:"varint,7,opt,name=allow_public,json=allowPublic,proto3" json:"allow_public,omitempty"`
+    ProjectId   string            `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    Name        string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+    Description string            `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+    CreatedAt   string            `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+    UpdatedAt   string            `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+    Deprecated  bool              `protobuf:"varint,6,opt,name=deprecated,proto3" json:"deprecated,omitempty"`
+    AllowPublic bool              `protobuf:"varint,7,opt,name=allow_public,json=allowPublic,proto3" json:"allow_public,omitempty"`
+    Metadata    map[string]string `protobuf:"bytes,8,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
     // contains filtered or unexported fields
 }
 ```
@@ -9819,6 +11092,15 @@ func (x *ProjectResponse) GetDeprecated() bool
 
 ```go
 func (x *ProjectResponse) GetDescription() string
+```
+
+
+
+<a name="ProjectResponse.GetMetadata"></a>
+### func \(\*ProjectResponse\) GetMetadata
+
+```go
+func (x *ProjectResponse) GetMetadata() map[string]string
 ```
 
 
@@ -9882,6 +11164,112 @@ func (x *ProjectResponse) Reset()
 
 ```go
 func (x *ProjectResponse) String() string
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest"></a>
+## type RegisterProjectDeletionGuardRequest
+
+Opaque application\-owned deletion guard. Kumiho stores and enforces the guard without interpreting application kinds, statuses, or metadata values.
+
+```go
+type RegisterProjectDeletionGuardRequest struct {
+    ProjectId           string   `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    GuardId             string   `protobuf:"bytes,2,opt,name=guard_id,json=guardId,proto3" json:"guard_id,omitempty"`
+    ResourceKref        string   `protobuf:"bytes,3,opt,name=resource_kref,json=resourceKref,proto3" json:"resource_kref,omitempty"`
+    AllowedOperations   []string `protobuf:"bytes,4,rep,name=allowed_operations,json=allowedOperations,proto3" json:"allowed_operations,omitempty"`
+    AllowedMetadataKeys []string `protobuf:"bytes,5,rep,name=allowed_metadata_keys,json=allowedMetadataKeys,proto3" json:"allowed_metadata_keys,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="RegisterProjectDeletionGuardRequest.Descriptor"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) Descriptor
+
+```go
+func (*RegisterProjectDeletionGuardRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use RegisterProjectDeletionGuardRequest.ProtoReflect.Descriptor instead.
+
+<a name="RegisterProjectDeletionGuardRequest.GetAllowedMetadataKeys"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) GetAllowedMetadataKeys
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) GetAllowedMetadataKeys() []string
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.GetAllowedOperations"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) GetAllowedOperations
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) GetAllowedOperations() []string
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.GetGuardId"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) GetGuardId
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) GetGuardId() string
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.GetProjectId"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) GetProjectId
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) GetProjectId() string
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.GetResourceKref"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) GetResourceKref
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) GetResourceKref() string
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.ProtoMessage"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) ProtoMessage
+
+```go
+func (*RegisterProjectDeletionGuardRequest) ProtoMessage()
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.ProtoReflect"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) ProtoReflect
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.Reset"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) Reset
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) Reset()
+```
+
+
+
+<a name="RegisterProjectDeletionGuardRequest.String"></a>
+### func \(\*RegisterProjectDeletionGuardRequest\) String
+
+```go
+func (x *RegisterProjectDeletionGuardRequest) String() string
 ```
 
 
@@ -10312,6 +11700,199 @@ func (x *ResolveLocationResponse) Reset()
 
 ```go
 func (x *ResolveLocationResponse) String() string
+```
+
+
+
+<a name="ResolveProjectDeletionGuardRequest"></a>
+## type ResolveProjectDeletionGuardRequest
+
+
+
+```go
+type ResolveProjectDeletionGuardRequest struct {
+    ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    GuardId   string `protobuf:"bytes,2,opt,name=guard_id,json=guardId,proto3" json:"guard_id,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ResolveProjectDeletionGuardRequest.Descriptor"></a>
+### func \(\*ResolveProjectDeletionGuardRequest\) Descriptor
+
+```go
+func (*ResolveProjectDeletionGuardRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use ResolveProjectDeletionGuardRequest.ProtoReflect.Descriptor instead.
+
+<a name="ResolveProjectDeletionGuardRequest.GetGuardId"></a>
+### func \(\*ResolveProjectDeletionGuardRequest\) GetGuardId
+
+```go
+func (x *ResolveProjectDeletionGuardRequest) GetGuardId() string
+```
+
+
+
+<a name="ResolveProjectDeletionGuardRequest.GetProjectId"></a>
+### func \(\*ResolveProjectDeletionGuardRequest\) GetProjectId
+
+```go
+func (x *ResolveProjectDeletionGuardRequest) GetProjectId() string
+```
+
+
+
+<a name="ResolveProjectDeletionGuardRequest.ProtoMessage"></a>
+### func \(\*ResolveProjectDeletionGuardRequest\) ProtoMessage
+
+```go
+func (*ResolveProjectDeletionGuardRequest) ProtoMessage()
+```
+
+
+
+<a name="ResolveProjectDeletionGuardRequest.ProtoReflect"></a>
+### func \(\*ResolveProjectDeletionGuardRequest\) ProtoReflect
+
+```go
+func (x *ResolveProjectDeletionGuardRequest) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="ResolveProjectDeletionGuardRequest.Reset"></a>
+### func \(\*ResolveProjectDeletionGuardRequest\) Reset
+
+```go
+func (x *ResolveProjectDeletionGuardRequest) Reset()
+```
+
+
+
+<a name="ResolveProjectDeletionGuardRequest.String"></a>
+### func \(\*ResolveProjectDeletionGuardRequest\) String
+
+```go
+func (x *ResolveProjectDeletionGuardRequest) String() string
+```
+
+
+
+<a name="ResolveProjectReferenceRequest"></a>
+## type ResolveProjectReferenceRequest
+
+Resolve one registered cross\-Project Revision reference on an archived Project. The server validates the current edge and owns the mutation.
+
+```go
+type ResolveProjectReferenceRequest struct {
+    ProjectId           string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+    InsideRevisionKref  string `protobuf:"bytes,2,opt,name=inside_revision_kref,json=insideRevisionKref,proto3" json:"inside_revision_kref,omitempty"`
+    OutsideRevisionKref string `protobuf:"bytes,3,opt,name=outside_revision_kref,json=outsideRevisionKref,proto3" json:"outside_revision_kref,omitempty"`
+    EdgeType            string `protobuf:"bytes,4,opt,name=edge_type,json=edgeType,proto3" json:"edge_type,omitempty"`
+    // "detach" or "replace".
+    Action                  string `protobuf:"bytes,5,opt,name=action,proto3" json:"action,omitempty"`
+    ReplacementRevisionKref string `protobuf:"bytes,6,opt,name=replacement_revision_kref,json=replacementRevisionKref,proto3" json:"replacement_revision_kref,omitempty"`
+    // contains filtered or unexported fields
+}
+```
+
+<a name="ResolveProjectReferenceRequest.Descriptor"></a>
+### func \(\*ResolveProjectReferenceRequest\) Descriptor
+
+```go
+func (*ResolveProjectReferenceRequest) Descriptor() ([]byte, []int)
+```
+
+Deprecated: Use ResolveProjectReferenceRequest.ProtoReflect.Descriptor instead.
+
+<a name="ResolveProjectReferenceRequest.GetAction"></a>
+### func \(\*ResolveProjectReferenceRequest\) GetAction
+
+```go
+func (x *ResolveProjectReferenceRequest) GetAction() string
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.GetEdgeType"></a>
+### func \(\*ResolveProjectReferenceRequest\) GetEdgeType
+
+```go
+func (x *ResolveProjectReferenceRequest) GetEdgeType() string
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.GetInsideRevisionKref"></a>
+### func \(\*ResolveProjectReferenceRequest\) GetInsideRevisionKref
+
+```go
+func (x *ResolveProjectReferenceRequest) GetInsideRevisionKref() string
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.GetOutsideRevisionKref"></a>
+### func \(\*ResolveProjectReferenceRequest\) GetOutsideRevisionKref
+
+```go
+func (x *ResolveProjectReferenceRequest) GetOutsideRevisionKref() string
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.GetProjectId"></a>
+### func \(\*ResolveProjectReferenceRequest\) GetProjectId
+
+```go
+func (x *ResolveProjectReferenceRequest) GetProjectId() string
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.GetReplacementRevisionKref"></a>
+### func \(\*ResolveProjectReferenceRequest\) GetReplacementRevisionKref
+
+```go
+func (x *ResolveProjectReferenceRequest) GetReplacementRevisionKref() string
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.ProtoMessage"></a>
+### func \(\*ResolveProjectReferenceRequest\) ProtoMessage
+
+```go
+func (*ResolveProjectReferenceRequest) ProtoMessage()
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.ProtoReflect"></a>
+### func \(\*ResolveProjectReferenceRequest\) ProtoReflect
+
+```go
+func (x *ResolveProjectReferenceRequest) ProtoReflect() protoreflect.Message
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.Reset"></a>
+### func \(\*ResolveProjectReferenceRequest\) Reset
+
+```go
+func (x *ResolveProjectReferenceRequest) Reset()
+```
+
+
+
+<a name="ResolveProjectReferenceRequest.String"></a>
+### func \(\*ResolveProjectReferenceRequest\) String
+
+```go
+func (x *ResolveProjectReferenceRequest) String() string
 ```
 
 
@@ -12312,6 +13893,24 @@ func (UnimplementedKumihoServiceServer) AnalyzeImpact(context.Context, *ImpactAn
 
 
 
+<a name="UnimplementedKumihoServiceServer.AnalyzeProjectDeletion"></a>
+### func \(UnimplementedKumihoServiceServer\) AnalyzeProjectDeletion
+
+```go
+func (UnimplementedKumihoServiceServer) AnalyzeProjectDeletion(context.Context, *ProjectDeletionImpactRequest) (*ProjectDeletionImpactResponse, error)
+```
+
+
+
+<a name="UnimplementedKumihoServiceServer.BatchCreateRevisions"></a>
+### func \(UnimplementedKumihoServiceServer\) BatchCreateRevisions
+
+```go
+func (UnimplementedKumihoServiceServer) BatchCreateRevisions(context.Context, *BatchCreateRevisionsRequest) (*BatchCreateRevisionsResponse, error)
+```
+
+
+
 <a name="UnimplementedKumihoServiceServer.BatchGetRevisions"></a>
 ### func \(UnimplementedKumihoServiceServer\) BatchGetRevisions
 
@@ -12609,6 +14208,15 @@ func (UnimplementedKumihoServiceServer) GetTenantUsage(context.Context, *GetTena
 
 
 
+<a name="UnimplementedKumihoServiceServer.HardDeleteProject"></a>
+### func \(UnimplementedKumihoServiceServer\) HardDeleteProject
+
+```go
+func (UnimplementedKumihoServiceServer) HardDeleteProject(context.Context, *HardDeleteProjectRequest) (*StatusResponse, error)
+```
+
+
+
 <a name="UnimplementedKumihoServiceServer.HasTag"></a>
 ### func \(UnimplementedKumihoServiceServer\) HasTag
 
@@ -12627,11 +14235,29 @@ func (UnimplementedKumihoServiceServer) ItemSearch(context.Context, *ItemSearchR
 
 
 
+<a name="UnimplementedKumihoServiceServer.MoveItem"></a>
+### func \(UnimplementedKumihoServiceServer\) MoveItem
+
+```go
+func (UnimplementedKumihoServiceServer) MoveItem(context.Context, *MoveItemRequest) (*ItemResponse, error)
+```
+
+
+
 <a name="UnimplementedKumihoServiceServer.PeekNextRevision"></a>
 ### func \(UnimplementedKumihoServiceServer\) PeekNextRevision
 
 ```go
 func (UnimplementedKumihoServiceServer) PeekNextRevision(context.Context, *PeekNextRevisionRequest) (*PeekNextRevisionResponse, error)
+```
+
+
+
+<a name="UnimplementedKumihoServiceServer.RegisterProjectDeletionGuard"></a>
+### func \(UnimplementedKumihoServiceServer\) RegisterProjectDeletionGuard
+
+```go
+func (UnimplementedKumihoServiceServer) RegisterProjectDeletionGuard(context.Context, *RegisterProjectDeletionGuardRequest) (*ProjectDeletionGuardResponse, error)
 ```
 
 
@@ -12659,6 +14285,24 @@ func (UnimplementedKumihoServiceServer) ResolveKref(context.Context, *ResolveKre
 
 ```go
 func (UnimplementedKumihoServiceServer) ResolveLocation(context.Context, *ResolveLocationRequest) (*ResolveLocationResponse, error)
+```
+
+
+
+<a name="UnimplementedKumihoServiceServer.ResolveProjectDeletionGuard"></a>
+### func \(UnimplementedKumihoServiceServer\) ResolveProjectDeletionGuard
+
+```go
+func (UnimplementedKumihoServiceServer) ResolveProjectDeletionGuard(context.Context, *ResolveProjectDeletionGuardRequest) (*StatusResponse, error)
+```
+
+
+
+<a name="UnimplementedKumihoServiceServer.ResolveProjectReference"></a>
+### func \(UnimplementedKumihoServiceServer\) ResolveProjectReference
+
+```go
+func (UnimplementedKumihoServiceServer) ResolveProjectReference(context.Context, *ResolveProjectReferenceRequest) (*StatusResponse, error)
 ```
 
 
@@ -12886,6 +14530,9 @@ type UpdateProjectRequest struct {
     ProjectId   string  `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
     AllowPublic *bool   `protobuf:"varint,2,opt,name=allow_public,json=allowPublic,proto3,oneof" json:"allow_public,omitempty"`
     Description *string `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+    // Non-empty metadata merges the supplied keys into Project metadata.
+    Metadata   map[string]string `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+    Deprecated *bool             `protobuf:"varint,5,opt,name=deprecated,proto3,oneof" json:"deprecated,omitempty"`
     // contains filtered or unexported fields
 }
 ```
@@ -12908,11 +14555,29 @@ func (x *UpdateProjectRequest) GetAllowPublic() bool
 
 
 
+<a name="UpdateProjectRequest.GetDeprecated"></a>
+### func \(\*UpdateProjectRequest\) GetDeprecated
+
+```go
+func (x *UpdateProjectRequest) GetDeprecated() bool
+```
+
+
+
 <a name="UpdateProjectRequest.GetDescription"></a>
 ### func \(\*UpdateProjectRequest\) GetDescription
 
 ```go
 func (x *UpdateProjectRequest) GetDescription() string
+```
+
+
+
+<a name="UpdateProjectRequest.GetMetadata"></a>
+### func \(\*UpdateProjectRequest\) GetMetadata
+
+```go
+func (x *UpdateProjectRequest) GetMetadata() map[string]string
 ```
 
 
