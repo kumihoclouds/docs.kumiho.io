@@ -3,12 +3,12 @@
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Decks · Kumiho</title>
-<meta name="description" content="브라우저에서 바로 여는 자체 완결형 HTML 프레젠테이션 — Kumiho · Revka.">
+<meta name="description" content="브라우저에서 바로 여는 자체 완결형 HTML 프레젠테이션 — Kumiho · 9miho · Revka.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kumiho">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="프레젠테이션 덱 · Kumiho">
-<meta property="og:description" content="브라우저에서 바로 여는 자체 완결형 HTML 프레젠테이션 덱 — Kumiho · Revka.">
+<meta property="og:description" content="브라우저에서 바로 여는 자체 완결형 HTML 프레젠테이션 덱 — Kumiho · 9miho · Revka.">
 <meta property="og:url" content="https://docs.kumiho.io/deck/">
 <meta property="og:image" content="https://docs.kumiho.io/deck/deck-index-og.png">
 <meta property="og:image:width" content="1200">
@@ -16,93 +16,124 @@
 <meta property="og:image:alt" content="프레젠테이션 덱 · Kumiho">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="프레젠테이션 덱 · Kumiho">
-<meta name="twitter:description" content="브라우저에서 바로 여는 자체 완결형 HTML 프레젠테이션 덱 — Kumiho · Revka.">
+<meta name="twitter:description" content="브라우저에서 바로 여는 자체 완결형 HTML 프레젠테이션 덱 — Kumiho · 9miho · Revka.">
 <meta name="twitter:image" content="https://docs.kumiho.io/deck/deck-index-og.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.92em%22 font-size=%2292%22>%F0%9F%A6%8A</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css">
 <style>
+/* ── tokens · shared with 9miho.io and kumiho.io ───────────────────────── */
 :root{
-  --ink:#08070D; --ink2:#0C0A14;
-  --surface:#120F1D; --surface2:#181329; --surface3:#211B38;
-  --text:#F3F0FB; --muted:#B4ADC9; --dim:rgba(180,173,201,.55);
-  --brand:#8B5CF6; --brand-soft:#B5A2FB; --brand2:#E44AD2; --indigo:#5B31FA;
-  --line:rgba(180,173,201,.16); --line2:rgba(180,173,201,.26);
-  --glass:rgba(24,19,41,.55);
-  --grad:linear-gradient(96deg,#8C30F9 0%,#B5A2FB 32%,#E44AD2 100%);
-  --grad-flow:linear-gradient(90deg,#5B31FA 0%,#8B5CF6 50%,#E44AD2 100%);
-  --mono:"Geist Mono",ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Malgun Gothic",monospace;
-  --sans:"Geist","Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI","Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  color-scheme: dark;
+  --ink:#0C0C0E; --ink-raised:#101014;
+  --surface:#131316; --surface-2:#18181D;
+  --line:rgba(255,255,255,.10); --line-strong:rgba(255,255,255,.18);
+  --text:#F2F0ED; --text-soft:#C9C6C2; --muted:#939199;
+  --fox:#EF4C28; --fox-hot:#F97B02; --fox-deep:#F04E06;
+  --fox-400:#F36C4C; --fox-300:#FA9A85; --ember:#FF9E3D;
+  --action:#F66002;
+  /* family labels — semantic, not the page accent */
+  --fam-9miho:#EF4C28; --fam-kumiho:#E8C545; --fam-revka:#67E8F9; --fam-git:#939199;
+  --display:"Archivo",Pretendard,"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  --sans:"Inter",Pretendard,"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,monospace;
+  --radius-sm:.75rem; --radius:1.25rem; --radius-lg:2rem;
+  --ease-out:cubic-bezier(.22,1,.36,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;background:var(--ink)}
+/* Korean breaks anywhere by default, which splits words mid-syllable
+   ("슬라/이드"). keep-all restores word integrity; harmless for the EN card. */
+h1,h2,p,.c-title{word-break:keep-all}
+h1,h2,.c-title{text-wrap:pretty}
 body{min-height:100%;background:
-  radial-gradient(1200px 720px at 15% -10%, rgba(139,92,246,.13), transparent 60%),
-  radial-gradient(1100px 680px at 92% 4%, rgba(228,74,210,.10), transparent 62%),
-  radial-gradient(1000px 800px at 60% 116%, rgba(91,49,250,.09), transparent 60%),
+  radial-gradient(900px 560px at 78% -12%, rgba(239,76,40,.10), transparent 62%),
+  radial-gradient(760px 520px at 8% 6%, rgba(249,123,2,.055), transparent 60%),
   var(--ink);
-  color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-#bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6}
-.wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:96px 32px 80px}
+  color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.34}
+.wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:88px 32px 72px}
+a{color:inherit}
 
-/* header */
-header{text-align:center}
-.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:var(--brand-soft);font-weight:600}
-h1{font-size:64px;line-height:1.05;font-weight:700;letter-spacing:-.03em;margin-top:20px}
-h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.rule{width:80px;height:4px;background:var(--grad-flow);border-radius:3px;margin:26px auto}
-.lead{font-size:19px;line-height:1.6;color:var(--muted);max-width:600px;margin:0 auto}
+/* ── header ────────────────────────────────────────────────────────────── */
+header{max-width:720px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;
+  color:var(--fox-hot);font-weight:600;display:flex;align-items:center;gap:14px}
+.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(249,123,2,.42),transparent)}
+h1{font-family:var(--display);font-size:clamp(38px,5.6vw,60px);line-height:1.02;font-weight:700;
+  letter-spacing:-.028em;margin-top:22px;text-wrap:balance}
+h1 .acc{color:var(--fox)}
+.lead{font-size:17px;line-height:1.65;color:var(--text-soft);max-width:56ch;margin-top:20px}
+.lead b{color:var(--text);font-weight:600}
 
-/* grid */
-.grid{margin-top:56px;display:flex;flex-wrap:wrap;justify-content:center;gap:26px}
+/* ── grid ──────────────────────────────────────────────────────────────── */
+.grid{margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+@media (max-width:1080px){ .grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:680px){ .grid{grid-template-columns:1fr} }
 
-/* card */
-.card{position:relative;width:390px;max-width:100%;display:flex;flex-direction:column;text-decoration:none;color:inherit;
-  background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);
-  border:1px solid var(--line);border-radius:18px;overflow:hidden;
-  box-shadow:inset 0 1px rgba(255,255,255,.06), 0 18px 50px rgba(3,2,8,.5);
-  transition:transform .38s cubic-bezier(.2,.7,.2,1), border-color .38s, box-shadow .38s}
-.card::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;
-  background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .38s;pointer-events:none}
-.card:hover{transform:translateY(-8px);border-color:transparent;
-  box-shadow:inset 0 1px rgba(255,255,255,.09), 0 30px 70px rgba(3,2,8,.6), 0 0 60px rgba(139,92,246,.22)}
-.card:hover::before{opacity:1}
+/* ── card ──────────────────────────────────────────────────────────────── */
+.card{position:relative;display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  box-shadow:0 18px 44px rgba(0,0,0,.34);
+  transition:transform .42s var(--ease-out), border-color .42s var(--ease-out), box-shadow .42s var(--ease-out)}
+.card:hover,.card:focus-visible{transform:translateY(-6px);border-color:var(--line-strong);
+  box-shadow:0 30px 70px rgba(0,0,0,.5), 0 0 0 1px color-mix(in srgb, var(--fam) 34%, transparent)}
+.card:focus-visible{outline:2px solid var(--fox);outline-offset:3px}
 
-/* card cover — echoes the deck's own cover */
-.cover{position:relative;aspect-ratio:16/9;padding:26px 28px;display:flex;flex-direction:column;justify-content:center;
-  background:radial-gradient(600px 380px at 30% -10%, #14111f 0%, #0a0812 62%), #0a0812;overflow:hidden}
+/* card cover — echoes the deck's own cover so it is recognised before opening */
+.cover{position:relative;aspect-ratio:16/9;padding:22px 22px 20px;display:flex;flex-direction:column;
+  justify-content:flex-end;background:var(--ink);overflow:hidden;border-bottom:1px solid var(--line)}
 .cover::after{content:"";position:absolute;inset:0;
-  background-image:radial-gradient(circle, rgba(181,162,251,.18) 1px, transparent 1.6px);background-size:42px 42px;
-  -webkit-mask-image:radial-gradient(420px 260px at 40% 30%,#000,transparent 78%);mask-image:radial-gradient(420px 260px at 40% 30%,#000,transparent 78%);opacity:.5}
-.cover .glowdot{position:absolute;width:320px;height:220px;right:-40px;top:-40px;
-  background:radial-gradient(circle, rgba(228,74,210,.16), transparent 66%);pointer-events:none}
-.c-eyebrow{position:relative;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--brand-soft);font-weight:600}
-.c-title{position:relative;font-size:26px;line-height:1.18;font-weight:700;letter-spacing:-.02em;margin-top:12px}
-.c-title .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.c-rule{position:relative;width:52px;height:3px;background:var(--grad-flow);border-radius:3px;margin-top:16px}
-.c-badge{position:absolute;top:16px;right:16px;z-index:2;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
-  color:var(--brand-soft);background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.4);border-radius:20px;padding:4px 10px}
+  background-image:radial-gradient(circle, color-mix(in srgb, var(--fam) 40%, transparent) 1px, transparent 1.7px);
+  background-size:38px 38px;
+  -webkit-mask-image:radial-gradient(360px 220px at 26% 22%,#000,transparent 76%);
+  mask-image:radial-gradient(360px 220px at 26% 22%,#000,transparent 76%);opacity:.4}
+.cover::before{content:"";position:absolute;width:300px;height:230px;right:-84px;top:-92px;
+  background:radial-gradient(circle, color-mix(in srgb, var(--fam) 14%, transparent), transparent 66%)}
+.c-eyebrow{position:relative;font-family:var(--mono);font-size:9.5px;letter-spacing:.20em;
+  text-transform:uppercase;color:var(--muted);font-weight:600}
+.c-title{position:relative;font-family:var(--display);font-size:22px;line-height:1.18;font-weight:700;
+  letter-spacing:-.02em;margin-top:9px;text-wrap:balance}
+.c-title .acc{color:var(--fam)}
+.c-rule{position:relative;width:38px;height:3px;background:var(--fam);border-radius:3px;margin-top:14px;opacity:.9}
+
+/* family label — the primary label, colour-coded */
+.fam{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--fam);
+  background:color-mix(in srgb, var(--fam) 13%, transparent);
+  border:1px solid color-mix(in srgb, var(--fam) 42%, transparent);border-radius:999px;padding:4px 9px}
 
 /* card body */
-.body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
-.body h2{font-size:18px;line-height:1.35;font-weight:600;color:var(--text)}
-.body p{font-size:14px;line-height:1.6;color:var(--muted)}
-.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
-.meta span{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--line2);border-radius:20px;padding:4px 10px}
-.cta{margin-top:auto;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--brand-soft);letter-spacing:.02em;display:inline-flex;align-items:center;gap:7px;transition:gap .3s}
-.card:hover .cta{gap:12px;color:#d7c9ff}
+.body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.body h2{font-size:16px;line-height:1.35;font-weight:600;color:var(--text);letter-spacing:-.01em}
+.body p{font-size:13.5px;line-height:1.62;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chips span{font-family:var(--mono);font-size:10.5px;font-weight:500;color:var(--text-soft);
+  background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+.chips .n{font-variant-numeric:tabular-nums}
+.cta{margin-top:auto;padding-top:4px;font-family:var(--mono);font-size:12px;font-weight:600;
+  color:var(--fam);letter-spacing:.04em;display:inline-flex;align-items:center;gap:7px;
+  transition:gap .34s var(--ease-out)}
+.card:hover .cta{gap:12px}
 
-/* footer */
-footer{position:relative;z-index:2;text-align:center;padding:8px 32px 56px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--dim)}
-footer a{color:var(--brand-soft);text-decoration:none}
+/* ── footer ────────────────────────────────────────────────────────────── */
+footer{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 32px 60px;
+  border-top:1px solid var(--line);padding-top:26px;
+  display:flex;flex-wrap:wrap;gap:14px 26px;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+footer a{color:var(--text-soft);text-decoration:none;transition:color .3s}
+footer a:hover{color:var(--fox-hot)}
+footer .sites{display:flex;gap:18px}
 
-@media (max-width:640px){
-  .wrap{padding:64px 20px 48px}
-  h1{font-size:44px}
-  .lead{font-size:17px}
-  .grid{grid-template-columns:1fr;gap:20px}
+@media (max-width:680px){
+  .wrap{padding:60px 20px 44px}
+  .lead{font-size:16px}
+  footer{padding-left:20px;padding-right:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms !important}
 }
 </style>
 </head>
@@ -110,91 +141,120 @@ footer a{color:var(--brand-soft);text-decoration:none}
 <canvas id="bg"></canvas>
 <div class="wrap">
   <header>
-    <div class="eyebrow">KUMIHO · DOCS</div>
-    <h1>프레젠테이션 <span class="grad">덱</span></h1>
-    <div class="rule"></div>
-    <p class="lead">브라우저에서 바로 여는 자체 완결형 HTML 슬라이드. 서버도 빌드도 필요 없습니다. — Kumiho · Revka.</p>
+    <div class="eyebrow">Kumiho · Docs</div>
+    <h1>프레젠테이션 <span class="acc">덱</span></h1>
+    <p class="lead">파일 하나를 브라우저로 열면 그대로 발표가 됩니다. <b>서버도, 빌드도, 설치도 없습니다.</b> 슬라이드·도표·영상이 전부 그 한 파일 안에 들어 있습니다.</p>
   </header>
 
   <main class="grid">
-    <a class="card" href="kumiho-memory-tech.html">
+
+    <!-- ── 9miho · Storyteller ─────────────────────────────────────────── -->
+    <a class="card" style="--fam:var(--fam-9miho)" href="9miho-pipeline.html">
       <div class="cover">
-        <div class="glowdot"></div>
-        <span class="c-badge">30 슬라이드 · LIVE DATA</span>
-        <div class="c-eyebrow">KUMIHO · GRAPH-NATIVE COGNITIVE MEMORY</div>
-        <div class="c-title">기억을 쌓지 말고, <span class="grad">이으세요</span></div>
+        <span class="fam">9miho</span>
+        <div class="c-eyebrow">Storyteller · Canvas · Cutting Room</div>
+        <div class="c-title">이야기에서,<br><span class="acc">완성 컷까지.</span></div>
+        <div class="c-rule"></div>
+      </div>
+      <div class="body">
+        <h2>9miho — 이야기에서 완성 컷까지</h2>
+        <p>짧은 영상은 이제 누구나 만듭니다. 어려운 건 내 이야기로 잇는 것 — 이야기를 세우고, 연출하고, 스튜디오처럼 마감하기까지를 실제 화면으로 보여줍니다.</p>
+        <div class="chips"><span>발표</span><span>KO</span><span class="n">23 슬라이드</span><span class="n">2026</span></div>
+        <div class="cta">열기 →</div>
+      </div>
+    </a>
+
+    <!-- ── Kumiho Memory · 기술 덱 ──────────────────────────────────────── -->
+    <a class="card" style="--fam:var(--fam-kumiho)" href="kumiho-memory-tech.html">
+      <div class="cover">
+        <span class="fam">Kumiho</span>
+        <div class="c-eyebrow">Graph-Native Cognitive Memory</div>
+        <div class="c-title">기억을 쌓지 말고,<br><span class="acc">이으세요</span></div>
         <div class="c-rule"></div>
       </div>
       <div class="body">
         <h2>Kumiho Memory — 기술 덱</h2>
-        <p>저장하는 순간 타입 그래프, 질문하는 순간 구조 리콜 — 모든 예시가 서버에 실재하고, 모든 수치가 재현 가능한 공개 벤치마크입니다.</p>
-        <div class="meta"><span>발표</span><span>KO</span><span>2026</span></div>
+        <p>저장하는 순간 타입 그래프, 질문하는 순간 구조 리콜. 모든 예시가 서버에 실재하고, 모든 수치가 재현 가능한 공개 벤치마크입니다.</p>
+        <div class="chips"><span>기술</span><span>KO</span><span class="n">30 슬라이드</span><span class="n">2026</span></div>
         <div class="cta">열기 →</div>
       </div>
     </a>
-    <a class="card" href="git-branch-worktree.html">
+
+    <!-- ── Kumiho · 그래프 네이티브 인지 메모리 (KO) ─────────────────────── -->
+    <a class="card" style="--fam:var(--fam-kumiho)" href="kumiho-graph-memory.html">
       <div class="cover">
-        <div class="glowdot"></div>
-        <span class="c-badge">9 슬라이드</span>
-        <div class="c-eyebrow">GIT INTERNALS · BRANCH &amp; WORKTREE</div>
-        <div class="c-title">브랜치는 이름표, <span class="grad">워크트리는 책상</span></div>
-        <div class="c-rule"></div>
-      </div>
-      <div class="body">
-        <h2>Git — 브랜치와 워크트리</h2>
-        <p>하나는 역사를 가르는 포인터, 하나는 작업 폴더를 늘리는 도구 — 도표와 실측 데이터로 9장에 정리했습니다.</p>
-        <div class="meta"><span>기술</span><span>KO</span><span>2026</span></div>
-        <div class="cta">열기 →</div>
-      </div>
-    </a>
-    <a class="card" href="kumiho-graph-memory-en.html">
-      <div class="cover">
-        <div class="glowdot"></div>
-        <span class="c-badge">23 slides · EN</span>
-        <div class="c-eyebrow">KUMIHO · GRAPH-NATIVE COGNITIVE MEMORY</div>
-        <div class="c-title">Smarter memory, <span class="grad">no chunking required</span></div>
-        <div class="c-rule"></div>
-      </div>
-      <div class="body">
-        <h2>Kumiho — Graph-Native Cognitive Memory (EN)</h2>
-        <p>Beyond chunking — revision-centric memory and AGM belief revision. Grounded in code, benchmarks, and arXiv:2603.17244.</p>
-        <div class="meta"><span>Talk</span><span>EN</span><span>2026</span></div>
-        <div class="cta">Open →</div>
-      </div>
-    </a>
-    <a class="card" href="kumiho-graph-memory.html">
-      <div class="cover">
-        <div class="glowdot"></div>
-        <span class="c-badge">23 슬라이드</span>
-        <div class="c-eyebrow">KUMIHO · GRAPH-NATIVE COGNITIVE MEMORY</div>
-        <div class="c-title">Chunking 없이도, <span class="grad">더 똑똑하게</span> 기억하는 법</div>
+        <span class="fam">Kumiho</span>
+        <div class="c-eyebrow">Graph-Native Cognitive Memory</div>
+        <div class="c-title">Chunking 없이도,<br><span class="acc">더 똑똑하게</span></div>
         <div class="c-rule"></div>
       </div>
       <div class="body">
         <h2>Kumiho — 그래프 네이티브 인지 메모리</h2>
         <p>청킹을 넘어서 — 리비전 중심 메모리와 AGM 신념 개정. 코드·벤치마크·논문(arXiv:2603.17244) 근거로 답합니다.</p>
-        <div class="meta"><span>발표</span><span>KO</span><span>2026</span></div>
+        <div class="chips"><span>발표</span><span>KO</span><span class="n">23 슬라이드</span><span class="n">2026</span></div>
         <div class="cta">열기 →</div>
       </div>
     </a>
-    <a class="card" href="revka-hook-architecture.html">
+
+    <!-- ── Kumiho · Graph-Native Cognitive Memory (EN) ─────────────────── -->
+    <a class="card" style="--fam:var(--fam-kumiho)" lang="en" hreflang="en" href="kumiho-graph-memory-en.html">
       <div class="cover">
-        <div class="glowdot"></div>
-        <span class="c-badge">12 슬라이드</span>
-        <div class="c-eyebrow">REVKA · HOOK ARCHITECTURE</div>
-        <div class="c-title">런타임에 심은 <span class="grad">가드레일</span></div>
+        <span class="fam">Kumiho</span>
+        <div class="c-eyebrow">Graph-Native Cognitive Memory</div>
+        <div class="c-title">Smarter memory,<br><span class="acc">no chunking</span></div>
+        <div class="c-rule"></div>
+      </div>
+      <div class="body">
+        <h2>Kumiho — Graph-Native Cognitive Memory (EN)</h2>
+        <p>Beyond chunking — revision-centric memory and AGM belief revision. Grounded in code, benchmarks, and arXiv:2603.17244.</p>
+        <div class="chips"><span>Talk</span><span>EN</span><span class="n">23 slides</span><span class="n">2026</span></div>
+        <div class="cta">Open →</div>
+      </div>
+    </a>
+
+    <!-- ── Revka · 훅 아키텍처 ──────────────────────────────────────────── -->
+    <a class="card" style="--fam:var(--fam-revka)" href="revka-hook-architecture.html">
+      <div class="cover">
+        <span class="fam">Revka</span>
+        <div class="c-eyebrow">Hook Architecture</div>
+        <div class="c-title">런타임에 심은<br><span class="acc">가드레일</span></div>
         <div class="c-rule"></div>
       </div>
       <div class="body">
         <h2>런타임에 심은 가드레일 — Revka의 훅 아키텍처</h2>
-        <p>Revka의 agent 훅 아키텍처를 Claude Code 하네스 훅과 나란히 놓고, 훅이 어디에·어떤 형태로 존재해야 하는가를 살핍니다.</p>
-        <div class="meta"><span>발표</span><span>KO</span><span>2026</span></div>
+        <p>Revka의 에이전트 훅 아키텍처를 Claude Code 하네스 훅과 나란히 놓고, 훅이 어디에 어떤 형태로 있어야 하는지를 살핍니다.</p>
+        <div class="chips"><span>발표</span><span>KO</span><span class="n">12 슬라이드</span><span class="n">2026</span></div>
         <div class="cta">열기 →</div>
       </div>
     </a>
+
+    <!-- ── Git · 브랜치와 워크트리 ──────────────────────────────────────── -->
+    <a class="card" style="--fam:var(--fam-git)" href="git-branch-worktree.html">
+      <div class="cover">
+        <span class="fam">Git</span>
+        <div class="c-eyebrow">Internals · Branch &amp; Worktree</div>
+        <div class="c-title">브랜치는 이름표,<br><span class="acc">워크트리는 책상</span></div>
+        <div class="c-rule"></div>
+      </div>
+      <div class="body">
+        <h2>Git — 브랜치와 워크트리</h2>
+        <p>하나는 역사를 가르는 포인터, 하나는 작업 폴더를 늘리는 도구 — 도표와 실측 데이터로 9장에 정리했습니다.</p>
+        <div class="chips"><span>기술</span><span>KO</span><span class="n">9 슬라이드</span><span class="n">2026</span></div>
+        <div class="cta">열기 →</div>
+      </div>
+    </a>
+
   </main>
 </div>
-<footer><a href="https://docs.kumiho.io">docs.kumiho.io</a> · Kumiho</footer>
+
+<footer>
+  <span>파일 하나로 완결됩니다 — 내려받아 오프라인에서도 그대로 열립니다.</span>
+  <span class="sites">
+    <a href="https://9miho.io">9miho.io</a>
+    <a href="https://kumiho.io">kumiho.io</a>
+    <a href="https://docs.kumiho.io">docs.kumiho.io</a>
+  </span>
+</footer>
 
 <script>
 (function(){
@@ -202,29 +262,29 @@ footer a{color:var(--brand-soft);text-decoration:none}
   var ctx=c.getContext('2d'); if(!ctx) return;
   var W,H,dpr=Math.min(window.devicePixelRatio||1,2),nodes=[];
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var seed=20260701>>>0; function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
+  var seed=20260828>>>0; function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
   function resize(){
     W=window.innerWidth; H=window.innerHeight;
     c.width=W*dpr; c.height=H*dpr; c.style.width=W+'px'; c.style.height=H+'px';
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    var count=Math.max(26,Math.min(52,Math.round(W*H/42000)));
-    nodes=[]; for(var i=0;i<count;i++){ nodes.push({x:rnd()*W,y:rnd()*H,vx:(rnd()-0.5)*0.10,vy:(rnd()-0.5)*0.10,r:1.0+rnd()*1.5}); }
+    var count=Math.max(22,Math.min(44,Math.round(W*H/52000)));
+    nodes=[]; for(var i=0;i<count;i++){ nodes.push({x:rnd()*W,y:rnd()*H,vx:(rnd()-0.5)*0.08,vy:(rnd()-0.5)*0.08,r:0.9+rnd()*1.3}); }
   }
   resize(); window.addEventListener('resize', resize);
-  var LINK=170, col=[139,92,246];
+  var LINK=165, col=[239,76,40];
   function rgba(a){ return 'rgba('+col[0]+','+col[1]+','+col[2]+','+a+')'; }
   function draw(){
     ctx.clearRect(0,0,W,H);
     for(var a=0;a<nodes.length;a++){ for(var b=a+1;b<nodes.length;b++){
       var dx=nodes[a].x-nodes[b].x, dy=nodes[a].y-nodes[b].y, d=Math.sqrt(dx*dx+dy*dy);
-      if(d<LINK){ ctx.strokeStyle=rgba(((1-d/LINK)*0.12).toFixed(3)); ctx.lineWidth=1;
+      if(d<LINK){ ctx.strokeStyle=rgba(((1-d/LINK)*0.10).toFixed(3)); ctx.lineWidth=1;
         ctx.beginPath(); ctx.moveTo(nodes[a].x,nodes[a].y); ctx.lineTo(nodes[b].x,nodes[b].y); ctx.stroke(); }
     }}
-    for(var i=0;i<nodes.length;i++){ var p=nodes[i], halo=p.r*4.2;
+    for(var i=0;i<nodes.length;i++){ var p=nodes[i], halo=p.r*4.0;
       var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,halo);
-      g.addColorStop(0,rgba(0.5)); g.addColorStop(1,rgba(0));
+      g.addColorStop(0,rgba(0.42)); g.addColorStop(1,rgba(0));
       ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,halo,0,6.2832); ctx.fill();
-      ctx.fillStyle=rgba(0.8); ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832); ctx.fill();
+      ctx.fillStyle=rgba(0.72); ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832); ctx.fill();
     }
   }
   function step(){
