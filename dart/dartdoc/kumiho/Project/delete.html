@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
-<span class="name ">delete</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="delete-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">delete</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="delete-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span>, </span></li>
 </ol>})
 
       
@@ -63,10 +63,9 @@
     </section>
     
 <section class="desc markdown">
-  <p>Soft-deletes (deprecates) or hard-deletes this project.</p>
-<pre class="language-dart"><code class="language-dart">await project.delete();        // Soft delete
-await project.delete(force: true);  // Hard delete
-</code></pre>
+  <p>Forwards the legacy delete/deprecate request to the connected server.
+New servers require <a href="../../kumiho/Project/analyzeDeletion.html">analyzeDeletion</a> followed by <a href="../../kumiho/Project/hardDelete.html">hardDelete</a> for
+permanent deletion.</p>
 </section>
 
 

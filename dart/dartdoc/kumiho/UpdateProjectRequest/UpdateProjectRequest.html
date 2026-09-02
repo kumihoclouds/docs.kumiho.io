@@ -54,9 +54,11 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">UpdateProjectRequest</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="param-projectId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">projectId</span>, </span></li>
-<li><span class="parameter" id="param-allowPublic"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">allowPublic</span>, </span></li>
-<li><span class="parameter" id="param-description"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">description</span>, </span></li>
+      <span class="name ">UpdateProjectRequest</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="param-projectId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">projectId</span>, </span></li>
+<li><span class="parameter" id="param-allowPublic"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">allowPublic</span>, </span></li>
+<li><span class="parameter" id="param-description"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">description</span>, </span></li>
+<li><span class="parameter" id="param-metadata"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.13.3/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">metadata</span>, </span></li>
+<li><span class="parameter" id="param-deprecated"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">deprecated</span>, </span></li>
 </ol>})
     </section>
     
@@ -69,11 +71,15 @@
   $core.String? projectId,
   $core.bool? allowPublic,
   $core.String? description,
+  $core.Iterable&lt;$core.MapEntry&lt;$core.String, $core.String&gt;&gt;? metadata,
+  $core.bool? deprecated,
 }) {
   final result = create();
   if (projectId != null) result.projectId = projectId;
   if (allowPublic != null) result.allowPublic = allowPublic;
   if (description != null) result.description = description;
+  if (metadata != null) result.metadata.addEntries(metadata);
+  if (deprecated != null) result.deprecated = deprecated;
   return result;
 }</code></pre>
 </section>

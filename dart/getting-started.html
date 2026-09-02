@@ -191,19 +191,19 @@
 <h3>Programmatic Authentication<a class="headerlink" href="#programmatic-authentication" title="Link to this heading"></a></h3>
 <p>You can also provide a token directly when constructing the client:</p>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span>
-<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">'localhost'</span><span class="p">,</span>
 <span class="w">  </span><span class="nl">port:</span><span class="w"> </span><span class="m">50051</span><span class="p">,</span>
-<span class="w">  </span><span class="nl">token:</span><span class="w"> </span><span class="s1">&#39;your-control-plane-jwt&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">token:</span><span class="w"> </span><span class="s1">'your-control-plane-jwt'</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
 <p>Or use environment variables:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KUMIHO_AUTH_TOKEN</span><span class="o">=</span><span class="s2">&quot;your-control-plane-jwt&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KUMIHO_AUTH_TOKEN</span><span class="o">=</span><span class="s2">"your-control-plane-jwt"</span>
 </pre></div>
 </div>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// SDK reads from environment automatically</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span>
-<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">'localhost'</span><span class="p">,</span>
 <span class="w">  </span><span class="nl">port:</span><span class="w"> </span><span class="m">50051</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
@@ -215,16 +215,16 @@
 <section id="projects">
 <h3>Projects<a class="headerlink" href="#projects" title="Link to this heading"></a></h3>
 <p>Projects are the top-level containers for organizing your assets:</p>
-<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span><span class="w"> </span><span class="nl">port:</span><span class="w"> </span><span class="m">50051</span><span class="p">);</span>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span><span class="nl">host:</span><span class="w"> </span><span class="s1">'localhost'</span><span class="p">,</span><span class="w"> </span><span class="nl">port:</span><span class="w"> </span><span class="m">50051</span><span class="p">);</span>
 
 <span class="c1">// Create a new project</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createProject</span><span class="p">(</span>
-<span class="w">  </span><span class="s1">&#39;my-project&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="nl">description:</span><span class="w"> </span><span class="s1">&#39;My VFX Project&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'my-project'</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">description:</span><span class="w"> </span><span class="s1">'My VFX Project'</span><span class="p">,</span>
 <span class="p">);</span>
 
 <span class="c1">// Get an existing project</span>
-<span class="kd">final</span><span class="w"> </span><span class="n">existingProject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getProject</span><span class="p">(</span><span class="s1">&#39;my-project&#39;</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">existingProject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getProject</span><span class="p">(</span><span class="s1">'my-project'</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -232,13 +232,13 @@
 <h3>Spaces<a class="headerlink" href="#spaces" title="Link to this heading"></a></h3>
 <p>Spaces organize assets within a project (e.g., by type, department, or episode):</p>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a space</span>
-<span class="kd">final</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createSpace</span><span class="p">(</span><span class="s1">&#39;/my-project&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;characters&#39;</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createSpace</span><span class="p">(</span><span class="s1">'/my-project'</span><span class="p">,</span><span class="w"> </span><span class="s1">'characters'</span><span class="p">);</span>
 
 <span class="c1">// Create nested spaces</span>
-<span class="kd">final</span><span class="w"> </span><span class="n">subspace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createSpace</span><span class="p">(</span><span class="s1">&#39;/my-project/characters&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;heroes&#39;</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">subspace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createSpace</span><span class="p">(</span><span class="s1">'/my-project/characters'</span><span class="p">,</span><span class="w"> </span><span class="s1">'heroes'</span><span class="p">);</span>
 
 <span class="c1">// List spaces in a project</span>
-<span class="kd">final</span><span class="w"> </span><span class="n">spaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getSpaces</span><span class="p">(</span><span class="s1">&#39;my-project&#39;</span><span class="p">);</span>
+<span class="kd">final</span><span class="w"> </span><span class="n">spaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">getSpaces</span><span class="p">(</span><span class="s1">'my-project'</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -247,15 +247,15 @@
 <p>Items represent individual assets with their metadata:</p>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create an item in a space</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createItem</span><span class="p">(</span>
-<span class="w">  </span><span class="s1">&#39;/my-project/characters&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;hero&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;model&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'/my-project/characters'</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'hero'</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'model'</span><span class="p">,</span>
 <span class="p">);</span>
 
 <span class="c1">// Search for items</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">searchItems</span><span class="p">(</span>
-<span class="w">  </span><span class="nl">contextFilter:</span><span class="w"> </span><span class="s1">&#39;my-project/*&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="nl">kindFilter:</span><span class="w"> </span><span class="s1">&#39;model&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">contextFilter:</span><span class="w"> </span><span class="s1">'my-project/*'</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">kindFilter:</span><span class="w"> </span><span class="s1">'model'</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -277,14 +277,14 @@
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add artifacts to a revision</span>
 <span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createArtifact</span><span class="p">(</span>
 <span class="w">  </span><span class="n">revision</span><span class="p">.</span><span class="n">kref</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;mesh&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;/path/to/hero.fbx&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'mesh'</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'/path/to/hero.fbx'</span><span class="p">,</span>
 <span class="p">);</span>
 
 <span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createArtifact</span><span class="p">(</span>
 <span class="w">  </span><span class="n">revision</span><span class="p">.</span><span class="n">kref</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;textures&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;s3://bucket/hero/textures.tar&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'textures'</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'s3://bucket/hero/textures.tar'</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -294,12 +294,12 @@
 <p>Beyond <code class="docutils literal notranslate"><span class="pre">searchItems</span></code> (exact filters), use <code class="docutils literal notranslate"><span class="pre">search</span></code> for full-text fuzzy, typo-tolerant matching with relevance scores:</p>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// Ranked, typo-tolerant search across items</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">search</span><span class="p">(</span>
-<span class="w">  </span><span class="s1">&#39;hero robt&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="nl">contextFilter:</span><span class="w"> </span><span class="s1">&#39;my-project/*&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'hero robt'</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">contextFilter:</span><span class="w"> </span><span class="s1">'my-project/*'</span><span class="p">,</span>
 <span class="w">  </span><span class="nl">minScore:</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span>
 <span class="p">);</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">results</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">item</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> (score </span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">score</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'</span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">item</span><span class="p">.</span><span class="n">kref</span><span class="p">.</span><span class="n">uri</span><span class="si">}</span><span class="s1"> (score </span><span class="si">${</span><span class="n">r</span><span class="p">.</span><span class="n">score</span><span class="si">}</span><span class="s1">)'</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>

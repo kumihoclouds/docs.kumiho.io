@@ -190,6 +190,35 @@ when credentials expire. The SDK will use the stored refresh token.</p>
   
 </dd>
 
+          <dt id="BatchArtifactInput">
+  <span class="name "><a href="../kumiho/BatchArtifactInput-class.html">BatchArtifactInput</a></span> 
+
+</dt>
+<dd>
+  Batch revision creation - write many revisions in a single call.
+The bulk-write RPC behind backfill, dream state, and migrations: N rows
+land in one transaction and one (chunked) embedding pass instead of N
+serial single-writes.
+An artifact to attach to a batch-created revision, completing the
+Item -&gt; Revision -&gt; Artifact chain in the same transaction.
+</dd>
+
+          <dt id="BatchCreateRevisionsRequest">
+  <span class="name "><a href="../kumiho/BatchCreateRevisionsRequest-class.html">BatchCreateRevisionsRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="BatchCreateRevisionsResponse">
+  <span class="name "><a href="../kumiho/BatchCreateRevisionsResponse-class.html">BatchCreateRevisionsResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
           <dt id="BatchGetRevisionsRequest">
   <span class="name "><a href="../kumiho/BatchGetRevisionsRequest-class.html">BatchGetRevisionsRequest</a></span> 
 
@@ -204,6 +233,22 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dt>
 <dd>
   
+</dd>
+
+          <dt id="BatchRevisionFailure">
+  <span class="name "><a href="../kumiho/BatchRevisionFailure-class.html">BatchRevisionFailure</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="BatchRevisionRow">
+  <span class="name "><a href="../kumiho/BatchRevisionRow-class.html">BatchRevisionRow</a></span> 
+
+</dt>
+<dd>
+  One batch row: a revision to create plus any artifacts that go with it.
 </dd>
 
           <dt id="Bundle">
@@ -614,6 +659,15 @@ when credentials expire. The SDK will use the stored refresh token.</p>
   
 </dd>
 
+          <dt id="HardDeleteProjectRequest">
+  <span class="name "><a href="../kumiho/HardDeleteProjectRequest-class.html">HardDeleteProjectRequest</a></span> 
+
+</dt>
+<dd>
+  Snapshot-bound permanent deletion. New clients should prefer this API over
+DeleteProject(force=true); the legacy operation remains for compatibility.
+</dd>
+
           <dt id="HasTagRequest">
   <span class="name "><a href="../kumiho/HasTagRequest-class.html">HasTagRequest</a></span> 
 
@@ -734,6 +788,16 @@ when credentials expire. The SDK will use the stored refresh token.</p>
   The Kumiho service definition.
 </dd>
 
+          <dt id="MoveItemRequest">
+  <span class="name "><a href="../kumiho/MoveItemRequest-class.html">MoveItemRequest</a></span> 
+
+</dt>
+<dd>
+  Move an Item between tenant-owned Spaces while preserving its immutable kref.
+This is a graph ownership operation; application-specific metadata is not
+interpreted by Kumiho.
+</dd>
+
           <dt id="PagedList">
   <span class="name "><a href="../kumiho/PagedList-class.html">PagedList</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
 
@@ -790,12 +854,45 @@ when credentials expire. The SDK will use the stored refresh token.</p>
   A Kumiho project—the top-level container for assets.
 </dd>
 
+          <dt id="ProjectDeletionGuardResponse">
+  <span class="name "><a href="../kumiho/ProjectDeletionGuardResponse-class.html">ProjectDeletionGuardResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ProjectDeletionImpactRequest">
+  <span class="name "><a href="../kumiho/ProjectDeletionImpactRequest-class.html">ProjectDeletionImpactRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ProjectDeletionImpactResponse">
+  <span class="name "><a href="../kumiho/ProjectDeletionImpactResponse-class.html">ProjectDeletionImpactResponse</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
           <dt id="ProjectResponse">
   <span class="name "><a href="../kumiho/ProjectResponse-class.html">ProjectResponse</a></span> 
 
 </dt>
 <dd>
   
+</dd>
+
+          <dt id="RegisterProjectDeletionGuardRequest">
+  <span class="name "><a href="../kumiho/RegisterProjectDeletionGuardRequest-class.html">RegisterProjectDeletionGuardRequest</a></span> 
+
+</dt>
+<dd>
+  Opaque application-owned deletion guard. Kumiho stores and enforces the
+guard without interpreting application kinds, statuses, or metadata values.
 </dd>
 
           <dt id="RemoveBundleMemberRequest">
@@ -836,6 +933,23 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dt>
 <dd>
   
+</dd>
+
+          <dt id="ResolveProjectDeletionGuardRequest">
+  <span class="name "><a href="../kumiho/ResolveProjectDeletionGuardRequest-class.html">ResolveProjectDeletionGuardRequest</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
+          <dt id="ResolveProjectReferenceRequest">
+  <span class="name "><a href="../kumiho/ResolveProjectReferenceRequest-class.html">ResolveProjectReferenceRequest</a></span> 
+
+</dt>
+<dd>
+  Resolve one registered cross-Project Revision reference on an archived
+Project. The server validates the current edge and owns the mutation.
 </dd>
 
           <dt id="Revision">
@@ -1085,8 +1199,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
       <h2>Constants</h2>
       <dl class="properties">
           <dt id="kDefaultLocalCePort" class="constant">
-    <span class="name "><a href="../discovery/kDefaultLocalCePort-constant.html">kDefaultLocalCePort</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.12.2/dart-core/int-class.html">int</a></span>
+    <span class="name "><a href="../kumiho/kDefaultLocalCePort-constant.html">kDefaultLocalCePort</a></span>
+  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.13.3/dart-core/int-class.html">int</a></span>
   
 
 </dt>
@@ -1097,8 +1211,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="kDefaultLocalCeTarget" class="constant">
-    <span class="name "><a href="../discovery/kDefaultLocalCeTarget-constant.html">kDefaultLocalCeTarget</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>
+    <span class="name "><a href="../kumiho/kDefaultLocalCeTarget-constant.html">kDefaultLocalCeTarget</a></span>
+  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span>
   
 
 </dt>
@@ -1109,8 +1223,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="reservedKinds" class="constant">
-    <span class="name "><a href="../models/reservedKinds-constant.html">reservedKinds</a></span>
-  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.12.2/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span>&gt;</span></span>
+    <span class="name "><a href="../kumiho/reservedKinds-constant.html">reservedKinds</a></span>
+  <span class="signature">&#8594; const <a href="https://api.dart.dev/stable/3.13.3/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span>&gt;</span></span>
   
 
 </dt>
@@ -1128,8 +1242,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
       <h2>Functions</h2>
       <dl class="callables">
           <dt id="clientFromDiscovery" class="callable">
-  <span class="name"><a href="../kumiho/clientFromDiscovery.html">clientFromDiscovery</a></span><span class="signature">(<wbr>{<span class="parameter" id="clientFromDiscovery-param-token"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">token</span>, </span><span class="parameter" id="clientFromDiscovery-param-tenantHint"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantHint</span>, </span><span class="parameter" id="clientFromDiscovery-param-controlPlaneUrl"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">controlPlaneUrl</span>, </span><span class="parameter" id="clientFromDiscovery-param-forceRefresh"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">forceRefresh</span> = <span class="default-value">false</span></span>})
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/KumihoClient-class.html">KumihoClient</a></span>&gt;</span></span>
+  <span class="name"><a href="../kumiho/clientFromDiscovery.html">clientFromDiscovery</a></span><span class="signature">(<wbr>{<span class="parameter" id="clientFromDiscovery-param-token"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">token</span>, </span><span class="parameter" id="clientFromDiscovery-param-tenantHint"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantHint</span>, </span><span class="parameter" id="clientFromDiscovery-param-controlPlaneUrl"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">controlPlaneUrl</span>, </span><span class="parameter" id="clientFromDiscovery-param-forceRefresh"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">forceRefresh</span> = <span class="default-value">false</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/KumihoClient-class.html">KumihoClient</a></span>&gt;</span></span>
   </span>
   
 
@@ -1141,8 +1255,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="clientFromLocalCe" class="callable">
-  <span class="name"><a href="../kumiho/clientFromLocalCe.html">clientFromLocalCe</a></span><span class="signature">(<wbr>{<span class="parameter" id="clientFromLocalCe-param-timeout"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Duration-class.html">Duration</a>?</span> <span class="parameter-name">timeout</span>, </span><span class="parameter" id="clientFromLocalCe-param-httpClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.6.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">httpClient</span></span>})
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/KumihoClient-class.html">KumihoClient</a>?</span>&gt;</span></span>
+  <span class="name"><a href="../kumiho/clientFromLocalCe.html">clientFromLocalCe</a></span><span class="signature">(<wbr>{<span class="parameter" id="clientFromLocalCe-param-timeout"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/Duration-class.html">Duration</a>?</span> <span class="parameter-name">timeout</span>, </span><span class="parameter" id="clientFromLocalCe-param-httpClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.6.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">httpClient</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/KumihoClient-class.html">KumihoClient</a>?</span>&gt;</span></span>
   </span>
   
 
@@ -1154,8 +1268,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="discoverTenant" class="callable">
-  <span class="name"><a href="../kumiho/discoverTenant.html">discoverTenant</a></span><span class="signature">(<wbr>{<span class="parameter" id="discoverTenant-param-controlPlaneUrl"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">controlPlaneUrl</span>, </span><span class="parameter" id="discoverTenant-param-firebaseToken"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">firebaseToken</span>, </span><span class="parameter" id="discoverTenant-param-tenantHint"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantHint</span>, </span><span class="parameter" id="discoverTenant-param-forceRefresh"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">forceRefresh</span> = <span class="default-value">false</span>, </span><span class="parameter" id="discoverTenant-param-timeout"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Duration-class.html">Duration</a></span> <span class="parameter-name">timeout</span> = <span class="default-value">const Duration(seconds: 10)</span>, </span><span class="parameter" id="discoverTenant-param-cacheFile"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-io/File-class.html">File</a>?</span> <span class="parameter-name">cacheFile</span></span>})
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/DiscoveryRecord-class.html">DiscoveryRecord</a></span>&gt;</span></span>
+  <span class="name"><a href="../kumiho/discoverTenant.html">discoverTenant</a></span><span class="signature">(<wbr>{<span class="parameter" id="discoverTenant-param-controlPlaneUrl"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">controlPlaneUrl</span>, </span><span class="parameter" id="discoverTenant-param-firebaseToken"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">firebaseToken</span>, </span><span class="parameter" id="discoverTenant-param-tenantHint"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">tenantHint</span>, </span><span class="parameter" id="discoverTenant-param-forceRefresh"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">forceRefresh</span> = <span class="default-value">false</span>, </span><span class="parameter" id="discoverTenant-param-timeout"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/Duration-class.html">Duration</a></span> <span class="parameter-name">timeout</span> = <span class="default-value">const Duration(seconds: 10)</span>, </span><span class="parameter" id="discoverTenant-param-cacheFile"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-io/File-class.html">File</a>?</span> <span class="parameter-name">cacheFile</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../kumiho/DiscoveryRecord-class.html">DiscoveryRecord</a></span>&gt;</span></span>
   </span>
   
 
@@ -1168,7 +1282,7 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 
           <dt id="getDefaultDiscoveryCacheFile" class="callable">
   <span class="name"><a href="../kumiho/getDefaultDiscoveryCacheFile.html">getDefaultDiscoveryCacheFile</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.12.2/dart-io/File-class.html">File</a></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.13.3/dart-io/File-class.html">File</a></span>
   </span>
   
 
@@ -1180,8 +1294,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="isValidEdgeType" class="callable">
-  <span class="name"><a href="../kumiho/isValidEdgeType.html">isValidEdgeType</a></span><span class="signature">(<wbr><span class="parameter" id="isValidEdgeType-param-edgeType"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">edgeType</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span>
+  <span class="name"><a href="../kumiho/isValidEdgeType.html">isValidEdgeType</a></span><span class="signature">(<wbr><span class="parameter" id="isValidEdgeType-param-edgeType"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span> <span class="parameter-name">edgeType</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span>
   </span>
   
 
@@ -1193,8 +1307,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="isValidKref" class="callable">
-  <span class="name"><a href="../kumiho/isValidKref.html">isValidKref</a></span><span class="signature">(<wbr><span class="parameter" id="isValidKref-param-uri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">uri</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span>
+  <span class="name"><a href="../kumiho/isValidKref.html">isValidKref</a></span><span class="signature">(<wbr><span class="parameter" id="isValidKref-param-uri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span> <span class="parameter-name">uri</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span>
   </span>
   
 
@@ -1206,8 +1320,8 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="resolveLocalCeEndpoint" class="callable">
-  <span class="name"><a href="../kumiho/resolveLocalCeEndpoint.html">resolveLocalCeEndpoint</a></span><span class="signature">(<wbr>{<span class="parameter" id="resolveLocalCeEndpoint-param-timeout"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/Duration-class.html">Duration</a>?</span> <span class="parameter-name">timeout</span>, </span><span class="parameter" id="resolveLocalCeEndpoint-param-httpClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.6.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">httpClient</span></span>})
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
+  <span class="name"><a href="../kumiho/resolveLocalCeEndpoint.html">resolveLocalCeEndpoint</a></span><span class="signature">(<wbr>{<span class="parameter" id="resolveLocalCeEndpoint-param-timeout"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/Duration-class.html">Duration</a>?</span> <span class="parameter-name">timeout</span>, </span><span class="parameter" id="resolveLocalCeEndpoint-param-httpClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.6.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">httpClient</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span>&gt;</span></span>
   </span>
   
 
@@ -1219,7 +1333,7 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="validateEdgeType" class="callable">
-  <span class="name"><a href="../kumiho/validateEdgeType.html">validateEdgeType</a></span><span class="signature">(<wbr><span class="parameter" id="validateEdgeType-param-edgeType"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">edgeType</span></span>)
+  <span class="name"><a href="../kumiho/validateEdgeType.html">validateEdgeType</a></span><span class="signature">(<wbr><span class="parameter" id="validateEdgeType-param-edgeType"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span> <span class="parameter-name">edgeType</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -1232,7 +1346,7 @@ when credentials expire. The SDK will use the stored refresh token.</p>
 </dd>
 
           <dt id="validateKref" class="callable">
-  <span class="name"><a href="../kumiho/validateKref.html">validateKref</a></span><span class="signature">(<wbr><span class="parameter" id="validateKref-param-uri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">uri</span></span>)
+  <span class="name"><a href="../kumiho/validateKref.html">validateKref</a></span><span class="signature">(<wbr><span class="parameter" id="validateKref-param-uri"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span> <span class="parameter-name">uri</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   

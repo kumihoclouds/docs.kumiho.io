@@ -54,9 +54,9 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
-<span class="name ">deleteProject</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="deleteProject-param-projectId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">projectId</span>, {</span></li>
-<li><span class="parameter" id="deleteProject-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/StatusResponse-class.html">StatusResponse</a></span>&gt;</span></span>
+<span class="name ">deleteProject</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="deleteProject-param-projectId"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span> <span class="parameter-name">projectId</span>, {</span></li>
+<li><span class="parameter" id="deleteProject-param-force"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">force</span> = <span class="default-value">false</span>, </span></li>
 </ol>})
 
       <div class="features"><span class="feature">inherited</span></div>
@@ -64,11 +64,9 @@
     </section>
     
 <section class="desc markdown">
-  <p>Deletes or deprecates a project.</p>
-<p>By default, this performs a soft delete (deprecation).
-Set <code>force</code> to <code>true</code> to permanently delete the project
-and all its contents.</p>
-<p><strong>Warning</strong>: Force deletion is irreversible.</p>
+  <p>Forwards the legacy delete/deprecate request to the connected server.
+New servers require <code>hardDeleteProject</code> for permanent deletion, while
+older servers can continue to honor <code>force: true</code>.</p>
 </section>
 
 
@@ -79,9 +77,10 @@ and all its contents.</p>
   String projectId, {
   bool force = false,
 }) async {
-  final request = DeleteProjectRequest()
-    ..projectId = projectId
-    ..force = force;
+  final request =
+      DeleteProjectRequest()
+        ..projectId = projectId
+        ..force = force;
   return stub.deleteProject(request, options: callOptions);
 }</code></pre>
 </section>

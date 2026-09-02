@@ -203,26 +203,26 @@ AI-driven workflows.</p>
 </section>
 <section id="basic-usage">
 <h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h3>
-<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="s1">&#39;package:kumiho/kumiho.dart&#39;</span><span class="p">;</span>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="s1">'package:kumiho/kumiho.dart'</span><span class="p">;</span>
 
 <span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span>
-<span class="w">    </span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">host:</span><span class="w"> </span><span class="s1">'localhost'</span><span class="p">,</span>
 <span class="w">    </span><span class="nl">port:</span><span class="w"> </span><span class="m">50051</span><span class="p">,</span>
 <span class="w">  </span><span class="p">);</span>
 
 <span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Create a new project</span>
-<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createProject</span><span class="p">(</span><span class="s1">&#39;my-vfx-project&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createProject</span><span class="p">(</span><span class="s1">'my-vfx-project'</span><span class="p">);</span>
 
 <span class="w">    </span><span class="c1">// Create a space for characters</span>
-<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createSpace</span><span class="p">(</span><span class="s1">&#39;/my-vfx-project&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;characters&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createSpace</span><span class="p">(</span><span class="s1">'/my-vfx-project'</span><span class="p">,</span><span class="w"> </span><span class="s1">'characters'</span><span class="p">);</span>
 
 <span class="w">    </span><span class="c1">// Create an item (asset)</span>
 <span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createItem</span><span class="p">(</span>
-<span class="w">      </span><span class="s1">&#39;/my-vfx-project/characters&#39;</span><span class="p">,</span>
-<span class="w">      </span><span class="s1">&#39;hero&#39;</span><span class="p">,</span>
-<span class="w">      </span><span class="s1">&#39;model&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="s1">'/my-vfx-project/characters'</span><span class="p">,</span>
+<span class="w">      </span><span class="s1">'hero'</span><span class="p">,</span>
+<span class="w">      </span><span class="s1">'model'</span><span class="p">,</span>
 <span class="w">    </span><span class="p">);</span>
 
 <span class="w">    </span><span class="c1">// Create a revision with artifacts</span>
@@ -231,8 +231,8 @@ AI-driven workflows.</p>
 <span class="w">    </span><span class="c1">// Add a file artifact</span>
 <span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">createArtifact</span><span class="p">(</span>
 <span class="w">      </span><span class="n">revision</span><span class="p">.</span><span class="n">kref</span><span class="p">,</span>
-<span class="w">      </span><span class="s1">&#39;hero_model.fbx&#39;</span><span class="p">,</span>
-<span class="w">      </span><span class="s1">&#39;file:///projects/hero/hero_model.fbx&#39;</span><span class="p">,</span>
+<span class="w">      </span><span class="s1">'hero_model.fbx'</span><span class="p">,</span>
+<span class="w">      </span><span class="s1">'file:///projects/hero/hero_model.fbx'</span><span class="p">,</span>
 <span class="w">    </span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">shutdownAsync</span><span class="p">();</span>

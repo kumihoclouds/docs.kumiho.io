@@ -88,6 +88,42 @@
       ($core.List&lt;$core.int&gt; value) =&gt;
           $0.UpdateProjectRequest.fromBuffer(value),
       ($0.ProjectResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ProjectDeletionImpactRequest,
+          $0.ProjectDeletionImpactResponse&gt;(
+      &#39;AnalyzeProjectDeletion&#39;,
+      analyzeProjectDeletion_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.ProjectDeletionImpactRequest.fromBuffer(value),
+      ($0.ProjectDeletionImpactResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.RegisterProjectDeletionGuardRequest,
+          $0.ProjectDeletionGuardResponse&gt;(
+      &#39;RegisterProjectDeletionGuard&#39;,
+      registerProjectDeletionGuard_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.RegisterProjectDeletionGuardRequest.fromBuffer(value),
+      ($0.ProjectDeletionGuardResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ResolveProjectDeletionGuardRequest,
+          $0.StatusResponse&gt;(
+      &#39;ResolveProjectDeletionGuard&#39;,
+      resolveProjectDeletionGuard_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.ResolveProjectDeletionGuardRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.ResolveProjectReferenceRequest,
+          $0.StatusResponse&gt;(
+      &#39;ResolveProjectReference&#39;,
+      resolveProjectReference_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.ResolveProjectReferenceRequest.fromBuffer(value),
+      ($0.StatusResponse value) =&gt; value.writeToBuffer()));
   $addMethod($grpc.ServiceMethod&lt;$0.DeleteProjectRequest, $0.StatusResponse&gt;(
       &#39;DeleteProject&#39;,
       deleteProject_Pre,
@@ -96,6 +132,15 @@
       ($core.List&lt;$core.int&gt; value) =&gt;
           $0.DeleteProjectRequest.fromBuffer(value),
       ($0.StatusResponse value) =&gt; value.writeToBuffer()));
+  $addMethod(
+      $grpc.ServiceMethod&lt;$0.HardDeleteProjectRequest, $0.StatusResponse&gt;(
+          &#39;HardDeleteProject&#39;,
+          hardDeleteProject_Pre,
+          false,
+          false,
+          ($core.List&lt;$core.int&gt; value) =&gt;
+              $0.HardDeleteProjectRequest.fromBuffer(value),
+          ($0.StatusResponse value) =&gt; value.writeToBuffer()));
   $addMethod($grpc.ServiceMethod&lt;$0.CreateSpaceRequest, $0.SpaceResponse&gt;(
       &#39;CreateSpace&#39;,
       createSpace_Pre,
@@ -179,6 +224,13 @@
       ($core.List&lt;$core.int&gt; value) =&gt;
           $0.UpdateMetadataRequest.fromBuffer(value),
       ($0.ItemResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.MoveItemRequest, $0.ItemResponse&gt;(
+      &#39;MoveItem&#39;,
+      moveItem_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt; $0.MoveItemRequest.fromBuffer(value),
+      ($0.ItemResponse value) =&gt; value.writeToBuffer()));
   $addMethod($grpc.ServiceMethod&lt;$0.SearchRequest, $0.SearchResponse&gt;(
       &#39;Search&#39;,
       search_Pre,
@@ -246,6 +298,15 @@
       ($core.List&lt;$core.int&gt; value) =&gt;
           $0.BatchGetRevisionsRequest.fromBuffer(value),
       ($0.BatchGetRevisionsResponse value) =&gt; value.writeToBuffer()));
+  $addMethod($grpc.ServiceMethod&lt;$0.BatchCreateRevisionsRequest,
+          $0.BatchCreateRevisionsResponse&gt;(
+      &#39;BatchCreateRevisions&#39;,
+      batchCreateRevisions_Pre,
+      false,
+      false,
+      ($core.List&lt;$core.int&gt; value) =&gt;
+          $0.BatchCreateRevisionsRequest.fromBuffer(value),
+      ($0.BatchCreateRevisionsResponse value) =&gt; value.writeToBuffer()));
   $addMethod($grpc.ServiceMethod&lt;$0.DeleteRevisionRequest, $0.StatusResponse&gt;(
       &#39;DeleteRevision&#39;,
       deleteRevision_Pre,

@@ -193,7 +193,7 @@
 </ul>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// SDK automatically uses cached credentials</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span>
-<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;api.kumiho.io&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">'api.kumiho.io'</span><span class="p">,</span>
 <span class="w">  </span><span class="nl">port:</span><span class="w"> </span><span class="m">443</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
@@ -213,9 +213,9 @@
 <h3>With Explicit Token<a class="headerlink" href="#with-explicit-token" title="Link to this heading"></a></h3>
 <p>If you have a Control Plane JWT (e.g., from a web app or mobile app):</p>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span>
-<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;api.kumiho.io&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">'api.kumiho.io'</span><span class="p">,</span>
 <span class="w">  </span><span class="nl">port:</span><span class="w"> </span><span class="m">443</span><span class="p">,</span>
-<span class="w">  </span><span class="nl">token:</span><span class="w"> </span><span class="s1">&#39;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVC...&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">token:</span><span class="w"> </span><span class="s1">'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVC...'</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -223,12 +223,12 @@
 <section id="with-environment-variables">
 <h3>With Environment Variables<a class="headerlink" href="#with-environment-variables" title="Link to this heading"></a></h3>
 <p>For CI/CD pipelines and containerized deployments:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KUMIHO_AUTH_TOKEN</span><span class="o">=</span><span class="s2">&quot;your-control-plane-jwt&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">KUMIHO_AUTH_TOKEN</span><span class="o">=</span><span class="s2">"your-control-plane-jwt"</span>
 </pre></div>
 </div>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// SDK reads from environment automatically</span>
 <span class="kd">final</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span>
-<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;api.kumiho.io&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nl">host:</span><span class="w"> </span><span class="s1">'api.kumiho.io'</span><span class="p">,</span>
 <span class="w">  </span><span class="nl">port:</span><span class="w"> </span><span class="m">443</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
@@ -283,15 +283,15 @@
 <li><p>Implementing custom token refresh logic</p></li>
 </ul>
 <div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// Update token at runtime</span>
-<span class="n">client</span><span class="p">.</span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;new-jwt-token&#39;</span><span class="p">;</span>
+<span class="n">client</span><span class="p">.</span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'new-jwt-token'</span><span class="p">;</span>
 </pre></div>
 </div>
 </section>
 <section id="flutter-authentication">
 <h2>Flutter Authentication<a class="headerlink" href="#flutter-authentication" title="Link to this heading"></a></h2>
 <p>For Flutter applications, you might want to integrate with Firebase Auth directly:</p>
-<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="s1">&#39;package:firebase_auth/firebase_auth.dart&#39;</span><span class="p">;</span>
-<span class="k">import</span><span class="w"> </span><span class="s1">&#39;package:kumiho/kumiho.dart&#39;</span><span class="p">;</span>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="s1">'package:firebase_auth/firebase_auth.dart'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="s1">'package:kumiho/kumiho.dart'</span><span class="p">;</span>
 
 <span class="n">Future</span><span class="o">&lt;</span><span class="n">KumihoClient</span><span class="o">&gt;</span><span class="w"> </span><span class="n">createAuthenticatedClient</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1">// Get Firebase ID token</span>
@@ -299,7 +299,7 @@
 <span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">idToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">user</span><span class="o">?</span><span class="p">.</span><span class="n">getIdToken</span><span class="p">();</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idToken</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="n">Exception</span><span class="p">(</span><span class="s1">&#39;User not authenticated&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="n">Exception</span><span class="p">(</span><span class="s1">'User not authenticated'</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="c1">// Exchange for Kumiho Control Plane JWT</span>
@@ -307,7 +307,7 @@
 <span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">controlPlaneJwt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">exchangeToken</span><span class="p">(</span><span class="n">idToken</span><span class="p">);</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">KumihoClient</span><span class="p">(</span>
-<span class="w">    </span><span class="nl">host:</span><span class="w"> </span><span class="s1">&#39;api.kumiho.io&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">host:</span><span class="w"> </span><span class="s1">'api.kumiho.io'</span><span class="p">,</span>
 <span class="w">    </span><span class="nl">port:</span><span class="w"> </span><span class="m">443</span><span class="p">,</span>
 <span class="w">    </span><span class="nl">token:</span><span class="w"> </span><span class="n">controlPlaneJwt</span><span class="p">,</span>
 <span class="w">  </span><span class="p">);</span>
@@ -326,7 +326,7 @@
 <span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">forceRefreshToken</span><span class="p">();</span>
 <span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">StatusCode</span><span class="p">.</span><span class="n">permissionDenied</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Token lacks required permissions</span>
-<span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Access denied: </span><span class="si">${</span><span class="n">e</span><span class="p">.</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s1">'Access denied: </span><span class="si">${</span><span class="n">e</span><span class="p">.</span><span class="n">message</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>

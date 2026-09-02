@@ -54,8 +54,8 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.12.2/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
-<span class="name ">getItemByKref</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getItemByKref-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.12.2/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/ItemResponse-class.html">ItemResponse</a></span>&gt;</span></span>
+<span class="name ">getItemByKref</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="getItemByKref-param-kref"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a></span> <span class="parameter-name">kref</span></span></li>
 </ol>)
 
       <div class="features"><span class="feature">inherited</span></div>
@@ -73,9 +73,10 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;ItemResponse&gt; getItemByKref(String kref) async {
   &#47;&#47; Parse the kref to extract components
-  final sanitized = kref.startsWith(&#39;kref:&#47;&#47;&#39;)
-      ? kref.substring(&#39;kref:&#47;&#47;&#39;.length)
-      : kref.startsWith(&#39;&#47;&#39;)
+  final sanitized =
+      kref.startsWith(&#39;kref:&#47;&#47;&#39;)
+          ? kref.substring(&#39;kref:&#47;&#47;&#39;.length)
+          : kref.startsWith(&#39;&#47;&#39;)
           ? kref.substring(1)
           : kref;
   final pathPart = sanitized.split(&#39;?&#39;).first;
