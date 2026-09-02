@@ -1434,6 +1434,33 @@
 <span class="c1"># dominate whatever summary text fits in the remaining budget.</span>
 <span class="n">_STACK_QUERY_MAX_CHARS</span> <span class="o">=</span> <span class="mi">180</span>
 
+<span class="c1">#: Switch for the middle band ([type-match threshold, strong threshold) with a</span>
+<span class="c1">#: matching ``memory_type``). Default on. Set to ``"0"`` to run the gate in</span>
+<span class="c1">#: strong-only mode, where a capture stacks only when its score clears the</span>
+<span class="c1">#: strong threshold AND the lexical floor.</span>
+<span class="c1">#:</span>
+<span class="c1">#: Why this exists: the two-band gate was calibrated on one corpus. The strong</span>
+<span class="c1">#: band sits above every unrelated score observed there (max 0.616) with room</span>
+<span class="c1">#: to spare; every contested case -- an unrelated same-type neighbour in a</span>
+<span class="c1">#: topically homogeneous space scoring 0.58-0.62 -- lives in the middle band.</span>
+<span class="c1">#: A deployment that has not yet measured its own score distribution (a shared</span>
+<span class="c1">#: multi-tenant server, a corpus in another language or of much shorter</span>
+<span class="c1">#: captures) can keep stacking for near-duplicates while withholding the band</span>
+<span class="c1">#: whose false positives displace ``published`` on an unrelated item. The</span>
+<span class="c1">#: ``stack_*`` fields on every store result are the telemetry that decides when</span>
+<span class="c1">#: to turn the band back on.</span>
+<span class="n">_STACK_MIDDLE_BAND_ENV</span> <span class="o">=</span> <span class="s2">"KUMIHO_STACK_MIDDLE_BAND"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_middle_band_enabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""True unless ``KUMIHO_STACK_MIDDLE_BAND`` is explicitly ``"0"``."""</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_STACK_MIDDLE_BAND_ENV</span><span class="p">,</span> <span class="s2">"1"</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">"0"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stack_mode</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Human-readable gate mode, reported on store results for telemetry."""</span>
+    <span class="k">return</span> <span class="s2">"two-band"</span> <span class="k">if</span> <span class="n">_middle_band_enabled</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"strong-only"</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_stack_query</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">summary</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fallback</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Build the similarity query from the title *and* the summary.</span>
@@ -1551,18 +1578,26 @@
     <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_SIMILARITY_THRESHOLD</span><span class="p">,</span>
     <span class="n">type_match_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_TYPE_MATCH_THRESHOLD</span><span class="p">,</span>
     <span class="n">min_overlap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_MIN_LEXICAL_OVERLAP</span><span class="p">,</span>
+    <span class="n">middle_band</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""The gate itself, as a pure function of the three measured signals.</span>
+<span class="w">    </span><span class="sd">"""The gate itself, as a pure function of the measured signals.</span>
 
 <span class="sd">    Split out so the labelled score/overlap table measured on the live graph</span>
-<span class="sd">    can drive it directly as a test fixture.</span>
+<span class="sd">    can drive it directly as a test fixture. *middle_band* defaults to the</span>
+<span class="sd">    ``KUMIHO_STACK_MIDDLE_BAND`` switch; pass it explicitly in tests.</span>
 <span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">middle_band</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">middle_band</span> <span class="o">=</span> <span class="n">_middle_band_enabled</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">overlap</span> <span class="o">&lt;</span> <span class="n">min_overlap</span><span class="p">:</span>
         <span class="c1"># The lexical floor binds in both bands: it is the only signal that</span>
         <span class="c1"># separated duplicates from neighbours in a homogeneous space.</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">middle_band</span><span class="p">:</span>
+        <span class="c1"># Strong-only mode: the contested band is withheld until a deployment</span>
+        <span class="c1"># has measured its own score distribution.</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="n">type_match_threshold</span> <span class="ow">and</span> <span class="n">type_matches</span>
 
 
@@ -2231,6 +2266,7 @@
         <span class="s2">"stack_score"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">stack_score</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
         <span class="s2">"stack_runner_up"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">stack_runner_up</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
         <span class="s2">"stack_overlap"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">stack_overlap</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="s2">"stack_mode"</span><span class="p">:</span> <span class="n">_stack_mode</span><span class="p">(),</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">previous_revision_kref</span><span class="p">:</span>
         <span class="n">result</span><span class="p">[</span><span class="s2">"previous_revision_kref"</span><span class="p">]</span> <span class="o">=</span> <span class="n">previous_revision_kref</span>
@@ -2391,6 +2427,7 @@
             <span class="s2">"stack_score"</span><span class="p">:</span> <span class="n">stack_score</span><span class="p">,</span>
             <span class="s2">"stack_runner_up"</span><span class="p">:</span> <span class="n">stack_runner_up</span><span class="p">,</span>
             <span class="s2">"stack_overlap"</span><span class="p">:</span> <span class="n">stack_overlap</span><span class="p">,</span>
+            <span class="s2">"stack_mode"</span><span class="p">:</span> <span class="n">_stack_mode</span><span class="p">(),</span>
         <span class="p">}</span>
         <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
@@ -2463,6 +2500,7 @@
             <span class="s2">"stack_score"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">prep</span><span class="p">[</span><span class="s2">"stack_score"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
             <span class="s2">"stack_runner_up"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">prep</span><span class="p">[</span><span class="s2">"stack_runner_up"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
             <span class="s2">"stack_overlap"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">prep</span><span class="p">[</span><span class="s2">"stack_overlap"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s2">"stack_mode"</span><span class="p">:</span> <span class="n">prep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stack_mode"</span><span class="p">,</span> <span class="n">_stack_mode</span><span class="p">()),</span>
         <span class="p">}</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s2">"results"</span><span class="p">:</span> <span class="n">results</span><span class="p">,</span> <span class="s2">"stored_krefs"</span><span class="p">:</span> <span class="n">stored_krefs</span><span class="p">,</span> <span class="s2">"stacked"</span><span class="p">:</span> <span class="n">stacked_count</span><span class="p">}</span></div>
