@@ -850,6 +850,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">unicodedata</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
@@ -1348,9 +1349,241 @@
 <span class="c1"># Revision stacking</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
-<span class="c1"># Minimum fuzzy-search score to consider two memories "similar enough" to</span>
-<span class="c1"># stack revisions on the same item instead of creating a new one.</span>
-<span class="n">_STACK_SIMILARITY_THRESHOLD</span> <span class="o">=</span> <span class="mf">0.92</span>
+<span class="c1"># Fuzzy-search scores are corpus-relative, so these thresholds were</span>
+<span class="c1"># calibrated by replaying real duplicate pairs against a live CE graph</span>
+<span class="c1"># (fulltext-only search; hybrid vector search is a STUDIO+ feature).</span>
+<span class="c1"># What that measurement showed:</span>
+<span class="c1">#</span>
+<span class="c1">#   * An item scored against its OWN exact title tops out at 0.72-0.83.</span>
+<span class="c1">#     The previous 0.92 gate sat ABOVE the scorer's ceiling, so stacking</span>
+<span class="c1">#     could never fire for any input whatsoever -- not a strict rule, an</span>
+<span class="c1">#     unreachable one (issue #163: 20 captures, 20 ``stacked: false``).</span>
+<span class="c1">#   * Same-subject / different-title duplicates -- the case stacking</span>
+<span class="c1">#     exists to catch -- land at 0.58-0.68.</span>
+<span class="c1">#   * Unrelated items in the *same* space reach 0.62 when the space is</span>
+<span class="c1">#     topically homogeneous (every capture in ``decisions`` is about</span>
+<span class="c1">#     memory design), while in a mixed space they stay at 0.21-0.35.</span>
+<span class="c1">#</span>
+<span class="c1"># The duplicate band (0.58-0.68) and the unrelated band (up to 0.62)</span>
+<span class="c1"># therefore OVERLAP, and no single score can separate them.</span>
+<span class="c1">#</span>
+<span class="c1"># WHAT A FALSE STACK ACTUALLY COSTS. It is not "two related memories filed</span>
+<span class="c1"># as consecutive revisions, both still reachable". Stacking calls</span>
+<span class="c1"># ``item.create_revision(...)`` and then tags the NEW revision "published"</span>
+<span class="c1"># (``tag_list = tags or ["published"]``), while every recall path resolves</span>
+<span class="c1"># ``get_revision_by_tag("published") or get_revision_by_tag("latest")``.</span>
+<span class="c1"># So the PRIOR revision loses "published" and leaves the default retrieval</span>
+<span class="c1"># surface entirely -- it survives only for callers passing</span>
+<span class="c1"># ``unroll_revisions``. That is precisely the paper's Definition 7.4 tag</span>
+<span class="c1"># move, i.e. a belief revision, performed WITHOUT the SUPERSEDES edge that</span>
+<span class="c1"># is supposed to accompany it. A false stack is therefore a false belief</span>
+<span class="c1"># revision: non-conflicting information gets DISPLACED where AGM vacuity</span>
+<span class="c1"># (K*4) requires it to be merely EXPANDED. Both failure modes destroy</span>
+<span class="c1"># retrievability, so "err toward stacking" is not available as a tiebreak;</span>
+<span class="c1"># the gate has to actually discriminate.</span>
+<span class="c1">#</span>
+<span class="c1"># WHY THE SECOND SIGNAL IS LEXICAL, NOT THE SCORE AGAIN. Two candidates</span>
+<span class="c1"># were measured against the labelled pairs (see the table pinned in</span>
+<span class="c1"># tests/test_mcp_revision_stacking.py):</span>
+<span class="c1">#</span>
+<span class="c1">#   * memory_type agreement alone: useless in exactly the space that needs</span>
+<span class="c1">#     it. ``decisions`` is homogeneous -- nearly every capture is typed</span>
+<span class="c1">#     "decision" -- so the gate adds no separation there at all.</span>
+<span class="c1">#   * top1-minus-top2 margin: measured, and it does NOT separate. A</span>
+<span class="c1">#     no-duplicate capture put an UNRELATED item at top1 with a margin of</span>
+<span class="c1">#     0.094, wider than the 0.053 margin of a genuine duplicate pair. Any</span>
+<span class="c1">#     margin floor admitting the real duplicate also admits the impostor.</span>
+<span class="c1">#     The runner-up score is still reported for inspection, but nothing is</span>
+<span class="c1">#     gated on it.</span>
+<span class="c1">#   * normalized-token overlap (Jaccard over lowercased Latin words plus</span>
+<span class="c1">#     CJK character bigrams): duplicates 0.19-0.25, unrelated 0.03-0.15.</span>
+<span class="c1">#     Cleanly separable, with the floor below placed in the gap.</span>
+<span class="c1">#</span>
+<span class="c1"># Crucially the score and the overlap are near-uncorrelated (score 0.6165</span>
+<span class="c1"># with overlap 0.088; score 0.2888 with overlap 0.144), because BM25</span>
+<span class="c1"># weights rare terms and normalizes by length while Jaccard weights a term</span>
+<span class="c1"># set flatly. That independence is what lets the pair separate a</span>
+<span class="c1"># homogeneous space when neither coordinate can do it alone.</span>
+<span class="n">_STACK_SIMILARITY_THRESHOLD</span> <span class="o">=</span> <span class="mf">0.75</span>
+
+<span class="c1"># Middle band: additionally requires ``memory_type`` agreement. Sits just</span>
+<span class="c1"># under the lowest duplicate score observed (0.578).</span>
+<span class="n">_STACK_TYPE_MATCH_THRESHOLD</span> <span class="o">=</span> <span class="mf">0.55</span>
+
+<span class="c1"># Lexical floor, enforced in BOTH bands. Measured gap: unrelated peaks at</span>
+<span class="c1"># 0.148, duplicates bottom out at 0.188.</span>
+<span class="n">_STACK_MIN_LEXICAL_OVERLAP</span> <span class="o">=</span> <span class="mf">0.17</span>
+
+<span class="c1"># Below this many tokens on either side the overlap ratio is noise rather</span>
+<span class="c1"># than evidence, and a short capture is exactly where lexical support is</span>
+<span class="c1"># weakest. Refuse to stack instead of guessing -- a false stack displaces</span>
+<span class="c1"># a published revision.</span>
+<span class="n">_STACK_MIN_OVERLAP_TOKENS</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="c1"># Hard cap on the generated search query. Long queries are not merely slow:</span>
+<span class="c1"># a ~230-character Korean query was observed to fail server-side with</span>
+<span class="c1"># Lucene ``maxClauseCount is set to 1024`` (CJK is bigram-tokenized and then</span>
+<span class="c1"># fuzzy-expanded, so characters translate into clauses far faster than they</span>
+<span class="c1"># do for Latin text). The title is always placed first so its terms</span>
+<span class="c1"># dominate whatever summary text fits in the remaining budget.</span>
+<span class="n">_STACK_QUERY_MAX_CHARS</span> <span class="o">=</span> <span class="mi">180</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_stack_query</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">summary</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fallback</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build the similarity query from the title *and* the summary.</span>
+
+<span class="sd">    Searching the title alone (the pre-#163 behaviour) throws away the only</span>
+<span class="sd">    signal that survives a rewritten headline: two captures about one</span>
+<span class="sd">    subject three hours apart share their body, not their title. The title</span>
+<span class="sd">    still leads the query -- it is the most concentrated description of the</span>
+<span class="sd">    capture -- and the summary fills whatever budget is left.</span>
+<span class="sd">    """</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="p">(</span><span class="n">summary</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">summary</span><span class="p">:</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="p">(</span><span class="n">fallback</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">summary</span><span class="p">[:</span><span class="n">_STACK_QUERY_MAX_CHARS</span><span class="p">]</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="n">title</span><span class="p">[:</span><span class="n">_STACK_QUERY_MAX_CHARS</span><span class="p">]</span>
+    <span class="n">remaining</span> <span class="o">=</span> <span class="n">_STACK_QUERY_MAX_CHARS</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="c1"># Only bother appending summary text if a useful amount of it fits.</span>
+    <span class="k">if</span> <span class="n">summary</span> <span class="ow">and</span> <span class="n">remaining</span> <span class="o">&gt;=</span> <span class="mi">16</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">summary</span><span class="p">[:</span><span class="n">remaining</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="n">query</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stack_search</span><span class="p">(</span>
+    <span class="n">query_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">retry_query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Run the stacking search, retrying once with a shorter query.</span>
+
+<span class="sd">    Returns the result list, or ``None`` when the search itself failed --</span>
+<span class="sd">    which is *not* the same as "nothing similar" and is logged as such.</span>
+<span class="sd">    """</span>
+    <span class="n">attempts</span> <span class="o">=</span> <span class="p">[</span><span class="n">query_text</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">retry_query</span> <span class="ow">and</span> <span class="n">retry_query</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="n">retry_query</span> <span class="o">!=</span> <span class="n">query_text</span><span class="p">:</span>
+        <span class="n">attempts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">retry_query</span><span class="p">)</span>
+
+    <span class="n">last_exc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">attempts</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                <span class="n">attempt</span><span class="p">,</span>
+                <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+                <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span>
+                <span class="n">include_revision_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># noqa: BLE001 - any failure is worth logging</span>
+            <span class="n">last_exc</span> <span class="o">=</span> <span class="n">exc</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"Revision stacking search failed (attempt </span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">, context=</span><span class="si">%r</span><span class="s2">, "</span>
+                <span class="s2">"query </span><span class="si">%d</span><span class="s2"> chars): </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="n">position</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">attempts</span><span class="p">),</span> <span class="n">context</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">attempt</span><span class="p">),</span> <span class="n">exc</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="c1"># A search that fails on every call is a broken install, not a normal</span>
+    <span class="c1"># state, so this is a warning rather than the debug line it used to be.</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+        <span class="s2">"Revision stacking unavailable for this capture (context=</span><span class="si">%r</span><span class="s2">): every "</span>
+        <span class="s2">"search attempt failed, so a new item is being minted even though a "</span>
+        <span class="s2">"similar one may already exist. Last error: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">context</span> <span class="ow">or</span> <span class="s2">"&lt;project root&gt;"</span><span class="p">,</span> <span class="n">last_exc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="c1">#: Latin/digit word tokens, kept at length &gt;= 2 so stray letters do not</span>
+<span class="c1">#: inflate the ratio.</span>
+<span class="n">_TOKEN_WORD_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[0-9a-z_]+"</span><span class="p">)</span>
+<span class="c1">#: Han, Hiragana, Katakana and Hangul. These scripts are written without</span>
+<span class="c1">#: spaces, so words are approximated by character bigrams -- the same shape</span>
+<span class="c1">#: the server's own fulltext index uses.</span>
+<span class="n">_TOKEN_CJK_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">"[぀-ヿ㐀-䶿一-鿿가-힯]+"</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_overlap_tokens</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Normalize text to a comparable token set (Latin words + CJK bigrams)."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">"NFKC"</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">tokens</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="k">match</span><span class="o">.</span><span class="n">group</span><span class="p">()</span> <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">_TOKEN_WORD_RE</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">_TOKEN_CJK_RE</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">run</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">run</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">run</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">tokens</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_lexical_overlap</span><span class="p">(</span><span class="n">left</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Jaccard overlap of two texts' token sets, or 0.0 if either is too thin.</span>
+
+<span class="sd">    Deliberately symmetric and length-aware: a containment ratio would let a</span>
+<span class="sd">    two-line capture look identical to a long one it happens to sit inside,</span>
+<span class="sd">    which is the cheapest way to manufacture a false stack.</span>
+<span class="sd">    """</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_overlap_tokens</span><span class="p">(</span><span class="n">left</span><span class="p">),</span> <span class="n">_overlap_tokens</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">_STACK_MIN_OVERLAP_TOKENS</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">_STACK_MIN_OVERLAP_TOKENS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="n">union</span> <span class="o">=</span> <span class="n">a</span> <span class="o">|</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">union</span><span class="p">)</span> <span class="k">if</span> <span class="n">union</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_should_stack</span><span class="p">(</span>
+    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">type_matches</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">overlap</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_SIMILARITY_THRESHOLD</span><span class="p">,</span>
+    <span class="n">type_match_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_TYPE_MATCH_THRESHOLD</span><span class="p">,</span>
+    <span class="n">min_overlap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_MIN_LEXICAL_OVERLAP</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The gate itself, as a pure function of the three measured signals.</span>
+
+<span class="sd">    Split out so the labelled score/overlap table measured on the live graph</span>
+<span class="sd">    can drive it directly as a test fixture.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">overlap</span> <span class="o">&lt;</span> <span class="n">min_overlap</span><span class="p">:</span>
+        <span class="c1"># The lexical floor binds in both bands: it is the only signal that</span>
+        <span class="c1"># separated duplicates from neighbours in a homogeneous space.</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="n">type_match_threshold</span> <span class="ow">and</span> <span class="n">type_matches</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_candidate_profile</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Best-effort read of a candidate's ``(memory_type, title+summary)``.</span>
+
+<span class="sd">    One revision fetch serves both the type gate and the lexical gate. The</span>
+<span class="sd">    server reserves the "type" metadata key and strips it from reads, so</span>
+<span class="sd">    "memory_type" is the readable carrier; both are checked, mirroring</span>
+<span class="sd">    :func:`_matches_memory_types`.</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">getter</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="k">lambda</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">),</span>
+        <span class="k">lambda</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">),</span>
+    <span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rev</span> <span class="o">=</span> <span class="n">getter</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">meta</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">mem_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"memory_type"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'title'</span><span class="p">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">''</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'summary'</span><span class="p">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">''</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">if</span> <span class="n">mem_type</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">or</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">mem_type</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">text</span>
+    <span class="k">return</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">""</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_find_similar_item</span><span class="p">(</span>
@@ -1358,42 +1591,76 @@
     <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">query_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">memory_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_SIMILARITY_THRESHOLD</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
+    <span class="n">type_match_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_STACK_TYPE_MATCH_THRESHOLD</span><span class="p">,</span>
+    <span class="n">retry_query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">compare_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Item</span><span class="p">],</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Search for an existing memory item similar to the incoming content.</span>
 
-<span class="sd">    Uses fuzzy search with revision metadata (title/summary) to find items</span>
-<span class="sd">    in the same space that cover a similar topic.  Returns the best match</span>
-<span class="sd">    above *threshold*, or ``None`` to fall back to new-item creation.</span>
+<span class="sd">    Uses fuzzy search over revision metadata (title/summary) to find items</span>
+<span class="sd">    in the same space that cover a similar topic, then requires a lexical</span>
+<span class="sd">    second opinion before displacing anything (see the constants above --</span>
+<span class="sd">    stacking moves the "published" tag, so a wrong match hides a memory).</span>
+
+<span class="sd">    Returns ``(item, score, runner_up, overlap)``:</span>
+
+<span class="sd">    * ``item`` -- the candidate to stack onto, or ``None`` to mint a new one.</span>
+<span class="sd">    * ``score`` -- the best candidate's search score, reported *whether or</span>
+<span class="sd">      not* it cleared the bar, so a caller can tell "the search returns 0.0</span>
+<span class="sd">      every time" (a broken install) from "close but not close enough".</span>
+<span class="sd">    * ``runner_up`` -- the second-best score, 0.0 when there was none. Not</span>
+<span class="sd">      gated on (the margin was measured and does not separate); exposed so</span>
+<span class="sd">      the decision stays inspectable and can be recalibrated later.</span>
+<span class="sd">    * ``overlap`` -- the measured lexical overlap with the best candidate.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">query_text</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">query_text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
 
     <span class="c1"># Convert space_path "/CognitiveMemory/work" -&gt; "CognitiveMemory/work"</span>
     <span class="n">context</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
 
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-            <span class="n">query_text</span><span class="p">[:</span><span class="mi">150</span><span class="p">],</span>
-            <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
-            <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span>
-            <span class="n">include_revision_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Revision stacking search failed, falling back to new item"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span> <span class="ow">or</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">_stack_search</span><span class="p">(</span><span class="n">query_text</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">retry_query</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
 
     <span class="n">best</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-        <span class="s2">"Revision stacking: matched item </span><span class="si">%s</span><span class="s2"> (score=</span><span class="si">%.3f</span><span class="s2">) for query '</span><span class="si">%.60s</span><span class="s2">...'"</span><span class="p">,</span>
-        <span class="n">best</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
-        <span class="n">best</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
-        <span class="n">query_text</span><span class="p">,</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">best</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">runner_up</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">float</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"score"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">0.0</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">best</span><span class="o">.</span><span class="n">item</span>
+
+    <span class="c1"># Cheap exit: below the lower band nothing can qualify, so skip the</span>
+    <span class="c1"># revision fetch the two gates would need.</span>
+    <span class="k">if</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="n">type_match_threshold</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">"Revision stacking: best candidate </span><span class="si">%s</span><span class="s2"> scored </span><span class="si">%.3f</span><span class="s2">, below </span><span class="si">%.2f</span><span class="s2">; "</span>
+            <span class="s2">"minting a new item."</span><span class="p">,</span>
+            <span class="n">best</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">type_match_threshold</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">runner_up</span><span class="p">,</span> <span class="mf">0.0</span>
+
+    <span class="n">candidate_type</span><span class="p">,</span> <span class="n">candidate_text</span> <span class="o">=</span> <span class="n">_candidate_profile</span><span class="p">(</span><span class="n">best</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+    <span class="n">overlap</span> <span class="o">=</span> <span class="n">_lexical_overlap</span><span class="p">(</span><span class="n">compare_text</span> <span class="ow">or</span> <span class="n">query_text</span><span class="p">,</span> <span class="n">candidate_text</span><span class="p">)</span>
+    <span class="n">type_matches</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span>
+        <span class="n">candidate_type</span> <span class="ow">and</span> <span class="n">candidate_type</span> <span class="o">==</span> <span class="p">(</span><span class="n">memory_type</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_should_stack</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">type_matches</span><span class="p">,</span> <span class="n">overlap</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">type_match_threshold</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">"Revision stacking: matched item </span><span class="si">%s</span><span class="s2"> (score=</span><span class="si">%.3f</span><span class="s2">, overlap=</span><span class="si">%.3f</span><span class="s2">, "</span>
+            <span class="s2">"memory_type agrees=</span><span class="si">%s</span><span class="s2">) for query '</span><span class="si">%.60s</span><span class="s2">...'"</span><span class="p">,</span>
+            <span class="n">best</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">overlap</span><span class="p">,</span> <span class="n">type_matches</span><span class="p">,</span> <span class="n">query_text</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">best</span><span class="o">.</span><span class="n">item</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">runner_up</span><span class="p">,</span> <span class="n">overlap</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+        <span class="s2">"Revision stacking: declined </span><span class="si">%s</span><span class="s2"> (score=</span><span class="si">%.3f</span><span class="s2">, runner_up=</span><span class="si">%.3f</span><span class="s2">, "</span>
+        <span class="s2">"overlap=</span><span class="si">%.3f</span><span class="s2">, memory_type agrees=</span><span class="si">%s</span><span class="s2">); minting a new item."</span><span class="p">,</span>
+        <span class="n">best</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">runner_up</span><span class="p">,</span> <span class="n">overlap</span><span class="p">,</span> <span class="n">type_matches</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">runner_up</span><span class="p">,</span> <span class="n">overlap</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_or_create_bundle</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
@@ -1820,15 +2087,31 @@
 
     <span class="n">base_text</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="n">summary</span> <span class="ow">or</span> <span class="n">user_text</span> <span class="ow">or</span> <span class="n">assistant_text</span> <span class="ow">or</span> <span class="s2">"memory"</span>
     <span class="n">stacked</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">stack_score</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">stack_runner_up</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">stack_overlap</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">previous_revision_kref</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># --- Revision stacking: search for a similar existing item ---</span>
     <span class="k">if</span> <span class="n">stack_revisions</span><span class="p">:</span>
-        <span class="n">search_query</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="n">summary</span> <span class="ow">or</span> <span class="p">(</span><span class="n">user_text</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)[:</span><span class="mi">150</span><span class="p">]</span>
+        <span class="c1"># Search title AND summary: a capture revisiting the same subject</span>
+        <span class="c1"># hours later shares its body, not its headline.</span>
+        <span class="n">search_query</span> <span class="o">=</span> <span class="n">_build_stack_query</span><span class="p">(</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">summary</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="p">(</span><span class="n">assistant_text</span> <span class="ow">or</span> <span class="n">user_text</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">search_query</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">_find_similar_item</span><span class="p">(</span>
-                <span class="n">project_name</span><span class="p">,</span> <span class="n">normalized_space_path</span><span class="p">,</span> <span class="n">search_query</span><span class="p">,</span> <span class="n">memory_kind</span><span class="p">,</span>
+            <span class="n">item</span><span class="p">,</span> <span class="n">stack_score</span><span class="p">,</span> <span class="n">stack_runner_up</span><span class="p">,</span> <span class="n">stack_overlap</span> <span class="o">=</span> <span class="n">_find_similar_item</span><span class="p">(</span>
+                <span class="n">project_name</span><span class="p">,</span>
+                <span class="n">normalized_space_path</span><span class="p">,</span>
+                <span class="n">search_query</span><span class="p">,</span>
+                <span class="n">memory_kind</span><span class="p">,</span>
+                <span class="n">memory_type</span><span class="o">=</span><span class="n">memory_type</span><span class="p">,</span>
+                <span class="c1"># If the combined query trips the server's clause limit,</span>
+                <span class="c1"># fall back to the title alone rather than losing stacking.</span>
+                <span class="n">retry_query</span><span class="o">=</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)[:</span><span class="n">_STACK_QUERY_MAX_CHARS</span><span class="p">],</span>
+                <span class="c1"># The lexical gate compares full text, not the capped query.</span>
+                <span class="n">compare_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">summary</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">stacked</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1936,6 +2219,12 @@
         <span class="s2">"summary"</span><span class="p">:</span> <span class="n">final_summary</span><span class="p">,</span>
         <span class="s2">"edges_created"</span><span class="p">:</span> <span class="n">edges_created</span><span class="p">,</span>
         <span class="s2">"stacked"</span><span class="p">:</span> <span class="n">stacked</span><span class="p">,</span>
+        <span class="c1"># Reported even when nothing stacked, so a caller can tell a broken</span>
+        <span class="c1"># search (0.0 every time) from a genuine near-miss without inferring</span>
+        <span class="c1"># it from a stream of ``false``, and can see WHICH gate declined.</span>
+        <span class="s2">"stack_score"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">stack_score</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="s2">"stack_runner_up"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">stack_runner_up</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="s2">"stack_overlap"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">stack_overlap</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">previous_revision_kref</span><span class="p">:</span>
         <span class="n">result</span><span class="p">[</span><span class="s2">"previous_revision_kref"</span><span class="p">]</span> <span class="o">=</span> <span class="n">previous_revision_kref</span>
@@ -1975,7 +2264,9 @@
 
 <span class="sd">    Returns ``{"results": [per-capture dict | {"error": ...}], "stored_krefs":</span>
 <span class="sd">    [...], "stacked": &lt;int&gt;}`` — ``results`` is positional (one entry per input</span>
-<span class="sd">    capture, ``None`` collapses to an ``error`` entry).</span>
+<span class="sd">    capture, ``None`` collapses to an ``error`` entry). Each successful entry</span>
+<span class="sd">    carries ``stack_score``, the best similarity score the stacking search</span>
+<span class="sd">    saw, reported whether or not it stacked.</span>
 <span class="sd">    """</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
     <span class="n">source_krefs</span> <span class="o">=</span> <span class="n">source_revision_krefs</span> <span class="ow">or</span> <span class="p">[]</span>
@@ -2018,11 +2309,23 @@
         <span class="c1"># Fuzzy-stack: reuse a similar existing item, else mint a hash-named one</span>
         <span class="c1"># (batch_create_revisions auto-creates the item from a new kref).</span>
         <span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">stack_score</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">stack_runner_up</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">stack_overlap</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">if</span> <span class="n">stack_revisions</span><span class="p">:</span>
-            <span class="n">search_query</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="n">final_summary</span><span class="p">[:</span><span class="mi">150</span><span class="p">]</span>
+            <span class="c1"># Title AND summary, same as the single path.</span>
+            <span class="n">search_query</span> <span class="o">=</span> <span class="n">_build_stack_query</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">final_summary</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">search_query</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">_find_similar_item</span><span class="p">(</span>
-                    <span class="n">project_name</span><span class="p">,</span> <span class="n">normalized_space</span><span class="p">,</span> <span class="n">search_query</span><span class="p">,</span> <span class="n">memory_kind</span>
+                <span class="n">item</span><span class="p">,</span> <span class="n">stack_score</span><span class="p">,</span> <span class="n">stack_runner_up</span><span class="p">,</span> <span class="n">stack_overlap</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">_find_similar_item</span><span class="p">(</span>
+                        <span class="n">project_name</span><span class="p">,</span>
+                        <span class="n">normalized_space</span><span class="p">,</span>
+                        <span class="n">search_query</span><span class="p">,</span>
+                        <span class="n">memory_kind</span><span class="p">,</span>
+                        <span class="n">memory_type</span><span class="o">=</span><span class="n">memory_type</span><span class="p">,</span>
+                        <span class="n">retry_query</span><span class="o">=</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)[:</span><span class="n">_STACK_QUERY_MAX_CHARS</span><span class="p">],</span>
+                        <span class="n">compare_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">final_title</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">final_summary</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
         <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">item_kref</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span>
@@ -2079,6 +2382,9 @@
             <span class="s2">"tags"</span><span class="p">:</span> <span class="n">cap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tags"</span><span class="p">),</span>
             <span class="s2">"space"</span><span class="p">:</span> <span class="n">normalized_space</span><span class="p">,</span>
             <span class="s2">"stacked"</span><span class="p">:</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"stack_score"</span><span class="p">:</span> <span class="n">stack_score</span><span class="p">,</span>
+            <span class="s2">"stack_runner_up"</span><span class="p">:</span> <span class="n">stack_runner_up</span><span class="p">,</span>
+            <span class="s2">"stack_overlap"</span><span class="p">:</span> <span class="n">stack_overlap</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
@@ -2148,6 +2454,9 @@
             <span class="s2">"bundle_kref"</span><span class="p">:</span> <span class="n">bundle_kref</span><span class="p">,</span>
             <span class="s2">"edges_created"</span><span class="p">:</span> <span class="n">edges_created</span><span class="p">,</span>
             <span class="s2">"stacked"</span><span class="p">:</span> <span class="n">prep</span><span class="p">[</span><span class="s2">"stacked"</span><span class="p">],</span>
+            <span class="s2">"stack_score"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">prep</span><span class="p">[</span><span class="s2">"stack_score"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s2">"stack_runner_up"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">prep</span><span class="p">[</span><span class="s2">"stack_runner_up"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s2">"stack_overlap"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">prep</span><span class="p">[</span><span class="s2">"stack_overlap"</span><span class="p">],</span> <span class="mi">4</span><span class="p">),</span>
         <span class="p">}</span>
 
     <span class="k">return</span> <span class="p">{</span><span class="s2">"results"</span><span class="p">:</span> <span class="n">results</span><span class="p">,</span> <span class="s2">"stored_krefs"</span><span class="p">:</span> <span class="n">stored_krefs</span><span class="p">,</span> <span class="s2">"stacked"</span><span class="p">:</span> <span class="n">stacked_count</span><span class="p">}</span></div>

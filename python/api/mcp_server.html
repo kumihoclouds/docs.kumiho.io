@@ -1090,7 +1090,9 @@ create/revision writes the batch collapses).</p>
 </dl>
 <p>Returns <code class="docutils literal notranslate"><span class="pre">{&quot;results&quot;:</span> <span class="pre">[per-capture</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">{&quot;error&quot;:</span> <span class="pre">...}],</span> <span class="pre">&quot;stored_krefs&quot;:</span>
 <span class="pre">[...],</span> <span class="pre">&quot;stacked&quot;:</span> <span class="pre">&lt;int&gt;}</span></code> — <code class="docutils literal notranslate"><span class="pre">results</span></code> is positional (one entry per input
-capture, <code class="docutils literal notranslate"><span class="pre">None</span></code> collapses to an <code class="docutils literal notranslate"><span class="pre">error</span></code> entry).</p>
+capture, <code class="docutils literal notranslate"><span class="pre">None</span></code> collapses to an <code class="docutils literal notranslate"><span class="pre">error</span></code> entry). Each successful entry
+carries <code class="docutils literal notranslate"><span class="pre">stack_score</span></code>, the best similarity score the stacking search
+saw, reported whether or not it stacked.</p>
 </dd></dl>
 
 <dl class="py function">
