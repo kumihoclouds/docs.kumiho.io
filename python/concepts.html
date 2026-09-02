@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Core Concepts &mdash; Kumiho Python SDK v0.11.0</title>
+  <title>Core Concepts &mdash; Kumiho Python SDK v0.12.1</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f3b36f1a"></script>
+      <script src="_static/documentation_options.js?v=c5b435e8"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -218,12 +218,41 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_item"><code class="docutils literal notranslate"><span class="pre">Project.get_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_bundle"><code class="docutils literal notranslate"><span class="pre">Project.get_bundle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.deprecate"><code class="docutils literal notranslate"><span class="pre">Project.deprecate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.restore"><code class="docutils literal notranslate"><span class="pre">Project.restore()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.analyze_deletion"><code class="docutils literal notranslate"><span class="pre">Project.analyze_deletion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.register_deletion_guard"><code class="docutils literal notranslate"><span class="pre">Project.register_deletion_guard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.resolve_deletion_guard"><code class="docutils literal notranslate"><span class="pre">Project.resolve_deletion_guard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.resolve_reference"><code class="docutils literal notranslate"><span class="pre">Project.resolve_reference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.hard_delete"><code class="docutils literal notranslate"><span class="pre">Project.hard_delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.set_public"><code class="docutils literal notranslate"><span class="pre">Project.set_public()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.set_allow_public"><code class="docutils literal notranslate"><span class="pre">Project.set_allow_public()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.update"><code class="docutils literal notranslate"><span class="pre">Project.update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.set_metadata"><code class="docutils literal notranslate"><span class="pre">Project.set_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_space"><code class="docutils literal notranslate"><span class="pre">Project.get_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_spaces"><code class="docutils literal notranslate"><span class="pre">Project.get_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_items"><code class="docutils literal notranslate"><span class="pre">Project.get_items()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.impact_snapshot_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_hash"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.impact_snapshot_hash</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.project_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.project_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.project_name"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.project_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.blockers"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.blockers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.descendants"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.descendants</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.created_at"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.project_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.project_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.guard_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.guard_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.resource_kref"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.resource_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_operations"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.allowed_operations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_metadata_keys"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.allowed_metadata_keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.created_at"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.__init__()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a><ul>
@@ -275,6 +304,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_latest_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_space"><code class="docutils literal notranslate"><span class="pre">Item.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.move_to"><code class="docutils literal notranslate"><span class="pre">Item.move_to()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_project"><code class="docutils literal notranslate"><span class="pre">Item.get_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_revision_by_time"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_time()</span></code></a></li>
@@ -476,6 +506,8 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.REFERENCED"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.DEPENDS_ON"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.DERIVED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.PRODUCED_BY"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.MIGRATED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.CONTAINS"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.SUPERSEDES"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.SUPPORTS"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
@@ -484,18 +516,20 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id20"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id21"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id22"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection"><code class="docutils literal notranslate"><span class="pre">EdgeDirection</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection.OUTGOING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection.INCOMING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection.BOTH"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_tenant_info"><code class="docutils literal notranslate"><span class="pre">get_tenant_info()</span></code></a></li>
@@ -504,15 +538,16 @@
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_projects"><code class="docutils literal notranslate"><span class="pre">get_projects()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.analyze_project_deletion"><code class="docutils literal notranslate"><span class="pre">analyze_project_deletion()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.item_search"><code class="docutils literal notranslate"><span class="pre">item_search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.search"><code class="docutils literal notranslate"><span class="pre">search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.item"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.score"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.matched_in"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id31"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id31"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id32"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id33"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.__init__"><code class="docutils literal notranslate"><span class="pre">SearchResult.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -533,12 +568,12 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id32"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id33"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id34"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id35"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id36"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id37"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id34"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id35"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id36"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id37"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id38"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id39"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -610,48 +645,59 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.12.1] - 2026-09-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#changed">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">[0.10.7] - 2026-07-14</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id7">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id10">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id14">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id15">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id16">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id17">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id6">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id7">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">[0.10.7] - 2026-07-14</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id11">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id15">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id16">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id17">[0.4.0] - 2025-12-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id18">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id19">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id20">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id20">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id21">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id22">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id23">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id24">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id25">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id26">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id27">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id28">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -729,8 +775,8 @@
 <h3>Project<a class="headerlink" href="#project" title="Link to this heading"></a></h3>
 <p>A <strong>Project</strong> is the top-level container representing a production, show, or workspace. Each project is isolated within a tenant’s graph database.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sci-fi-short&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sci-fi short film VFX assets&quot;</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"sci-fi-short"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Sci-fi short film VFX assets"</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -749,7 +795,7 @@
 <li><p>By episode: <code class="docutils literal notranslate"><span class="pre">ep01</span></code>, <code class="docutils literal notranslate"><span class="pre">ep02</span></code></p></li>
 <li><p>By department: <code class="docutils literal notranslate"><span class="pre">modeling</span></code>, <code class="docutils literal notranslate"><span class="pre">animation</span></code>, <code class="docutils literal notranslate"><span class="pre">lighting</span></code></p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="s2">"characters"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Key attributes:</strong></p>
@@ -763,8 +809,8 @@
 <h3>Item<a class="headerlink" href="#item" title="Link to this heading"></a></h3>
 <p>An <strong>Item</strong> represents a single creative asset or AI artifact. Items have a kind that indicates what type of asset they are.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">item</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span>
-    <span class="n">item_name</span><span class="o">=</span><span class="s2">&quot;hero-robot&quot;</span><span class="p">,</span>
-    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;model&quot;</span>
+    <span class="n">item_name</span><span class="o">=</span><span class="s2">"hero-robot"</span><span class="p">,</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">"model"</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -795,9 +841,9 @@
 <span class="c1"># Revision with metadata</span>
 <span class="n">revision</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">create_revision</span><span class="p">(</span>
     <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;artist&quot;</span><span class="p">:</span> <span class="s2">&quot;jane&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;render_engine&quot;</span><span class="p">:</span> <span class="s2">&quot;arnold&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="s2">&quot;Added facial rigging for dialogue&quot;</span>
+        <span class="s2">"artist"</span><span class="p">:</span> <span class="s2">"jane"</span><span class="p">,</span>
+        <span class="s2">"render_engine"</span><span class="p">:</span> <span class="s2">"arnold"</span><span class="p">,</span>
+        <span class="s2">"notes"</span><span class="p">:</span> <span class="s2">"Added facial rigging for dialogue"</span>
     <span class="p">}</span>
 <span class="p">)</span>
 </pre></div>
@@ -814,15 +860,15 @@
 <h3>Artifact<a class="headerlink" href="#artifact" title="Link to this heading"></a></h3>
 <p>An <strong>Artifact</strong> is a file reference attached to a revision. Artifacts store metadata about files without uploading the actual data—files stay on your local/NAS storage.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">artifact</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">create_artifact</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hero_robot_v3.fbx&quot;</span><span class="p">,</span>
-    <span class="n">location</span><span class="o">=</span><span class="s2">&quot;smb://studio-nas/projects/scifi/hero_robot_v3.fbx&quot;</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"hero_robot_v3.fbx"</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="s2">"smb://studio-nas/projects/scifi/hero_robot_v3.fbx"</span>
 <span class="p">)</span>
 
 <span class="c1"># Add metadata after creation</span>
 <span class="n">artifact</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span>
-    <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;52428800&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;checksum&quot;</span><span class="p">:</span> <span class="s2">&quot;sha256:a1b2c3...&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;fbx&quot;</span>
+    <span class="s2">"size"</span><span class="p">:</span> <span class="s2">"52428800"</span><span class="p">,</span>
+    <span class="s2">"checksum"</span><span class="p">:</span> <span class="s2">"sha256:a1b2c3..."</span><span class="p">,</span>
+    <span class="s2">"format"</span><span class="p">:</span> <span class="s2">"fbx"</span>
 <span class="p">})</span>
 </pre></div>
 </div>
@@ -839,13 +885,13 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
 <span class="c1"># Get the target revision</span>
-<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">&quot;kref://sci-fi-short/textures/metal.texture?v=2&quot;</span><span class="p">)</span>
+<span class="n">texture</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="s2">"kref://sci-fi-short/textures/metal.texture?v=2"</span><span class="p">)</span>
 
 <span class="c1"># Create edge with optional metadata</span>
 <span class="n">edge</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span>
     <span class="n">target_revision</span><span class="o">=</span><span class="n">texture</span><span class="p">,</span>
     <span class="n">edge_type</span><span class="o">=</span><span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">,</span>
-    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;body material&quot;</span><span class="p">}</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"usage"</span><span class="p">:</span> <span class="s2">"body material"</span><span class="p">}</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -874,24 +920,24 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find all dependencies (what this revision depends on)</span>
 <span class="n">deps</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_all_dependencies</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="n">deps</span><span class="o">.</span><span class="n">revision_krefs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Depends on: </span><span class="si">{</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Depends on: </span><span class="si">{</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Find all dependents (what depends on this revision)</span>
 <span class="n">dependents</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_all_dependents</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">kref</span> <span class="ow">in</span> <span class="n">dependents</span><span class="o">.</span><span class="n">revision_krefs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Depended on by: </span><span class="si">{</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Depended on by: </span><span class="si">{</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Find shortest path between revisions</span>
 <span class="n">path</span> <span class="o">=</span> <span class="n">source_revision</span><span class="o">.</span><span class="n">find_path_to</span><span class="p">(</span><span class="n">target_revision</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path length: </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">total_depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Path length: </span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">total_depth</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  -&gt; </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">revision_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> via </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  -&gt; </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">revision_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> via </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Analyze impact of changes (what would be affected)</span>
 <span class="n">impact</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">analyze_impact</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">impacted</span> <span class="ow">in</span> <span class="n">impact</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Would affect: </span><span class="si">{</span><span class="n">impacted</span><span class="o">.</span><span class="n">revision_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> at depth </span><span class="si">{</span><span class="n">impacted</span><span class="o">.</span><span class="n">impact_depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Would affect: </span><span class="si">{</span><span class="n">impacted</span><span class="o">.</span><span class="n">revision_kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2"> at depth </span><span class="si">{</span><span class="n">impacted</span><span class="o">.</span><span class="n">impact_depth</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -899,27 +945,27 @@
 <h3>Bundle<a class="headerlink" href="#bundle" title="Link to this heading"></a></h3>
 <p>A <strong>Bundle</strong> is a special item kind that aggregates other items. Bundles are useful for grouping related assets together (e.g., a character bundle with model, textures, and rig) with full revision-based audit trail of membership changes.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a bundle via Project or Space</span>
-<span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">&quot;release-bundle&quot;</span><span class="p">)</span>
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">"release-bundle"</span><span class="p">)</span>
 
 <span class="c1"># Or from a space</span>
-<span class="n">assets</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">&quot;assets&quot;</span><span class="p">)</span>
-<span class="n">char_bundle</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">&quot;character-bundle&quot;</span><span class="p">)</span>
+<span class="n">assets</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="s2">"assets"</span><span class="p">)</span>
+<span class="n">char_bundle</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">create_bundle</span><span class="p">(</span><span class="s2">"character-bundle"</span><span class="p">)</span>
 
 <span class="c1"># Add items to the bundle</span>
-<span class="n">hero_model</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
-<span class="n">hero_rig</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;hero&quot;</span><span class="p">,</span> <span class="s2">&quot;rig&quot;</span><span class="p">)</span>
+<span class="n">hero_model</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">"hero"</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">)</span>
+<span class="n">hero_rig</span> <span class="o">=</span> <span class="n">assets</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">"hero"</span><span class="p">,</span> <span class="s2">"rig"</span><span class="p">)</span>
 <span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">hero_model</span><span class="p">)</span>
 <span class="n">bundle</span><span class="o">.</span><span class="n">add_member</span><span class="p">(</span><span class="n">hero_rig</span><span class="p">)</span>
 
 <span class="c1"># Get current members</span>
 <span class="n">members</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_members</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># View change history (audit trail)</span>
 <span class="n">history</span> <span class="o">=</span> <span class="n">bundle</span><span class="o">.</span><span class="n">get_history</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">history</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;v</span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">revision_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">member_item_kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"v</span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">revision_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">member_item_kref</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Key characteristics:</strong></p>
@@ -943,19 +989,19 @@ concurrent single-writes can deadlock at bulk volume, batches cannot.</p>
 created (or rejected) as a unit:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">,</span> <span class="n">failures</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">batch_create_revisions</span><span class="p">(</span>
     <span class="p">[</span>
-        <span class="c1"># two revisions of the SAME item -&gt; r=1, r=2 (&quot;latest&quot;)</span>
-        <span class="p">{</span><span class="s2">&quot;item_kref&quot;</span><span class="p">:</span> <span class="s2">&quot;kref://proj/space/mem1.memory&quot;</span><span class="p">,</span>
-         <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;first draft&quot;</span><span class="p">}},</span>
-        <span class="p">{</span><span class="s2">&quot;item_kref&quot;</span><span class="p">:</span> <span class="s2">&quot;kref://proj/space/mem1.memory&quot;</span><span class="p">,</span>
-         <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;revised&quot;</span><span class="p">}},</span>
+        <span class="c1"># two revisions of the SAME item -&gt; r=1, r=2 ("latest")</span>
+        <span class="p">{</span><span class="s2">"item_kref"</span><span class="p">:</span> <span class="s2">"kref://proj/space/mem1.memory"</span><span class="p">,</span>
+         <span class="s2">"metadata"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"first draft"</span><span class="p">}},</span>
+        <span class="p">{</span><span class="s2">"item_kref"</span><span class="p">:</span> <span class="s2">"kref://proj/space/mem1.memory"</span><span class="p">,</span>
+         <span class="s2">"metadata"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"revised"</span><span class="p">}},</span>
         <span class="c1"># a different item, auto-created, with its artifact chain</span>
-        <span class="p">{</span><span class="s2">&quot;item_kref&quot;</span><span class="p">:</span> <span class="s2">&quot;kref://proj/space/mem2.memory&quot;</span><span class="p">,</span>
-         <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;second memory&quot;</span><span class="p">},</span>
-         <span class="s2">&quot;artifacts&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;transcript&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;s3://bucket/mem2.md&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}]},</span>
+        <span class="p">{</span><span class="s2">"item_kref"</span><span class="p">:</span> <span class="s2">"kref://proj/space/mem2.memory"</span><span class="p">,</span>
+         <span class="s2">"metadata"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"second memory"</span><span class="p">},</span>
+         <span class="s2">"artifacts"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"transcript"</span><span class="p">,</span>
+                        <span class="s2">"location"</span><span class="p">:</span> <span class="s2">"s3://bucket/mem2.md"</span><span class="p">,</span>
+                        <span class="s2">"default"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}]},</span>
     <span class="p">],</span>
-    <span class="n">idempotency_prefix</span><span class="o">=</span><span class="s2">&quot;backfill-20260714-chunk0&quot;</span><span class="p">,</span>
+    <span class="n">idempotency_prefix</span><span class="o">=</span><span class="s2">"backfill-20260714-chunk0"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">created</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>   <span class="c1"># positional with the input</span>
 </pre></div>
@@ -987,23 +1033,23 @@ rejected by validation; everything valid commits atomically.</p></li>
 <h3>Setting Metadata<a class="headerlink" href="#setting-metadata" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># During revision creation</span>
 <span class="n">revision</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">create_revision</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
-    <span class="s2">&quot;artist&quot;</span><span class="p">:</span> <span class="s2">&quot;jane&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;render_engine&quot;</span><span class="p">:</span> <span class="s2">&quot;arnold&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;frame_range&quot;</span><span class="p">:</span> <span class="s2">&quot;1-100&quot;</span>
+    <span class="s2">"artist"</span><span class="p">:</span> <span class="s2">"jane"</span><span class="p">,</span>
+    <span class="s2">"render_engine"</span><span class="p">:</span> <span class="s2">"arnold"</span><span class="p">,</span>
+    <span class="s2">"frame_range"</span><span class="p">:</span> <span class="s2">"1-100"</span>
 <span class="p">})</span>
 
 <span class="c1"># During edge creation</span>
 <span class="n">edge</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">create_edge</span><span class="p">(</span>
     <span class="n">target_revision</span><span class="o">=</span><span class="n">texture</span><span class="p">,</span>
     <span class="n">edge_type</span><span class="o">=</span><span class="n">kumiho</span><span class="o">.</span><span class="n">DEPENDS_ON</span><span class="p">,</span>
-    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;channel&quot;</span><span class="p">:</span> <span class="s2">&quot;diffuse&quot;</span><span class="p">}</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"channel"</span><span class="p">:</span> <span class="s2">"diffuse"</span><span class="p">}</span>
 <span class="p">)</span>
 
 <span class="c1"># Update metadata after creation (all node types)</span>
-<span class="n">space</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">&quot;department&quot;</span><span class="p">:</span> <span class="s2">&quot;modeling&quot;</span><span class="p">})</span>
-<span class="n">item</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;approved&quot;</span><span class="p">})</span>
-<span class="n">revision</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">&quot;published_by&quot;</span><span class="p">:</span> <span class="s2">&quot;supervisor&quot;</span><span class="p">})</span>
-<span class="n">artifact</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">&quot;checksum&quot;</span><span class="p">:</span> <span class="s2">&quot;sha256:...&quot;</span><span class="p">})</span>
+<span class="n">space</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">"department"</span><span class="p">:</span> <span class="s2">"modeling"</span><span class="p">})</span>
+<span class="n">item</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"approved"</span><span class="p">})</span>
+<span class="n">revision</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">"published_by"</span><span class="p">:</span> <span class="s2">"supervisor"</span><span class="p">})</span>
+<span class="n">artifact</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">({</span><span class="s2">"checksum"</span><span class="p">:</span> <span class="s2">"sha256:..."</span><span class="p">})</span>
 </pre></div>
 </div>
 </section>
@@ -1011,14 +1057,14 @@ rejected by validation; everything valid commits atomically.</p></li>
 <h3>Granular Attribute Operations<a class="headerlink" href="#granular-attribute-operations" title="Link to this heading"></a></h3>
 <p>For updating individual metadata fields without replacing the entire map:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set a single attribute</span>
-<span class="n">space</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;department&quot;</span><span class="p">,</span> <span class="s2">&quot;modeling&quot;</span><span class="p">)</span>
-<span class="n">revision</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;approved&quot;</span><span class="p">)</span>
+<span class="n">space</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">"department"</span><span class="p">,</span> <span class="s2">"modeling"</span><span class="p">)</span>
+<span class="n">revision</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">"status"</span><span class="p">,</span> <span class="s2">"approved"</span><span class="p">)</span>
 
 <span class="c1"># Get a single attribute</span>
-<span class="n">dept</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s2">&quot;department&quot;</span><span class="p">)</span>  <span class="c1"># Returns &quot;modeling&quot; or None</span>
+<span class="n">dept</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s2">"department"</span><span class="p">)</span>  <span class="c1"># Returns "modeling" or None</span>
 
 <span class="c1"># Delete a single attribute</span>
-<span class="n">space</span><span class="o">.</span><span class="n">delete_attribute</span><span class="p">(</span><span class="s2">&quot;old_field&quot;</span><span class="p">)</span>
+<span class="n">space</span><span class="o">.</span><span class="n">delete_attribute</span><span class="p">(</span><span class="s2">"old_field"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This is more efficient than <code class="docutils literal notranslate"><span class="pre">set_metadata()</span></code> when you only need to change one field.</p>
@@ -1117,14 +1163,14 @@ asset at every milestone—an error-prone and tedious process.</p>
 a specific tag at a given point in time:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 
-<span class="c1"># Get the &quot;published&quot; revision as of June 1st, 2024</span>
+<span class="c1"># Get the "published" revision as of June 1st, 2024</span>
 <span class="n">june_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
 <span class="n">revision</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span>
     <span class="n">time</span><span class="o">=</span><span class="n">june_1</span><span class="p">,</span>
-    <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s2">"published"</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;On </span><span class="si">{</span><span class="n">june_1</span><span class="si">}</span><span class="s2">, published revision was r</span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"On </span><span class="si">{</span><span class="n">june_1</span><span class="si">}</span><span class="s2">, published revision was r</span><span class="si">{</span><span class="n">revision</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">time</span></code> parameter accepts multiple formats:</p>
@@ -1144,7 +1190,7 @@ and approved for downstream consumption.</p>
 <code class="docutils literal notranslate"><span class="pre">time=</span></code> parameters:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get published revision at a specific time via Kref</span>
 <span class="c1"># Format: YYYYMMDDHHMM (e.g., 202406011330 = June 1, 2024 at 13:30)</span>
-<span class="n">kref</span> <span class="o">=</span> <span class="s2">&quot;kref://my-project/chars/hero.model?t=published&amp;time=202406011330&quot;</span>
+<span class="n">kref</span> <span class="o">=</span> <span class="s2">"kref://my-project/chars/hero.model?t=published&amp;time=202406011330"</span>
 <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
 
 <span class="c1"># Resolve to artifact location at that point in time</span>
@@ -1180,11 +1226,11 @@ and approved for downstream consumption.</p>
 <span class="n">delivery_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">space</span><span class="o">.</span><span class="n">get_items</span><span class="p">():</span>
-    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">delivery_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">delivery_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"published"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: r</span><span class="si">{</span><span class="n">rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: r</span><span class="si">{</span><span class="n">rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">artifact</span> <span class="ow">in</span> <span class="n">rev</span><span class="o">.</span><span class="n">get_artifacts</span><span class="p">():</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  -&gt; </span><span class="si">{</span><span class="n">artifact</span><span class="o">.</span><span class="n">location</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  -&gt; </span><span class="si">{</span><span class="n">artifact</span><span class="o">.</span><span class="n">location</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Compare current vs historical:</strong></p>
@@ -1192,11 +1238,11 @@ and approved for downstream consumption.</p>
 <span class="n">alpha_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
 <span class="n">beta_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
 
-<span class="n">alpha_rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">alpha_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
-<span class="n">beta_rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">beta_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
+<span class="n">alpha_rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">alpha_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"published"</span><span class="p">)</span>
+<span class="n">beta_rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">beta_date</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"published"</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">alpha_rev</span><span class="o">.</span><span class="n">number</span> <span class="o">!=</span> <span class="n">beta_rev</span><span class="o">.</span><span class="n">number</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Asset changed from r</span><span class="si">{</span><span class="n">alpha_rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2"> to r</span><span class="si">{</span><span class="n">beta_rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Asset changed from r</span><span class="si">{</span><span class="n">alpha_rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2"> to r</span><span class="si">{</span><span class="n">beta_rev</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Pipeline integration with timestamps:</strong></p>
@@ -1205,28 +1251,28 @@ and approved for downstream consumption.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 
 <span class="n">render_manifest</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;render_time&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-    <span class="s2">&quot;assets&quot;</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="s2">"render_time"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+    <span class="s2">"assets"</span><span class="p">:</span> <span class="p">[]</span>
 <span class="p">}</span>
 
 <span class="k">for</span> <span class="n">item_kref</span> <span class="ow">in</span> <span class="n">required_assets</span><span class="p">:</span>
     <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
-    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">&quot;published&quot;</span><span class="p">)</span>
-    <span class="n">render_manifest</span><span class="p">[</span><span class="s2">&quot;assets&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-        <span class="s2">&quot;kref&quot;</span><span class="p">:</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
-        <span class="s2">&quot;revision&quot;</span><span class="p">:</span> <span class="n">rev</span><span class="o">.</span><span class="n">number</span>
+    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span>
+    <span class="n">render_manifest</span><span class="p">[</span><span class="s2">"assets"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"kref"</span><span class="p">:</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span>
+        <span class="s2">"revision"</span><span class="p">:</span> <span class="n">rev</span><span class="o">.</span><span class="n">number</span>
     <span class="p">})</span>
 
 <span class="c1"># Later, reproduce using the recorded timestamp</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;render_manifest.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"render_manifest.json"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     
-<span class="n">render_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;render_time&quot;</span><span class="p">])</span>
+<span class="n">render_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">manifest</span><span class="p">[</span><span class="s2">"render_time"</span><span class="p">])</span>
 <span class="c1"># Convert to YYYYMMDDHHMM format for kref</span>
-<span class="n">time_str</span> <span class="o">=</span> <span class="n">render_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">manifest</span><span class="p">[</span><span class="s2">&quot;assets&quot;</span><span class="p">]:</span>
+<span class="n">time_str</span> <span class="o">=</span> <span class="n">render_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">manifest</span><span class="p">[</span><span class="s2">"assets"</span><span class="p">]:</span>
     <span class="c1"># Get exactly what was published at render time</span>
-    <span class="n">kref</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">asset</span><span class="p">[</span><span class="s1">&#39;kref&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">?t=published&amp;time=</span><span class="si">{</span><span class="n">time_str</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">kref</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">asset</span><span class="p">[</span><span class="s1">'kref'</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'?'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">?t=published&amp;time=</span><span class="si">{</span><span class="n">time_str</span><span class="si">}</span><span class="s2">"</span>
     <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1255,10 +1301,10 @@ and approved for downstream consumption.</p>
 <li><p><strong>Metadata in cloud</strong>: Only paths, hashes, and relationships are stored in the cloud</p></li>
 <li><p><strong>No vendor lock-in</strong>: You can always access your files directly</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Artifact location is just a URI - files aren&#39;t uploaded</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Artifact location is just a URI - files aren't uploaded</span>
 <span class="n">artifact</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">create_artifact</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hero.fbx&quot;</span><span class="p">,</span>
-    <span class="n">location</span><span class="o">=</span><span class="s2">&quot;file:///mnt/studio/projects/hero.fbx&quot;</span>  <span class="c1"># File stays here</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"hero.fbx"</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="s2">"file:///mnt/studio/projects/hero.fbx"</span>  <span class="c1"># File stays here</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1295,16 +1341,16 @@ and approved for downstream consumption.</p>
 
 <span class="c1"># Stream all events</span>
 <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">routing_key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">routing_key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Filter by routing key (wildcards supported)</span>
-<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.*&quot;</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;created&quot;</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New revision: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">"revision.*"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s2">"created"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"New revision: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Filter by kref pattern (glob syntax)</span>
-<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">kref_filter</span><span class="o">=</span><span class="s2">&quot;kref://my-project/**/*.model&quot;</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model changed: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">kref_filter</span><span class="o">=</span><span class="s2">"kref://my-project/**/*.model"</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model changed: </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">kref</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1470,11 +1516,11 @@ and approved for downstream consumption.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">kumiho</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_event_capabilities</span>
 
 <span class="n">caps</span> <span class="o">=</span> <span class="n">get_event_capabilities</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tier: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">tier</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Supports replay: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">supports_replay</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Supports cursor: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">supports_cursor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max retention: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">max_retention_hours</span><span class="si">}</span><span class="s2"> hours&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Buffer size: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">max_buffer_size</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tier: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">tier</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Supports replay: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">supports_replay</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Supports cursor: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">supports_cursor</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Max retention: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">max_retention_hours</span><span class="si">}</span><span class="s2"> hours"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Buffer size: </span><span class="si">{</span><span class="n">caps</span><span class="o">.</span><span class="n">max_buffer_size</span><span class="si">}</span><span class="s2"> events"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1486,7 +1532,7 @@ and approved for downstream consumption.</p>
 <span class="c1"># Save cursor for recovery</span>
 <span class="n">last_cursor</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">&quot;revision.*&quot;</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span><span class="n">routing_key_filter</span><span class="o">=</span><span class="s2">"revision.*"</span><span class="p">):</span>
     <span class="n">process_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
     <span class="n">last_cursor</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">cursor</span>  <span class="c1"># Persist this</span>
     

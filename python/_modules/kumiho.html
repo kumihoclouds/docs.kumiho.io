@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho &mdash; Kumiho Python SDK v0.11.0</title>
+  <title>kumiho &mdash; Kumiho Python SDK v0.12.1</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=f3b36f1a"></script>
+      <script src="../_static/documentation_options.js?v=c5b435e8"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -215,12 +215,41 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_item"><code class="docutils literal notranslate"><span class="pre">Project.get_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_bundle"><code class="docutils literal notranslate"><span class="pre">Project.get_bundle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.deprecate"><code class="docutils literal notranslate"><span class="pre">Project.deprecate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.restore"><code class="docutils literal notranslate"><span class="pre">Project.restore()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.analyze_deletion"><code class="docutils literal notranslate"><span class="pre">Project.analyze_deletion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.register_deletion_guard"><code class="docutils literal notranslate"><span class="pre">Project.register_deletion_guard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.resolve_deletion_guard"><code class="docutils literal notranslate"><span class="pre">Project.resolve_deletion_guard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.resolve_reference"><code class="docutils literal notranslate"><span class="pre">Project.resolve_reference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.hard_delete"><code class="docutils literal notranslate"><span class="pre">Project.hard_delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.set_public"><code class="docutils literal notranslate"><span class="pre">Project.set_public()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.set_allow_public"><code class="docutils literal notranslate"><span class="pre">Project.set_allow_public()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.update"><code class="docutils literal notranslate"><span class="pre">Project.update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.set_metadata"><code class="docutils literal notranslate"><span class="pre">Project.set_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_space"><code class="docutils literal notranslate"><span class="pre">Project.get_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_spaces"><code class="docutils literal notranslate"><span class="pre">Project.get_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Project.get_items"><code class="docutils literal notranslate"><span class="pre">Project.get_items()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.impact_snapshot_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_hash"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.impact_snapshot_hash</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.project_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.project_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.project_name"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.project_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.blockers"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.blockers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.descendants"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.descendants</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.created_at"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionImpact.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard.project_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.project_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard.guard_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.guard_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard.resource_kref"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.resource_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_operations"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.allowed_operations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_metadata_keys"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.allowed_metadata_keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard.created_at"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.ProjectDeletionGuard.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.__init__()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a><ul>
@@ -272,6 +301,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Item.get_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Item.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_latest_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Item.get_space"><code class="docutils literal notranslate"><span class="pre">Item.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Item.move_to"><code class="docutils literal notranslate"><span class="pre">Item.move_to()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Item.get_project"><code class="docutils literal notranslate"><span class="pre">Item.get_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Item.get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.Item.get_revision_by_time"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_time()</span></code></a></li>
@@ -473,6 +503,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.REFERENCED"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.DEPENDS_ON"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.DERIVED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.PRODUCED_BY"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.MIGRATED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.CONTAINS"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.SUPERSEDES"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeType.SUPPORTS"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
@@ -481,18 +513,20 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id20"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id21"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id22"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeDirection"><code class="docutils literal notranslate"><span class="pre">EdgeDirection</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeDirection.OUTGOING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeDirection.INCOMING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EdgeDirection.BOTH"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_tenant_info"><code class="docutils literal notranslate"><span class="pre">get_tenant_info()</span></code></a></li>
@@ -501,15 +535,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_projects"><code class="docutils literal notranslate"><span class="pre">get_projects()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.analyze_project_deletion"><code class="docutils literal notranslate"><span class="pre">analyze_project_deletion()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.item_search"><code class="docutils literal notranslate"><span class="pre">item_search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.search"><code class="docutils literal notranslate"><span class="pre">search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult.item"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult.score"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult.matched_in"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id31"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id31"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id32"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id33"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult.__init__"><code class="docutils literal notranslate"><span class="pre">SearchResult.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -530,12 +565,12 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id32"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id33"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id34"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id35"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id36"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id37"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id34"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id35"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id36"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id37"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id38"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id39"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -607,48 +642,59 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.12.1] - 2026-09-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.10.7] - 2026-07-14</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id7">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id8">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id10">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id11">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id13">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id14">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id15">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id4">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id17">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id5">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id7">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id8">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id10">[0.10.7] - 2026-07-14</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id11">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id12">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id13">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id14">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id15">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id17">[0.4.0] - 2025-12-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id18">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id19">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id20">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id20">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id21">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id22">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id23">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id24">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id25">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id26">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id27">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id28">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -689,7 +735,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for kumiho</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Kumiho Python Client Library.</span>
+<span></span><span class="sd">"""Kumiho Python Client Library.</span>
 
 <span class="sd">Kumiho is a graph-native creative and AI asset management system that tracks</span>
 <span class="sd">revisions, relationships, and lineage without uploading original files to the</span>
@@ -705,23 +751,23 @@
 <span class="sd">        kumiho.auto_configure_from_discovery() # This can be avoided if env var KUMIHO_AUTO_CONFIGURE=1 is set</span>
 
 <span class="sd">        # Create a project</span>
-<span class="sd">        project = kumiho.create_project(&quot;my-vfx-project&quot;, &quot;VFX assets for commercial&quot;)</span>
+<span class="sd">        project = kumiho.create_project("my-vfx-project", "VFX assets for commercial")</span>
 
 <span class="sd">        # Create spaces and items</span>
-<span class="sd">        space = project.create_space(&quot;characters&quot;)</span>
-<span class="sd">        item = space.create_item(&quot;hero&quot;, &quot;model&quot;)</span>
+<span class="sd">        space = project.create_space("characters")</span>
+<span class="sd">        item = space.create_item("hero", "model")</span>
 
 <span class="sd">        # Create revisions and artifacts</span>
 <span class="sd">        revision = item.create_revision()</span>
-<span class="sd">        artifact = revision.create_artifact(&quot;main&quot;, &quot;/path/to/hero.fbx&quot;)</span>
+<span class="sd">        artifact = revision.create_artifact("main", "/path/to/hero.fbx")</span>
 
 <span class="sd">    For more control, you can create a client manually::</span>
 
 <span class="sd">        import kumiho</span>
 
 <span class="sd">        client = kumiho.connect(</span>
-<span class="sd">            endpoint=&quot;localhost:50051&quot;,</span>
-<span class="sd">            token=&quot;your-auth-token&quot;</span>
+<span class="sd">            endpoint="localhost:50051",</span>
+<span class="sd">            token="your-auth-token"</span>
 <span class="sd">        )</span>
 
 <span class="sd">        with kumiho.use_client(client):</span>
@@ -745,7 +791,7 @@
 <span class="sd">    :func:`auto_configure_from_discovery` to bootstrap the client.</span>
 
 <span class="sd">Environment Variables:</span>
-<span class="sd">    - ``KUMIHO_AUTO_CONFIGURE``: Set to &quot;1&quot; to auto-configure on import.</span>
+<span class="sd">    - ``KUMIHO_AUTO_CONFIGURE``: Set to "1" to auto-configure on import.</span>
 <span class="sd">    - ``KUMIHO_AUTH_TOKEN``: Override the authentication token.</span>
 <span class="sd">    - ``KUMIHO_CONTROL_PLANE_URL``: Override the control plane URL.</span>
 <span class="sd">    - ``KUMIHO_ENDPOINT``: Override the gRPC endpoint.</span>
@@ -759,35 +805,35 @@
 <span class="sd">        kumiho.auto_configure_from_discovery()</span>
 
 <span class="sd">        # Get or create project</span>
-<span class="sd">        project = kumiho.get_project(&quot;my-project&quot;)</span>
+<span class="sd">        project = kumiho.get_project("my-project")</span>
 <span class="sd">        if not project:</span>
-<span class="sd">            project = kumiho.create_project(&quot;my-project&quot;, &quot;My VFX project&quot;)</span>
+<span class="sd">            project = kumiho.create_project("my-project", "My VFX project")</span>
 
 <span class="sd">        # Navigate to asset space</span>
-<span class="sd">        assets = project.get_space(&quot;assets&quot;) or project.create_space(&quot;assets&quot;)</span>
+<span class="sd">        assets = project.get_space("assets") or project.create_space("assets")</span>
 
 <span class="sd">        # Create a new model item</span>
-<span class="sd">        model = assets.create_item(&quot;character&quot;, &quot;model&quot;)</span>
+<span class="sd">        model = assets.create_item("character", "model")</span>
 
 <span class="sd">        # Create first revision</span>
-<span class="sd">        v1 = model.create_revision(metadata={&quot;author&quot;: &quot;artist1&quot;})</span>
-<span class="sd">        v1.create_artifact(&quot;mesh&quot;, &quot;/projects/char/v1/mesh.fbx&quot;)</span>
-<span class="sd">        v1.create_artifact(&quot;textures&quot;, &quot;/projects/char/v1/textures.zip&quot;)</span>
-<span class="sd">        v1.tag(&quot;approved&quot;)</span>
-<span class="sd">        v1.tag(&quot;published&quot;) # published tag is reserved tag within Kumiho as revision with immutable semantics</span>
+<span class="sd">        v1 = model.create_revision(metadata={"author": "artist1"})</span>
+<span class="sd">        v1.create_artifact("mesh", "/projects/char/v1/mesh.fbx")</span>
+<span class="sd">        v1.create_artifact("textures", "/projects/char/v1/textures.zip")</span>
+<span class="sd">        v1.tag("approved")</span>
+<span class="sd">        v1.tag("published") # published tag is reserved tag within Kumiho as revision with immutable semantics</span>
 
 <span class="sd">        # Query by kref</span>
-<span class="sd">        item = kumiho.get_item(&quot;kref://my-project/assets/character.model&quot;)</span>
-<span class="sd">        revision = kumiho.get_revision(&quot;kref://my-project/assets/character.model?r=1&quot;)</span>
+<span class="sd">        item = kumiho.get_item("kref://my-project/assets/character.model")</span>
+<span class="sd">        revision = kumiho.get_revision("kref://my-project/assets/character.model?r=1")</span>
 
 <span class="sd">        # Search across project</span>
 <span class="sd">        models = kumiho.item_search(</span>
-<span class="sd">            context_filter=&quot;my-project&quot;,</span>
-<span class="sd">            kind_filter=&quot;model&quot;</span>
+<span class="sd">            context_filter="my-project",</span>
+<span class="sd">            kind_filter="model"</span>
 <span class="sd">        )</span>
 
 <span class="sd">Note:</span>
-<span class="sd">    Kumiho follows a &quot;BYO Storage&quot; philosophy—files remain on your local</span>
+<span class="sd">    Kumiho follows a "BYO Storage" philosophy—files remain on your local</span>
 <span class="sd">    or network storage. Kumiho only tracks paths, metadata, and relationships</span>
 <span class="sd">    in its graph database.</span>
 
@@ -799,9 +845,9 @@
 <span class="sd">    __version__ (str): The current version of the kumiho package.</span>
 <span class="sd">    LATEST_TAG (str): Standard tag name for the latest revision.</span>
 <span class="sd">    PUBLISHED_TAG (str): Standard tag name for published revisions.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
-<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.11.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">"0.12.1"</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextvars</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span>
@@ -833,7 +879,7 @@
     <span class="n">ShortestPathResult</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.item</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span><span class="p">,</span> <span class="n">ProjectDeletionGuard</span><span class="p">,</span> <span class="n">ProjectDeletionImpact</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.artifact</span><span class="w"> </span><span class="kn">import</span> <span class="n">Artifact</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatusResponse</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
@@ -853,15 +899,17 @@
 <span class="n">CREATED_FROM</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">CREATED_FROM</span>
 
 <span class="c1"># Constants</span>
-<span class="n">LATEST_TAG</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span>
-<span class="sd">&quot;&quot;&quot;str: Standard tag name indicating the latest revision of an item.&quot;&quot;&quot;</span>
+<span class="n">LATEST_TAG</span> <span class="o">=</span> <span class="s2">"latest"</span>
+<span class="sd">"""str: Standard tag name indicating the latest revision of an item."""</span>
 
-<span class="n">PUBLISHED_TAG</span> <span class="o">=</span> <span class="s2">&quot;published&quot;</span>
-<span class="sd">&quot;&quot;&quot;str: Standard tag name indicating a published/released revision.&quot;&quot;&quot;</span>
+<span class="n">PUBLISHED_TAG</span> <span class="o">=</span> <span class="s2">"published"</span>
+<span class="sd">"""str: Standard tag name indicating a published/released revision."""</span>
 
 <span class="n">REFERENCED</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">REFERENCED</span>
 <span class="n">DEPENDS_ON</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">DEPENDS_ON</span>
 <span class="n">DERIVED_FROM</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">DERIVED_FROM</span>
+<span class="n">PRODUCED_BY</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">PRODUCED_BY</span>
+<span class="n">MIGRATED_FROM</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">MIGRATED_FROM</span>
 <span class="n">CONTAINS</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">CONTAINS</span>
 <span class="n">SUPERSEDES</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">SUPERSEDES</span>
 <span class="n">SUPPORTS</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">SUPPORTS</span>
@@ -873,16 +921,16 @@
 
 <span class="c1"># Instantiate a default client instance for convenience.</span>
 <span class="n">_default_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_Client</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">_AUTO_CONFIGURE_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_AUTO_CONFIGURE&quot;</span>
+<span class="n">_AUTO_CONFIGURE_ENV</span> <span class="o">=</span> <span class="s2">"KUMIHO_AUTO_CONFIGURE"</span>
 
 <span class="c1"># Context variable for request-scoped client instances</span>
-<span class="n">_client_context_var</span><span class="p">:</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">ContextVar</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">_Client</span><span class="p">]]</span> <span class="o">=</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">ContextVar</span><span class="p">(</span><span class="s2">&quot;kumiho_client&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">_client_context_var</span><span class="p">:</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">ContextVar</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">_Client</span><span class="p">]]</span> <span class="o">=</span> <span class="n">contextvars</span><span class="o">.</span><span class="n">ContextVar</span><span class="p">(</span><span class="s2">"kumiho_client"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="get_client">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_client">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_client</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">_Client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the current Kumiho client instance.</span>
+<span class="w">    </span><span class="sd">"""Get the current Kumiho client instance.</span>
 
 <span class="sd">    Returns the context-local client if set via :class:`use_client`,</span>
 <span class="sd">    otherwise returns the global default client (creating one if needed).</span>
@@ -896,7 +944,7 @@
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; client = kumiho.get_client()</span>
 <span class="sd">        &gt;&gt;&gt; projects = client.get_projects()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Check for context-local client first</span>
     <span class="n">local_client</span> <span class="o">=</span> <span class="n">_client_context_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">local_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -913,7 +961,7 @@
 <div class="viewcode-block" id="configure_default_client">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.configure_default_client">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">configure_default_client</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">_Client</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the global default client used by top-level helper functions.</span>
+<span class="w">    </span><span class="sd">"""Set the global default client used by top-level helper functions.</span>
 
 <span class="sd">    This function allows you to manually configure the default client</span>
 <span class="sd">    that will be used by functions like :func:`create_project`,</span>
@@ -926,11 +974,11 @@
 <span class="sd">        _Client: The same client instance (for chaining).</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; client = kumiho.connect(endpoint=&quot;localhost:50051&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; client = kumiho.connect(endpoint="localhost:50051")</span>
 <span class="sd">        &gt;&gt;&gt; kumiho.configure_default_client(client)</span>
 <span class="sd">        &gt;&gt;&gt; # Now all top-level functions use this client</span>
 <span class="sd">        &gt;&gt;&gt; projects = kumiho.get_projects()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_default_client</span>
     <span class="n">_default_client</span> <span class="o">=</span> <span class="n">client</span>
     <span class="k">return</span> <span class="n">_default_client</span></div>
@@ -940,7 +988,7 @@
 <div class="viewcode-block" id="use_client">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.use_client">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">use_client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager to temporarily set the current client instance.</span>
+<span class="w">    </span><span class="sd">"""Context manager to temporarily set the current client instance.</span>
 
 <span class="sd">    This is useful for multi-tenant scenarios or when you need to</span>
 <span class="sd">    use different clients for different operations within the same</span>
@@ -954,8 +1002,8 @@
 
 <span class="sd">            import kumiho</span>
 
-<span class="sd">            tenant_a_client = kumiho.connect(endpoint=&quot;tenant-a.kumiho.cloud:443&quot;)</span>
-<span class="sd">            tenant_b_client = kumiho.connect(endpoint=&quot;tenant-b.kumiho.cloud:443&quot;)</span>
+<span class="sd">            tenant_a_client = kumiho.connect(endpoint="tenant-a.kumiho.cloud:443")</span>
+<span class="sd">            tenant_b_client = kumiho.connect(endpoint="tenant-b.kumiho.cloud:443")</span>
 
 <span class="sd">            with kumiho.use_client(tenant_a_client):</span>
 <span class="sd">                # All operations here use tenant_a_client</span>
@@ -968,16 +1016,16 @@
 <span class="sd">    Note:</span>
 <span class="sd">        Context-local clients take precedence over the global default.</span>
 <span class="sd">        This works correctly with async code and concurrent requests.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
 <div class="viewcode-block" id="use_client.__init__">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.use_client.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">_Client</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the context manager.</span>
+<span class="w">        </span><span class="sd">"""Initialize the context manager.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            client: The client to use within the context.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="kc">None</span></div>
 
@@ -985,7 +1033,7 @@
 <div class="viewcode-block" id="use_client.__enter__">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.use_client.__enter__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enter the context and set the client.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Enter the context and set the client."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">_client_context_var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span></div>
 
@@ -993,7 +1041,7 @@
 <div class="viewcode-block" id="use_client.__exit__">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.use_client.__exit__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit the context and restore the previous client.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Exit the context and restore the previous client."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">:</span>
             <span class="n">_client_context_var</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">)</span></div>
 </div>
@@ -1008,7 +1056,7 @@
     <span class="n">force_refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">interactive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure the default client using cached credentials and discovery.</span>
+<span class="w">    </span><span class="sd">"""Configure the default client using cached credentials and discovery.</span>
 
 <span class="sd">    This is the recommended way to bootstrap the Kumiho client. It uses</span>
 <span class="sd">    credentials cached by ``kumiho-auth login`` and calls the control-plane</span>
@@ -1016,7 +1064,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        tenant_hint: Optional tenant slug or ID to use for discovery.</span>
-<span class="sd">            If not provided, the user&#39;s default tenant is used.</span>
+<span class="sd">            If not provided, the user's default tenant is used.</span>
 <span class="sd">        force_refresh: If True, bypass the discovery cache and fetch</span>
 <span class="sd">            fresh routing information from the control plane.</span>
 <span class="sd">        interactive: If True and no cached credentials exist, prompt</span>
@@ -1043,19 +1091,19 @@
 
 <span class="sd">        With tenant hint for multi-tenant access::</span>
 
-<span class="sd">            kumiho.auto_configure_from_discovery(tenant_hint=&quot;my-studio&quot;)</span>
+<span class="sd">            kumiho.auto_configure_from_discovery(tenant_hint="my-studio")</span>
 
 <span class="sd">    See Also:</span>
 <span class="sd">        :func:`connect`: For manual client configuration.</span>
 <span class="sd">        :class:`use_client`: For temporary client switching.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">.auth_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_token</span><span class="p">,</span> <span class="n">TokenAcquisitionError</span>  <span class="c1"># Lazy import to avoid polluting module attrs</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">._token_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_bearer_token</span>
 
-    <span class="n">env_token_present</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_AUTH_TOKEN&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">env_token_present</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_AUTH_TOKEN"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
     <span class="n">token_error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">ValueError</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">token</span> <span class="o">=</span> <span class="n">load_bearer_token</span><span class="p">()</span>
@@ -1075,16 +1123,16 @@
             <span class="n">ensure_token</span><span class="p">(</span><span class="n">interactive</span><span class="o">=</span><span class="n">interactive</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">TokenAcquisitionError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s2">&quot;No cached credentials found. Run &#39;kumiho-auth login&#39; to &quot;</span>
-                <span class="s2">&quot;populate ~/.kumiho before calling auto_configure_from_discovery(). &quot;</span>
-                <span class="s2">&quot;Or set KUMIHO_AUTH_TOKEN explicitly.&quot;</span>
+                <span class="s2">"No cached credentials found. Run 'kumiho-auth login' to "</span>
+                <span class="s2">"populate ~/.kumiho before calling auto_configure_from_discovery(). "</span>
+                <span class="s2">"Or set KUMIHO_AUTH_TOKEN explicitly."</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="n">token</span> <span class="o">=</span> <span class="n">load_bearer_token</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">&quot;Cached credentials missing valid token. Re-run &#39;kumiho-auth login&#39; &quot;</span>
-            <span class="s2">&quot;or set KUMIHO_AUTH_TOKEN.&quot;</span>
+            <span class="s2">"Cached credentials missing valid token. Re-run 'kumiho-auth login' "</span>
+            <span class="s2">"or set KUMIHO_AUTH_TOKEN."</span>
         <span class="p">)</span>
 
     <span class="n">client</span> <span class="o">=</span> <span class="n">client_from_discovery</span><span class="p">(</span>
@@ -1102,7 +1150,7 @@
     <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_AUTO_CONFIGURE_ENV</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_auto_configure_from_env_if_requested</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1112,7 +1160,7 @@
         <span class="n">auto_configure_from_discovery</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-            <span class="s2">&quot;KUMIHO_AUTO_CONFIGURE is set, but automatic discovery bootstrap failed.&quot;</span>
+            <span class="s2">"KUMIHO_AUTO_CONFIGURE is set, but automatic discovery bootstrap failed."</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
 
@@ -1124,14 +1172,14 @@
 <div class="viewcode-block" id="get_tenant_info">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_tenant_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_tenant_info</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get information about the current tenant from the discovery cache.</span>
+<span class="w">    </span><span class="sd">"""Get information about the current tenant from the discovery cache.</span>
 
 <span class="sd">    This retrieves tenant information that was cached during discovery,</span>
 <span class="sd">    including the tenant ID, tenant name/slug, roles, and region info.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        tenant_hint: Optional tenant slug or ID to look up. If not provided,</span>
-<span class="sd">            looks up the default tenant (using &quot;_default&quot; cache key).</span>
+<span class="sd">            looks up the default tenant (using "_default" cache key).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Optional[Dict[str, Any]]: A dictionary containing tenant info:</span>
@@ -1144,16 +1192,16 @@
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; info = kumiho.get_tenant_info()</span>
 <span class="sd">        &gt;&gt;&gt; if info:</span>
-<span class="sd">        ...     print(f&quot;Tenant: {info[&#39;tenant_name&#39;]}&quot;)</span>
-<span class="sd">        ...     print(f&quot;Roles: {info[&#39;roles&#39;]}&quot;)</span>
+<span class="sd">        ...     print(f"Tenant: {info['tenant_name']}")</span>
+<span class="sd">        ...     print(f"Roles: {info['roles']}")</span>
 <span class="sd">        Tenant: kumihoclouds</span>
-<span class="sd">        Roles: [&#39;owner&#39;, &#39;admin&#39;]</span>
+<span class="sd">        Roles: ['owner', 'admin']</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        This requires that discovery has been performed (either via</span>
 <span class="sd">        ``auto_configure_from_discovery()`` or ``KUMIHO_AUTO_CONFIGURE=1``).</span>
 <span class="sd">        If using direct connection without discovery, this will return None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">cache</span> <span class="o">=</span> <span class="n">DiscoveryCache</span><span class="p">(</span><span class="n">DEFAULT_CACHE_PATH</span><span class="p">)</span>
     <span class="n">cache_key</span> <span class="o">=</span> <span class="n">tenant_hint</span> <span class="ow">or</span> <span class="n">_DEFAULT_CACHE_KEY</span>
     <span class="n">record</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
@@ -1162,11 +1210,11 @@
         <span class="k">return</span> <span class="kc">None</span>
     
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">,</span>
-        <span class="s2">&quot;tenant_name&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">tenant_name</span><span class="p">,</span>
-        <span class="s2">&quot;roles&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">roles</span><span class="p">),</span>
-        <span class="s2">&quot;region&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;guardrails&quot;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">guardrails</span><span class="p">,</span>
+        <span class="s2">"tenant_id"</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">tenant_id</span><span class="p">,</span>
+        <span class="s2">"tenant_name"</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">tenant_name</span><span class="p">,</span>
+        <span class="s2">"roles"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">roles</span><span class="p">),</span>
+        <span class="s2">"region"</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">region</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">"guardrails"</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">guardrails</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -1174,10 +1222,10 @@
 <div class="viewcode-block" id="get_tenant_slug">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_tenant_slug">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_tenant_slug</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the tenant slug/name for use in project naming.</span>
+<span class="w">    </span><span class="sd">"""Get the tenant slug/name for use in project naming.</span>
 
 <span class="sd">    This is a convenience function that returns just the tenant name/slug,</span>
-<span class="sd">    which is useful for constructing project names like &quot;ComfyUI@{tenant_slug}&quot;.</span>
+<span class="sd">    which is useful for constructing project names like "ComfyUI@{tenant_slug}".</span>
 
 <span class="sd">    If tenant_name contains spaces or special characters, returns a shortened</span>
 <span class="sd">    tenant_id instead (first 8 characters of the UUID).</span>
@@ -1190,25 +1238,25 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; slug = kumiho.get_tenant_slug()</span>
-<span class="sd">        &gt;&gt;&gt; project_name = f&quot;ComfyUI@{slug or &#39;default&#39;}&quot;</span>
+<span class="sd">        &gt;&gt;&gt; project_name = f"ComfyUI@{slug or 'default'}"</span>
 <span class="sd">        &gt;&gt;&gt; print(project_name)</span>
 <span class="sd">        ComfyUI@kumihoclouds</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">get_tenant_info</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">info</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     
-    <span class="n">tenant_name</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_name&quot;</span><span class="p">)</span>
-    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span>
+    <span class="n">tenant_name</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_name"</span><span class="p">)</span>
+    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">)</span>
     
     <span class="c1"># Check if tenant_name is URL-safe (alphanumeric, hyphens only)</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-    <span class="k">if</span> <span class="n">tenant_name</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[a-zA-Z0-9-]+$&#39;</span><span class="p">,</span> <span class="n">tenant_name</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tenant_name</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">'^[a-zA-Z0-9-]+$'</span><span class="p">,</span> <span class="n">tenant_name</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">tenant_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     
     <span class="c1"># Fall back to shortened tenant_id (first 8 chars of UUID)</span>
     <span class="k">if</span> <span class="n">tenant_id</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">tenant_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># First segment of UUID</span>
+        <span class="k">return</span> <span class="n">tenant_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># First segment of UUID</span>
     
     <span class="k">return</span> <span class="n">tenant_name</span></div>
 
@@ -1221,8 +1269,12 @@
 
 <div class="viewcode-block" id="create_project">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.create_project">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_project</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Project</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new project.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_project</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Project</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Create a new project.</span>
 
 <span class="sd">    Projects are the top-level containers for all assets. Each project</span>
 <span class="sd">    has its own namespace for spaces and items.</span>
@@ -1231,6 +1283,7 @@
 <span class="sd">        name: The unique name for the project. Must be URL-safe</span>
 <span class="sd">            (lowercase letters, numbers, hyphens).</span>
 <span class="sd">        description: Optional human-readable description.</span>
+<span class="sd">        metadata: Optional string metadata such as ``display_label``.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Project: The newly created Project object.</span>
@@ -1241,20 +1294,24 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; project = kumiho.create_project(</span>
-<span class="sd">        ...     &quot;commercial-2024&quot;,</span>
-<span class="sd">        ...     &quot;Assets for 2024 commercial campaign&quot;</span>
+<span class="sd">        ...     "commercial-2024",</span>
+<span class="sd">        ...     "Assets for 2024 commercial campaign"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; print(project.name)</span>
 <span class="sd">        commercial-2024</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_projects">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_projects">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_projects</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Project</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all projects accessible to the current user.</span>
+<span class="w">    </span><span class="sd">"""List all projects accessible to the current user.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[Project]: A list of Project objects.</span>
@@ -1262,10 +1319,10 @@
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; projects = kumiho.get_projects()</span>
 <span class="sd">        &gt;&gt;&gt; for p in projects:</span>
-<span class="sd">        ...     print(f&quot;{p.name}: {p.description}&quot;)</span>
+<span class="sd">        ...     print(f"{p.name}: {p.description}")</span>
 <span class="sd">        commercial-2024: Assets for 2024 commercial campaign</span>
 <span class="sd">        film-project: Feature film VFX assets</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span></div>
 
 
@@ -1273,7 +1330,7 @@
 <div class="viewcode-block" id="get_project">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_project">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Project</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a project by name.</span>
+<span class="w">    </span><span class="sd">"""Get a project by name.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name: The name of the project to retrieve.</span>
@@ -1282,18 +1339,29 @@
 <span class="sd">        Optional[Project]: The Project object if found, None otherwise.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; project = kumiho.get_project(&quot;commercial-2024&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; project = kumiho.get_project("commercial-2024")</span>
 <span class="sd">        &gt;&gt;&gt; if project:</span>
 <span class="sd">        ...     spaces = project.get_spaces()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="analyze_project_deletion">
+<a class="viewcode-back" href="../api/kumiho.html#kumiho.analyze_project_deletion">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">analyze_project_deletion</span><span class="p">(</span><span class="n">project_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectDeletionImpact</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Create the server-bound impact snapshot required for hard-delete."""</span>
+    <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">analyze_project_deletion</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="delete_project">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.delete_project">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">delete_project</span><span class="p">(</span><span class="n">project_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete a project.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">delete_project</span><span class="p">(</span>
+    <span class="n">project_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatusResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Delete a project.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        project_id: The unique ID of the project to delete.</span>
@@ -1309,11 +1377,11 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; # Soft delete (deprecate)</span>
-<span class="sd">        &gt;&gt;&gt; kumiho.delete_project(&quot;proj-uuid-here&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; kumiho.delete_project("proj-uuid-here")</span>
 
 <span class="sd">        &gt;&gt;&gt; # Hard delete (permanent)</span>
-<span class="sd">        &gt;&gt;&gt; kumiho.delete_project(&quot;proj-uuid-here&quot;, force=True)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; kumiho.delete_project("proj-uuid-here", force=True)</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">delete_project</span><span class="p">(</span><span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span></div>
 
 
@@ -1321,34 +1389,34 @@
 <div class="viewcode-block" id="item_search">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.item_search">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">item_search</span><span class="p">(</span>
-    <span class="n">context_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">context_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for items across projects and spaces.</span>
+<span class="w">    </span><span class="sd">"""Search for items across projects and spaces.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        context_filter: Filter by project or space path. Supports glob</span>
 <span class="sd">            patterns like ``project-*`` or ``*/characters/*``.</span>
 <span class="sd">        name_filter: Filter by item name. Supports wildcards.</span>
-<span class="sd">        kind_filter: Filter by item kind (e.g., &quot;model&quot;, &quot;texture&quot;).</span>
+<span class="sd">        kind_filter: Filter by item kind (e.g., "model", "texture").</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[Item]: A list of Item objects matching the filters.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; # Find all models in any project</span>
-<span class="sd">        &gt;&gt;&gt; models = kumiho.item_search(kind_filter=&quot;model&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; models = kumiho.item_search(kind_filter="model")</span>
 
 <span class="sd">        &gt;&gt;&gt; # Find character assets in a specific project</span>
 <span class="sd">        &gt;&gt;&gt; chars = kumiho.item_search(</span>
-<span class="sd">        ...     context_filter=&quot;film-project/characters&quot;,</span>
-<span class="sd">        ...     kind_filter=&quot;model&quot;</span>
+<span class="sd">        ...     context_filter="film-project/characters",</span>
+<span class="sd">        ...     kind_filter="model"</span>
 <span class="sd">        ... )</span>
 
 <span class="sd">        &gt;&gt;&gt; # Wildcard search</span>
-<span class="sd">        &gt;&gt;&gt; heroes = kumiho.item_search(name_filter=&quot;hero*&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; heroes = kumiho.item_search(name_filter="hero*")</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span><span class="n">context_filter</span><span class="p">,</span> <span class="n">name_filter</span><span class="p">,</span> <span class="n">kind_filter</span><span class="p">)</span></div>
 
 
@@ -1358,13 +1426,13 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
     <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">include_revision_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">include_artifact_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SearchResult</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Full-text fuzzy search across items (Google-like search).</span>
+<span class="w">    </span><span class="sd">"""Full-text fuzzy search across items (Google-like search).</span>
 
 <span class="sd">    Provides Google-like search with automatic typo tolerance. Searches</span>
 <span class="sd">    across item names, kinds, usernames, and optionally revision/artifact</span>
@@ -1372,11 +1440,11 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        query: Search terms (supports fuzzy matching).</span>
-<span class="sd">            - Simple: &quot;hero&quot; matches items containing &quot;hero&quot;</span>
-<span class="sd">            - Multi-word: &quot;hero model&quot; matches both terms</span>
-<span class="sd">            - Automatic fuzzy: typos like &quot;heros&quot; still match &quot;hero&quot;</span>
-<span class="sd">        context: Restrict to kref prefix (e.g., &quot;myproject/assets&quot;).</span>
-<span class="sd">        kind: Exact kind match (e.g., &quot;model&quot;, &quot;texture&quot;, &quot;rig&quot;).</span>
+<span class="sd">            - Simple: "hero" matches items containing "hero"</span>
+<span class="sd">            - Multi-word: "hero model" matches both terms</span>
+<span class="sd">            - Automatic fuzzy: typos like "heros" still match "hero"</span>
+<span class="sd">        context: Restrict to kref prefix (e.g., "myproject/assets").</span>
+<span class="sd">        kind: Exact kind match (e.g., "model", "texture", "rig").</span>
 <span class="sd">        include_deprecated: Include soft-deleted items (default: False).</span>
 <span class="sd">        include_revision_metadata: Also search revision tags/metadata.</span>
 <span class="sd">            Slower but more comprehensive. Use when searching by revision</span>
@@ -1390,24 +1458,24 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; # Simple search</span>
-<span class="sd">        &gt;&gt;&gt; results = kumiho.search(&quot;hero&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; results = kumiho.search("hero")</span>
 <span class="sd">        &gt;&gt;&gt; for r in results:</span>
-<span class="sd">        ...     print(f&quot;{r.item.name}: {r.score:.2f}&quot;)</span>
+<span class="sd">        ...     print(f"{r.item.name}: {r.score:.2f}")</span>
 
 <span class="sd">        &gt;&gt;&gt; # Search for models only</span>
-<span class="sd">        &gt;&gt;&gt; results = kumiho.search(&quot;character&quot;, kind=&quot;model&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; results = kumiho.search("character", kind="model")</span>
 
 <span class="sd">        &gt;&gt;&gt; # Deep search including revision metadata</span>
-<span class="sd">        &gt;&gt;&gt; results = kumiho.search(&quot;approved&quot;, include_revision_metadata=True)</span>
+<span class="sd">        &gt;&gt;&gt; results = kumiho.search("approved", include_revision_metadata=True)</span>
 
 <span class="sd">        &gt;&gt;&gt; # Search within a specific project</span>
-<span class="sd">        &gt;&gt;&gt; results = kumiho.search(&quot;texture&quot;, context=&quot;film-project&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; results = kumiho.search("texture", context="film-project")</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        By default, only the Item index is searched (fastest). Enable</span>
 <span class="sd">        `include_revision_metadata` or `include_artifact_metadata` for</span>
 <span class="sd">        comprehensive search across all entity metadata.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
         <span class="n">query</span><span class="p">,</span>
         <span class="n">context_filter</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
@@ -1424,7 +1492,7 @@
     <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">score_fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score specific revisions against a query using server-side embeddings + fulltext.</span>
+<span class="w">    </span><span class="sd">"""Score specific revisions against a query using server-side embeddings + fulltext.</span>
 
 <span class="sd">    The server uses its own vector embeddings and/or fulltext index to</span>
 <span class="sd">    compute per-revision relevance scores.  No external embedding API is</span>
@@ -1435,7 +1503,7 @@
 <span class="sd">        revision_krefs: List of revision kref URIs to score (max 100).</span>
 <span class="sd">        score_fields: When non-empty, re-embed revisions from only these</span>
 <span class="sd">            metadata fields instead of using stored (broad) embeddings.</span>
-<span class="sd">            E.g. ``[&quot;title&quot;, &quot;summary&quot;]`` for focused scoring.</span>
+<span class="sd">            E.g. ``["title", "summary"]`` for focused scoring.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List of dicts with keys ``kref``, ``score``, ``score_method``,</span>
@@ -1443,24 +1511,24 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; scored = kumiho.score_revisions(</span>
-<span class="sd">        ...     &quot;travel plans for summer&quot;,</span>
-<span class="sd">        ...     [&quot;kref://proj/space/item.conv?r=1&quot;, &quot;kref://proj/space/item.conv?r=2&quot;],</span>
-<span class="sd">        ...     score_fields=[&quot;title&quot;, &quot;summary&quot;],</span>
+<span class="sd">        ...     "travel plans for summer",</span>
+<span class="sd">        ...     ["kref://proj/space/item.conv?r=1", "kref://proj/space/item.conv?r=2"],</span>
+<span class="sd">        ...     score_fields=["title", "summary"],</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for s in scored:</span>
-<span class="sd">        ...     print(f&quot;{s[&#39;kref&#39;]}: {s[&#39;score&#39;]:.3f} ({s[&#39;score_method&#39;]})&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        ...     print(f"{s['kref']}: {s['score']:.3f} ({s['score_method']})")</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">score_revisions</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">revision_krefs</span><span class="p">,</span> <span class="n">score_fields</span><span class="o">=</span><span class="n">score_fields</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="get_item">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_item">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_item</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get an item by its kref URI.</span>
+<span class="w">    </span><span class="sd">"""Get an item by its kref URI.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the item</span>
-<span class="sd">            (e.g., &quot;kref://project/space/item.kind&quot;).</span>
+<span class="sd">            (e.g., "kref://project/space/item.kind").</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Item: The Item object.</span>
@@ -1470,10 +1538,10 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; item = kumiho.get_item(</span>
-<span class="sd">        ...     &quot;kref://film-project/characters/hero.model&quot;</span>
+<span class="sd">        ...     "kref://film-project/characters/hero.model"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; revisions = item.get_revisions()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_item_by_kref</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span></div>
 
 
@@ -1481,13 +1549,13 @@
 <div class="viewcode-block" id="get_bundle">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_bundle">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_bundle</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bundle</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a bundle by its kref URI.</span>
+<span class="w">    </span><span class="sd">"""Get a bundle by its kref URI.</span>
 
-<span class="sd">    This is a convenience function that gets an item and verifies it&#39;s a bundle.</span>
+<span class="sd">    This is a convenience function that gets an item and verifies it's a bundle.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the bundle item</span>
-<span class="sd">            (e.g., &quot;kref://project/space/bundle-name.bundle&quot;).</span>
+<span class="sd">            (e.g., "kref://project/space/bundle-name.bundle").</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Bundle: The Bundle object.</span>
@@ -1498,10 +1566,10 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; bundle = kumiho.get_bundle(</span>
-<span class="sd">        ...     &quot;kref://film-project/shots/shot001.bundle&quot;</span>
+<span class="sd">        ...     "kref://film-project/shots/shot001.bundle"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; members = bundle.get_members()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_bundle_by_kref</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span></div>
 
 
@@ -1509,11 +1577,11 @@
 <div class="viewcode-block" id="get_revision">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_revision">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Revision</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a revision by its kref URI.</span>
+<span class="w">    </span><span class="sd">"""Get a revision by its kref URI.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the revision</span>
-<span class="sd">            (e.g., &quot;kref://project/space/item.kind?r=1&quot;).</span>
+<span class="sd">            (e.g., "kref://project/space/item.kind?r=1").</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Revision: The Revision object.</span>
@@ -1523,12 +1591,12 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; revision = kumiho.get_revision(</span>
-<span class="sd">        ...     &quot;kref://film-project/characters/hero.model?r=3&quot;</span>
+<span class="sd">        ...     "kref://film-project/characters/hero.model?r=3"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; artifacts = revision.get_artifacts()</span>
 <span class="sd">        &gt;&gt;&gt; for a in artifacts:</span>
 <span class="sd">        ...     print(a.location)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span></div>
 
 
@@ -1536,10 +1604,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">batch_get_revisions</span><span class="p">(</span>
     <span class="n">revision_krefs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">item_krefs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span><span class="p">,</span>
     <span class="n">allow_partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Revision</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Batch fetch multiple revisions in a single gRPC call.</span>
+<span class="w">    </span><span class="sd">"""Batch fetch multiple revisions in a single gRPC call.</span>
 
 <span class="sd">    This is significantly faster than calling get_revision() multiple times,</span>
 <span class="sd">    especially for large batches. Use this when you need to fetch revisions</span>
@@ -1547,13 +1615,13 @@
 
 <span class="sd">    Supports two modes:</span>
 <span class="sd">    1. Direct revision krefs - fetch specific revisions by their krefs</span>
-<span class="sd">    2. Item krefs with tag - resolve a tag (default: &quot;latest&quot;) for each item</span>
+<span class="sd">    2. Item krefs with tag - resolve a tag (default: "latest") for each item</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        revision_krefs: List of revision kref URIs to fetch directly.</span>
 <span class="sd">        item_krefs: List of item kref URIs to resolve with the given tag.</span>
-<span class="sd">        tag: Tag to resolve when using item_krefs (default: &quot;latest&quot;).</span>
-<span class="sd">             Common tags: &quot;latest&quot;, &quot;published&quot;.</span>
+<span class="sd">        tag: Tag to resolve when using item_krefs (default: "latest").</span>
+<span class="sd">             Common tags: "latest", "published".</span>
 <span class="sd">        allow_partial: If True (default), returns partial results when some</span>
 <span class="sd">                      krefs are not found. If False, raises an error.</span>
 
@@ -1564,22 +1632,22 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; # Fetch latest revisions for multiple items efficiently</span>
-<span class="sd">        &gt;&gt;&gt; items = kumiho.item_search(context_filter=&quot;myproject&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; items = kumiho.item_search(context_filter="myproject")</span>
 <span class="sd">        &gt;&gt;&gt; item_krefs = [item.kref.uri for item in items[:10]]</span>
 <span class="sd">        &gt;&gt;&gt; revisions, missing = kumiho.batch_get_revisions(</span>
 <span class="sd">        ...     item_krefs=item_krefs,</span>
-<span class="sd">        ...     tag=&quot;published&quot;</span>
+<span class="sd">        ...     tag="published"</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; print(f&quot;Found {len(revisions)} revisions, {len(missing)} missing&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(f"Found {len(revisions)} revisions, {len(missing)} missing")</span>
 
 <span class="sd">        &gt;&gt;&gt; # Fetch specific revisions directly</span>
 <span class="sd">        &gt;&gt;&gt; revisions, _ = kumiho.batch_get_revisions(</span>
 <span class="sd">        ...     revision_krefs=[</span>
-<span class="sd">        ...         &quot;kref://proj/space/item1.kind?r=1&quot;,</span>
-<span class="sd">        ...         &quot;kref://proj/space/item2.kind?r=2&quot;,</span>
+<span class="sd">        ...         "kref://proj/space/item1.kind?r=1",</span>
+<span class="sd">        ...         "kref://proj/space/item2.kind?r=2",</span>
 <span class="sd">        ...     ]</span>
 <span class="sd">        ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">batch_get_revisions</span><span class="p">(</span>
         <span class="n">revision_krefs</span><span class="o">=</span><span class="n">revision_krefs</span><span class="p">,</span>
         <span class="n">item_krefs</span><span class="o">=</span><span class="n">item_krefs</span><span class="p">,</span>
@@ -1590,24 +1658,24 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">batch_create_revisions</span><span class="p">(</span>
     <span class="n">revisions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
-    <span class="n">idempotency_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">idempotency_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Revision</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create many revisions in a single gRPC call (one server transaction).</span>
+<span class="w">    </span><span class="sd">"""Create many revisions in a single gRPC call (one server transaction).</span>
 
 <span class="sd">    The bulk-write counterpart of create_revision(): use it for backfill and</span>
 <span class="sd">    other high-volume ingest. Missing parent items are auto-created from each</span>
-<span class="sd">    row&#39;s item_kref (the parent space must exist); rows targeting the same</span>
+<span class="sd">    row's item_kref (the parent space must exist); rows targeting the same</span>
 <span class="sd">    item are applied in list order; with an idempotency_prefix, re-submitting</span>
 <span class="sd">    the same batch is a no-op that returns the already-created revisions.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        revisions: One dict per revision: {&quot;item_kref&quot;: str | Kref (required),</span>
-<span class="sd">            &quot;metadata&quot;: dict, &quot;embedding_text&quot;: str, &quot;artifacts&quot;: [{&quot;name&quot;,</span>
-<span class="sd">            &quot;location&quot;, &quot;metadata&quot;, &quot;default&quot;}]}. Artifacts attach to the</span>
-<span class="sd">            created revision in the same transaction; &quot;default&quot;: True (at</span>
+<span class="sd">        revisions: One dict per revision: {"item_kref": str | Kref (required),</span>
+<span class="sd">            "metadata": dict, "embedding_text": str, "artifacts": [{"name",</span>
+<span class="sd">            "location", "metadata", "default"}]}. Artifacts attach to the</span>
+<span class="sd">            created revision in the same transaction; "default": True (at</span>
 <span class="sd">            most one per row) makes the chain resolvable from the item kref.</span>
 <span class="sd">        idempotency_prefix: Stable prefix for per-row idempotency keys</span>
-<span class="sd">            (&quot;{prefix}:{index}&quot;). Empty disables idempotency.</span>
+<span class="sd">            ("{prefix}:{index}"). Empty disables idempotency.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[List[Optional[Revision]], List[Tuple[int, str]]]: positional</span>
@@ -1615,14 +1683,14 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; results, failures = kumiho.batch_create_revisions(</span>
-<span class="sd">        ...     [{&quot;item_kref&quot;: &quot;kref://proj/space/mem.memory&quot;,</span>
-<span class="sd">        ...       &quot;metadata&quot;: {&quot;title&quot;: &quot;backfilled memory&quot;},</span>
-<span class="sd">        ...       &quot;artifacts&quot;: [{&quot;name&quot;: &quot;transcript&quot;,</span>
-<span class="sd">        ...                      &quot;location&quot;: &quot;s3://bucket/mem.md&quot;,</span>
-<span class="sd">        ...                      &quot;default&quot;: True}]}],</span>
-<span class="sd">        ...     idempotency_prefix=&quot;backfill-20260714&quot;,</span>
+<span class="sd">        ...     [{"item_kref": "kref://proj/space/mem.memory",</span>
+<span class="sd">        ...       "metadata": {"title": "backfilled memory"},</span>
+<span class="sd">        ...       "artifacts": [{"name": "transcript",</span>
+<span class="sd">        ...                      "location": "s3://bucket/mem.md",</span>
+<span class="sd">        ...                      "default": True}]}],</span>
+<span class="sd">        ...     idempotency_prefix="backfill-20260714",</span>
 <span class="sd">        ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">batch_create_revisions</span><span class="p">(</span>
         <span class="n">revisions</span><span class="o">=</span><span class="n">revisions</span><span class="p">,</span>
         <span class="n">idempotency_prefix</span><span class="o">=</span><span class="n">idempotency_prefix</span><span class="p">,</span>
@@ -1632,11 +1700,11 @@
 <div class="viewcode-block" id="get_artifact">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_artifact">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_artifact</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Artifact</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get an artifact by its kref URI.</span>
+<span class="w">    </span><span class="sd">"""Get an artifact by its kref URI.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the artifact</span>
-<span class="sd">            (e.g., &quot;kref://project/space/item.kind?r=1&amp;a=main&quot;).</span>
+<span class="sd">            (e.g., "kref://project/space/item.kind?r=1&amp;a=main").</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Artifact: The Artifact object.</span>
@@ -1647,11 +1715,11 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; artifact = kumiho.get_artifact(</span>
-<span class="sd">        ...     &quot;kref://film-project/characters/hero.model?r=3&amp;a=mesh&quot;</span>
+<span class="sd">        ...     "kref://film-project/characters/hero.model?r=3&amp;a=mesh"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; print(artifact.location)</span>
 <span class="sd">        /projects/film/char/hero_v3.fbx</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_artifact_by_kref</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span></div>
 
 
@@ -1659,7 +1727,7 @@
 <div class="viewcode-block" id="get_artifacts_by_location">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_artifacts_by_location">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_artifacts_by_location</span><span class="p">(</span><span class="n">location</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Artifact</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find all artifacts at a specific file location.</span>
+<span class="w">    </span><span class="sd">"""Find all artifacts at a specific file location.</span>
 
 <span class="sd">    This is useful for reverse lookups—finding which Kumiho artifacts</span>
 <span class="sd">    reference a particular file path.</span>
@@ -1672,11 +1740,11 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; artifacts = kumiho.get_artifacts_by_location(</span>
-<span class="sd">        ...     &quot;/shared/assets/hero_v3.fbx&quot;</span>
+<span class="sd">        ...     "/shared/assets/hero_v3.fbx"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for a in artifacts:</span>
-<span class="sd">        ...     print(f&quot;{a.kref} -&gt; {a.location}&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        ...     print(f"{a.kref} -&gt; {a.location}")</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_artifacts_by_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span></div>
 
 
@@ -1684,7 +1752,7 @@
 <div class="viewcode-block" id="set_attribute">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.set_attribute">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a single metadata attribute on any entity.</span>
+<span class="w">    </span><span class="sd">"""Set a single metadata attribute on any entity.</span>
 
 <span class="sd">    This allows granular updates to metadata without replacing the entire</span>
 <span class="sd">    metadata map. Works on any entity type (Revision, Item, Artifact,</span>
@@ -1703,12 +1771,12 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; kumiho.set_attribute(</span>
-<span class="sd">        ...     &quot;kref://project/models/hero.model?r=1&quot;,</span>
-<span class="sd">        ...     &quot;render_engine&quot;,</span>
-<span class="sd">        ...     &quot;cycles&quot;</span>
+<span class="sd">        ...     "kref://project/models/hero.model?r=1",</span>
+<span class="sd">        ...     "render_engine",</span>
+<span class="sd">        ...     "cycles"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">Kref</span><span class="p">(</span><span class="n">kref</span><span class="p">),</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
 
@@ -1716,7 +1784,7 @@
 <div class="viewcode-block" id="get_attribute">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_attribute">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_attribute</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a single metadata attribute from any entity.</span>
+<span class="w">    </span><span class="sd">"""Get a single metadata attribute from any entity.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the entity.</span>
@@ -1727,11 +1795,11 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; kumiho.get_attribute(</span>
-<span class="sd">        ...     &quot;kref://project/models/hero.model?r=1&quot;,</span>
-<span class="sd">        ...     &quot;render_engine&quot;</span>
+<span class="sd">        ...     "kref://project/models/hero.model?r=1",</span>
+<span class="sd">        ...     "render_engine"</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &quot;cycles&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        "cycles"</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="n">Kref</span><span class="p">(</span><span class="n">kref</span><span class="p">),</span> <span class="n">key</span><span class="p">)</span></div>
 
 
@@ -1739,7 +1807,7 @@
 <div class="viewcode-block" id="delete_attribute">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.delete_attribute">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">delete_attribute</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete a single metadata attribute from any entity.</span>
+<span class="w">    </span><span class="sd">"""Delete a single metadata attribute from any entity.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kref: The kref URI of the entity.</span>
@@ -1753,11 +1821,11 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; kumiho.delete_attribute(</span>
-<span class="sd">        ...     &quot;kref://project/models/hero.model?r=1&quot;,</span>
-<span class="sd">        ...     &quot;old_field&quot;</span>
+<span class="sd">        ...     "kref://project/models/hero.model?r=1",</span>
+<span class="sd">        ...     "old_field"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">delete_attribute</span><span class="p">(</span><span class="n">Kref</span><span class="p">(</span><span class="n">kref</span><span class="p">),</span> <span class="n">key</span><span class="p">)</span></div>
 
 
@@ -1765,14 +1833,14 @@
 <div class="viewcode-block" id="event_stream">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.event_stream">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">event_stream</span><span class="p">(</span>
-    <span class="n">routing_key_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">kref_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">routing_key_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">kref_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">consumer_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">from_beginning</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Subscribe to real-time events from the Kumiho server.</span>
+<span class="w">    </span><span class="sd">"""Subscribe to real-time events from the Kumiho server.</span>
 
 <span class="sd">    Events are streamed as they occur, allowing you to react to changes</span>
 <span class="sd">    in the database such as new revisions, tag changes, or deletions.</span>
@@ -1800,14 +1868,14 @@
 <span class="sd">        &gt;&gt;&gt; last_cursor = None</span>
 <span class="sd">        &gt;&gt;&gt; try:</span>
 <span class="sd">        ...     for event in kumiho.event_stream(</span>
-<span class="sd">        ...         routing_key_filter=&quot;revision.*&quot;,</span>
-<span class="sd">        ...         kref_filter=&quot;kref://film-project/**&quot;,</span>
+<span class="sd">        ...         routing_key_filter="revision.*",</span>
+<span class="sd">        ...         kref_filter="kref://film-project/**",</span>
 <span class="sd">        ...         cursor=last_cursor</span>
 <span class="sd">        ...     ):</span>
-<span class="sd">        ...         print(f&quot;{event.routing_key}: {event.kref}&quot;)</span>
+<span class="sd">        ...         print(f"{event.routing_key}: {event.kref}")</span>
 <span class="sd">        ...         last_cursor = event.cursor  # Save for reconnection</span>
-<span class="sd">        ...         if event.routing_key == &quot;revision.tagged&quot;:</span>
-<span class="sd">        ...             print(f&quot;  Tag: {event.details.get(&#39;tag&#39;)}&quot;)</span>
+<span class="sd">        ...         if event.routing_key == "revision.tagged":</span>
+<span class="sd">        ...             print(f"  Tag: {event.details.get('tag')}")</span>
 <span class="sd">        ... except ConnectionError:</span>
 <span class="sd">        ...     # Reconnect using saved cursor</span>
 <span class="sd">        ...     pass</span>
@@ -1817,8 +1885,8 @@
 <span class="sd">        async context for production applications.</span>
 <span class="sd">        </span>
 <span class="sd">        Cursor-based resume requires Creator tier or above. Use</span>
-<span class="sd">        :func:`get_event_capabilities` to check your tier&#39;s capabilities.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        :func:`get_event_capabilities` to check your tier's capabilities.</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">event_stream</span><span class="p">(</span>
         <span class="n">routing_key_filter</span><span class="p">,</span>
         <span class="n">kref_filter</span><span class="p">,</span>
@@ -1833,9 +1901,9 @@
 <div class="viewcode-block" id="get_event_capabilities">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.get_event_capabilities">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_event_capabilities</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">EventCapabilities</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get event streaming capabilities for the current tenant tier.</span>
+<span class="w">    </span><span class="sd">"""Get event streaming capabilities for the current tenant tier.</span>
 
-<span class="sd">    Returns the capabilities available based on the authenticated tenant&#39;s</span>
+<span class="sd">    Returns the capabilities available based on the authenticated tenant's</span>
 <span class="sd">    subscription tier. Use this to determine which features (cursor resume,</span>
 <span class="sd">    consumer groups, replay) are available before using them.</span>
 
@@ -1850,7 +1918,7 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; caps = kumiho.get_event_capabilities()</span>
-<span class="sd">        &gt;&gt;&gt; print(f&quot;Tier: {caps.tier}&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(f"Tier: {caps.tier}")</span>
 <span class="sd">        Tier: creator</span>
 <span class="sd">        &gt;&gt;&gt; if caps.supports_cursor:</span>
 <span class="sd">        ...     # Use cursor-based streaming</span>
@@ -1862,7 +1930,7 @@
 <span class="sd">        ...     # Free tier - no cursor support</span>
 <span class="sd">        ...     for event in kumiho.event_stream():</span>
 <span class="sd">        ...         process(event)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">get_event_capabilities</span><span class="p">()</span></div>
 
 
@@ -1870,7 +1938,7 @@
 <div class="viewcode-block" id="resolve">
 <a class="viewcode-back" href="../api/kumiho.html#kumiho.resolve">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="n">kref</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a kref URI to a file location.</span>
+<span class="w">    </span><span class="sd">"""Resolve a kref URI to a file location.</span>
 
 <span class="sd">    This is a convenience function to get the file path for an artifact</span>
 <span class="sd">    or the default artifact of a revision.</span>
@@ -1884,16 +1952,16 @@
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; # Resolve a specific artifact</span>
 <span class="sd">        &gt;&gt;&gt; path = kumiho.resolve(</span>
-<span class="sd">        ...     &quot;kref://film-project/chars/hero.model?r=3&amp;a=mesh&quot;</span>
+<span class="sd">        ...     "kref://film-project/chars/hero.model?r=3&amp;a=mesh"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; print(path)</span>
 <span class="sd">        /projects/film/char/hero_v3.fbx</span>
 
-<span class="sd">        &gt;&gt;&gt; # Resolve revision&#39;s default artifact</span>
+<span class="sd">        &gt;&gt;&gt; # Resolve revision's default artifact</span>
 <span class="sd">        &gt;&gt;&gt; path = kumiho.resolve(</span>
-<span class="sd">        ...     &quot;kref://film-project/chars/hero.model?r=3&quot;</span>
+<span class="sd">        ...     "kref://film-project/chars/hero.model?r=3"</span>
 <span class="sd">        ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_client</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span></div>
 
 
@@ -1909,14 +1977,14 @@
     <span class="n">default_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">tenant_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new Kumiho client with explicit configuration.</span>
+<span class="w">    </span><span class="sd">"""Create a new Kumiho client with explicit configuration.</span>
 
 <span class="sd">    Use this when you need more control over the client configuration,</span>
 <span class="sd">    such as connecting to a specific server or using a custom token.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        endpoint: The gRPC server endpoint (e.g., &quot;localhost:50051&quot;</span>
-<span class="sd">            or &quot;https://us-central.kumiho.cloud&quot;).</span>
+<span class="sd">        endpoint: The gRPC server endpoint (e.g., "localhost:50051"</span>
+<span class="sd">            or "https://us-central.kumiho.cloud").</span>
 <span class="sd">        token: The authentication token. If not provided and</span>
 <span class="sd">            enable_auto_login is True, attempts to load from cache.</span>
 <span class="sd">        enable_auto_login: If True, automatically use cached credentials</span>
@@ -1934,27 +2002,27 @@
 <span class="sd">        Connect to a local development server::</span>
 
 <span class="sd">            client = kumiho.connect(</span>
-<span class="sd">                endpoint=&quot;localhost:50051&quot;,</span>
+<span class="sd">                endpoint="localhost:50051",</span>
 <span class="sd">                token=None  # No auth for local dev</span>
 <span class="sd">            )</span>
 
 <span class="sd">        Connect to production with explicit token::</span>
 
 <span class="sd">            client = kumiho.connect(</span>
-<span class="sd">                endpoint=&quot;https://us-central.kumiho.cloud&quot;,</span>
-<span class="sd">                token=os.environ[&quot;KUMIHO_TOKEN&quot;]</span>
+<span class="sd">                endpoint="https://us-central.kumiho.cloud",</span>
+<span class="sd">                token=os.environ["KUMIHO_TOKEN"]</span>
 <span class="sd">            )</span>
 
 <span class="sd">        Use with context manager for temporary switching::</span>
 
-<span class="sd">            client = kumiho.connect(endpoint=&quot;localhost:50051&quot;)</span>
+<span class="sd">            client = kumiho.connect(endpoint="localhost:50051")</span>
 <span class="sd">            with kumiho.use_client(client):</span>
 <span class="sd">                local_projects = kumiho.get_projects()</span>
 
 <span class="sd">    See Also:</span>
 <span class="sd">        :func:`auto_configure_from_discovery`: Recommended for production.</span>
 <span class="sd">        :func:`configure_default_client`: Set as global default.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_Client</span><span class="p">(</span>
         <span class="n">target</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
         <span class="n">auth_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
@@ -1968,76 +2036,83 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># Core classes</span>
-    <span class="s2">&quot;KumihoObject&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;KumihoError&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Project&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Space&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Item&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Revision&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Artifact&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Edge&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Kref&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Event&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ProjectLimitError&quot;</span><span class="p">,</span>
+    <span class="s2">"KumihoObject"</span><span class="p">,</span>
+    <span class="s2">"KumihoError"</span><span class="p">,</span>
+    <span class="s2">"Project"</span><span class="p">,</span>
+    <span class="s2">"ProjectDeletionImpact"</span><span class="p">,</span>
+    <span class="s2">"ProjectDeletionGuard"</span><span class="p">,</span>
+    <span class="s2">"Space"</span><span class="p">,</span>
+    <span class="s2">"Item"</span><span class="p">,</span>
+    <span class="s2">"Revision"</span><span class="p">,</span>
+    <span class="s2">"Artifact"</span><span class="p">,</span>
+    <span class="s2">"Edge"</span><span class="p">,</span>
+    <span class="s2">"Kref"</span><span class="p">,</span>
+    <span class="s2">"Event"</span><span class="p">,</span>
+    <span class="s2">"ProjectLimitError"</span><span class="p">,</span>
     <span class="c1"># Bundle classes</span>
-    <span class="s2">&quot;Bundle&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BundleMember&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BundleRevisionHistory&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ReservedKindError&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RESERVED_KINDS&quot;</span><span class="p">,</span>
+    <span class="s2">"Bundle"</span><span class="p">,</span>
+    <span class="s2">"BundleMember"</span><span class="p">,</span>
+    <span class="s2">"BundleRevisionHistory"</span><span class="p">,</span>
+    <span class="s2">"ReservedKindError"</span><span class="p">,</span>
+    <span class="s2">"RESERVED_KINDS"</span><span class="p">,</span>
     <span class="c1"># Validation</span>
-    <span class="s2">&quot;KrefValidationError&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;EdgeTypeValidationError&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;validate_kref&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;validate_edge_type&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_valid_kref&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_valid_edge_type&quot;</span><span class="p">,</span>
+    <span class="s2">"KrefValidationError"</span><span class="p">,</span>
+    <span class="s2">"EdgeTypeValidationError"</span><span class="p">,</span>
+    <span class="s2">"validate_kref"</span><span class="p">,</span>
+    <span class="s2">"validate_edge_type"</span><span class="p">,</span>
+    <span class="s2">"is_valid_kref"</span><span class="p">,</span>
+    <span class="s2">"is_valid_edge_type"</span><span class="p">,</span>
     <span class="c1"># Connection</span>
-    <span class="s2">&quot;connect&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;use_client&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_client&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;configure_default_client&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;auto_configure_from_discovery&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;client_from_local_ce&quot;</span><span class="p">,</span>
+    <span class="s2">"connect"</span><span class="p">,</span>
+    <span class="s2">"use_client"</span><span class="p">,</span>
+    <span class="s2">"get_client"</span><span class="p">,</span>
+    <span class="s2">"configure_default_client"</span><span class="p">,</span>
+    <span class="s2">"auto_configure_from_discovery"</span><span class="p">,</span>
+    <span class="s2">"client_from_local_ce"</span><span class="p">,</span>
     <span class="c1"># Constants</span>
-    <span class="s2">&quot;LATEST_TAG&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PUBLISHED_TAG&quot;</span><span class="p">,</span>
+    <span class="s2">"LATEST_TAG"</span><span class="p">,</span>
+    <span class="s2">"PUBLISHED_TAG"</span><span class="p">,</span>
     <span class="c1"># Edge types</span>
-    <span class="s2">&quot;EdgeType&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BELONGS_TO&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CREATED_FROM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;REFERENCED&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEPENDS_ON&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DERIVED_FROM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CONTAINS&quot;</span><span class="p">,</span>
+    <span class="s2">"EdgeType"</span><span class="p">,</span>
+    <span class="s2">"BELONGS_TO"</span><span class="p">,</span>
+    <span class="s2">"CREATED_FROM"</span><span class="p">,</span>
+    <span class="s2">"REFERENCED"</span><span class="p">,</span>
+    <span class="s2">"DEPENDS_ON"</span><span class="p">,</span>
+    <span class="s2">"DERIVED_FROM"</span><span class="p">,</span>
+    <span class="s2">"PRODUCED_BY"</span><span class="p">,</span>
+    <span class="s2">"MIGRATED_FROM"</span><span class="p">,</span>
+    <span class="s2">"CONTAINS"</span><span class="p">,</span>
+    <span class="s2">"SUPERSEDES"</span><span class="p">,</span>
+    <span class="s2">"SUPPORTS"</span><span class="p">,</span>
     <span class="c1"># Edge directions</span>
-    <span class="s2">&quot;EdgeDirection&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;OUTGOING&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;INCOMING&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BOTH&quot;</span><span class="p">,</span>
+    <span class="s2">"EdgeDirection"</span><span class="p">,</span>
+    <span class="s2">"OUTGOING"</span><span class="p">,</span>
+    <span class="s2">"INCOMING"</span><span class="p">,</span>
+    <span class="s2">"BOTH"</span><span class="p">,</span>
     <span class="c1"># Tenant info</span>
-    <span class="s2">&quot;get_tenant_info&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_tenant_slug&quot;</span><span class="p">,</span>
+    <span class="s2">"get_tenant_info"</span><span class="p">,</span>
+    <span class="s2">"get_tenant_slug"</span><span class="p">,</span>
     <span class="c1"># Top-level functions</span>
-    <span class="s2">&quot;create_project&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_projects&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_project&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;delete_project&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;item_search&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;search&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SearchResult&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_item&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_bundle&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_revision&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_artifact&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_artifacts_by_location&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;set_attribute&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_attribute&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;delete_attribute&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;event_stream&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_event_capabilities&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;EventCapabilities&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;resolve&quot;</span><span class="p">,</span>
+    <span class="s2">"create_project"</span><span class="p">,</span>
+    <span class="s2">"get_projects"</span><span class="p">,</span>
+    <span class="s2">"get_project"</span><span class="p">,</span>
+    <span class="s2">"delete_project"</span><span class="p">,</span>
+    <span class="s2">"analyze_project_deletion"</span><span class="p">,</span>
+    <span class="s2">"item_search"</span><span class="p">,</span>
+    <span class="s2">"search"</span><span class="p">,</span>
+    <span class="s2">"SearchResult"</span><span class="p">,</span>
+    <span class="s2">"get_item"</span><span class="p">,</span>
+    <span class="s2">"get_bundle"</span><span class="p">,</span>
+    <span class="s2">"get_revision"</span><span class="p">,</span>
+    <span class="s2">"get_artifact"</span><span class="p">,</span>
+    <span class="s2">"get_artifacts_by_location"</span><span class="p">,</span>
+    <span class="s2">"set_attribute"</span><span class="p">,</span>
+    <span class="s2">"get_attribute"</span><span class="p">,</span>
+    <span class="s2">"delete_attribute"</span><span class="p">,</span>
+    <span class="s2">"event_stream"</span><span class="p">,</span>
+    <span class="s2">"get_event_capabilities"</span><span class="p">,</span>
+    <span class="s2">"EventCapabilities"</span><span class="p">,</span>
+    <span class="s2">"resolve"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="c1"># Remove typing imports from public namespace</span>

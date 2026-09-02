@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Kumiho Python SDK v0.11.0</title>
+  <title>Index &mdash; Kumiho Python SDK v0.12.1</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f3b36f1a"></script>
+      <script src="_static/documentation_options.js?v=c5b435e8"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -215,12 +215,41 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_item"><code class="docutils literal notranslate"><span class="pre">Project.get_item()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_bundle"><code class="docutils literal notranslate"><span class="pre">Project.get_bundle()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.delete"><code class="docutils literal notranslate"><span class="pre">Project.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.deprecate"><code class="docutils literal notranslate"><span class="pre">Project.deprecate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.restore"><code class="docutils literal notranslate"><span class="pre">Project.restore()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.analyze_deletion"><code class="docutils literal notranslate"><span class="pre">Project.analyze_deletion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.register_deletion_guard"><code class="docutils literal notranslate"><span class="pre">Project.register_deletion_guard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.resolve_deletion_guard"><code class="docutils literal notranslate"><span class="pre">Project.resolve_deletion_guard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.resolve_reference"><code class="docutils literal notranslate"><span class="pre">Project.resolve_reference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.hard_delete"><code class="docutils literal notranslate"><span class="pre">Project.hard_delete()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.set_public"><code class="docutils literal notranslate"><span class="pre">Project.set_public()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.set_allow_public"><code class="docutils literal notranslate"><span class="pre">Project.set_allow_public()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.update"><code class="docutils literal notranslate"><span class="pre">Project.update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.set_metadata"><code class="docutils literal notranslate"><span class="pre">Project.set_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_space"><code class="docutils literal notranslate"><span class="pre">Project.get_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_spaces"><code class="docutils literal notranslate"><span class="pre">Project.get_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Project.get_items"><code class="docutils literal notranslate"><span class="pre">Project.get_items()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.impact_snapshot_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_hash"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.impact_snapshot_hash</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.project_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.project_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.project_name"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.project_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.blockers"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.blockers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.descendants"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.descendants</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.created_at"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionImpact.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionImpact.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.project_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.project_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.guard_id"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.guard_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.resource_kref"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.resource_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_operations"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.allowed_operations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_metadata_keys"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.allowed_metadata_keys</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.created_at"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.ProjectDeletionGuard.__init__"><code class="docutils literal notranslate"><span class="pre">ProjectDeletionGuard.__init__()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a><ul>
@@ -272,6 +301,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_latest_revision"><code class="docutils literal notranslate"><span class="pre">Item.get_latest_revision()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_space"><code class="docutils literal notranslate"><span class="pre">Item.get_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.move_to"><code class="docutils literal notranslate"><span class="pre">Item.move_to()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_project"><code class="docutils literal notranslate"><span class="pre">Item.get_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_revision_by_tag"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_tag()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.Item.get_revision_by_time"><code class="docutils literal notranslate"><span class="pre">Item.get_revision_by_time()</span></code></a></li>
@@ -473,6 +503,8 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.REFERENCED"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.DEPENDS_ON"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.DERIVED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.PRODUCED_BY"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.MIGRATED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.CONTAINS"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.SUPERSEDES"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeType.SUPPORTS"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
@@ -481,18 +513,20 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id20"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id21"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id22"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id23"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id24"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id25"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection"><code class="docutils literal notranslate"><span class="pre">EdgeDirection</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection.OUTGOING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection.INCOMING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EdgeDirection.BOTH"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id26"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id27"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id28"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_tenant_info"><code class="docutils literal notranslate"><span class="pre">get_tenant_info()</span></code></a></li>
@@ -501,15 +535,16 @@
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_projects"><code class="docutils literal notranslate"><span class="pre">get_projects()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.get_project"><code class="docutils literal notranslate"><span class="pre">get_project()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.delete_project"><code class="docutils literal notranslate"><span class="pre">delete_project()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.analyze_project_deletion"><code class="docutils literal notranslate"><span class="pre">analyze_project_deletion()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.item_search"><code class="docutils literal notranslate"><span class="pre">item_search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.search"><code class="docutils literal notranslate"><span class="pre">search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.item"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.score"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.matched_in"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id29"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id30"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id31"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id31"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id32"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id33"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.SearchResult.__init__"><code class="docutils literal notranslate"><span class="pre">SearchResult.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -530,12 +565,12 @@
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id32"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id33"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id34"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id35"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id36"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id37"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id34"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id35"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id36"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id37"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id38"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#id39"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/kumiho.html#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -607,48 +642,59 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">[0.12.1] - 2026-09-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#changed">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">[0.10.7] - 2026-07-14</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id5">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id7">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id10">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id14">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id15">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id16">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id4">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id17">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id6">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id7">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">[0.10.7] - 2026-07-14</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id11">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id15">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id16">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id17">[0.4.0] - 2025-12-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id18">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id19">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id20">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id20">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#id21">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id22">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id23">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id24">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id25">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id26">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id27">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id28">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -747,6 +793,10 @@
 </li>
         <li><a href="api/kumiho.html#kumiho.Project.__init__">(kumiho.Project method)</a>
 </li>
+        <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard.__init__">(kumiho.ProjectDeletionGuard method)</a>
+</li>
+        <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.__init__">(kumiho.ProjectDeletionImpact method)</a>
+</li>
         <li><a href="api/kumiho.html#kumiho.Revision.__init__">(kumiho.Revision method)</a>
 </li>
         <li><a href="api/kumiho.html#kumiho.SearchResult.__init__">(kumiho.SearchResult method)</a>
@@ -804,12 +854,20 @@
 </li>
       <li><a href="api/kumiho.html#kumiho.Project.allow_public">allow_public (kumiho.Project attribute)</a>
 </li>
-      <li><a href="api/kumiho.html#kumiho.Revision.analyze_impact">analyze_impact() (kumiho.Revision method)</a>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_metadata_keys">allowed_metadata_keys (kumiho.ProjectDeletionGuard attribute)</a>
 </li>
-      <li><a href="api/kumiho.html#kumiho.Artifact">Artifact (class in kumiho)</a>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard.allowed_operations">allowed_operations (kumiho.ProjectDeletionGuard attribute)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.Project.analyze_deletion">analyze_deletion() (kumiho.Project method)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.Revision.analyze_impact">analyze_impact() (kumiho.Revision method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/kumiho.html#kumiho.analyze_project_deletion">analyze_project_deletion() (in module kumiho)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.Artifact">Artifact (class in kumiho)</a>
+</li>
       <li><a href="api/kumiho.html#kumiho.Artifact.author">author (kumiho.Artifact attribute)</a>
 
       <ul>
@@ -838,7 +896,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/kumiho.html#id18">BELONGS_TO (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.BELONGS_TO">[1]</a>
 </li>
-      <li><a href="api/kumiho.html#id28">BOTH (kumiho.EdgeDirection attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeDirection.BOTH">[1]</a>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.blockers">blockers (kumiho.ProjectDeletionImpact attribute)</a>
+</li>
+      <li><a href="api/kumiho.html#id30">BOTH (kumiho.EdgeDirection attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeDirection.BOTH">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -860,7 +920,7 @@
 </li>
       <li><a href="api/kumiho.html#kumiho.connect">connect() (in module kumiho)</a>
 </li>
-      <li><a href="api/kumiho.html#id23">CONTAINS (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.CONTAINS">[1]</a>
+      <li><a href="api/kumiho.html#id25">CONTAINS (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.CONTAINS">[1]</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.Revision.create_artifact">create_artifact() (kumiho.Revision method)</a>
 </li>
@@ -882,10 +942,10 @@
 </li>
       <li><a href="api/kumiho.html#kumiho.create_project">create_project() (in module kumiho)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/kumiho.html#kumiho.Item.create_revision">create_revision() (kumiho.Item method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/kumiho.html#kumiho.Project.create_space">create_space() (kumiho.Project method)</a>
 
       <ul>
@@ -904,6 +964,10 @@
         <li><a href="api/kumiho.html#kumiho.Item.created_at">(kumiho.Item attribute)</a>
 </li>
         <li><a href="api/kumiho.html#kumiho.Project.created_at">(kumiho.Project attribute)</a>
+</li>
+        <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard.created_at">(kumiho.ProjectDeletionGuard attribute)</a>
+</li>
+        <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.created_at">(kumiho.ProjectDeletionImpact attribute)</a>
 </li>
         <li><a href="api/kumiho.html#kumiho.Revision.created_at">(kumiho.Revision attribute)</a>
 </li>
@@ -956,6 +1020,8 @@
 </li>
       <li><a href="api/kumiho.html#id21">DEPENDS_ON (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.DEPENDS_ON">[1]</a>
 </li>
+      <li><a href="api/kumiho.html#kumiho.Project.deprecate">deprecate() (kumiho.Project method)</a>
+</li>
       <li><a href="api/kumiho.html#kumiho.Artifact.deprecated">deprecated (kumiho.Artifact attribute)</a>
 
       <ul>
@@ -969,6 +1035,8 @@
 </li>
       </ul></li>
       <li><a href="api/kumiho.html#id22">DERIVED_FROM (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.DERIVED_FROM">[1]</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.descendants">descendants (kumiho.ProjectDeletionImpact attribute)</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.Project.description">description (kumiho.Project attribute)</a>
 </li>
@@ -1152,11 +1220,17 @@
 </li>
       <li><a href="api/kumiho.html#kumiho.get_tenant_slug">get_tenant_slug() (in module kumiho)</a>
 </li>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard.guard_id">guard_id (kumiho.ProjectDeletionGuard attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/kumiho.html#kumiho.Project.hard_delete">hard_delete() (kumiho.Project method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/kumiho.html#kumiho.Revision.has_tag">has_tag() (kumiho.Revision method)</a>
 </li>
@@ -1166,7 +1240,11 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/kumiho.html#id27">INCOMING (kumiho.EdgeDirection attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeDirection.INCOMING">[1]</a>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_hash">impact_snapshot_hash (kumiho.ProjectDeletionImpact attribute)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.impact_snapshot_id">impact_snapshot_id (kumiho.ProjectDeletionImpact attribute)</a>
+</li>
+      <li><a href="api/kumiho.html#id29">INCOMING (kumiho.EdgeDirection attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeDirection.INCOMING">[1]</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.is_valid_edge_type">is_valid_edge_type() (in module kumiho)</a>
 </li>
@@ -1174,10 +1252,10 @@
 </li>
       <li><a href="api/kumiho.html#kumiho.Item">Item (class in kumiho)</a>
 </li>
-      <li><a href="api/kumiho.html#id29">item (kumiho.SearchResult attribute)</a>, <a href="api/kumiho.html#kumiho.SearchResult.item">[1]</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/kumiho.html#id31">item (kumiho.SearchResult attribute)</a>, <a href="api/kumiho.html#kumiho.SearchResult.item">[1]</a>
+</li>
       <li><a href="api/kumiho.html#kumiho.Artifact.item_kref">item_kref (kumiho.Artifact attribute)</a>
 
       <ul>
@@ -1264,11 +1342,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/mcp_server.html#kumiho.mcp_server.main">main() (in module kumiho.mcp_server)</a>
 </li>
-      <li><a href="api/kumiho.html#id31">matched_in (kumiho.SearchResult attribute)</a>, <a href="api/kumiho.html#kumiho.SearchResult.matched_in">[1]</a>
+      <li><a href="api/kumiho.html#id33">matched_in (kumiho.SearchResult attribute)</a>, <a href="api/kumiho.html#kumiho.SearchResult.matched_in">[1]</a>
 </li>
-      <li><a href="api/kumiho.html#id36">max_buffer_size (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.max_buffer_size">[1]</a>
+      <li><a href="api/kumiho.html#id38">max_buffer_size (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.max_buffer_size">[1]</a>
 </li>
-      <li><a href="api/kumiho.html#id35">max_retention_hours (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.max_retention_hours">[1]</a>
+      <li><a href="api/kumiho.html#id37">max_retention_hours (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.max_retention_hours">[1]</a>
 </li>
       <li><a href="api/kumiho.html#id11">member_item_kref (kumiho.BundleRevisionHistory attribute)</a>, <a href="api/kumiho.html#kumiho.BundleRevisionHistory.member_item_kref">[1]</a>
 </li>
@@ -1290,6 +1368,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/kumiho.html#id24">MIGRATED_FROM (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.MIGRATED_FROM">[1]</a>
+</li>
       <li>
     module
 
@@ -1299,6 +1379,8 @@
         <li><a href="api/mcp_server.html#module-kumiho.mcp_server">kumiho.mcp_server</a>
 </li>
       </ul></li>
+      <li><a href="api/kumiho.html#kumiho.Item.move_to">move_to() (kumiho.Item method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1327,7 +1409,7 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/kumiho.html#id26">OUTGOING (kumiho.EdgeDirection attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeDirection.OUTGOING">[1]</a>
+      <li><a href="api/kumiho.html#id28">OUTGOING (kumiho.EdgeDirection attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeDirection.OUTGOING">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1339,6 +1421,8 @@
 </li>
       <li><a href="api/kumiho.html#kumiho.Item.peek_next_revision">peek_next_revision() (kumiho.Item method)</a>
 </li>
+      <li><a href="api/kumiho.html#id23">PRODUCED_BY (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.PRODUCED_BY">[1]</a>
+</li>
       <li><a href="api/kumiho.html#kumiho.Project">Project (class in kumiho)</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.Item.project">project (kumiho.Item attribute)</a>
@@ -1347,9 +1431,21 @@
         <li><a href="api/kumiho.html#id0">(kumiho.Item property)</a>
 </li>
       </ul></li>
+      <li><a href="api/kumiho.html#kumiho.Project.project_id">project_id (kumiho.Project attribute)</a>
+
+      <ul>
+        <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard.project_id">(kumiho.ProjectDeletionGuard attribute)</a>
+</li>
+        <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.project_id">(kumiho.ProjectDeletionImpact attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/kumiho.html#kumiho.Project.project_id">project_id (kumiho.Project attribute)</a>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact.project_name">project_name (kumiho.ProjectDeletionImpact attribute)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard">ProjectDeletionGuard (class in kumiho)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionImpact">ProjectDeletionImpact (class in kumiho)</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.ProjectLimitError">ProjectLimitError</a>
 </li>
@@ -1367,14 +1463,24 @@
 </li>
       <li><a href="api/kumiho.html#kumiho.Revision.refresh">refresh() (kumiho.Revision method)</a>
 </li>
+      <li><a href="api/kumiho.html#kumiho.Project.register_deletion_guard">register_deletion_guard() (kumiho.Project method)</a>
+</li>
       <li><a href="api/kumiho.html#kumiho.Bundle.remove_member">remove_member() (kumiho.Bundle method)</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.ReservedKindError">ReservedKindError</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.resolve">resolve() (in module kumiho)</a>
 </li>
+      <li><a href="api/kumiho.html#kumiho.Project.resolve_deletion_guard">resolve_deletion_guard() (kumiho.Project method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/kumiho.html#kumiho.Project.resolve_reference">resolve_reference() (kumiho.Project method)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.ProjectDeletionGuard.resource_kref">resource_kref (kumiho.ProjectDeletionGuard attribute)</a>
+</li>
+      <li><a href="api/kumiho.html#kumiho.Project.restore">restore() (kumiho.Project method)</a>
+</li>
       <li><a href="api/kumiho.html#kumiho.Revision">Revision (class in kumiho)</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.Artifact.revision_kref">revision_kref (kumiho.Artifact attribute)</a>
@@ -1391,7 +1497,7 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/kumiho.html#id30">score (kumiho.SearchResult attribute)</a>, <a href="api/kumiho.html#kumiho.SearchResult.score">[1]</a>
+      <li><a href="api/kumiho.html#id32">score (kumiho.SearchResult attribute)</a>, <a href="api/kumiho.html#kumiho.SearchResult.score">[1]</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.search">search() (in module kumiho)</a>
 </li>
@@ -1430,6 +1536,8 @@
       <ul>
         <li><a href="api/kumiho.html#kumiho.Item.set_metadata">(kumiho.Item method)</a>
 </li>
+        <li><a href="api/kumiho.html#kumiho.Project.set_metadata">(kumiho.Project method)</a>
+</li>
         <li><a href="api/kumiho.html#kumiho.Revision.set_metadata">(kumiho.Revision method)</a>
 </li>
         <li><a href="api/kumiho.html#kumiho.Space.set_metadata">(kumiho.Space method)</a>
@@ -1447,15 +1555,15 @@
         <li><a href="api/kumiho.html#id1">(kumiho.Item property)</a>
 </li>
       </ul></li>
-      <li><a href="api/kumiho.html#id24">SUPERSEDES (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.SUPERSEDES">[1]</a>
+      <li><a href="api/kumiho.html#id26">SUPERSEDES (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.SUPERSEDES">[1]</a>
 </li>
-      <li><a href="api/kumiho.html#id25">SUPPORTS (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.SUPPORTS">[1]</a>
+      <li><a href="api/kumiho.html#id27">SUPPORTS (kumiho.EdgeType attribute)</a>, <a href="api/kumiho.html#kumiho.EdgeType.SUPPORTS">[1]</a>
 </li>
-      <li><a href="api/kumiho.html#id34">supports_consumer_groups (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.supports_consumer_groups">[1]</a>
+      <li><a href="api/kumiho.html#id36">supports_consumer_groups (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.supports_consumer_groups">[1]</a>
 </li>
-      <li><a href="api/kumiho.html#id33">supports_cursor (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.supports_cursor">[1]</a>
+      <li><a href="api/kumiho.html#id35">supports_cursor (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.supports_cursor">[1]</a>
 </li>
-      <li><a href="api/kumiho.html#id32">supports_replay (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.supports_replay">[1]</a>
+      <li><a href="api/kumiho.html#id34">supports_replay (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.supports_replay">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1473,7 +1581,7 @@
       </ul></li>
       <li><a href="api/kumiho.html#kumiho.Edge.target_kref">target_kref (kumiho.Edge attribute)</a>
 </li>
-      <li><a href="api/kumiho.html#id37">tier (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.tier">[1]</a>
+      <li><a href="api/kumiho.html#id39">tier (kumiho.EventCapabilities attribute)</a>, <a href="api/kumiho.html#kumiho.EventCapabilities.tier">[1]</a>
 </li>
       <li><a href="api/kumiho.html#kumiho.Event.timestamp">timestamp (kumiho.Event attribute)</a>
 </li>
