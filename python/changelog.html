@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; Kumiho Python SDK v0.12.1</title>
+  <title>Changelog &mdash; Kumiho Python SDK v0.12.2</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=c5b435e8"></script>
+      <script src="_static/documentation_options.js?v=f24cbf82"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -645,120 +645,126 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[0.12.2] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removed">Removed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">[0.12.0] - 2026-08-13</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">[0.11.0] - 2026-08-01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id7">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">[0.10.7] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id12">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id13">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">[0.10.7] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">[0.10.5] - 2026-07-11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id16">[0.10.4] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id18">[0.10.3] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id19">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">[0.10.4] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id20">[0.10.2] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id21">[0.10.3] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id23">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id23">[0.10.2] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id24">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id25">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id26">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id28">[0.9.24] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id28">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id29">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id30">[0.9.23] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id31">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id31">[0.9.24] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id32">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id32">[0.9.22] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id33">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id33">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id34">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id34">[0.9.21] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id35">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id35">[0.9.22] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id36">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id36">[0.9.20] - 2026-03-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id37">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id37">[0.9.21] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id38">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id38">[0.9.19] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id39">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id39">[0.9.20] - 2026-03-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id40">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id40">[0.9.18] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id41">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id41">[0.9.19] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id42">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id42">[0.9.17] - 2026-03-09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id43">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id43">[0.9.18] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id44">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id44">[0.9.16] - 2026-03-08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id45">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id45">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id46">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id46">[0.9.15] - 2026-03-07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id47">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id47">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id48">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id48">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id49">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id50">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id51">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id49">[0.9.15] - 2026-03-07</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id50">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id51">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id52">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id52">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id53">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id54">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id55">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id56">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id57">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#id58">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id58">[0.2.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id59">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id61">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id62">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -809,9 +815,50 @@ in descending version order, which is also descending date order.</p>
 narrative — why a change mattered and what you have to do about it. This file is
 its terse companion. Entries belong in both.</p>
 <section id="id1">
-<h2>[0.12.1] - 2026-09-02<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>[0.12.2] - 2026-09-02<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="fixed">
+<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Revision stacking in <code class="docutils literal notranslate"><span class="pre">kumiho_memory_store</span></code> never fired.</strong> The 0.92 fuzzy
+threshold sat above the scorer’s ceiling: an item scores 0.72-0.83 against
+its own exact title, so no input could ever stack and every capture minted a
+new item. The gate is now a lexical-overlap floor (token Jaccard &gt;= 0.17 over
+Latin words and CJK bigrams, refusing texts under 8 tokens) combined with two
+score bands (&gt;= 0.75 alone, or &gt;= 0.55 with matching <code class="docutils literal notranslate"><span class="pre">memory_type</span></code>),
+calibrated on 17 labelled pairs from a live graph that are pinned as tests.
+The search now uses title and summary, is capped at 180 characters with a
+title-only retry (long CJK queries hit Lucene’s 1024-clause limit), and logs
+failures at warning instead of debug.</p></li>
+<li><p><strong>Dart <code class="docutils literal notranslate"><span class="pre">EdgeType.isValid</span></code> rejected valid types.</strong> It checked membership in a
+seven-item list rather than the regex every other SDK uses, so <code class="docutils literal notranslate"><span class="pre">SUPPORTS</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PRODUCED_BY</span></code> and <code class="docutils literal notranslate"><span class="pre">MIGRATED_FROM</span></code> returned false. Constants added; <code class="docutils literal notranslate"><span class="pre">isValid</span></code>
+now delegates to <code class="docutils literal notranslate"><span class="pre">isValidEdgeType</span></code>.</p></li>
+</ul>
+</section>
 <section id="added">
 <h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stack_score</span></code>, <code class="docutils literal notranslate"><span class="pre">stack_runner_up</span></code> and <code class="docutils literal notranslate"><span class="pre">stack_overlap</span></code> on every
+<code class="docutils literal notranslate"><span class="pre">kumiho_memory_store</span></code> and <code class="docutils literal notranslate"><span class="pre">kumiho_memory_store_batch</span></code> result, reported whether
+or not the capture stacked, so a caller can tell a broken search from a
+near-miss.</p></li>
+<li><p>The 21-file <code class="docutils literal notranslate"><span class="pre">python/tests/</span></code> suite is now collected by CI (moved under
+<code class="docutils literal notranslate"><span class="pre">python/python/tests/</span></code>), together with the <code class="docutils literal notranslate"><span class="pre">kumiho-cli</span></code> tests; a layout guard
+fails the build if a test directory under <code class="docutils literal notranslate"><span class="pre">python/</span></code> is not run by any job.</p></li>
+</ul>
+</section>
+<section id="removed">
+<h3>Removed<a class="headerlink" href="#removed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">python/.github/workflows/</span></code>: dead copies that GitHub never read and that
+documented a stale version gate.</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>[0.12.1] - 2026-09-02<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>Added<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">SUPPORTS</span></code> is reachable from <code class="docutils literal notranslate"><span class="pre">kumiho_create_edge</span></code></strong> — the tool’s
 <code class="docutils literal notranslate"><span class="pre">edge_type</span></code> enum listed 8 of the 10 <code class="docutils literal notranslate"><span class="pre">EdgeType</span></code> members. The enum is enforced
@@ -842,10 +889,10 @@ edge deletion has no repair path.</p></li>
 </ul>
 </section>
 </section>
-<section id="id2">
-<h2>[0.12.0] - 2026-08-13<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
-<section id="id3">
-<h3>Added<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="id4">
+<h2>[0.12.0] - 2026-08-13<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h3>Added<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Creative Project lifecycle APIs</strong> — Projects now expose metadata, archived
 listing and restoration, deletion-impact analysis, deletion guards, external
@@ -857,8 +904,8 @@ confirmation and impact-snapshot contract while the established
 <code class="docutils literal notranslate"><span class="pre">delete_project(project_id,</span> <span class="pre">force=False)</span></code> signature remains available.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h3>Changed<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<section id="id6">
+<h3>Changed<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Generated protobuf and gRPC bindings now target the Project lifecycle contract
 shipped by kumiho-server 1.7.0.</p></li>
@@ -867,10 +914,10 @@ Creating another Project with the same canonical name returns a conflict.</p></l
 </ul>
 </section>
 </section>
-<section id="id5">
-<h2>[0.11.0] - 2026-08-01<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
-<section id="id6">
-<h3>Added<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<section id="id7">
+<h2>[0.11.0] - 2026-08-01<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>Added<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>mcp 2.x support</strong> — <code class="docutils literal notranslate"><span class="pre">kumiho[mcp]</span></code> now runs on both mcp 1.x and mcp 2.x.
 mcp 2.0.0 removed the low-level <code class="docutils literal notranslate"><span class="pre">Server</span></code> handler decorators and replaced them
@@ -886,8 +933,8 @@ is still rejected with <code class="docutils literal notranslate"><span class="p
 handler.</p></li>
 </ul>
 </section>
-<section id="fixed">
-<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Fixed<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">kumiho[mcp]</span></code> installed a server that could not start.</strong> The <code class="docutils literal notranslate"><span class="pre">mcp</span></code> extra
 declared <code class="docutils literal notranslate"><span class="pre">mcp&gt;=1.0.0</span></code> with no upper bound, so once mcp 2.0.0 published, every
@@ -906,8 +953,8 @@ mcp 1.x, and would have reported an empty string under 2.0 (#147). It now
 reports kumiho’s own version.</p></li>
 </ul>
 </section>
-<section id="id7">
-<h3>Changed<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<section id="id10">
+<h3>Changed<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">mcp</span></code> extra is now bounded at <strong>both</strong> ends: <code class="docutils literal notranslate"><span class="pre">mcp&gt;=1.10.0,&lt;3</span></code>. The floor
 is the oldest release where every assumption in the code actually holds —
@@ -921,10 +968,10 @@ imports it rather than relying on it transitively.</p></li>
 </ul>
 </section>
 </section>
-<section id="id8">
-<h2>[0.10.8] - 2026-07-15<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
-<section id="id9">
-<h3>Fixed<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id11">
+<h2>[0.10.8] - 2026-07-15<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h3>Fixed<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>MCP server orphan hardening</strong> — <code class="docutils literal notranslate"><span class="pre">kumiho.mcp_server</span></code> now exits when its
 launching ancestor chain dies: event-driven on Windows (a watchdog thread
@@ -943,10 +990,10 @@ pools, gRPC channels) can never keep a dead server alive. Opt out with
 </ul>
 </section>
 </section>
-<section id="id10">
-<h2>[0.10.7] - 2026-07-15<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
-<section id="id11">
-<h3>Added<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id13">
+<h2>[0.10.7] - 2026-07-15<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h3>Added<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">tool_memory_store_batch</span></code></strong> — the bulk counterpart of <code class="docutils literal notranslate"><span class="pre">tool_memory_store</span></code> for
 the MCP write path. N captures land in <strong>one <code class="docutils literal notranslate"><span class="pre">batch_create_revisions</span></code>
@@ -960,10 +1007,10 @@ capture keeps the byte-identical per-capture path.</p></li>
 </ul>
 </section>
 </section>
-<section id="id12">
-<h2>[0.10.6] - 2026-07-15<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
-<section id="id13">
-<h3>Added<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id15">
+<h2>[0.10.6] - 2026-07-15<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id16">
+<h3>Added<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Batch revision creation</strong> — <code class="docutils literal notranslate"><span class="pre">batch_create_revisions(revisions,</span> <span class="pre">idempotency_prefix=...)</span></code>
 writes up to 200 captures (item + revision + optional artifacts) in a single
@@ -976,10 +1023,10 @@ kumiho-server &gt;= 1.6.3.</p></li>
 </ul>
 </section>
 </section>
-<section id="id14">
-<h2>[0.10.5] - 2026-07-11<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
-<section id="id15">
-<h3>Added<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<section id="id17">
+<h2>[0.10.5] - 2026-07-11<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h3>Added<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">kumiho._text.slugify()</span></code></strong> — one canonical slug helper shared by the SDK and
 kumiho-memory, so a fix (Unicode handling in particular) cannot land in one
@@ -995,10 +1042,10 @@ space instead of creating a near-duplicate.</p></li>
 </ul>
 </section>
 </section>
-<section id="id16">
-<h2>[0.10.4] - 2026-07-03<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
-<section id="id17">
-<h3>Fixed<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<section id="id19">
+<h2>[0.10.4] - 2026-07-03<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<section id="id20">
+<h3>Fixed<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">memory_type</span></code> never round-tripped</strong> — the server reserves the <code class="docutils literal notranslate"><span class="pre">type</span></code>
 metadata key, which made the <code class="docutils literal notranslate"><span class="pre">memory_types</span></code> filter dead code (#21).</p></li>
@@ -1008,10 +1055,10 @@ indefinitely (#22). Both fixed in #23.</p></li>
 </ul>
 </section>
 </section>
-<section id="id18">
-<h2>[0.10.3] - 2026-07-03<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
-<section id="id19">
-<h3>Fixed<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<section id="id21">
+<h2>[0.10.3] - 2026-07-03<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<section id="id22">
+<h3>Fixed<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Memory-retrieve RPC storm</strong> (#20) — <code class="docutils literal notranslate"><span class="pre">search</span></code> now retries shallow when
 <code class="docutils literal notranslate"><span class="pre">include_revision_metadata=True</span></code> returns nothing, and the pattern-fallback and
@@ -1020,10 +1067,10 @@ timeout on unscoped recall against large cloud projects.</p></li>
 </ul>
 </section>
 </section>
-<section id="id20">
-<h2>[0.10.2] - 2026-07-03<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
-<section id="id21">
-<h3>Fixed<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<section id="id23">
+<h2>[0.10.2] - 2026-07-03<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<section id="id24">
+<h3>Fixed<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">__version__</span></code> drift left over from 0.10.1</strong> — <code class="docutils literal notranslate"><span class="pre">kumiho/__init__.py</span></code> was never
 bumped when <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> went to 0.10.1, so the published wheel’s metadata
@@ -1031,18 +1078,18 @@ correctly said 0.10.1 while <code class="docutils literal notranslate"><span cla
 runtime.</p></li>
 </ul>
 </section>
-<section id="id22">
-<h3>Added<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<section id="id25">
+<h3>Added<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">tests/test_version.py</span></code> asserts <code class="docutils literal notranslate"><span class="pre">kumiho.__version__</span></code> matches <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>,
 so this class of drift fails a test instead of silently shipping again.</p></li>
 </ul>
 </section>
 </section>
-<section id="id23">
-<h2>[0.10.1] - 2026-07-03<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
-<section id="id24">
-<h3>Fixed<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<section id="id26">
+<h2>[0.10.1] - 2026-07-03<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<section id="id27">
+<h3>Fixed<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">tool_memory_store</span></code> never applied tags</strong> — it called a nonexistent
 module-level <code class="docutils literal notranslate"><span class="pre">kumiho.tag_revision(...)</span></code> instead of the <code class="docutils literal notranslate"><span class="pre">revision.tag(...)</span></code>
@@ -1053,10 +1100,10 @@ consumer relying on the default store backend.</p></li>
 </ul>
 </section>
 </section>
-<section id="id25">
-<h2>[0.10.0] - 2026-06-17<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
-<section id="id26">
-<h3>Added<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<section id="id28">
+<h2>[0.10.0] - 2026-06-17<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
+<section id="id29">
+<h3>Added<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Full-text fuzzy search</strong> — <code class="docutils literal notranslate"><span class="pre">search(query,</span> <span class="pre">...)</span></code> returns ranked items
 (<code class="docutils literal notranslate"><span class="pre">SearchResult</span></code> with <code class="docutils literal notranslate"><span class="pre">item</span></code>, <code class="docutils literal notranslate"><span class="pre">score</span></code>, <code class="docutils literal notranslate"><span class="pre">matched_in</span></code>), with automatic typo tolerance.</p></li>
@@ -1068,8 +1115,8 @@ fetches many revisions in a single call, returning <code class="docutils literal
 <code class="docutils literal notranslate"><span class="pre">client.get_item_from_revision()</span></code>.</p></li>
 </ul>
 </section>
-<section id="id27">
-<h3>Changed<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<section id="id30">
+<h3>Changed<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>The advanced <code class="docutils literal notranslate"><span class="pre">event_stream()</span></code> parameters (<code class="docutils literal notranslate"><span class="pre">cursor</span></code>, <code class="docutils literal notranslate"><span class="pre">consumer_group</span></code>,
 <code class="docutils literal notranslate"><span class="pre">from_beginning</span></code>) and <code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code> are now generally available.</p></li>
@@ -1077,10 +1124,10 @@ fetches many revisions in a single call, returning <code class="docutils literal
 </ul>
 </section>
 </section>
-<section id="id28">
-<h2>[0.9.24] - 2026-04-17<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
-<section id="id29">
-<h3>Fixed<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<section id="id31">
+<h2>[0.9.24] - 2026-04-17<a class="headerlink" href="#id31" title="Link to this heading"></a></h2>
+<section id="id32">
+<h3>Fixed<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Unicode kref path segments</strong> — <code class="docutils literal notranslate"><span class="pre">Kref</span></code> rejected non-ASCII letters in path
 segments even though the server accepts them, so a Hangul or CJK space or item
@@ -1088,10 +1135,10 @@ name could not be addressed from the SDK.</p></li>
 </ul>
 </section>
 </section>
-<section id="id30">
-<h2>[0.9.23] - 2026-04-17<a class="headerlink" href="#id30" title="Link to this heading"></a></h2>
-<section id="id31">
-<h3>Changed<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<section id="id33">
+<h2>[0.9.23] - 2026-04-17<a class="headerlink" href="#id33" title="Link to this heading"></a></h2>
+<section id="id34">
+<h3>Changed<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>gRPC reliability hardening</strong> — a per-RPC default deadline, so a call can no
 longer hang indefinitely against an unresponsive gateway.</p></li>
@@ -1100,30 +1147,30 @@ unrolling.</p></li>
 </ul>
 </section>
 </section>
-<section id="id32">
-<h2>[0.9.22] - 2026-04-02<a class="headerlink" href="#id32" title="Link to this heading"></a></h2>
-<section id="id33">
-<h3>Fixed<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<section id="id35">
+<h2>[0.9.22] - 2026-04-02<a class="headerlink" href="#id35" title="Link to this heading"></a></h2>
+<section id="id36">
+<h3>Fixed<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">tool_memory_retrieve</span></code> accepts a <code class="docutils literal notranslate"><span class="pre">memory_types</span></code> parameter, which the tool
 schema had omitted.</p></li>
 </ul>
 </section>
 </section>
-<section id="id34">
-<h2>[0.9.21] - 2026-04-02<a class="headerlink" href="#id34" title="Link to this heading"></a></h2>
-<section id="id35">
-<h3>Added<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<section id="id37">
+<h2>[0.9.21] - 2026-04-02<a class="headerlink" href="#id37" title="Link to this heading"></a></h2>
+<section id="id38">
+<h3>Added<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">kumiho_batch_get_revisions</span></code> MCP tool</strong> — exposes the SDK’s batch revision
 fetch to MCP clients, replacing N serial <code class="docutils literal notranslate"><span class="pre">get_revision</span></code> calls.</p></li>
 </ul>
 </section>
 </section>
-<section id="id36">
-<h2>[0.9.20] - 2026-03-15<a class="headerlink" href="#id36" title="Link to this heading"></a></h2>
-<section id="id37">
-<h3>Fixed<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<section id="id39">
+<h2>[0.9.20] - 2026-03-15<a class="headerlink" href="#id39" title="Link to this heading"></a></h2>
+<section id="id40">
+<h3>Fixed<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Dream State consolidation returned data the ingest path could not use. The
 consolidation and Dream State responses are now shaped correctly for ingest,
@@ -1132,40 +1179,40 @@ as an object.</p></li>
 </ul>
 </section>
 </section>
-<section id="id38">
-<h2>[0.9.19] - 2026-03-10<a class="headerlink" href="#id38" title="Link to this heading"></a></h2>
-<section id="id39">
-<h3>Added<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<section id="id41">
+<h2>[0.9.19] - 2026-03-10<a class="headerlink" href="#id41" title="Link to this heading"></a></h2>
+<section id="id42">
+<h3>Added<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Per-call <code class="docutils literal notranslate"><span class="pre">auth_token</span></code> on the search tools</strong>, enabling cross-project search
 without rebuilding the client.</p></li>
 </ul>
 </section>
 </section>
-<section id="id40">
-<h2>[0.9.18] - 2026-03-10<a class="headerlink" href="#id40" title="Link to this heading"></a></h2>
-<section id="id41">
-<h3>Fixed<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<section id="id43">
+<h2>[0.9.18] - 2026-03-10<a class="headerlink" href="#id43" title="Link to this heading"></a></h2>
+<section id="id44">
+<h3>Fixed<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">assistant_text</span></code> removed from <code class="docutils literal notranslate"><span class="pre">required</span></code> in the <code class="docutils literal notranslate"><span class="pre">kumiho_memory_store</span></code> schema;
 it was never mandatory to the handler, so the schema rejected valid calls.</p></li>
 </ul>
 </section>
 </section>
-<section id="id42">
-<h2>[0.9.17] - 2026-03-09<a class="headerlink" href="#id42" title="Link to this heading"></a></h2>
-<section id="id43">
-<h3>Added<a class="headerlink" href="#id43" title="Link to this heading"></a></h3>
+<section id="id45">
+<h2>[0.9.17] - 2026-03-09<a class="headerlink" href="#id45" title="Link to this heading"></a></h2>
+<section id="id46">
+<h3>Added<a class="headerlink" href="#id46" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">TransientRetryInterceptor</span></code></strong> — retries transient gRPC failures, so a
 gateway restart no longer surfaces as a hard error to the caller.</p></li>
 </ul>
 </section>
 </section>
-<section id="id44">
-<h2>[0.9.16] - 2026-03-08<a class="headerlink" href="#id44" title="Link to this heading"></a></h2>
-<section id="id45">
-<h3>Fixed<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<section id="id47">
+<h2>[0.9.16] - 2026-03-08<a class="headerlink" href="#id47" title="Link to this heading"></a></h2>
+<section id="id48">
+<h3>Fixed<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Dream State</strong> replaced its event-stream collection with a revision query,
 decoupled its collection window from the gRPC deadline, and handles
@@ -1173,10 +1220,10 @@ decoupled its collection window from the gRPC deadline, and handles
 </ul>
 </section>
 </section>
-<section id="id46">
-<h2>[0.9.15] - 2026-03-07<a class="headerlink" href="#id46" title="Link to this heading"></a></h2>
-<section id="id47">
-<h3>Fixed<a class="headerlink" href="#id47" title="Link to this heading"></a></h3>
+<section id="id49">
+<h2>[0.9.15] - 2026-03-07<a class="headerlink" href="#id49" title="Link to this heading"></a></h2>
+<section id="id50">
+<h3>Fixed<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>The chat tool handlers respect the client’s <code class="docutils literal notranslate"><span class="pre">project</span></code> parameter, and the
 replay tier gate was removed.</p></li>
@@ -1197,10 +1244,10 @@ hand-written notes for 0.4.0-0.4.4, 0.7.0, 0.8.0-0.8.6, 0.9.0-0.9.2 and
 -->
 </section>
 </section>
-<section id="id48">
-<h2>[0.4.0] - 2025-12-03<a class="headerlink" href="#id48" title="Link to this heading"></a></h2>
-<section id="id49">
-<h3>Added<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<section id="id51">
+<h2>[0.4.0] - 2025-12-03<a class="headerlink" href="#id51" title="Link to this heading"></a></h2>
+<section id="id52">
+<h3>Added<a class="headerlink" href="#id52" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Event streaming cursor support</strong>: <code class="docutils literal notranslate"><span class="pre">Event.cursor</span></code> attribute for resumable streaming</p></li>
 <li><p><strong>EventCapabilities API</strong>: <code class="docutils literal notranslate"><span class="pre">get_event_capabilities()</span></code> to query tier-based streaming features</p></li>
@@ -1214,15 +1261,15 @@ hand-written notes for 0.4.0-0.4.4, 0.7.0, 0.8.0-0.8.6, 0.9.0-0.9.2 and
 <li><p>Tier capability documentation with Coming Soon markers</p></li>
 </ul>
 </section>
-<section id="id50">
-<h3>Changed<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<section id="id53">
+<h3>Changed<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Updated event streaming documentation with tier matrix</p></li>
 <li><p>Event object now includes <code class="docutils literal notranslate"><span class="pre">cursor</span></code> attribute (None for Free tier)</p></li>
 </ul>
 </section>
-<section id="id51">
-<h3>Notes<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
+<section id="id54">
+<h3>Notes<a class="headerlink" href="#id54" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Creator tier and above streaming features are planned but not yet deployed</p></li>
 <li><p>Free tier provides real-time streaming without persistence</p></li>
@@ -1231,8 +1278,8 @@ hand-written notes for 0.4.0-0.4.4, 0.7.0, 0.8.0-0.8.6, 0.9.0-0.9.2 and
 </section>
 <section id="xx-xx">
 <h2>[0.3.0] - 2024-XX-XX<a class="headerlink" href="#xx-xx" title="Link to this heading"></a></h2>
-<section id="id52">
-<h3>Added<a class="headerlink" href="#id52" title="Link to this heading"></a></h3>
+<section id="id55">
+<h3>Added<a class="headerlink" href="#id55" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Comprehensive Google-style docstrings for all public APIs</p></li>
 <li><p>Sphinx documentation with ReadTheDocs theme</p></li>
@@ -1241,42 +1288,42 @@ hand-written notes for 0.4.0-0.4.4, 0.7.0, 0.8.0-0.8.6, 0.9.0-0.9.2 and
 <li><p>Type hints throughout the codebase</p></li>
 </ul>
 </section>
-<section id="id53">
-<h3>Changed<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
+<section id="id56">
+<h3>Changed<a class="headerlink" href="#id56" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Updated <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> with full PyPI metadata</p></li>
 <li><p>Improved error messages with more context</p></li>
 </ul>
 </section>
-<section id="id54">
-<h3>Fixed<a class="headerlink" href="#id54" title="Link to this heading"></a></h3>
+<section id="id57">
+<h3>Fixed<a class="headerlink" href="#id57" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Kref parsing for artifact URIs with special characters</p></li>
 </ul>
 </section>
 </section>
-<section id="id55">
-<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id55" title="Link to this heading"></a></h2>
-<section id="id56">
-<h3>Added<a class="headerlink" href="#id56" title="Link to this heading"></a></h3>
+<section id="id58">
+<h2>[0.2.0] - 2024-XX-XX<a class="headerlink" href="#id58" title="Link to this heading"></a></h2>
+<section id="id59">
+<h3>Added<a class="headerlink" href="#id59" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Event streaming support with <code class="docutils literal notranslate"><span class="pre">stream_events()</span></code></p></li>
 <li><p>Link traversal for lineage tracking</p></li>
 <li><p>Batch operations for multiple artifacts</p></li>
 </ul>
 </section>
-<section id="id57">
-<h3>Changed<a class="headerlink" href="#id57" title="Link to this heading"></a></h3>
+<section id="id60">
+<h3>Changed<a class="headerlink" href="#id60" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Switched to context-variable-based client management</p></li>
 <li><p>Improved connection pooling for gRPC channels</p></li>
 </ul>
 </section>
 </section>
-<section id="id58">
-<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id58" title="Link to this heading"></a></h2>
-<section id="id59">
-<h3>Added<a class="headerlink" href="#id59" title="Link to this heading"></a></h3>
+<section id="id61">
+<h2>[0.1.0] - 2024-XX-XX<a class="headerlink" href="#id61" title="Link to this heading"></a></h2>
+<section id="id62">
+<h3>Added<a class="headerlink" href="#id62" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Initial release</p></li>
 <li><p>Core entity classes: Project, Space, Item, Revision, Artifact, Edge</p></li>
