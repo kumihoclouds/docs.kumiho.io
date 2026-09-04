@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MCP Server &mdash; Kumiho Python SDK v0.12.2</title>
+  <title>MCP Server &mdash; Kumiho Python SDK v0.13.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../_static/documentation_options.js?v=1019fba8"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -498,6 +498,23 @@
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.client_from_local_ce"><code class="docutils literal notranslate"><span class="pre">client_from_local_ce()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.RequestContext"><code class="docutils literal notranslate"><span class="pre">RequestContext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.tenant_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.tenant_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.user_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.user_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.auth_token"><code class="docutils literal notranslate"><span class="pre">RequestContext.auth_token</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.context"><code class="docutils literal notranslate"><span class="pre">RequestContext.context</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.session_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.session_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.client_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.client_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.scopes"><code class="docutils literal notranslate"><span class="pre">RequestContext.scopes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.tenant_slug"><code class="docutils literal notranslate"><span class="pre">RequestContext.tenant_slug</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.region_code"><code class="docutils literal notranslate"><span class="pre">RequestContext.region_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.token_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.token_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.RequestContext.__init__"><code class="docutils literal notranslate"><span class="pre">RequestContext.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.current_request"><code class="docutils literal notranslate"><span class="pre">current_request()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.hosted_mode"><code class="docutils literal notranslate"><span class="pre">hosted_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.use_request_context"><code class="docutils literal notranslate"><span class="pre">use_request_context()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#id16"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#id17"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="kumiho.html#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
@@ -635,6 +652,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_add_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_add_bundle_member()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_remove_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_remove_bundle_member()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tool_get_bundle_members"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle_members()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.CONNECTOR_PROFILE_TOOLS"><code class="docutils literal notranslate"><span class="pre">CONNECTOR_PROFILE_TOOLS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.TOOL_PROFILES"><code class="docutils literal notranslate"><span class="pre">TOOL_PROFILES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.ToolNotInProfileError"><code class="docutils literal notranslate"><span class="pre">ToolNotInProfileError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.mcp_server.ToolNotInProfileError.__init__"><code class="docutils literal notranslate"><span class="pre">ToolNotInProfileError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.resolve_tool_profile"><code class="docutils literal notranslate"><span class="pre">resolve_tool_profile()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.profile_tool_names"><code class="docutils literal notranslate"><span class="pre">profile_tool_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.tools_for_profile"><code class="docutils literal notranslate"><span class="pre">tools_for_profile()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.create_mcp_server"><code class="docutils literal notranslate"><span class="pre">create_mcp_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.run_server"><code class="docutils literal notranslate"><span class="pre">run_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.mcp_server.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
@@ -645,126 +671,132 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.12.2] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.13.0] - 2026-09-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#removed">Removed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.12.1] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.12.0] - 2026-08-13</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.12.2] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#removed">Removed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id7">[0.11.0] - 2026-08-01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id7">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id8">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id10">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id11">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id11">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id13">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id14">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id13">[0.10.7] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id14">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id15">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id15">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id17">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id17">[0.10.7] - 2026-07-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id18">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id19">[0.10.4] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id20">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id19">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id20">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id21">[0.10.3] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id22">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id21">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id22">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id23">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id23">[0.10.4] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id24">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id25">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id26">[0.10.1] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id27">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id25">[0.10.3] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id26">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id28">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id27">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id28">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id29">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id30">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id31">[0.9.24] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id32">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id30">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id31">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id33">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id32">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id33">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id34">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id35">[0.9.22] - 2026-04-02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id35">[0.9.24] - 2026-04-17</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id36">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id37">[0.9.21] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id38">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id37">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id38">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id39">[0.9.20] - 2026-03-15</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id39">[0.9.22] - 2026-04-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id40">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id41">[0.9.19] - 2026-03-10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id41">[0.9.21] - 2026-04-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id42">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id43">[0.9.18] - 2026-03-10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id43">[0.9.20] - 2026-03-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id44">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id45">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id45">[0.9.19] - 2026-03-10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id46">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id47">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id47">[0.9.18] - 2026-03-10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id48">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id49">[0.9.15] - 2026-03-07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id50">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id49">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id50">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id51">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id52">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id53">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id54">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id51">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id52">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id53">[0.9.15] - 2026-03-07</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id54">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id55">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id56">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id57">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id58">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id55">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id56">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id57">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id58">[0.2.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id59">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id60">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id61">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id61">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id62">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id62">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id63">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id64">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id65">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id66">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -832,7 +864,18 @@ and other MCP-compatible clients.</p>
 <dt>Configuration:</dt><dd><p>The MCP server uses the same authentication as the Kumiho SDK.
 Run <code class="docutils literal notranslate"><span class="pre">kumiho-auth</span> <span class="pre">login</span></code> first to cache credentials.</p>
 </dd>
-<dt>Environment Variables:</dt><dd><p>KUMIHO_MCP_LOG_LEVEL: Log level (DEBUG, INFO, WARNING, ERROR). Default: INFO</p>
+<dt>Environment Variables:</dt><dd><p>KUMIHO_MCP_LOG_LEVEL: Log level (DEBUG, INFO, WARNING, ERROR). Default: INFO
+KUMIHO_MCP_TOOL_PROFILE: Which tool surface to expose — “full” (default,</p>
+<blockquote>
+<div><p>every tool) or “connector” (the curated hosted set). Overridden by an
+explicit <code class="docutils literal notranslate"><span class="pre">profile</span></code> argument to <a class="reference internal" href="#kumiho.mcp_server.create_mcp_server" title="kumiho.mcp_server.create_mcp_server"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_mcp_server()</span></code></a>.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>KUMIHO_MCP_HOSTED: Set to “1” when this process serves many tenants. Stops</dt><dd><p>the server touching process-global user state — no <code class="docutils literal notranslate"><span class="pre">os.environ</span></code>
+writes, no <code class="docutils literal notranslate"><span class="pre">~/.kumiho</span></code> reads, no local artifact files — and makes
+every cache tenant-scoped. See <code class="xref py py-mod docutils literal notranslate"><span class="pre">kumiho.request_context</span></code>.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Example MCP client configuration (VS Code settings.json):</p>
@@ -1695,19 +1738,143 @@ For example: “What was the published revision on June 1st, 2025?”</p>
 </dl>
 </dd></dl>
 
+<dl class="py data">
+<dt class="sig sig-object py" id="kumiho.mcp_server.CONNECTOR_PROFILE_TOOLS">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">CONNECTOR_PROFILE_TOOLS</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.14)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('kumiho_memory_engage',</span> <span class="pre">'kumiho_memory_recall',</span> <span class="pre">'kumiho_memory_retrieve',</span> <span class="pre">'kumiho_memory_space_profile',</span> <span class="pre">'kumiho_chat_get',</span> <span class="pre">'kumiho_search_items',</span> <span class="pre">'kumiho_get_item',</span> <span class="pre">'kumiho_get_revision_by_tag',</span> <span class="pre">'kumiho_list_projects',</span> <span class="pre">'kumiho_get_spaces',</span> <span class="pre">'kumiho_get_provenance_summary',</span> <span class="pre">'kumiho_memory_reflect',</span> <span class="pre">'kumiho_memory_store',</span> <span class="pre">'kumiho_memory_consolidate',</span> <span class="pre">'kumiho_memory_decompose',</span> <span class="pre">'kumiho_create_space',</span> <span class="pre">'kumiho_deprecate_item',</span> <span class="pre">'kumiho_chat_clear')</span></span><a class="headerlink" href="#kumiho.mcp_server.CONNECTOR_PROFILE_TOOLS" title="Link to this definition"></a></dt>
+<dd><p>The hosted connector’s curated surface (connector plan §2.2, less
+<code class="docutils literal notranslate"><span class="pre">kumiho_memory_dream_state</span></code>). Ordered read / additive-write / destructive,
+which is also the order the directory listing presents them in.</p>
+<p><code class="docutils literal notranslate"><span class="pre">kumiho_memory_dream_state</span></code> is in the plan’s table but is deliberately
+<em>not</em> here for v1. Its assessment pass needs an LLM key and hosted tenants
+are keyless (plan §1.10), so listing it would publish a tool that fails at
+call time — which directory review catches head-on, since it asks the
+submitter to confirm every listed tool has been run. It keeps its
+<code class="xref py py-data docutils literal notranslate"><span class="pre">TOOL_ANNOTATIONS</span></code> entry, so the full profile is unaffected; re-add
+the name here once per-tenant LLM metering exists.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kumiho.mcp_server.TOOL_PROFILES">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">TOOL_PROFILES</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.14)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('full',</span> <span class="pre">'connector')</span></span><a class="headerlink" href="#kumiho.mcp_server.TOOL_PROFILES" title="Link to this definition"></a></dt>
+<dd><p>Every accepted value of the <code class="docutils literal notranslate"><span class="pre">profile</span></code> argument / <code class="docutils literal notranslate"><span class="pre">KUMIHO_MCP_TOOL_PROFILE</span></code>.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="kumiho.mcp_server.ToolNotInProfileError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">ToolNotInProfileError</span></span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#ToolNotInProfileError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.ToolNotInProfileError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>A tool exists, but the active profile does not offer it.</p>
+<p>Raised rather than returned, so the refusal reaches the client as a real
+MCP tool error (<code class="docutils literal notranslate"><span class="pre">isError:</span> <span class="pre">true</span></code>) instead of a <em>successful</em> result whose
+text happens to contain the word “error”. Clients and models branch on
+<code class="docutils literal notranslate"><span class="pre">isError</span></code>; a refusal that reports success reads as “the call went
+through”, which is the opposite of what happened.</p>
+<p>mcp 1.x turns an exception out of the <code class="docutils literal notranslate"><span class="pre">call_tool</span></code> handler into an error
+result carrying <code class="docutils literal notranslate"><span class="pre">str(exc)</span></code>; the 2.x branch catches this type explicitly
+and builds the same result. One raise, one message, both majors.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.mcp_server.ToolNotInProfileError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">profile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#ToolNotInProfileError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.ToolNotInProfileError.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>profile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.resolve_tool_profile">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">resolve_tool_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#resolve_tool_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.resolve_tool_profile" title="Link to this definition"></a></dt>
+<dd><p>Normalize an explicit profile, falling back to the environment.</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> means “unspecified”, not “full”: it defers to
+<code class="docutils literal notranslate"><span class="pre">KUMIHO_MCP_TOOL_PROFILE</span></code> so a deployment can pick the profile without
+touching the code that constructs the server. An empty or whitespace-only
+value on either path means full, which keeps <code class="docutils literal notranslate"><span class="pre">KUMIHO_MCP_TOOL_PROFILE=</span></code>
+from being a silent misconfiguration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>profile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.profile_tool_names">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">profile_tool_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#profile_tool_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.profile_tool_names" title="Link to this definition"></a></dt>
+<dd><p>The names <em>profile</em> admits, or <code class="docutils literal notranslate"><span class="pre">None</span></code> for “everything in TOOLS”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>profile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.mcp_server.tools_for_profile">
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">tools_for_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#tools_for_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.tools_for_profile" title="Link to this definition"></a></dt>
+<dd><p>The <code class="xref py py-data docutils literal notranslate"><span class="pre">TOOLS</span></code> entries <em>profile</em> exposes.</p>
+<p>Read from <code class="xref py py-data docutils literal notranslate"><span class="pre">TOOLS</span></code> on every call rather than snapshotted at server
+construction. <code class="docutils literal notranslate"><span class="pre">TOOLS</span></code> is a module-level list that kumiho-memory <em>extends
+at import time</em> — with a further two extensions gated behind env flags —
+so a snapshot would silently depend on import order, and a filter built
+from one would go stale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>profile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="kumiho.mcp_server.create_mcp_server">
-<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">create_mcp_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#create_mcp_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.create_mcp_server" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">kumiho.mcp_server.</span></span><span class="sig-name descname"><span class="pre">create_mcp_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/mcp_server.html#create_mcp_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.mcp_server.create_mcp_server" title="Link to this definition"></a></dt>
 <dd><p>Create and configure the Kumiho MCP server.</p>
 <p>The six handlers are defined once, in the shapes mcp 1.x expects, and are
 either registered through the 1.x decorators or wrapped into the
 <code class="docutils literal notranslate"><span class="pre">(ctx,</span> <span class="pre">params)</span> <span class="pre">-&gt;</span> <span class="pre">ResultModel</span></code> shape mcp 2.0 wants. Keeping one copy of
 each body is what stops the two branches from drifting apart.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></span></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Which tool surface to expose. <code class="docutils literal notranslate"><span class="pre">None</span></code> defers to
+<code class="docutils literal notranslate"><span class="pre">KUMIHO_MCP_TOOL_PROFILE</span></code> and then to <code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code> — today’s whole
+tool list, which is what the stdio plugin gets. <code class="docutils literal notranslate"><span class="pre">&quot;connector&quot;</span></code>
+exposes the curated hosted set (<a class="reference internal" href="#kumiho.mcp_server.CONNECTOR_PROFILE_TOOLS" title="kumiho.mcp_server.CONNECTOR_PROFILE_TOOLS"><code class="xref py py-data docutils literal notranslate"><span class="pre">CONNECTOR_PROFILE_TOOLS</span></code></a>).
+An unrecognized name raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> rather than silently
+serving everything: a typo in a deployment’s env would otherwise
+publish every destructive tool to a public connector.</p></li>
+<li><p><strong>instructions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Server instructions returned in the MCP <code class="docutils literal notranslate"><span class="pre">initialize</span></code>
+result. Defaults to <code class="xref py py-data docutils literal notranslate"><span class="pre">CONNECTOR_INSTRUCTIONS</span></code> for the
+connector profile and to nothing otherwise, because the stdio
+plugin already carries the protocol as a skill and a second copy
+would just spend the user’s context twice.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Server</span></code></span></p>
 </dd>
 </dl>
+<p>Nothing here starts the orphan watchdog or otherwise assumes a stdio child
+process — that belongs to <a class="reference internal" href="#kumiho.mcp_server.main" title="kumiho.mcp_server.main"><code class="xref py py-func docutils literal notranslate"><span class="pre">main()</span></code></a>. A hosted server builds many of
+these inside a long-lived web process, where a watchdog would watch the
+wrong parent and <code class="docutils literal notranslate"><span class="pre">os._exit</span></code> the whole service.</p>
 </dd></dl>
 
 <dl class="py function">

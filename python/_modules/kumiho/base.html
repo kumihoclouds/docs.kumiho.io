@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.base &mdash; Kumiho Python SDK v0.12.2</title>
+  <title>kumiho.base &mdash; Kumiho Python SDK v0.13.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../../_static/documentation_options.js?v=1019fba8"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -495,6 +495,23 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.client_from_local_ce"><code class="docutils literal notranslate"><span class="pre">client_from_local_ce()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext"><code class="docutils literal notranslate"><span class="pre">RequestContext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.tenant_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.tenant_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.user_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.user_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.auth_token"><code class="docutils literal notranslate"><span class="pre">RequestContext.auth_token</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.context"><code class="docutils literal notranslate"><span class="pre">RequestContext.context</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.session_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.session_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.client_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.client_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.scopes"><code class="docutils literal notranslate"><span class="pre">RequestContext.scopes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.tenant_slug"><code class="docutils literal notranslate"><span class="pre">RequestContext.tenant_slug</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.region_code"><code class="docutils literal notranslate"><span class="pre">RequestContext.region_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.token_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.token_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.__init__"><code class="docutils literal notranslate"><span class="pre">RequestContext.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.current_request"><code class="docutils literal notranslate"><span class="pre">current_request()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.hosted_mode"><code class="docutils literal notranslate"><span class="pre">hosted_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_request_context"><code class="docutils literal notranslate"><span class="pre">use_request_context()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id16"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id17"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
@@ -632,6 +649,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_add_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_add_bundle_member()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_remove_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_remove_bundle_member()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_bundle_members"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle_members()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.CONNECTOR_PROFILE_TOOLS"><code class="docutils literal notranslate"><span class="pre">CONNECTOR_PROFILE_TOOLS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.TOOL_PROFILES"><code class="docutils literal notranslate"><span class="pre">TOOL_PROFILES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.ToolNotInProfileError"><code class="docutils literal notranslate"><span class="pre">ToolNotInProfileError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.ToolNotInProfileError.__init__"><code class="docutils literal notranslate"><span class="pre">ToolNotInProfileError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.resolve_tool_profile"><code class="docutils literal notranslate"><span class="pre">resolve_tool_profile()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.profile_tool_names"><code class="docutils literal notranslate"><span class="pre">profile_tool_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tools_for_profile"><code class="docutils literal notranslate"><span class="pre">tools_for_profile()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.create_mcp_server"><code class="docutils literal notranslate"><span class="pre">create_mcp_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.run_server"><code class="docutils literal notranslate"><span class="pre">run_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
@@ -642,126 +668,132 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.12.2] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.13.0] - 2026-09-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">Removed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.12.1] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.12.0] - 2026-08-13</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.12.2] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">Removed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">[0.11.0] - 2026-08-01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id7">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id10">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id13">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id14">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id13">[0.10.7] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id14">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id15">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id16">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id15">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id16">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id17">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id17">[0.10.7] - 2026-07-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id18">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id19">[0.10.4] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id20">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id19">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id20">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id21">[0.10.3] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id22">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id21">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id22">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id23">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id23">[0.10.4] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id24">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id25">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id26">[0.10.1] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id27">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id25">[0.10.3] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id26">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id28">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id27">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id28">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id29">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id30">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id31">[0.9.24] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id32">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id30">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id31">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id33">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id32">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id33">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id34">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id35">[0.9.22] - 2026-04-02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id35">[0.9.24] - 2026-04-17</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id36">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id37">[0.9.21] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id38">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id37">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id38">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id39">[0.9.20] - 2026-03-15</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id39">[0.9.22] - 2026-04-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id40">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id41">[0.9.19] - 2026-03-10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id41">[0.9.21] - 2026-04-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id42">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id43">[0.9.18] - 2026-03-10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id43">[0.9.20] - 2026-03-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id44">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id45">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id45">[0.9.19] - 2026-03-10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id46">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id47">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id47">[0.9.18] - 2026-03-10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id48">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id49">[0.9.15] - 2026-03-07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id50">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id49">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id50">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id51">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id52">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id53">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id54">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id51">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id52">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id53">[0.9.15] - 2026-03-07</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id54">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id55">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id56">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id57">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id58">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id55">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id56">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id57">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id58">[0.2.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id59">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id60">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id61">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id61">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id62">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id62">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id63">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id64">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id65">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id66">Added</a></li>
 </ul>
 </li>
 </ul>

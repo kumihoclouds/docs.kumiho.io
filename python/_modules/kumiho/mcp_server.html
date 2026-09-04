@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.12.2</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.13.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=f24cbf82"></script>
+      <script src="../../_static/documentation_options.js?v=1019fba8"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -495,6 +495,23 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.configure_default_client"><code class="docutils literal notranslate"><span class="pre">configure_default_client()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.auto_configure_from_discovery"><code class="docutils literal notranslate"><span class="pre">auto_configure_from_discovery()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.client_from_local_ce"><code class="docutils literal notranslate"><span class="pre">client_from_local_ce()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext"><code class="docutils literal notranslate"><span class="pre">RequestContext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.tenant_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.tenant_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.user_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.user_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.auth_token"><code class="docutils literal notranslate"><span class="pre">RequestContext.auth_token</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.context"><code class="docutils literal notranslate"><span class="pre">RequestContext.context</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.session_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.session_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.client_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.client_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.scopes"><code class="docutils literal notranslate"><span class="pre">RequestContext.scopes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.tenant_slug"><code class="docutils literal notranslate"><span class="pre">RequestContext.tenant_slug</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.region_code"><code class="docutils literal notranslate"><span class="pre">RequestContext.region_code</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.token_id"><code class="docutils literal notranslate"><span class="pre">RequestContext.token_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.RequestContext.__init__"><code class="docutils literal notranslate"><span class="pre">RequestContext.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.current_request"><code class="docutils literal notranslate"><span class="pre">current_request()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.hosted_mode"><code class="docutils literal notranslate"><span class="pre">hosted_mode()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.use_request_context"><code class="docutils literal notranslate"><span class="pre">use_request_context()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id16"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#id17"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/kumiho.html#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
@@ -632,6 +649,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_add_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_add_bundle_member()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_remove_bundle_member"><code class="docutils literal notranslate"><span class="pre">tool_remove_bundle_member()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tool_get_bundle_members"><code class="docutils literal notranslate"><span class="pre">tool_get_bundle_members()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.CONNECTOR_PROFILE_TOOLS"><code class="docutils literal notranslate"><span class="pre">CONNECTOR_PROFILE_TOOLS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.TOOL_PROFILES"><code class="docutils literal notranslate"><span class="pre">TOOL_PROFILES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.ToolNotInProfileError"><code class="docutils literal notranslate"><span class="pre">ToolNotInProfileError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.ToolNotInProfileError.__init__"><code class="docutils literal notranslate"><span class="pre">ToolNotInProfileError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.resolve_tool_profile"><code class="docutils literal notranslate"><span class="pre">resolve_tool_profile()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.profile_tool_names"><code class="docutils literal notranslate"><span class="pre">profile_tool_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.tools_for_profile"><code class="docutils literal notranslate"><span class="pre">tools_for_profile()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.create_mcp_server"><code class="docutils literal notranslate"><span class="pre">create_mcp_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.run_server"><code class="docutils literal notranslate"><span class="pre">run_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/mcp_server.html#kumiho.mcp_server.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
@@ -642,126 +668,132 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.12.2] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.13.0] - 2026-09-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">Removed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.12.1] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.12.0] - 2026-08-13</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.12.2] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">Removed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">[0.11.0] - 2026-08-01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id7">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id10">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id13">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id14">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id13">[0.10.7] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id14">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id15">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id16">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id15">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id16">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id17">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id17">[0.10.7] - 2026-07-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id18">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id19">[0.10.4] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id20">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id19">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id20">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id21">[0.10.3] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id22">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id21">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id22">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id23">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id23">[0.10.4] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id24">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id25">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id26">[0.10.1] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id27">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id25">[0.10.3] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id26">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id28">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id27">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id28">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id29">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id30">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id31">[0.9.24] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id32">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id30">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id31">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id33">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id32">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id33">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id34">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id35">[0.9.22] - 2026-04-02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id35">[0.9.24] - 2026-04-17</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id36">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id37">[0.9.21] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id38">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id37">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id38">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id39">[0.9.20] - 2026-03-15</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id39">[0.9.22] - 2026-04-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id40">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id41">[0.9.19] - 2026-03-10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id41">[0.9.21] - 2026-04-02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id42">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id43">[0.9.18] - 2026-03-10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id43">[0.9.20] - 2026-03-15</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id44">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id45">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id45">[0.9.19] - 2026-03-10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id46">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id47">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id47">[0.9.18] - 2026-03-10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id48">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id49">[0.9.15] - 2026-03-07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id50">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id49">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id50">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id51">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id52">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id53">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id54">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id51">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id52">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id53">[0.9.15] - 2026-03-07</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id54">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id55">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id56">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id57">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id58">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id55">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id56">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id57">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id58">[0.2.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id59">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id60">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id61">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id61">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id62">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id62">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id63">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id64">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id65">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id66">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -831,6 +863,13 @@
 
 <span class="sd">Environment Variables:</span>
 <span class="sd">    KUMIHO_MCP_LOG_LEVEL: Log level (DEBUG, INFO, WARNING, ERROR). Default: INFO</span>
+<span class="sd">    KUMIHO_MCP_TOOL_PROFILE: Which tool surface to expose — "full" (default,</span>
+<span class="sd">        every tool) or "connector" (the curated hosted set). Overridden by an</span>
+<span class="sd">        explicit ``profile`` argument to :func:`create_mcp_server`.</span>
+<span class="sd">    KUMIHO_MCP_HOSTED: Set to "1" when this process serves many tenants. Stops</span>
+<span class="sd">        the server touching process-global user state — no ``os.environ``</span>
+<span class="sd">        writes, no ``~/.kumiho`` reads, no local artifact files — and makes</span>
+<span class="sd">        every cache tenant-scoped. See :mod:`kumiho.request_context`.</span>
 
 <span class="sd">Example MCP client configuration (VS Code settings.json)::</span>
 
@@ -900,6 +939,28 @@
 <span class="c1"># forks and vendored copies (PackageNotFoundError, no dist-info).</span>
 <span class="n">_MCP_HAS_DECORATORS</span> <span class="o">=</span> <span class="n">MCP_AVAILABLE</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">Server</span><span class="p">,</span> <span class="s2">"list_tools"</span><span class="p">)</span>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_server_accepts_instructions</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Whether the installed ``Server`` takes an ``instructions`` keyword.</span>
+
+<span class="sd">    Server instructions reach the client in the ``initialize`` result, which is</span>
+<span class="sd">    the only channel a *remote* connector has for the memory protocol (there is</span>
+<span class="sd">    no skill and no hook out there). Probed rather than assumed, for the same</span>
+<span class="sd">    reason as ``_MCP_HAS_DECORATORS``: a version table goes stale, and lies</span>
+<span class="sd">    outright for vendored copies.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">MCP_AVAILABLE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+
+        <span class="k">return</span> <span class="s2">"instructions"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">Server</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>  <span class="c1"># pragma: no cover - unintrospectable build</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="n">_SERVER_SUPPORTS_INSTRUCTIONS</span> <span class="o">=</span> <span class="n">_server_accepts_instructions</span><span class="p">()</span>
+
 <span class="c1"># mcp 1.x's ``@server.call_tool()`` defaulted to validate_input=True and checked</span>
 <span class="c1"># arguments against each tool's inputSchema before dispatch. mcp 2.0's low-level</span>
 <span class="c1"># path has no equivalent, so the 2.x branch re-implements it — without this, the</span>
@@ -931,6 +992,7 @@
     <span class="n">CONTAINS</span><span class="p">,</span>
     <span class="n">CREATED_FROM</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.request_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">current_request</span><span class="p">,</span> <span class="n">hosted_mode</span>
 
 <span class="c1"># Configure logging</span>
 <span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"KUMIHO_MCP_LOG_LEVEL"</span><span class="p">,</span> <span class="s2">"INFO"</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
@@ -949,8 +1011,106 @@
     <span class="n">_PRIVACY_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
 
 
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Hosted (multi-tenant) mode</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># One stdio process serves exactly one user, so this module could treat the</span>
+<span class="c1"># environment and its caches as private. A hosted deployment serves many</span>
+<span class="c1"># tenants from one process, and every one of those assumptions becomes a</span>
+<span class="c1"># cross-tenant leak. The two predicates below are the guards.</span>
+<span class="c1">#</span>
+<span class="c1"># ``_is_hosted`` is deliberately the OR of the two signals: a request context</span>
+<span class="c1"># means a request is in flight *now*, while ``KUMIHO_MCP_HOSTED`` marks the</span>
+<span class="c1"># whole process, so code that runs between requests (server construction,</span>
+<span class="c1"># cache warming) still behaves defensively.</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_hosted</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""True when this process must not touch process-global user state."""</span>
+    <span class="k">return</span> <span class="n">current_request</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hosted_mode</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tenant_scope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The cache namespace for the in-flight request; ``"local"`` when stdio."""</span>
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">current_request</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">tenant_id</span> <span class="k">if</span> <span class="n">ctx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"local"</span>
+
+
+<span class="c1"># U+001F UNIT SEPARATOR: never appears in a tenant UUID, a project name or a</span>
+<span class="c1"># space path, so a prefixed key cannot collide with a differently-scoped one.</span>
+<span class="n">_TENANT_KEY_SEP</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\x1f</span><span class="s2">"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tenant_key</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Namespace a process-global cache key by the calling tenant.</span>
+
+<span class="sd">    Every module-level cache in this file predates hosting and was keyed by</span>
+<span class="sd">    project name alone. Two tenants routinely have a project called</span>
+<span class="sd">    ``CognitiveMemory``, so an unprefixed key would serve tenant B the</span>
+<span class="sd">    ``Project`` handle — and thus the gRPC channel and credentials — that</span>
+<span class="sd">    tenant A cached.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_tenant_scope</span><span class="p">()</span><span class="si">}{</span><span class="n">_TENANT_KEY_SEP</span><span class="si">}{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_auth_token_override</span><span class="p">(</span><span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Honour a caller-supplied ``auth_token`` argument — locally only.</span>
+
+<span class="sd">    Two search tools accept an ``auth_token`` argument and used to publish it</span>
+<span class="sd">    into ``os.environ["KUMIHO_AUTH_TOKEN"]``. On stdio that is merely blunt:</span>
+<span class="sd">    one process, one user, and the override outlives the call. Hosted it is a</span>
+<span class="sd">    credential swap visible to every other tenant's in-flight request, and a</span>
+<span class="sd">    *persistent* one — the next request that falls back to the environment</span>
+<span class="sd">    picks up whichever token happened to be written last.</span>
+
+<span class="sd">    So hosted mode ignores the argument. The hosting layer already establishes</span>
+<span class="sd">    the caller's identity from the verified bearer token and enters</span>
+<span class="sd">    ``kumiho.use_client`` for the request; an argument-supplied token could</span>
+<span class="sd">    only ever contradict it, and the contradiction would be an escalation</span>
+<span class="sd">    attempt, not a configuration.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_token</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">_is_hosted</span><span class="p">():</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">"Ignoring the auth_token argument to </span><span class="si">%s</span><span class="s2">: in hosted mode the "</span>
+            <span class="s2">"request's own credentials are authoritative."</span><span class="p">,</span>
+            <span class="n">tool_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"KUMIHO_AUTH_TOKEN"</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_token</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_request_scoped_client</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The client bound by ``kumiho.use_client``, or ``None``."""</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">kumiho</span><span class="p">,</span> <span class="s2">"_client_context_var"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_configured</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Ensure Kumiho client is configured."""</span>
+<span class="w">    </span><span class="sd">"""Ensure Kumiho client is configured.</span>
+
+<span class="sd">    Hosted mode takes a different path on purpose. ``auto_configure_from_</span>
+<span class="sd">    discovery`` reads the *machine's* cached credentials from ``~/.kumiho``</span>
+<span class="sd">    and installs the resulting client as the process-global default — exactly</span>
+<span class="sd">    the two things a multi-tenant process must never do. The hosting layer has</span>
+<span class="sd">    already built a client from the caller's verified token and entered</span>
+<span class="sd">    ``kumiho.use_client``, so there is nothing to configure.</span>
+
+<span class="sd">    When that binding is missing, this raises rather than degrading: the</span>
+<span class="sd">    fallback would be to serve the *operator's* own graph to a remote caller,</span>
+<span class="sd">    which is worse than a failed tool call.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">_is_hosted</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">_request_scoped_client</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">"Hosted mode is active but no request-scoped Kumiho client is "</span>
+            <span class="s2">"bound. The hosting layer must wrap each request in "</span>
+            <span class="s2">"kumiho.use_client(client); falling back to local credentials "</span>
+            <span class="s2">"would serve the wrong tenant."</span>
+        <span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">kumiho</span><span class="o">.</span><span class="n">auto_configure_from_discovery</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -1113,7 +1273,16 @@
 <span class="w">    </span><span class="sd">"""Write a Markdown artifact for a memory entry and return the file path.</span>
 
 <span class="sd">    Layout: {artifact_root}/{project}/{space_segments}/{item_name}.md</span>
+
+<span class="sd">    Hosted mode writes nothing and returns ``""``. The root is</span>
+<span class="sd">    ``~/.kumiho/artifacts`` on the *server's* filesystem, so hosted writes</span>
+<span class="sd">    would drop one tenant's memory text into a directory shared by all of</span>
+<span class="sd">    them, and then record that server-local path as an artifact location no</span>
+<span class="sd">    remote caller can ever resolve. Both call sites treat an empty return as</span>
+<span class="sd">    "no artifact", which is the correct outcome.</span>
 <span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">_is_hosted</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s2">""</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">_artifact_root</span><span class="p">()</span>
     <span class="n">target_dir</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="n">project</span>
     <span class="n">stripped</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
@@ -1153,19 +1322,24 @@
 <span class="c1"># In-process caches – avoid redundant gRPC round-trips within a session.</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
+<span class="c1"># Every key here goes through :func:`_tenant_key`. The values are live SDK</span>
+<span class="c1"># handles bound to a client, i.e. to a tenant's credentials and gRPC channel —</span>
+<span class="c1"># sharing one across tenants would hand tenant B tenant A's graph.</span>
+
 <span class="n">_project_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Project</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">_known_spaces</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>          <span class="c1"># normalized space paths already ensured</span>
-<span class="n">_bundle_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Item</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># space_path/bundle_slug -&gt; bundle Item</span>
+<span class="n">_known_spaces</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>          <span class="c1"># tenant-scoped normalized space paths already ensured</span>
+<span class="n">_bundle_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Item</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># tenant + space_path/bundle_slug -&gt; bundle Item</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_project_cached</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Project</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return a cached Project, fetching (or creating) only on first call."""</span>
-    <span class="k">if</span> <span class="n">project_name</span> <span class="ow">in</span> <span class="n">_project_cache</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_project_cache</span><span class="p">[</span><span class="n">project_name</span><span class="p">]</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="n">_tenant_key</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">in</span> <span class="n">_project_cache</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_project_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span>
     <span class="n">project_obj</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">project_obj</span><span class="p">:</span>
         <span class="n">project_obj</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"AI Cognitive Memory"</span><span class="p">)</span>
-    <span class="n">_project_cache</span><span class="p">[</span><span class="n">project_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">project_obj</span>
+    <span class="n">_project_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">project_obj</span>
     <span class="k">return</span> <span class="n">project_obj</span>
 
 
@@ -1187,7 +1361,8 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_space_path</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">normalized</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">space_path</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">normalized</span> <span class="ow">in</span> <span class="n">_known_spaces</span><span class="p">:</span>
+    <span class="n">known_key</span> <span class="o">=</span> <span class="n">_tenant_key</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">known_key</span> <span class="ow">in</span> <span class="n">_known_spaces</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">normalized</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="n">normalized</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
     <span class="n">parent</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
@@ -1200,7 +1375,7 @@
             <span class="k">if</span> <span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="p">()</span> <span class="o">!=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">ALREADY_EXISTS</span><span class="p">:</span>
                 <span class="k">raise</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parent</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">segment</span><span class="si">}</span><span class="s2">"</span>
-    <span class="n">_known_spaces</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span>
+    <span class="n">_known_spaces</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">known_key</span><span class="p">)</span>
     <span class="c1"># A new space invalidates the registry listing so the next hint resolves</span>
     <span class="c1"># against it (otherwise back-to-back stores wouldn't see each other's</span>
     <span class="c1"># freshly-created spaces within the cache TTL).</span>
@@ -1282,20 +1457,21 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_existing_space_paths</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""All space paths in *project*, cached briefly per process."""</span>
     <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="n">_tenant_key</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">_space_registry_lock</span><span class="p">:</span>
-        <span class="n">cached</span> <span class="o">=</span> <span class="n">_space_registry_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">cached</span> <span class="o">=</span> <span class="n">_space_registry_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cached</span> <span class="ow">and</span> <span class="n">now</span> <span class="o">-</span> <span class="n">cached</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">_SPACE_REGISTRY_TTL_SECONDS</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cached</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="c1"># List outside the lock (network call); last writer wins on the cache.</span>
     <span class="n">paths</span> <span class="o">=</span> <span class="p">{</span><span class="n">space</span><span class="o">.</span><span class="n">path</span> <span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">project</span><span class="o">.</span><span class="n">get_spaces</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
     <span class="k">with</span> <span class="n">_space_registry_lock</span><span class="p">:</span>
-        <span class="n">_space_registry_cache</span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="n">paths</span><span class="p">)</span>
+        <span class="n">_space_registry_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="n">paths</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">paths</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_invalidate_space_registry</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">_space_registry_lock</span><span class="p">:</span>
-        <span class="n">_space_registry_cache</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">project_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">_space_registry_cache</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">_tenant_key</span><span class="p">(</span><span class="n">project_name</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_record_space_alias</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">canonical_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">alias_slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1705,7 +1881,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_or_create_bundle</span><span class="p">(</span><span class="n">project</span><span class="p">:</span> <span class="n">Project</span><span class="p">,</span> <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bundle_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Item</span><span class="p">:</span>
-    <span class="n">cache_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">space_path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">"</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="n">_tenant_key</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">space_path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">bundle_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">in</span> <span class="n">_bundle_cache</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_bundle_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1917,9 +2093,7 @@
     <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Search for items across projects and spaces."""</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-    <span class="k">if</span> <span class="n">auth_token</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"KUMIHO_AUTH_TOKEN"</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_token</span>
+    <span class="n">_apply_auth_token_override</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="s2">"kumiho_search_items"</span><span class="p">)</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
     <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
         <span class="n">context_filter</span><span class="o">=</span><span class="n">context_filter</span><span class="p">,</span>
@@ -1965,9 +2139,7 @@
 <span class="sd">    (fulltext + vector similarity) for improved accuracy when searching</span>
 <span class="sd">    revision metadata.</span>
 <span class="sd">    """</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-    <span class="k">if</span> <span class="n">auth_token</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"KUMIHO_AUTH_TOKEN"</span><span class="p">]</span> <span class="o">=</span> <span class="n">auth_token</span>
+    <span class="n">_apply_auth_token_override</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="s2">"kumiho_fulltext_search"</span><span class="p">)</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
         <span class="n">query</span><span class="p">,</span>
@@ -4955,6 +5127,666 @@
 
 
 <span class="c1"># ============================================================================</span>
+<span class="c1"># Tool annotations</span>
+<span class="c1"># ============================================================================</span>
+
+<span class="c1"># MCP tool annotations (MCP spec "Tool Annotations"; Anthropic's connector</span>
+<span class="c1"># directory requires a ``title`` plus ``readOnlyHint`` or ``destructiveHint``</span>
+<span class="c1"># on every listed tool). They are advisory hints a client uses to decide how</span>
+<span class="c1"># much ceremony a call deserves — read-only calls can run unprompted, a</span>
+<span class="c1"># destructive one should be confirmed — so a wrong hint is not cosmetic.</span>
+<span class="c1">#</span>
+<span class="c1"># The four booleans, per spec:</span>
+<span class="c1">#   readOnlyHint     - does not modify its environment.</span>
+<span class="c1">#   destructiveHint  - may perform *non-additive* updates (delete, overwrite,</span>
+<span class="c1">#                      deprecate). Meaningful only when readOnlyHint is false.</span>
+<span class="c1">#   idempotentHint   - repeating the call with the same arguments adds no</span>
+<span class="c1">#                      further effect. Meaningful only when readOnlyHint is</span>
+<span class="c1">#                      false.</span>
+<span class="c1">#   openWorldHint    - talks to an open, unbounded external world. Uniformly</span>
+<span class="c1">#                      False here: every tool addresses one closed system, the</span>
+<span class="c1">#                      caller's own Kumiho graph.</span>
+<span class="c1">#</span>
+<span class="c1"># The table covers every tool that can appear in :data:`TOOLS`, including the</span>
+<span class="c1"># kumiho-memory tools that are appended at import time and the ones gated</span>
+<span class="c1"># behind env flags (the four ``kumiho_code_*``), so the map does not go blank</span>
+<span class="c1"># on a deployment where a gate happens to be open. Tests assert the two</span>
+<span class="c1"># directions: no tool without an annotation, no annotation without a tool.</span>
+<span class="c1">#</span>
+<span class="c1"># Two entries deliberately disagree with the hint columns of the connector</span>
+<span class="c1"># plan's §2.2 table, because the tools disagree with them:</span>
+<span class="c1">#   * kumiho_memory_space_profile persists versioned space-profile items</span>
+<span class="c1">#     unless dry_run is passed, so it is not readOnly. It stays in the</span>
+<span class="c1">#     connector profile; only the honesty of its hints changed.</span>
+<span class="c1">#   * kumiho_memory_dream_state "applies deprecation, tagging, metadata</span>
+<span class="c1">#     enrichment" — deprecation is the destructive case by definition. It is</span>
+<span class="c1">#     also out of the connector profile for v1 (it needs an LLM key hosted</span>
+<span class="c1">#     tenants do not have); the annotation stays, since the full profile still</span>
+<span class="c1">#     serves it.</span>
+
+<span class="n">TOOL_ANNOTATIONS</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># -- Core: read ---------------------------------------------------------</span>
+    <span class="s2">"kumiho_list_projects"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"List projects"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_project"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get a project"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_spaces"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"List spaces"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_space"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get a space"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_item"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get an item"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_search_items"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Search items"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_fulltext_search"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Full-text search"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_retrieve"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Retrieve memories"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_item_revisions"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"List an item's revisions"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_revision"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get a revision"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_revision_by_tag"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get a revision by tag"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_revision_as_of"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get a revision as of a time"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_batch_get_revisions"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get several revisions at once"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_artifacts"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"List a revision's artifacts"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_artifact"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get an artifact"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_bundle"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get a bundle"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_resolve_kref"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Resolve a kref"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_artifacts_by_location"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Find artifacts by file location"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_dependencies"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get dependencies"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_dependents"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Get dependents"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_provenance_summary"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Summarize provenance"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_analyze_impact"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Analyze change impact"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_find_path"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Find a path between revisions"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_edges"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"List edges"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_get_bundle_members"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"List bundle members"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># -- Core: additive writes ---------------------------------------------</span>
+    <span class="s2">"kumiho_memory_store"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Store a memory"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_create_revision"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Create a revision"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_tag_revision"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Tag a revision"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_create_edge"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Create an edge"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_create_project"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Create a project"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_create_space"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Create a space"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_create_item"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Create an item"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_create_artifact"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Create an artifact"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_create_bundle"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Create a bundle"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_add_bundle_member"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Add a bundle member"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># -- Core: destructive --------------------------------------------------</span>
+    <span class="s2">"kumiho_delete_project"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Delete a project"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_delete_space"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Delete a space"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_delete_item"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Delete an item"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_delete_revision"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Delete a revision"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_delete_artifact"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Delete an artifact"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_delete_edge"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Delete an edge"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_untag_revision"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Remove a revision tag"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_set_metadata"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># Overwrites the named keys rather than merging beside them.</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Set metadata"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_deprecate_item"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># Title fixed by the connector plan: this is the user-facing "forget"</span>
+        <span class="c1"># verb, and the directory shows the title, not the tool name.</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Forget a memory"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_remove_bundle_member"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Remove a bundle member"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># -- kumiho-memory: working memory --------------------------------------</span>
+    <span class="s2">"kumiho_chat_add"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Add to the chat buffer"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_chat_get"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Read the chat buffer"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_chat_clear"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Clear the chat buffer"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># -- kumiho-memory: lifecycle -------------------------------------------</span>
+    <span class="s2">"kumiho_memory_engage"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Engage memory before responding"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_recall"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Recall memories"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_reflect"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Reflect and capture memories"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_ingest"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Ingest a user message"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_add_response"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Buffer an assistant response"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_consolidate"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Consolidate the session into long-term memory"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_discover_edges"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Discover memory relationships"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_store_execution"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Store an execution outcome"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_dream_state"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># Deprecates, retags and rewrites metadata across the graph. See the</span>
+        <span class="c1"># §2.2 note above: additive it is not.</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Run a Dream State consolidation cycle"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_space_profile"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># Persists versioned space-profile items unless dry_run is set, so it</span>
+        <span class="c1"># is an additive write, not a read. See the §2.2 note above.</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Profile memory spaces"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_decompose"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Decompose a memory into the typed graph"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># -- kumiho-memory: Decision Memory (code) ------------------------------</span>
+    <span class="s2">"kumiho_code_why"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Explain why code is the way it is"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_code_capture"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Capture a code decision"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_code_ingest"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Mine a commit range for decisions"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_code_mine_session"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Mine this session for code decisions"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="c1">#: The keys every :data:`TOOL_ANNOTATIONS` entry must carry.</span>
+<span class="n">_ANNOTATION_FIELDS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"title"</span><span class="p">,</span>
+    <span class="s2">"readOnlyHint"</span><span class="p">,</span>
+    <span class="s2">"destructiveHint"</span><span class="p">,</span>
+    <span class="s2">"idempotentHint"</span><span class="p">,</span>
+    <span class="s2">"openWorldHint"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># ``ToolAnnotations`` and ``Tool.title`` arrived after the oldest mcp this</span>
+<span class="c1"># package supports (&gt;=1.10.0), and mcp 2.x renamed model fields wholesale. Both</span>
+<span class="c1"># are detected by introspection rather than by version, exactly as</span>
+<span class="c1"># ``_MCP_HAS_DECORATORS`` is: an old or vendored SDK then serves unannotated</span>
+<span class="c1"># tools instead of failing to construct.</span>
+<span class="k">if</span> <span class="n">MCP_AVAILABLE</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">mcp.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolAnnotations</span> <span class="k">as</span> <span class="n">_ToolAnnotations</span>  <span class="c1"># type: ignore</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pragma: no cover - only on pre-annotation mcp builds</span>
+        <span class="n">_ToolAnnotations</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="n">_TOOL_MODEL_FIELDS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">Tool</span><span class="p">,</span> <span class="s2">"model_fields"</span><span class="p">,</span> <span class="p">{})</span> <span class="ow">or</span> <span class="p">{})</span>
+<span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover - exercised only without the mcp extra</span>
+    <span class="n">_ToolAnnotations</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="n">_TOOL_MODEL_FIELDS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="n">_TOOL_SUPPORTS_ANNOTATIONS</span> <span class="o">=</span> <span class="n">_ToolAnnotations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"annotations"</span> <span class="ow">in</span> <span class="n">_TOOL_MODEL_FIELDS</span>
+<span class="n">_TOOL_SUPPORTS_TITLE</span> <span class="o">=</span> <span class="s2">"title"</span> <span class="ow">in</span> <span class="n">_TOOL_MODEL_FIELDS</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tool_annotations</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Build the ``ToolAnnotations`` model for *name*, or ``None``."""</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">TOOL_ANNOTATIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">_TOOL_SUPPORTS_ANNOTATIONS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># camelCase keyword names: they are the field names on mcp 1.x and the</span>
+        <span class="c1"># aliases on 2.x, so one spelling populates both.</span>
+        <span class="k">return</span> <span class="n">_ToolAnnotations</span><span class="p">(</span>  <span class="c1"># type: ignore[misc]</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">spec</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+            <span class="n">readOnlyHint</span><span class="o">=</span><span class="n">spec</span><span class="p">[</span><span class="s2">"readOnlyHint"</span><span class="p">],</span>
+            <span class="n">destructiveHint</span><span class="o">=</span><span class="n">spec</span><span class="p">[</span><span class="s2">"destructiveHint"</span><span class="p">],</span>
+            <span class="n">idempotentHint</span><span class="o">=</span><span class="n">spec</span><span class="p">[</span><span class="s2">"idempotentHint"</span><span class="p">],</span>
+            <span class="n">openWorldHint</span><span class="o">=</span><span class="n">spec</span><span class="p">[</span><span class="s2">"openWorldHint"</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - shape change in a future mcp</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Could not build annotations for tool '</span><span class="si">%s</span><span class="s2">': </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_tool</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">"Tool"</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Turn one :data:`TOOLS` entry into an mcp ``Tool``, annotations included.</span>
+
+<span class="sd">    Used by both registration branches, so the 1.x decorator path and the 2.x</span>
+<span class="sd">    ``on_*`` path cannot advertise different metadata for the same tool.</span>
+<span class="sd">    """</span>
+    <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="n">spec</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+        <span class="s2">"description"</span><span class="p">:</span> <span class="n">spec</span><span class="p">[</span><span class="s2">"description"</span><span class="p">],</span>
+        <span class="s2">"inputSchema"</span><span class="p">:</span> <span class="n">spec</span><span class="p">[</span><span class="s2">"inputSchema"</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="n">annotation</span> <span class="o">=</span> <span class="n">TOOL_ANNOTATIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_TOOL_SUPPORTS_TITLE</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotation</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span>
+        <span class="n">built</span> <span class="o">=</span> <span class="n">_tool_annotations</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">built</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"annotations"</span><span class="p">]</span> <span class="o">=</span> <span class="n">built</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Not fatal — a third party can append to TOOLS — but the directory</span>
+        <span class="c1"># requires a title on everything listed, so say so once.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Tool '</span><span class="si">%s</span><span class="s2">' has no entry in TOOL_ANNOTATIONS"</span><span class="p">,</span> <span class="n">spec</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Tool</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># Tool profiles</span>
+<span class="c1"># ============================================================================</span>
+
+<span class="c1">#: The hosted connector's curated surface (connector plan §2.2, less</span>
+<span class="c1">#: ``kumiho_memory_dream_state``). Ordered read / additive-write / destructive,</span>
+<span class="c1">#: which is also the order the directory listing presents them in.</span>
+<span class="c1">#:</span>
+<span class="c1">#: ``kumiho_memory_dream_state`` is in the plan's table but is deliberately</span>
+<span class="c1">#: *not* here for v1. Its assessment pass needs an LLM key and hosted tenants</span>
+<span class="c1">#: are keyless (plan §1.10), so listing it would publish a tool that fails at</span>
+<span class="c1">#: call time — which directory review catches head-on, since it asks the</span>
+<span class="c1">#: submitter to confirm every listed tool has been run. It keeps its</span>
+<span class="c1">#: :data:`TOOL_ANNOTATIONS` entry, so the full profile is unaffected; re-add</span>
+<span class="c1">#: the name here once per-tenant LLM metering exists.</span>
+<span class="n">CONNECTOR_PROFILE_TOOLS</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># Read</span>
+    <span class="s2">"kumiho_memory_engage"</span><span class="p">,</span>
+    <span class="s2">"kumiho_memory_recall"</span><span class="p">,</span>
+    <span class="s2">"kumiho_memory_retrieve"</span><span class="p">,</span>
+    <span class="s2">"kumiho_memory_space_profile"</span><span class="p">,</span>
+    <span class="s2">"kumiho_chat_get"</span><span class="p">,</span>
+    <span class="s2">"kumiho_search_items"</span><span class="p">,</span>
+    <span class="s2">"kumiho_get_item"</span><span class="p">,</span>
+    <span class="s2">"kumiho_get_revision_by_tag"</span><span class="p">,</span>
+    <span class="s2">"kumiho_list_projects"</span><span class="p">,</span>
+    <span class="s2">"kumiho_get_spaces"</span><span class="p">,</span>
+    <span class="s2">"kumiho_get_provenance_summary"</span><span class="p">,</span>
+    <span class="c1"># Write</span>
+    <span class="s2">"kumiho_memory_reflect"</span><span class="p">,</span>
+    <span class="s2">"kumiho_memory_store"</span><span class="p">,</span>
+    <span class="s2">"kumiho_memory_consolidate"</span><span class="p">,</span>
+    <span class="s2">"kumiho_memory_decompose"</span><span class="p">,</span>
+    <span class="s2">"kumiho_create_space"</span><span class="p">,</span>
+    <span class="c1"># Destructive</span>
+    <span class="s2">"kumiho_deprecate_item"</span><span class="p">,</span>
+    <span class="s2">"kumiho_chat_clear"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">PROFILE_FULL</span> <span class="o">=</span> <span class="s2">"full"</span>
+<span class="n">PROFILE_CONNECTOR</span> <span class="o">=</span> <span class="s2">"connector"</span>
+
+<span class="c1">#: Every accepted value of the ``profile`` argument / ``KUMIHO_MCP_TOOL_PROFILE``.</span>
+<span class="n">TOOL_PROFILES</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">PROFILE_FULL</span><span class="p">,</span> <span class="n">PROFILE_CONNECTOR</span><span class="p">)</span>
+
+<span class="n">_PROFILE_TOOL_NAMES</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">PROFILE_CONNECTOR</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">CONNECTOR_PROFILE_TOOLS</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="ToolNotInProfileError">
+<a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.ToolNotInProfileError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToolNotInProfileError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A tool exists, but the active profile does not offer it.</span>
+
+<span class="sd">    Raised rather than returned, so the refusal reaches the client as a real</span>
+<span class="sd">    MCP tool error (``isError: true``) instead of a *successful* result whose</span>
+<span class="sd">    text happens to contain the word "error". Clients and models branch on</span>
+<span class="sd">    ``isError``; a refusal that reports success reads as "the call went</span>
+<span class="sd">    through", which is the opposite of what happened.</span>
+
+<span class="sd">    mcp 1.x turns an exception out of the ``call_tool`` handler into an error</span>
+<span class="sd">    result carrying ``str(exc)``; the 2.x branch catches this type explicitly</span>
+<span class="sd">    and builds the same result. One raise, one message, both majors.</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="ToolNotInProfileError.__init__">
+<a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.ToolNotInProfileError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tool_name</span> <span class="o">=</span> <span class="n">tool_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">profile</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Tool '</span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2">' is not available in the '</span><span class="si">{</span><span class="n">profile</span><span class="si">}</span><span class="s2">' tool profile."</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="resolve_tool_profile">
+<a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.resolve_tool_profile">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_tool_profile</span><span class="p">(</span><span class="n">profile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Normalize an explicit profile, falling back to the environment.</span>
+
+<span class="sd">    ``None`` means "unspecified", not "full": it defers to</span>
+<span class="sd">    ``KUMIHO_MCP_TOOL_PROFILE`` so a deployment can pick the profile without</span>
+<span class="sd">    touching the code that constructs the server. An empty or whitespace-only</span>
+<span class="sd">    value on either path means full, which keeps ``KUMIHO_MCP_TOOL_PROFILE=``</span>
+<span class="sd">    from being a silent misconfiguration.</span>
+<span class="sd">    """</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">profile</span> <span class="k">if</span> <span class="n">profile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"KUMIHO_MCP_TOOL_PROFILE"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">raw</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">PROFILE_FULL</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">TOOL_PROFILES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Unknown MCP tool profile </span><span class="si">{</span><span class="n">raw</span><span class="si">!r}</span><span class="s2">. "</span>
+            <span class="sa">f</span><span class="s2">"Valid profiles: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">TOOL_PROFILES</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">name</span></div>
+
+
+
+<div class="viewcode-block" id="profile_tool_names">
+<a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.profile_tool_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile_tool_names</span><span class="p">(</span><span class="n">profile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""The names *profile* admits, or ``None`` for "everything in TOOLS"."""</span>
+    <span class="k">return</span> <span class="n">_PROFILE_TOOL_NAMES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="tools_for_profile">
+<a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.tools_for_profile">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tools_for_profile</span><span class="p">(</span><span class="n">profile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""The :data:`TOOLS` entries *profile* exposes.</span>
+
+<span class="sd">    Read from :data:`TOOLS` on every call rather than snapshotted at server</span>
+<span class="sd">    construction. ``TOOLS`` is a module-level list that kumiho-memory *extends</span>
+<span class="sd">    at import time* — with a further two extensions gated behind env flags —</span>
+<span class="sd">    so a snapshot would silently depend on import order, and a filter built</span>
+<span class="sd">    from one would go stale.</span>
+<span class="sd">    """</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="n">profile_tool_names</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">allowed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">TOOLS</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TOOLS</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="ow">in</span> <span class="n">allowed</span><span class="p">]</span></div>
+
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># Connector instructions</span>
+<span class="c1"># ============================================================================</span>
+
+<span class="c1"># Server ``instructions`` are handed to the model once, at initialize. On the</span>
+<span class="c1"># stdio plugin path the engage/reflect protocol arrives as a skill plus</span>
+<span class="c1"># SessionStart hooks; a remote connector has neither, so the protocol has to</span>
+<span class="c1"># travel with the server or it does not travel at all. Distilled from</span>
+<span class="c1"># kumiho-plugins/claude/skills/kumiho-memory/SKILL.md ("Two Reflexes",</span>
+<span class="c1"># "Memory Discipline"), minus everything that assumes a local host: artifact</span>
+<span class="c1"># files, transcript mining, the session-id card, skill discovery.</span>
+<span class="n">CONNECTOR_INSTRUCTIONS</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+<span class="s2">Kumiho Memory gives you persistent, graph-native memory across conversations. </span><span class="se">\</span>
+<span class="s2">This is a remote connector: there are no hooks, no skills and no local files, </span><span class="se">\</span>
+<span class="s2">so this protocol is the whole of it. Run it yourself.</span>
+
+<span class="s2">FIRST TURN — identity bootstrap, once per conversation.</span>
+<span class="s2">Before answering the first message, call kumiho_get_revision_by_tag(</span>
+<span class="s2">item_kref="kref://CognitiveMemory/personal/agent.instruction", tag="published").</span>
+<span class="s2">Adopt whatever it returns: your name, the user's name, language, tone, </span><span class="se">\</span>
+<span class="s2">verbosity, standing rules. If it is not found, this is a first meeting: ask </span><span class="se">\</span>
+<span class="s2">the user three short questions in chat — what to call them, how they want you </span><span class="se">\</span>
+<span class="s2">to work (tone, length, language), and what they are working on — wait for the </span><span class="se">\</span>
+<span class="s2">answers, then store them with kumiho_memory_reflect using space_hint </span><span class="se">\</span>
+<span class="s2">"personal". Never invent the answers and never re-run this check later in the </span><span class="se">\</span>
+<span class="s2">conversation. An auth or connection error is not a first meeting: say memory </span><span class="se">\</span>
+<span class="s2">is unavailable and carry on without it.</span>
+
+<span class="s2">ENGAGE — before you respond.</span>
+<span class="s2">When the user's message touches anything that might have history, call </span><span class="se">\</span>
+<span class="s2">kumiho_memory_engage(query: &lt;derived from their message&gt;) once, before </span><span class="se">\</span>
+<span class="s2">answering. At most one engage per response; identical queries within five </span><span class="se">\</span>
+<span class="s2">seconds are deduplicated server-side. Skip it when the answer is already </span><span class="se">\</span>
+<span class="s2">visible in this conversation. Use graph_augmented: true for indirect or </span><span class="se">\</span>
+<span class="s2">chain-of-decision questions. Keep the returned source_krefs for reflect. </span><span class="se">\</span>
+<span class="s2">Compare each result's created_at with today's date and express age naturally </span><span class="se">\</span>
+<span class="s2">("last Tuesday", "about two weeks ago"); recent memories outrank stale ones.</span>
+
+<span class="s2">REFLECT — after you respond.</span>
+<span class="s2">After a substantive answer, call kumiho_memory_reflect(response: &lt;your reply&gt;, </span><span class="se">\</span>
+<span class="s2">captures: [...], source_krefs: [...]). Each capture is {type, title, content, </span><span class="se">\</span>
+<span class="s2">space_hint}, where type is one of decision, preference, fact, correction, </span><span class="se">\</span>
+<span class="s2">architecture, skill, creative. Capture the user's decisions, preferences, </span><span class="se">\</span>
+<span class="s2">facts and corrections, and your own substantive output — architecture calls, </span><span class="se">\</span>
+<span class="s2">bug resolutions, long drafts. Skip trivia, uncommitted brainstorming, </span><span class="se">\</span>
+<span class="s2">credentials and secrets; on a trivial turn call reflect with no captures, to </span><span class="se">\</span>
+<span class="s2">buffer the response only.</span>
+<span class="s2">space_hint is not optional. An unrouted capture lands at the project root, </span><span class="se">\</span>
+<span class="s2">where automatic revision stacking can fuse it onto an unrelated months-old </span><span class="se">\</span>
+<span class="s2">item. Reuse a space the graph already shows you — engage results come back as </span><span class="se">\</span>
+<span class="s2">krefs shaped kref://&lt;project&gt;/&lt;space&gt;/&lt;item&gt;.&lt;kind&gt; — and copy the name </span><span class="se">\</span>
+<span class="s2">exactly, capitalization included. When none fits, use the capture's type: </span><span class="se">\</span>
+<span class="s2">decisions, facts, preferences, corrections, personal.</span>
+<span class="s2">Titles carry absolute dates — "Chose gRPC on 2026-03-27", never "today".</span>
+
+<span class="s2">SPEAK, DON'T NARRATE.</span>
+<span class="s2">Weave memory into the answer: "Since you prefer concise output...". Never say </span><span class="se">\</span>
+<span class="s2">"let me check my memory", "my memory shows", "I've saved that", or otherwise </span><span class="se">\</span>
+<span class="s2">describe the plumbing. You simply know, and you simply remember.</span>
+
+<span class="s2">SESSIONS.</span>
+<span class="s2">Never invent a session_id. Omit it and the server resolves one, and keeps </span><span class="se">\</span>
+<span class="s2">resolving to that same one for the rest of the conversation. Every </span><span class="se">\</span>
+<span class="s2">session-scoped result — reflect, consolidate, chat — echoes back the </span><span class="se">\</span>
+<span class="s2">session_id and session_id_source it used; engage is read-only and reports </span><span class="se">\</span>
+<span class="s2">none. Pass a session_id only when a tool already reported it to you in this </span><span class="se">\</span>
+<span class="s2">conversation.</span>
+
+<span class="s2">CONSOLIDATE.</span>
+<span class="s2">When the user signals the end (goodbye, "that's all", "thanks, done") or after </span><span class="se">\</span>
+<span class="s2">roughly twenty exchanges, call kumiho_memory_consolidate(summary: {...}) with a </span><span class="se">\</span>
+<span class="s2">summary you write yourself — you have the whole conversation, and this path </span><span class="se">\</span>
+<span class="s2">needs no external model. Include title, summary, key events, knowledge (facts, </span><span class="se">\</span>
+<span class="s2">decisions, actions, open questions) and classification (topics, entities). </span><span class="se">\</span>
+<span class="s2">Close by naming what is still open.</span>
+
+<span class="s2">FORGETTING.</span>
+<span class="s2">When the user says "forget X", locate the item and call </span><span class="se">\</span>
+<span class="s2">kumiho_deprecate_item(item_kref=...) right away, then confirm plainly. Be </span><span class="se">\</span>
+<span class="s2">honest about what you remember; only summaries are stored, never raw </span><span class="se">\</span>
+<span class="s2">transcripts.</span>
+
+<span class="s2">WHEN IT PAYS.</span>
+<span class="s2">After a substantive exchange, kumiho_memory_decompose(kref: &lt;from reflect or </span><span class="se">\</span>
+<span class="s2">consolidate&gt;, entities, facts, relations) builds the typed graph so later </span><span class="se">\</span>
+<span class="s2">recall can bridge memories through shared entities. Distill from the stored </span><span class="se">\</span>
+<span class="s2">summary, a handful of each.</span><span class="se">\</span>
+<span class="s2">"""</span>
+
+
+<span class="c1"># ============================================================================</span>
 <span class="c1"># MCP Server Implementation</span>
 <span class="c1"># ============================================================================</span>
 
@@ -5004,29 +5836,62 @@
 
 <div class="viewcode-block" id="create_mcp_server">
 <a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.create_mcp_server">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_mcp_server</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s2">"Server"</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_mcp_server</span><span class="p">(</span>
+    <span class="n">profile</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Server"</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Create and configure the Kumiho MCP server.</span>
 
 <span class="sd">    The six handlers are defined once, in the shapes mcp 1.x expects, and are</span>
 <span class="sd">    either registered through the 1.x decorators or wrapped into the</span>
 <span class="sd">    ``(ctx, params) -&gt; ResultModel`` shape mcp 2.0 wants. Keeping one copy of</span>
 <span class="sd">    each body is what stops the two branches from drifting apart.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        profile: Which tool surface to expose. ``None`` defers to</span>
+<span class="sd">            ``KUMIHO_MCP_TOOL_PROFILE`` and then to ``"full"`` — today's whole</span>
+<span class="sd">            tool list, which is what the stdio plugin gets. ``"connector"``</span>
+<span class="sd">            exposes the curated hosted set (:data:`CONNECTOR_PROFILE_TOOLS`).</span>
+<span class="sd">            An unrecognized name raises ``ValueError`` rather than silently</span>
+<span class="sd">            serving everything: a typo in a deployment's env would otherwise</span>
+<span class="sd">            publish every destructive tool to a public connector.</span>
+<span class="sd">        instructions: Server instructions returned in the MCP ``initialize``</span>
+<span class="sd">            result. Defaults to :data:`CONNECTOR_INSTRUCTIONS` for the</span>
+<span class="sd">            connector profile and to nothing otherwise, because the stdio</span>
+<span class="sd">            plugin already carries the protocol as a skill and a second copy</span>
+<span class="sd">            would just spend the user's context twice.</span>
+
+<span class="sd">    Nothing here starts the orphan watchdog or otherwise assumes a stdio child</span>
+<span class="sd">    process — that belongs to :func:`main`. A hosted server builds many of</span>
+<span class="sd">    these inside a long-lived web process, where a watchdog would watch the</span>
+<span class="sd">    wrong parent and ``os._exit`` the whole service.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">MCP_AVAILABLE</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
             <span class="s2">"MCP SDK not installed. Install with: pip install mcp"</span>
         <span class="p">)</span>
 
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_tools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""List all available Kumiho tools."""</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">Tool</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">t</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
-                <span class="n">description</span><span class="o">=</span><span class="n">t</span><span class="p">[</span><span class="s2">"description"</span><span class="p">],</span>
-                <span class="n">inputSchema</span><span class="o">=</span><span class="n">t</span><span class="p">[</span><span class="s2">"inputSchema"</span><span class="p">],</span>
+    <span class="n">active_profile</span> <span class="o">=</span> <span class="n">resolve_tool_profile</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">instructions</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">active_profile</span> <span class="o">==</span> <span class="n">PROFILE_CONNECTOR</span><span class="p">:</span>
+        <span class="n">instructions</span> <span class="o">=</span> <span class="n">CONNECTOR_INSTRUCTIONS</span>
+
+    <span class="n">allowed_names</span> <span class="o">=</span> <span class="n">profile_tool_names</span><span class="p">(</span><span class="n">active_profile</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">allowed_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Named-but-absent means an optional dependency is missing or a gate is</span>
+        <span class="c1"># closed (the kumiho-memory tools are appended at import time, and some</span>
+        <span class="c1"># only when their env flag is set). Serving the rest is right; doing it</span>
+        <span class="c1"># silently is not — a connector quietly short of kumiho_memory_reflect</span>
+        <span class="c1"># looks like a model failure, not a deployment one.</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">allowed_names</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">TOOL_HANDLERS</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"Tool profile '</span><span class="si">%s</span><span class="s2">' names </span><span class="si">%d</span><span class="s2"> tool(s) that are not registered: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="n">active_profile</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">),</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">),</span>
             <span class="p">)</span>
-            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TOOLS</span>
-        <span class="p">]</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_tools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""List the tools the active profile exposes."""</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_build_tool</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tools_for_profile</span><span class="p">(</span><span class="n">active_profile</span><span class="p">)]</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">call_tool</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">TextContent</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Handle tool invocations."""</span>
@@ -5038,6 +5903,19 @@
                 <span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span>
                 <span class="n">text</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Unknown tool: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">}),</span>
             <span class="p">)]</span>
+
+        <span class="c1"># Filtering the listing is not access control: a client can call any</span>
+        <span class="c1"># name it likes, and a model that saw the full surface in an earlier</span>
+        <span class="c1"># session will. This check is what actually withholds the tool — the</span>
+        <span class="c1"># listing filter only stops it being advertised.</span>
+        <span class="c1">#</span>
+        <span class="c1"># Checked *after* the handler lookup so the two answers stay</span>
+        <span class="c1"># distinguishable ("no such tool" and "that tool exists but this</span>
+        <span class="c1"># deployment does not offer it" call for different next moves, and the</span>
+        <span class="c1"># tool list is public either way), and *before* the dispatch below, so</span>
+        <span class="c1"># the handler is never entered.</span>
+        <span class="k">if</span> <span class="n">allowed_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ToolNotInProfileError</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">active_profile</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Run the tool handler (may be blocking gRPC call)</span>
@@ -5182,8 +6060,18 @@
     <span class="c1"># ``version`` is kumiho's own. Passing none makes mcp 1.x advertise the mcp</span>
     <span class="c1"># SDK's version as kumiho's, and mcp 2.0 advertise an empty string</span>
     <span class="c1"># (kumiho-SDKs#147). Both majors accept it as a keyword.</span>
+    <span class="n">server_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"version"</span><span class="p">:</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">__version__</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">instructions</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_SERVER_SUPPORTS_INSTRUCTIONS</span><span class="p">:</span>
+            <span class="n">server_kwargs</span><span class="p">[</span><span class="s2">"instructions"</span><span class="p">]</span> <span class="o">=</span> <span class="n">instructions</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover - only on mcp builds without the keyword</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"The installed mcp SDK's Server takes no 'instructions' "</span>
+                <span class="s2">"keyword; the connector protocol will not reach the client."</span>
+            <span class="p">)</span>
+
     <span class="k">if</span> <span class="n">_MCP_HAS_DECORATORS</span><span class="p">:</span>
-        <span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">"kumiho-mcp"</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">kumiho</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="s2">"kumiho-mcp"</span><span class="p">,</span> <span class="o">**</span><span class="n">server_kwargs</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">list_tools</span><span class="p">()(</span><span class="n">list_tools</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">call_tool</span><span class="p">()(</span><span class="n">call_tool</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">list_resources</span><span class="p">()(</span><span class="n">list_resources</span><span class="p">)</span>
@@ -5207,16 +6095,28 @@
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_call_tool</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"CallToolResult"</span><span class="p">:</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="n">error</span> <span class="o">=</span> <span class="n">_validate_tool_input</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Skip validation for a tool this profile hides, so both majors answer</span>
+        <span class="c1"># a hidden call the same way: with the profile rejection ``call_tool``</span>
+        <span class="c1"># produces, never with a schema complaint about a tool that is not on</span>
+        <span class="c1"># offer in the first place.</span>
+        <span class="k">if</span> <span class="n">allowed_names</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">params</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">allowed_names</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">_validate_tool_input</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">CallToolResult</span><span class="p">(</span>
+                    <span class="n">content</span><span class="o">=</span><span class="p">[</span><span class="n">TextContent</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">error</span><span class="p">)],</span>
+                    <span class="n">isError</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="k">await</span> <span class="n">call_tool</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">ToolNotInProfileError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="c1"># mcp 1.x's decorator does this for us; 2.x's runner does not, and</span>
+            <span class="c1"># would turn the raise into a JSON-RPC error instead of a tool</span>
+            <span class="c1"># error. Same shape on both majors.</span>
             <span class="k">return</span> <span class="n">CallToolResult</span><span class="p">(</span>
-                <span class="n">content</span><span class="o">=</span><span class="p">[</span><span class="n">TextContent</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">error</span><span class="p">)],</span>
+                <span class="n">content</span><span class="o">=</span><span class="p">[</span><span class="n">TextContent</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"text"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))],</span>
                 <span class="n">isError</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">CallToolResult</span><span class="p">(</span>
-            <span class="n">content</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="k">await</span> <span class="n">call_tool</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)),</span>
-            <span class="n">isError</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">CallToolResult</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="n">isError</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_list_resources</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ListResourcesResult"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ListResourcesResult</span><span class="p">(</span><span class="n">resources</span><span class="o">=</span><span class="k">await</span> <span class="n">list_resources</span><span class="p">())</span>
@@ -5242,7 +6142,7 @@
     <span class="c1"># get_capabilities still derives them from which methods are registered.</span>
     <span class="k">return</span> <span class="n">Server</span><span class="p">(</span>
         <span class="s2">"kumiho-mcp"</span><span class="p">,</span>
-        <span class="n">version</span><span class="o">=</span><span class="n">kumiho</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">server_kwargs</span><span class="p">,</span>
         <span class="n">on_list_tools</span><span class="o">=</span><span class="n">on_list_tools</span><span class="p">,</span>
         <span class="n">on_call_tool</span><span class="o">=</span><span class="n">on_call_tool</span><span class="p">,</span>
         <span class="n">on_list_resources</span><span class="o">=</span><span class="n">on_list_resources</span><span class="p">,</span>
