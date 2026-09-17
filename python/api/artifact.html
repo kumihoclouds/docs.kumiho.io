@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.artifact &mdash; Kumiho Python SDK v0.13.0</title>
+  <title>kumiho.artifact &mdash; Kumiho Python SDK v0.13.1</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=1019fba8"></script>
+      <script src="../_static/documentation_options.js?v=b4617fb1"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -291,6 +291,7 @@
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.project"><code class="docutils literal notranslate"><span class="pre">Item.project</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.space"><code class="docutils literal notranslate"><span class="pre">Item.space</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.created_at"><code class="docutils literal notranslate"><span class="pre">Item.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.modified_at"><code class="docutils literal notranslate"><span class="pre">Item.modified_at</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.author"><code class="docutils literal notranslate"><span class="pre">Item.author</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.metadata"><code class="docutils literal notranslate"><span class="pre">Item.metadata</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="kumiho.html#kumiho.Item.deprecated"><code class="docutils literal notranslate"><span class="pre">Item.deprecated</span></code></a></li>
@@ -671,132 +672,139 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.13.0] - 2026-09-04</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.13.1] - 2026-09-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.12.2] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.13.0] - 2026-09-04</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id4">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">[0.12.2] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id7">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#removed">Removed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">[0.12.1] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id7">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id9">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id10">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id11">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id8">[0.12.0] - 2026-08-13</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id10">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id13">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id14">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id15">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id11">[0.11.0] - 2026-08-01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id13">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id14">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id16">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id17">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id18">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id19">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id15">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id20">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id21">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id17">[0.10.7] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id18">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id22">[0.10.7] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id23">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id19">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id20">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id24">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id25">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id21">[0.10.5] - 2026-07-11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id22">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id26">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id27">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id23">[0.10.4] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id24">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id28">[0.10.4] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id29">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id25">[0.10.3] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id26">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id27">[0.10.2] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id28">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id29">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id30">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id30">[0.10.3] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id31">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id32">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id33">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id34">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id32">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id33">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id34">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id35">[0.9.24] - 2026-04-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id35">[0.10.1] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id36">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id37">[0.9.23] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id38">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id37">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id38">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id39">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id39">[0.9.22] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id40">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id40">[0.9.24] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id41">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id41">[0.9.21] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id42">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id42">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id43">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id43">[0.9.20] - 2026-03-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id44">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id44">[0.9.22] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id45">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id45">[0.9.19] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id46">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id46">[0.9.21] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id47">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id47">[0.9.18] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id48">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id48">[0.9.20] - 2026-03-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id49">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id49">[0.9.17] - 2026-03-09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id50">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id50">[0.9.19] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id51">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id51">[0.9.16] - 2026-03-08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id52">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id52">[0.9.18] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id53">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id53">[0.9.15] - 2026-03-07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id54">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id54">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id55">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id55">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id56">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id57">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id58">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id56">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id57">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id58">[0.9.15] - 2026-03-07</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id59">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id60">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id61">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id62">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id63">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id59">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id60">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id61">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id64">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id65">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id66">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id62">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id63">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id64">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id67">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id68">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id69">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id65">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id66">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id70">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id71">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -897,7 +905,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <dd><p>The file path or URI where the artifact is stored.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -930,7 +938,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <dd><p>ISO timestamp when the artifact was created.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -941,7 +949,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <dd><p>The user ID who created the artifact.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -952,7 +960,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <dd><p>Custom metadata key-value pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -963,7 +971,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <dd><p>Whether the artifact is deprecated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -974,7 +982,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <dd><p>Display name of the creator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1034,21 +1042,21 @@ tracks the path and metadata but does not upload or modify the files.</p>
 <dd><p>Return a string representation of the Artifact.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></dt>
 <dd><p>Get the artifact name from its kref.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The artifact name extracted from the kref URI.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1068,7 +1076,7 @@ tracks the path and metadata but does not upload or modify the files.</p>
 overwritten and new keys are added.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Dictionary of metadata key-value pairs.</p>
+<dd class="field-odd"><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Dictionary of metadata key-value pairs.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The updated Artifact object.</p>
@@ -1099,15 +1107,15 @@ metadata map.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute key to set.</p></li>
-<li><p><strong>value</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute value.</p></li>
+<li><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute key to set.</p></li>
+<li><p><strong>value</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute value.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the attribute was set successfully.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)">bool</a></p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1125,10 +1133,10 @@ metadata map.</p>
 <dd><p>Get a single metadata attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute key to retrieve.</p>
+<dd class="field-odd"><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute key to retrieve.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The attribute value if it exists, None otherwise.</p>
@@ -1149,13 +1157,13 @@ metadata map.</p>
 <dd><p>Delete a single metadata attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute key to delete.</p>
+<dd class="field-odd"><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – The attribute key to delete.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the attribute was deleted successfully.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)">bool</a></p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1173,14 +1181,14 @@ metadata map.</p>
 <dd><p>Delete this artifact.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>force</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, force deletion. If False (default), normal
+<dd class="field-odd"><p><strong>force</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – If True, force deletion. If False (default), normal
 deletion rules apply.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.83.0)"><strong>grpc.RpcError</strong></a> – If deletion fails.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1199,10 +1207,10 @@ deletion rules apply.</p>
 accessible for historical reference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>status</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – True to deprecate, False to restore.</p>
+<dd class="field-odd"><p><strong>status</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – True to deprecate, False to restore.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
 </dd>
 </dl>
 <div class="admonition-example admonition">
@@ -1230,7 +1238,7 @@ without specifying an artifact name.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>

@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.13.0</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.13.1</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=1019fba8"></script>
+      <script src="../../_static/documentation_options.js?v=b4617fb1"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -288,6 +288,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Item.project"><code class="docutils literal notranslate"><span class="pre">Item.project</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Item.space"><code class="docutils literal notranslate"><span class="pre">Item.space</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Item.created_at"><code class="docutils literal notranslate"><span class="pre">Item.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Item.modified_at"><code class="docutils literal notranslate"><span class="pre">Item.modified_at</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Item.author"><code class="docutils literal notranslate"><span class="pre">Item.author</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Item.metadata"><code class="docutils literal notranslate"><span class="pre">Item.metadata</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.Item.deprecated"><code class="docutils literal notranslate"><span class="pre">Item.deprecated</span></code></a></li>
@@ -668,132 +669,139 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.13.0] - 2026-09-04</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.13.1] - 2026-09-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.12.2] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">[0.13.0] - 2026-09-04</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id4">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">[0.12.2] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id7">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id8">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">Removed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">[0.12.1] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id7">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id10">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id11">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">[0.12.0] - 2026-08-13</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id9">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id10">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id13">[0.12.0] - 2026-08-13</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id14">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id15">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">[0.11.0] - 2026-08-01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id13">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id14">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id16">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id17">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id18">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id19">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id15">[0.10.8] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id16">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id20">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id21">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id17">[0.10.7] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id18">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id22">[0.10.7] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id23">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id19">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id20">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id24">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id25">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id21">[0.10.5] - 2026-07-11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id22">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id26">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id27">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id23">[0.10.4] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id24">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id28">[0.10.4] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id29">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id25">[0.10.3] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id26">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id27">[0.10.2] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id28">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id29">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id30">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id30">[0.10.3] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id31">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id32">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id33">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id34">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id32">[0.10.2] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id33">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id34">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id35">[0.9.24] - 2026-04-17</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id35">[0.10.1] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id36">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id37">[0.9.23] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id38">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id37">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id38">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id39">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id39">[0.9.22] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id40">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id40">[0.9.24] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id41">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id41">[0.9.21] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id42">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id42">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id43">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id43">[0.9.20] - 2026-03-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id44">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id44">[0.9.22] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id45">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id45">[0.9.19] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id46">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id46">[0.9.21] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id47">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id47">[0.9.18] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id48">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id48">[0.9.20] - 2026-03-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id49">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id49">[0.9.17] - 2026-03-09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id50">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id50">[0.9.19] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id51">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id51">[0.9.16] - 2026-03-08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id52">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id52">[0.9.18] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id53">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id53">[0.9.15] - 2026-03-07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id54">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id54">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id55">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id55">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id56">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id57">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id58">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id56">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id57">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id58">[0.9.15] - 2026-03-07</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id59">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id60">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id61">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id62">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id63">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id59">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id60">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id61">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id64">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id65">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id66">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id62">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id63">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id64">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id67">[0.2.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id68">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id69">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id65">[0.1.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id66">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id70">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id71">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -1921,6 +1929,151 @@
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">_created</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">cap</span><span class="p">]</span>
 
 
+<span class="c1"># mode="latest" and the explicit spellings that mean the same thing.  Only an</span>
+<span class="c1"># explicit mode selects it: there is deliberately no query-text detection,</span>
+<span class="c1"># because kumiho-memory's recall calls tool_memory_retrieve without a mode and</span>
+<span class="c1"># must keep relevance ranking whatever words the user's message contains.</span>
+<span class="n">_LATEST_MODE_ALIASES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">"latest"</span><span class="p">,</span> <span class="s2">"newest"</span><span class="p">,</span> <span class="s2">"recent"</span><span class="p">,</span> <span class="s2">"most_recent"</span><span class="p">})</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_latest_candidate_pool</span><span class="p">(</span><span class="n">limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""How many candidates mode="latest" considers before date-ordering.</span>
+
+<span class="sd">    Wider than search mode's ``limit * 2``: date order promotes candidates</span>
+<span class="sd">    that relevance order would have cut, so the pool has to reach past them.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">limit</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ordering_timestamp</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Parse an ISO timestamp into a naive-UTC datetime for ordering.</span>
+
+<span class="sd">    Aware values are converted to UTC before the offset is dropped, so mixed</span>
+<span class="sd">    offsets compare correctly.  Anything that is not a parseable string</span>
+<span class="sd">    (missing, empty, or a non-string stand-in) is ``None``.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">_parse_timestamp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">ts</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ts</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_newest_revisions</span><span class="p">(</span>
+    <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Resolve published/latest revisions for the items that can be newest.</span>
+
+<span class="sd">    mode="latest" orders by the ``created_at`` of the revision it returns, and</span>
+<span class="sd">    that time is only known after resolving the revision — 1-2 RPCs per item</span>
+<span class="sd">    (see ``_most_recent_items``).  Two things keep this bounded:</span>
+
+<span class="sd">    * ``Item.modified_at`` is an upper bound on every revision's</span>
+<span class="sd">      ``created_at`` (creating a revision advances it; verified on a live</span>
+<span class="sd">      graph: 0 of 312 items, 131 of them multi-revision, had a resolved</span>
+<span class="sd">      revision newer than the item's ``modified_at``).  Walking items by it,</span>
+<span class="sd">      newest first, reaches an old item that received a new stacked revision</span>
+<span class="sd">      without resolving anything else, and once ``limit`` accepted revisions</span>
+<span class="sd">      are all newer than the next item's bound, nothing further down can</span>
+<span class="sd">      displace them — so the walk stops early and the result is exact.  If a</span>
+<span class="sd">      resolved revision turns out newer than its item's ``modified_at``, the</span>
+<span class="sd">      server's field is not a bound and early stopping is switched off.</span>
+<span class="sd">    * A hard cap of ``_latest_candidate_pool(limit)`` resolutions.  It binds</span>
+<span class="sd">      when ``memory_types`` rejects most of the walk (fewer than ``limit``</span>
+<span class="sd">      results can come back even though older matches exist), or when the</span>
+<span class="sd">      server does not report ``modified_at``.  Then the walk falls back to</span>
+<span class="sd">      item ``created_at`` — the old window — which misses an old item whose</span>
+<span class="sd">      only recent change is a new revision, and never stops early because</span>
+<span class="sd">      ``created_at`` is not an upper bound.</span>
+<span class="sd">    """</span>
+    <span class="n">cap</span> <span class="o">=</span> <span class="n">_latest_candidate_pool</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">_ordering_timestamp</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"modified_at"</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+    <span class="n">exact</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="n">keyed</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="n">bound</span> <span class="ow">or</span> <span class="n">_ordering_timestamp</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"kref"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">"uri"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)),</span>
+            <span class="n">item</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">bound</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="c1"># kref ascending, then (stable) window key descending with missing last.</span>
+    <span class="n">keyed</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">entry</span><span class="p">:</span> <span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">keyed</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">entry</span><span class="p">:</span> <span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">accepted</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">accepted_keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">resolved</span><span class="p">,</span> <span class="p">(</span><span class="n">bound</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keyed</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">resolved</span> <span class="o">&gt;=</span> <span class="n">cap</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">exact</span> <span class="ow">and</span> <span class="n">limit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">accepted_keys</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">limit</span><span class="p">:</span>
+            <span class="n">kth_newest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">accepted_keys</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="n">limit</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bound</span> <span class="o">&lt;</span> <span class="n">kth_newest</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">_ordering_timestamp</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span> <span class="k">if</span> <span class="n">rev</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">exact</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">:</span>
+            <span class="c1"># A server whose modified_at does not track revisions: it is no</span>
+            <span class="c1"># bound, so stop trusting it for early exit (the cap still holds).</span>
+            <span class="n">exact</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
+            <span class="n">accepted</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="p">,</span> <span class="n">rev</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">accepted_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">accepted</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_order_newest_first</span><span class="p">(</span>
+    <span class="n">entries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">created_at</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Order ``(item_kref, revision_kref, score)`` rows by revision date.</span>
+
+<span class="sd">    Newest ``created_at`` first; rows without a parseable timestamp sort</span>
+<span class="sd">    last.  Ties break by relevance score (descending), then by item and</span>
+<span class="sd">    revision kref (ascending), so the order is deterministic.</span>
+<span class="sd">    """</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">newest</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">_ordering_timestamp</span><span class="p">(</span><span class="n">created_at</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">ts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ts</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="n">by_kref</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">by_kref</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">newest</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># stable: kref order holds</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_kref_space_context</span><span class="p">(</span><span class="n">kref_uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The project-prefixed space path an item kref lives in.</span>
+
+<span class="sd">    ``kref://CognitiveMemory/personal/prefs.conversation`` gives</span>
+<span class="sd">    ``"CognitiveMemory/personal"``; an item at the project root gives the</span>
+<span class="sd">    project name.  That is the form ``tool_memory_retrieve`` uses for its</span>
+<span class="sd">    scope contexts and reports in ``spaces_used``.  ``Item.space`` is not: it</span>
+<span class="sd">    is the space *without* the project, and a ``str``, not a ``Space``.</span>
+<span class="sd">    """</span>
+    <span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">kref_uri</span><span class="p">),</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">project</span><span class="p">,</span> <span class="n">space</span> <span class="o">=</span> <span class="n">kref</span><span class="o">.</span><span class="n">get_project</span><span class="p">(),</span> <span class="n">kref</span><span class="o">.</span><span class="n">get_space</span><span class="p">()</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">project</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">space</span> <span class="k">else</span> <span class="n">project</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_oldest_items_first</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Items ordered by item ``created_at``, oldest first; undated items last.</span>
+
+<span class="sd">    Stable, so items with equal timestamps keep their input order.</span>
+<span class="sd">    Timestamps are compared as naive UTC (see ``_ordering_timestamp``), which</span>
+<span class="sd">    also keeps an undated item from being compared against aware ones.</span>
+<span class="sd">    """</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">oldest</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">datetime</span><span class="p">]:</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">_ordering_timestamp</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">ts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ts</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">oldest</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">allowed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""True when the revision's memory type passes the filter.</span>
 
@@ -2702,9 +2855,50 @@
 <span class="sd">    fuzzy search returns no results.</span>
 
 <span class="sd">    Args:</span>
+<span class="sd">        mode: How results are chosen and ordered.</span>
+
+<span class="sd">            * ``"search"`` (default): relevance-ranked.</span>
+<span class="sd">            * ``"latest"`` (also ``"newest"``, ``"recent"``,</span>
+<span class="sd">              ``"most_recent"``): newest first, by the ``created_at`` of the</span>
+<span class="sd">              revision returned for each item — so an old item that received</span>
+<span class="sd">              a newer stacked revision counts as recent.  With a query</span>
+<span class="sd">              (``query``/``keywords``/``topics``), relevance search still</span>
+<span class="sd">              decides *which* memories qualify — the top</span>
+<span class="sd">              ``max(limit * 4, 20)`` matches — and date decides their order;</span>
+<span class="sd">              ``scores`` keeps the relevance scores, unsorted.  Without a</span>
+<span class="sd">              query, items are listed per space and a bounded window of the</span>
+<span class="sd">              most recently modified is resolved (see ``_newest_revisions``).</span>
+<span class="sd">              If a query matches nothing, the same name-pattern fallback as</span>
+<span class="sd">              search mode applies (score 0.0), ordered by date.  The result</span>
+<span class="sd">              adds ``created_at``, aligned with ``revision_krefs``.</span>
+<span class="sd">            * ``"first"`` (also ``"earliest"``, ``"oldest"``,</span>
+<span class="sd">              ``"initial"``): the single memory created first — oldest by</span>
+<span class="sd">              *item* ``created_at`` — within ``space_paths``.  With a query,</span>
+<span class="sd">              relevance search picks the candidates (the top</span>
+<span class="sd">              ``max(limit * 4, 20)`` hits) and the oldest of those that</span>
+<span class="sd">              passes ``memory_types`` is returned; if none does, the scoped</span>
+<span class="sd">              listing below is used.  Without a query, the scoped items are</span>
+<span class="sd">              walked oldest first until one passes.  Returns at most one</span>
+<span class="sd">              result, with ``item_krefs``, ``revision_krefs`` and</span>
+<span class="sd">              ``spaces_used`` only.</span>
+
+<span class="sd">            Matching ignores case and surrounding whitespace.  An empty mode</span>
+<span class="sd">            with a query containing "first"/"earliest"/"oldest"/"initial"</span>
+<span class="sd">            selects ``"first"``; nothing auto-selects ``"latest"``.</span>
 <span class="sd">        unroll_revisions: If True, return ALL revisions of stacked items</span>
 <span class="sd">            (useful for dream-state or history browsing). If False (default),</span>
-<span class="sd">            return only the published/latest revision per item.</span>
+<span class="sd">            return only the published/latest revision per item.  With</span>
+<span class="sd">            ``mode="latest"`` each revision is ordered by its own</span>
+<span class="sd">            ``created_at``.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``item_krefs``, ``revision_krefs``, ``scores`` (search and latest</span>
+<span class="sd">        modes; latest adds ``created_at``) — lists aligned with each other —</span>
+<span class="sd">        and ``spaces_used``, which is **not** aligned: a deduped list of</span>
+<span class="sd">        project-prefixed space paths (``"CognitiveMemory/personal"``) that</span>
+<span class="sd">        results came from — the returned item's own space for search hits</span>
+<span class="sd">        and first mode, the scope searched for the bundle and listing</span>
+<span class="sd">        fallbacks.  Derive a result's own space from its kref.</span>
 <span class="sd">    """</span>
     <span class="n">_ensure_configured</span><span class="p">()</span>
 
@@ -2743,6 +2937,9 @@
             <span class="n">mode_text</span> <span class="o">=</span> <span class="s2">"first"</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">mode_text</span><span class="p">:</span>
         <span class="n">mode_text</span> <span class="o">=</span> <span class="s2">"search"</span>
+    <span class="n">is_latest</span> <span class="o">=</span> <span class="n">mode_text</span> <span class="ow">in</span> <span class="n">_LATEST_MODE_ALIASES</span>
+    <span class="k">if</span> <span class="n">is_latest</span><span class="p">:</span>
+        <span class="n">mode_text</span> <span class="o">=</span> <span class="s2">"latest"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">normalize_context</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -2757,31 +2954,6 @@
     <span class="n">contexts</span> <span class="o">=</span> <span class="p">[</span><span class="n">normalize_context</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">spaces</span><span class="p">]</span> <span class="k">if</span> <span class="n">spaces</span> <span class="k">else</span> <span class="p">[</span><span class="n">project_name</span><span class="p">]</span>
     <span class="n">spaces_used</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># Mode: first/earliest - find oldest item by created_at</span>
-    <span class="k">if</span> <span class="n">mode_text</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"first"</span><span class="p">,</span> <span class="s2">"earliest"</span><span class="p">,</span> <span class="s2">"oldest"</span><span class="p">,</span> <span class="s2">"initial"</span><span class="p">]:</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
-            <span class="n">context_filter</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span>
-            <span class="n">name_filter</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
-            <span class="n">kind_filter</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="c1"># Oldest-first, returning the first item whose revision passes the</span>
-        <span class="c1"># memory_types filter — min() alone would ignore the filter.</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
-            <span class="n">items</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">_parse_timestamp</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="ow">or</span> <span class="n">datetime</span><span class="o">.</span><span class="n">max</span><span class="p">,</span>
-        <span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
-                <span class="k">continue</span>
-            <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">"item_krefs"</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">],</span>
-                <span class="s2">"revision_krefs"</span><span class="p">:</span> <span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="k">if</span> <span class="n">rev</span> <span class="k">else</span> <span class="p">[],</span>
-                <span class="s2">"spaces_used"</span><span class="p">:</span> <span class="p">[</span><span class="n">project_name</span><span class="p">],</span>
-            <span class="p">}</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"item_krefs"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"revision_krefs"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"spaces_used"</span><span class="p">:</span> <span class="p">[]}</span>
-
     <span class="c1"># Build search query from query + keywords + topics</span>
     <span class="n">search_terms</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">query_text</span><span class="p">:</span>
@@ -2789,48 +2961,125 @@
     <span class="n">search_terms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">keyword_list</span><span class="p">)</span>
     <span class="n">search_terms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">topic_list</span><span class="p">)</span>
     <span class="n">combined_query</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">search_terms</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c1"># Name-pattern filter for the listing fallbacks.</span>
+    <span class="n">name_filter</span> <span class="o">=</span> <span class="n">keyword_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">keyword_list</span> <span class="k">else</span> <span class="p">(</span><span class="n">topic_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">topic_list</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">relevance_search</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Fuzzy-search hits for ``combined_query`` across contexts, best first."""</span>
+        <span class="c1"># Search each space context separately so space_paths filtering</span>
+        <span class="c1"># is honoured.  When no space_paths are specified, contexts</span>
+        <span class="c1"># defaults to [project_name] which searches everything.</span>
+        <span class="n">hits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
+            <span class="n">hits</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                <span class="n">combined_query</span><span class="p">,</span>
+                <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
+                <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
+                <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
+            <span class="p">))</span>
+        <span class="c1"># The deep search variant (include_revision_metadata=True) can</span>
+        <span class="c1"># return zero results on some deployments even when the plain</span>
+        <span class="c1"># item search matches (observed in production: every deep query</span>
+        <span class="c1"># returned 0 while the same query without revision metadata</span>
+        <span class="c1"># returned 100).  Retry shallow before giving up — falling</span>
+        <span class="c1"># through to the pattern fallback instead costs 1-2 RPCs per</span>
+        <span class="c1"># item in the project.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hits</span> <span class="ow">and</span> <span class="n">include_revision_metadata</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
+                <span class="n">hits</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                    <span class="n">combined_query</span><span class="p">,</span>
+                    <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
+                    <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
+                    <span class="n">include_revision_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">))</span>
+            <span class="k">if</span> <span class="n">hits</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">"tool_memory_retrieve: deep search returned 0 results "</span>
+                    <span class="s2">"but shallow retry matched </span><span class="si">%d</span><span class="s2"> — deep search may be "</span>
+                    <span class="s2">"broken on this server"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hits</span><span class="p">),</span>
+                <span class="p">)</span>
+        <span class="c1"># Sort by score descending after merging contexts</span>
+        <span class="n">hits</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">sr</span><span class="p">:</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">hits</span>
+
+    <span class="c1"># Mode: first/earliest - the memory created first, within scope</span>
+    <span class="k">if</span> <span class="n">mode_text</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"first"</span><span class="p">,</span> <span class="s2">"earliest"</span><span class="p">,</span> <span class="s2">"oldest"</span><span class="p">,</span> <span class="s2">"initial"</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">first_passing</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+            <span class="c1"># Oldest-first, returning the first item whose revision passes</span>
+            <span class="c1"># the memory_types filter — min() alone would ignore the filter.</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_oldest_items_first</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">return</span> <span class="p">{</span>
+                    <span class="s2">"item_krefs"</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">],</span>
+                    <span class="s2">"revision_krefs"</span><span class="p">:</span> <span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="k">if</span> <span class="n">rev</span> <span class="k">else</span> <span class="p">[],</span>
+                    <span class="s2">"spaces_used"</span><span class="p">:</span> <span class="p">[</span><span class="n">_kref_space_context</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)],</span>
+                <span class="p">}</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">combined_query</span><span class="p">:</span>
+            <span class="c1"># Relevance decides which memories qualify; item creation date</span>
+            <span class="c1"># decides which of them came first.  Ordering needs no RPC, so</span>
+            <span class="c1"># only the widened pool is ever resolved, and the walk stops</span>
+            <span class="c1"># at the first item that passes.</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">hits</span> <span class="o">=</span> <span class="n">relevance_search</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">"tool_memory_retrieve: fulltext search failed: </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">hits</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">pool</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># score order; kept for date ties</span>
+            <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">[:</span><span class="n">_latest_candidate_pool</span><span class="p">(</span><span class="n">limit</span><span class="p">)]:</span>
+                <span class="n">pool</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="n">first_passing</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+            <span class="k">if</span> <span class="n">found</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">found</span>
+
+        <span class="c1"># No query, or nothing relevant passed: walk the scoped items, the</span>
+        <span class="c1"># same fallback search and latest use.  Never wider than contexts,</span>
+        <span class="c1"># so space_paths isolation holds.</span>
+        <span class="n">listed</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
+                <span class="n">context_filter</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+                <span class="n">name_filter</span><span class="o">=</span><span class="n">name_filter</span><span class="p">,</span>
+                <span class="n">kind_filter</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="n">listed</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="n">first_passing</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">listed</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">found</span> <span class="ow">or</span> <span class="p">{</span><span class="s2">"item_krefs"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"revision_krefs"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"spaces_used"</span><span class="p">:</span> <span class="p">[]}</span>
 
     <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># (item_kref, revision_kref, score)</span>
+    <span class="c1"># revision_kref -&gt; that revision's created_at.  mode="latest" orders by it</span>
+    <span class="c1"># and reports it; other modes record it and never read it.</span>
+    <span class="n">revision_created</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">revision_created</span><span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="c1"># Candidates resolved from the relevance-ranked search hits.  Latest mode</span>
+    <span class="c1"># re-orders them by date, which promotes hits relevance order would have</span>
+    <span class="c1"># cut, so it reaches further down the ranking.</span>
+    <span class="n">search_pool</span> <span class="o">=</span> <span class="n">_latest_candidate_pool</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_latest</span> <span class="k">else</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span>
+
+    <span class="c1"># revision_kref -&gt; the space its search hit lives in.  Only the hits that</span>
+    <span class="c1"># survive into the final results contribute to spaces_used.</span>
+    <span class="n">hit_spaces</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># Primary: Use fuzzy search if we have a query</span>
     <span class="k">if</span> <span class="n">combined_query</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Search each space context separately so space_paths filtering</span>
-            <span class="c1"># is honoured.  When no space_paths are specified, contexts</span>
-            <span class="c1"># defaults to [project_name] which searches everything.</span>
-            <span class="n">search_results</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
-                <span class="n">search_results</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-                    <span class="n">combined_query</span><span class="p">,</span>
-                    <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
-                    <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
-                    <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
-                <span class="p">))</span>
-            <span class="c1"># The deep search variant (include_revision_metadata=True) can</span>
-            <span class="c1"># return zero results on some deployments even when the plain</span>
-            <span class="c1"># item search matches (observed in production: every deep query</span>
-            <span class="c1"># returned 0 while the same query without revision metadata</span>
-            <span class="c1"># returned 100).  Retry shallow before giving up — falling</span>
-            <span class="c1"># through to the pattern fallback instead costs 1-2 RPCs per</span>
-            <span class="c1"># item in the project.</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">search_results</span> <span class="ow">and</span> <span class="n">include_revision_metadata</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
-                    <span class="n">search_results</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-                        <span class="n">combined_query</span><span class="p">,</span>
-                        <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
-                        <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
-                        <span class="n">include_revision_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                    <span class="p">))</span>
-                <span class="k">if</span> <span class="n">search_results</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="s2">"tool_memory_retrieve: deep search returned 0 results "</span>
-                        <span class="s2">"but shallow retry matched </span><span class="si">%d</span><span class="s2"> — deep search may be "</span>
-                        <span class="s2">"broken on this server"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_results</span><span class="p">),</span>
-                    <span class="p">)</span>
-            <span class="c1"># Sort by score descending after merging contexts</span>
-            <span class="n">search_results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">sr</span><span class="p">:</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">]:</span>  <span class="c1"># Get extra for filtering</span>
+            <span class="n">search_results</span> <span class="o">=</span> <span class="n">relevance_search</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">search_pool</span><span class="p">]:</span>  <span class="c1"># Get extra for filtering</span>
                 <span class="k">try</span><span class="p">:</span>
+                    <span class="n">hit_space</span> <span class="o">=</span> <span class="n">_kref_space_context</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">unroll_revisions</span><span class="p">:</span>
                         <span class="c1"># Unroll ALL revisions for stacked items (dream-state,</span>
                         <span class="c1"># history browsing). Each revision gets a separate slot.</span>
@@ -2843,8 +3092,8 @@
                                     <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
                                     <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">,</span>
                                 <span class="p">))</span>
-                            <span class="k">if</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="p">:</span>
-                                <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                                <span class="n">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span>
+                                <span class="n">hit_spaces</span><span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit_space</span>
                             <span class="k">continue</span>
 
                     <span class="c1"># Default: return only published/latest per item.</span>
@@ -2856,8 +3105,8 @@
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
                         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">))</span>
-                        <span class="k">if</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="p">:</span>
-                            <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+                        <span class="n">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span>
+                        <span class="n">hit_spaces</span><span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit_space</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
@@ -2893,17 +3142,13 @@
                                 <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">)</span>
                                 <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
                                     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">member</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+                                    <span class="n">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                         <span class="k">continue</span>
 
     <span class="c1"># Fallback: Pattern search if still no results</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">:</span>
-        <span class="n">name_filter</span> <span class="o">=</span> <span class="s2">""</span>
-        <span class="k">if</span> <span class="n">keyword_list</span><span class="p">:</span>
-            <span class="n">name_filter</span> <span class="o">=</span> <span class="n">keyword_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">topic_list</span><span class="p">:</span>
-            <span class="n">name_filter</span> <span class="o">=</span> <span class="n">topic_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
+        <span class="n">pooled</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># latest mode: every context's items</span>
         <span class="k">for</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
             <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
                 <span class="n">context_filter</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
@@ -2912,6 +3157,13 @@
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
                 <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">is_latest</span><span class="p">:</span>
+                <span class="c1"># One window across all contexts, resolved below: a</span>
+                <span class="c1"># per-context window would spend resolutions on a space</span>
+                <span class="c1"># whose newest memory is older than another space's.</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                    <span class="n">pooled</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                <span class="k">continue</span>
             <span class="c1"># Bounded: resolving published/latest costs 1-2 RPCs per item,</span>
             <span class="c1"># and only `limit` results survive — never resolve the whole</span>
             <span class="c1"># project (see _most_recent_items).</span>
@@ -2922,6 +3174,11 @@
                         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">is_latest</span><span class="p">:</span>
+            <span class="c1"># Bounded by _latest_candidate_pool(limit) resolutions.</span>
+            <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">_newest_revisions</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pooled</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">limit</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                <span class="n">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span>
 
         <span class="c1"># Last resort: search entire project — but ONLY when the caller</span>
         <span class="c1"># did NOT explicitly scope to specific spaces.  When space_paths</span>
@@ -2936,13 +3193,18 @@
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
                 <span class="n">spaces_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_most_recent_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
-                        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                    <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">is_latest</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">_newest_revisions</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                    <span class="n">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_most_recent_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">rev</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
+                            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="k">continue</span>
 
     <span class="c1"># Dedupe: when unrolling, dedup by revision_kref so stacked revisions</span>
     <span class="c1"># survive.  Otherwise dedup by item_kref — one slot per memory item.</span>
@@ -2954,15 +3216,30 @@
             <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dedup_key</span><span class="p">)</span>
             <span class="n">deduped</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">item_kref</span><span class="p">,</span> <span class="n">rev_kref</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
 
-    <span class="n">deduped</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_latest</span><span class="p">:</span>
+        <span class="c1"># Date order only; the relevance score is a tie-break, never the key.</span>
+        <span class="n">deduped</span> <span class="o">=</span> <span class="n">_order_newest_first</span><span class="p">(</span><span class="n">deduped</span><span class="p">,</span> <span class="n">revision_created</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">deduped</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">final</span> <span class="o">=</span> <span class="n">deduped</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span>
+    <span class="c1"># spaces_used is a deduped set of spaces, NOT aligned with revision_krefs:</span>
+    <span class="c1"># the spaces of the returned search hits (in result order), then the</span>
+    <span class="c1"># scope contexts the bundle and listing fallbacks drew from.  A caller</span>
+    <span class="c1"># that needs each result's space derives it from that result's kref.</span>
+    <span class="n">spaces_used</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">hit_spaces</span><span class="p">[</span><span class="n">rev</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span> <span class="k">if</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">hit_spaces</span>
+    <span class="p">]</span> <span class="o">+</span> <span class="n">spaces_used</span>
 
-    <span class="k">return</span> <span class="p">{</span>
+    <span class="n">response</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">"item_krefs"</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span><span class="p">],</span>
         <span class="s2">"revision_krefs"</span><span class="p">:</span> <span class="p">[</span><span class="n">rev</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span><span class="p">],</span>
         <span class="s2">"spaces_used"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">spaces_used</span><span class="p">)),</span>
         <span class="s2">"scores"</span><span class="p">:</span> <span class="p">[</span><span class="n">score</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">final</span><span class="p">],</span>
-    <span class="p">}</span></div>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">is_latest</span><span class="p">:</span>
+        <span class="c1"># Aligned with revision_krefs, so a caller can state how recent each is.</span>
+        <span class="n">response</span><span class="p">[</span><span class="s2">"created_at"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">revision_created</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">response</span></div>
 
 
 
@@ -4072,7 +4349,7 @@
     <span class="p">},</span>
     <span class="p">{</span>
         <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"kumiho_memory_retrieve"</span><span class="p">,</span>
-        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Retrieve memory using Google-like fuzzy search with relevance ranking. Supports natural language queries with automatic typo tolerance. Falls back to bundle and pattern search when needed."</span><span class="p">,</span>
+        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Retrieve memory using Google-like fuzzy search with relevance ranking. Supports natural language queries with automatic typo tolerance. Falls back to bundle and pattern search when needed. For the most recent memories, set mode to </span><span class="se">\"</span><span class="s2">latest</span><span class="se">\"</span><span class="s2">: results come newest first and include created_at."</span><span class="p">,</span>
         <span class="s2">"inputSchema"</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"object"</span><span class="p">,</span>
             <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
@@ -4117,7 +4394,7 @@
                 <span class="p">},</span>
                 <span class="s2">"mode"</span><span class="p">:</span> <span class="p">{</span>
                     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">,</span>
-                    <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"search (fuzzy) | first (oldest by date) | latest (default: search)"</span><span class="p">,</span>
+                    <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"search (default): relevance-ranked | latest: newest first by last update; with a query, relevant matches ordered by date | first: the single oldest memory; with a query, the oldest relevant match"</span><span class="p">,</span>
                     <span class="s2">"default"</span><span class="p">:</span> <span class="s2">"search"</span><span class="p">,</span>
                 <span class="p">},</span>
                 <span class="s2">"include_revision_metadata"</span><span class="p">:</span> <span class="p">{</span>
