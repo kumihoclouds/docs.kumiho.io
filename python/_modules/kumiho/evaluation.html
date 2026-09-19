@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.artifact &mdash; Kumiho Python SDK v0.14.0</title>
+  <title>kumiho.evaluation &mdash; Kumiho Python SDK v0.14.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
@@ -933,7 +933,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../kumiho.html">kumiho</a></li>
-      <li class="breadcrumb-item active">kumiho.artifact</li>
+      <li class="breadcrumb-item active">kumiho.evaluation</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -942,357 +942,221 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for kumiho.artifact</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""Artifact module for Kumiho asset management.</span>
+  <h1>Source code for kumiho.evaluation</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Value types for the Kumiho ``Evaluate`` RPC.</span>
 
-<span class="sd">This module provides the :class:`Artifact` class, which represents a file</span>
-<span class="sd">reference within a revision. Artifacts are the leaf nodes of the Kumiho</span>
-<span class="sd">hierarchy and point to actual files on local or network storage.</span>
+<span class="sd">:meth:`kumiho.evaluate` judges caller-supplied text fragments against</span>
+<span class="sd">caller-supplied questions using a server-managed evaluation provider. This</span>
+<span class="sd">module holds the plain records that call takes and returns; the proto mapping</span>
+<span class="sd">itself lives in :mod:`kumiho.client`, as it does for every other RPC.</span>
 
-<span class="sd">Kumiho follows a "BYO Storage" (Bring Your Own Storage) philosophy—it tracks</span>
-<span class="sd">file paths and metadata but does not upload or copy files.</span>
+<span class="sd">Evaluation is a Kumiho Cloud feature on paid tiers. It is not available in</span>
+<span class="sd">self-hosted CE, and it never touches the graph: nothing here is a kref, and</span>
+<span class="sd">nothing here is read from or written to a project.</span>
 
 <span class="sd">Example:</span>
-<span class="sd">    Working with artifacts::</span>
+<span class="sd">    Scoring three fragments on one question::</span>
 
 <span class="sd">        import kumiho</span>
 
-<span class="sd">        # Get an artifact</span>
-<span class="sd">        artifact = kumiho.get_artifact(</span>
-<span class="sd">            "kref://project/models/hero.model?r=1&amp;a=mesh"</span>
+<span class="sd">        result = kumiho.evaluate(</span>
+<span class="sd">            query="What did we decide about the release cadence?",</span>
+<span class="sd">            fragments=[</span>
+<span class="sd">                {"id": "a", "text": "We ship on the first Tuesday."},</span>
+<span class="sd">                {"id": "b", "text": "The logo is green."},</span>
+<span class="sd">                {"id": "c", "text": "Cadence stays monthly for now."},</span>
+<span class="sd">            ],</span>
+<span class="sd">            questions=[</span>
+<span class="sd">                {</span>
+<span class="sd">                    "id": "relevant",</span>
+<span class="sd">                    "type": "noul",</span>
+<span class="sd">                    "instructions": "Does {fragment} answer the query?",</span>
+<span class="sd">                }</span>
+<span class="sd">            ],</span>
 <span class="sd">        )</span>
-
-<span class="sd">        # Check the file location</span>
-<span class="sd">        print(f"File: {artifact.location}")</span>
-
-<span class="sd">        # Set metadata</span>
-<span class="sd">        artifact.set_metadata({</span>
-<span class="sd">            "file_size": "125MB",</span>
-<span class="sd">            "format": "FBX",</span>
-<span class="sd">            "triangles": "2.5M"</span>
-<span class="sd">        })</span>
-
-<span class="sd">        # Navigate to parent objects</span>
-<span class="sd">        revision = artifact.get_revision()</span>
-<span class="sd">        item = artifact.get_item()</span>
+<span class="sd">        for fragment in result.fragments:</span>
+<span class="sd">            print(fragment.fragment_id, fragment.answers["relevant"].noul)</span>
 <span class="sd">"""</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">KumihoObject</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.kref</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kref</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.proto.kumiho_pb2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArtifactResponse</span>
-
-<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">_Client</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.revision</span><span class="w"> </span><span class="kn">import</span> <span class="n">Revision</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.item</span><span class="w"> </span><span class="kn">import</span> <span class="n">Item</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.space</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.project</span><span class="w"> </span><span class="kn">import</span> <span class="n">Project</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 
-<div class="viewcode-block" id="Artifact">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Artifact</span><span class="p">(</span><span class="n">KumihoObject</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""A file reference within a revision in the Kumiho system.</span>
-
-<span class="sd">    Artifacts are the leaf nodes of the Kumiho hierarchy. They point to</span>
-<span class="sd">    actual files on local disk, network storage, or cloud URIs. Kumiho</span>
-<span class="sd">    tracks the path and metadata but does not upload or modify the files.</span>
-
-<span class="sd">    The artifact's kref includes both revision and artifact name:</span>
-<span class="sd">    ``kref://project/space/item.kind?r=1&amp;a=artifact_name``</span>
+<div class="viewcode-block" id="EvaluationFragment">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.EvaluationFragment">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EvaluationFragment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One piece of text to judge.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        kref (Kref): The unique reference URI for this artifact.</span>
-<span class="sd">        location (str): The file path or URI where the artifact is stored.</span>
-<span class="sd">        revision_kref (Kref): Reference to the parent revision.</span>
-<span class="sd">        item_kref (Optional[Kref]): Reference to the parent item.</span>
-<span class="sd">        created_at (Optional[str]): ISO timestamp when the artifact was created.</span>
-<span class="sd">        author (str): The user ID who created the artifact.</span>
-<span class="sd">        metadata (Dict[str, str]): Custom metadata key-value pairs.</span>
-<span class="sd">        deprecated (bool): Whether the artifact is deprecated.</span>
-<span class="sd">        username (str): Display name of the creator.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        Working with artifacts::</span>
-
-<span class="sd">            import kumiho</span>
-
-<span class="sd">            revision = kumiho.get_revision("kref://project/models/hero.model?r=1")</span>
-
-<span class="sd">            # Create artifacts</span>
-<span class="sd">            mesh = revision.create_artifact("mesh", "/assets/hero.fbx")</span>
-<span class="sd">            rig = revision.create_artifact("rig", "/assets/hero_rig.fbx")</span>
-<span class="sd">            textures = revision.create_artifact("textures", "smb://server/tex/hero/")</span>
-
-<span class="sd">            # Set metadata</span>
-<span class="sd">            mesh.set_metadata({</span>
-<span class="sd">                "triangles": "2.5M",</span>
-<span class="sd">                "format": "FBX 2020",</span>
-<span class="sd">                "units": "centimeters"</span>
-<span class="sd">            })</span>
-
-<span class="sd">            # Set as default artifact</span>
-<span class="sd">            mesh.set_default()</span>
-
-<span class="sd">            # Get artifact by name</span>
-<span class="sd">            retrieved = revision.get_artifact("mesh")</span>
-<span class="sd">            print(f"Location: {retrieved.location}")</span>
-
-<span class="sd">            # Navigate hierarchy</span>
-<span class="sd">            item = mesh.get_item()</span>
-<span class="sd">            project = mesh.get_project()</span>
+<span class="sd">        fragment_id: Caller-scoped id, unique within the request, echoed back</span>
+<span class="sd">            on the matching :class:`FragmentEvaluation`. It is never sent to</span>
+<span class="sd">            the evaluation provider, so it must not be a kref.</span>
+<span class="sd">        text: The text to judge. This *is* sent to the provider.</span>
+<span class="sd">        metadata: Optional non-identifying hints (e.g. ``{"origin": "user"}``)</span>
+<span class="sd">            merged into the fragment the provider sees. Billed as input</span>
+<span class="sd">            tokens, so keep it small.</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="Artifact.__init__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pb_artifact</span><span class="p">:</span> <span class="n">ArtifactResponse</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">'_Client'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Initialize an Artifact from a protobuf response.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            pb_artifact: The protobuf ArtifactResponse message.</span>
-<span class="sd">            client: The client instance for making API calls.</span>
-<span class="sd">        """</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="o">.</span><span class="n">from_pb</span><span class="p">(</span><span class="n">pb_artifact</span><span class="o">.</span><span class="n">kref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">pb_artifact</span><span class="o">.</span><span class="n">location</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">revision_kref</span> <span class="o">=</span> <span class="n">Kref</span><span class="o">.</span><span class="n">from_pb</span><span class="p">(</span><span class="n">pb_artifact</span><span class="o">.</span><span class="n">revision_kref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">item_kref</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">Kref</span><span class="o">.</span><span class="n">from_pb</span><span class="p">(</span><span class="n">pb_artifact</span><span class="o">.</span><span class="n">item_kref</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">pb_artifact</span><span class="o">.</span><span class="n">HasField</span><span class="p">(</span><span class="s1">'item_kref'</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">pb_artifact</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">or</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">pb_artifact</span><span class="o">.</span><span class="n">author</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pb_artifact</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">pb_artifact</span><span class="o">.</span><span class="n">deprecated</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">pb_artifact</span><span class="o">.</span><span class="n">username</span></div>
+    <span class="n">fragment_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Artifact.__repr__">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.__repr__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Return a string representation of the Artifact."""</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;Artifact kref='</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="si">}</span><span class="s2">'&gt;"</span></div>
+
+<div class="viewcode-block" id="EvaluationQuestion">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.EvaluationQuestion">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EvaluationQuestion</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One question asked of every fragment.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        question_id: Unique within the request. Must not contain ``__``, which</span>
+<span class="sd">            the server reserves for its own per-fragment question ids.</span>
+<span class="sd">        type: One of ``"noul"``, ``"choice"`` or ``"score"``.</span>
+<span class="sd">        instructions: Natural-language instructions, billed on every provider</span>
+<span class="sd">            request. May contain the literal placeholder ``{fragment}``, which</span>
+<span class="sd">            the server replaces with its own private label for each fragment.</span>
+<span class="sd">        criteria: ``"noul"`` — optional, keys ``"true"``/``"false"``.</span>
+<span class="sd">            ``"choice"`` — required, option name to description.</span>
+<span class="sd">            ``"score"`` — ignored; use ``levels``.</span>
+<span class="sd">        levels: ``"score"`` only: two or more ordered level descriptions.</span>
+<span class="sd">    """</span>
+
+    <span class="n">question_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">instructions</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">criteria</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">levels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
 
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Get the artifact name from its kref.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The artifact name extracted from the kref URI.</span>
+<div class="viewcode-block" id="NoulAnswer">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.NoulAnswer">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NoulAnswer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Answer to a ``"noul"`` question: a float in [0, 1]."""</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; artifact = revision.get_artifact("mesh")</span>
-<span class="sd">            &gt;&gt;&gt; print(artifact.name)  # "mesh"</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'&amp;a='</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-<div class="viewcode-block" id="Artifact.set_metadata">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.set_metadata">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">'Artifact'</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Set or update metadata for this artifact.</span>
-
-<span class="sd">        Metadata is merged with existing metadata—existing keys are</span>
-<span class="sd">        overwritten and new keys are added.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            metadata: Dictionary of metadata key-value pairs.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Artifact: The updated Artifact object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; artifact.set_metadata({</span>
-<span class="sd">            ...     "file_size": "125MB",</span>
-<span class="sd">            ...     "format": "FBX 2020",</span>
-<span class="sd">            ...     "triangles": "2.5M",</span>
-<span class="sd">            ...     "software": "Maya 2024"</span>
-<span class="sd">            ... })</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">update_artifact_metadata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span></div>
+    <span class="n">noul</span><span class="p">:</span> <span class="nb">float</span></div>
 
 
-<div class="viewcode-block" id="Artifact.set_attribute">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.set_attribute">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Set a single metadata attribute.</span>
 
-<span class="sd">        This allows granular updates to metadata without replacing the entire</span>
-<span class="sd">        metadata map.</span>
+<div class="viewcode-block" id="ChoiceAnswer">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.ChoiceAnswer">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChoiceAnswer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Answer to a ``"choice"`` question: the chosen option plus its odds."""</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            key: The attribute key to set.</span>
-<span class="sd">            value: The attribute value.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the attribute was set successfully.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; artifact.set_attribute("file_size", "125MB")</span>
-<span class="sd">            True</span>
-<span class="sd">        """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+    <span class="n">choice</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">probabilities</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span></div>
 
 
-<div class="viewcode-block" id="Artifact.get_attribute">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.get_attribute">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Get a single metadata attribute.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            key: The attribute key to retrieve.</span>
+<div class="viewcode-block" id="ScoreAnswer">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.ScoreAnswer">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScoreAnswer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Answer to a ``"score"`` question: a level, with the legend it indexes."""</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            The attribute value if it exists, None otherwise.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; artifact.get_attribute("file_size")</span>
-<span class="sd">            "125MB"</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
+    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">legend</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">probabilities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span></div>
 
 
-<div class="viewcode-block" id="Artifact.delete_attribute">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.delete_attribute">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Delete a single metadata attribute.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            key: The attribute key to delete.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the attribute was deleted successfully.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; artifact.delete_attribute("old_field")</span>
-<span class="sd">            True</span>
-<span class="sd">        """</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+<span class="c1">#: Any one answer. Which member you get is decided by the question's ``type``.</span>
+<span class="n">EvaluationAnswer</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">NoulAnswer</span><span class="p">,</span> <span class="n">ChoiceAnswer</span><span class="p">,</span> <span class="n">ScoreAnswer</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Artifact.delete">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.delete">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Delete this artifact.</span>
+<div class="viewcode-block" id="FragmentEvaluation">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.FragmentEvaluation">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FragmentEvaluation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Every answer for one fragment.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            force: If True, force deletion. If False (default), normal</span>
-<span class="sd">                deletion rules apply.</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        fragment_id: The caller's own id for this fragment.</span>
+<span class="sd">        answers: Question id to valid answer. Can be incomplete when ``error``</span>
+<span class="sd">            is set; callers must check for each required question.</span>
+<span class="sd">        error: Per-fragment failure, e.g. the provider request carrying this</span>
+<span class="sd">            fragment failed while others succeeded (the ``"partial"`` status).</span>
+<span class="sd">            Empty when every requested question was answered successfully.</span>
+<span class="sd">    """</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            grpc.RpcError: If deletion fails.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; artifact.delete()</span>
-<span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_artifact</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Artifact.set_deprecated">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.set_deprecated">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Set the deprecated status of this artifact.</span>
-
-<span class="sd">        Deprecated artifacts are hidden from default queries but remain</span>
-<span class="sd">        accessible for historical reference.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            status: True to deprecate, False to restore.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; artifact.set_deprecated(True)  # Hide from queries</span>
-<span class="sd">            &gt;&gt;&gt; artifact.set_deprecated(False)  # Restore visibility</span>
-<span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">set_deprecated</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kref</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deprecated</span> <span class="o">=</span> <span class="n">status</span></div>
+    <span class="n">fragment_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">answers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">EvaluationAnswer</span><span class="p">]</span>
+    <span class="n">error</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
-<div class="viewcode-block" id="Artifact.set_default">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.set_default">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Set this artifact as the default for its revision.</span>
 
-<span class="sd">        The default artifact is used when resolving the revision's kref</span>
-<span class="sd">        without specifying an artifact name.</span>
+<div class="viewcode-block" id="EvaluationUsage">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.EvaluationUsage">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EvaluationUsage</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""What the call cost, and where the month stands after it.</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; mesh = revision.create_artifact("mesh", "/assets/model.fbx")</span>
-<span class="sd">            &gt;&gt;&gt; mesh.set_default()</span>
-<span class="sd">            &gt;&gt;&gt; # Now resolving the revision kref returns this artifact's location</span>
-<span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">get_revision</span><span class="p">()</span><span class="o">.</span><span class="n">set_default_artifact</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+<span class="sd">    Attributes:</span>
+<span class="sd">        input_tokens: Provider-reported and billable; 0 on a cache hit.</span>
+<span class="sd">        output_tokens: Provider-reported.</span>
+<span class="sd">        provider_requests: Chunks actually sent to the provider.</span>
+<span class="sd">        cached_fragments: Fragments served from cache, which are not metered.</span>
+<span class="sd">        month_tokens_used: Monthly input tokens used, after this request.</span>
+<span class="sd">        month_tokens_limit: Monthly allowance; ``-1`` means unlimited.</span>
+<span class="sd">    """</span>
+
+    <span class="n">input_tokens</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">output_tokens</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">provider_requests</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">cached_fragments</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">month_tokens_used</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">month_tokens_limit</span><span class="p">:</span> <span class="nb">int</span></div>
 
 
-<div class="viewcode-block" id="Artifact.get_revision">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.get_revision">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Revision'</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Get the parent revision of this artifact.</span>
+
+<div class="viewcode-block" id="EvaluationResult">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.EvaluationResult">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EvaluationResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The outcome of one :meth:`kumiho.evaluate` call.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        status: One of ``"ok"``, ``"partial"``, ``"over_limit"``,</span>
+<span class="sd">            ``"not_entitled"``, ``"provider_unavailable"`` or</span>
+<span class="sd">            ``"invalid_request"``. A server that answers with an enum this SDK</span>
+<span class="sd">            does not know reports ``"unspecified"``.</span>
+<span class="sd">        fragments: One entry per request fragment, in request order. On a</span>
+<span class="sd">            non-``"ok"`` status this can be empty.</span>
+<span class="sd">        usage: Token and request counts for this call.</span>
+<span class="sd">        model_id: The provider's resolved, versioned model id (e.g.</span>
+<span class="sd">            ``"judge-1.2.0"``). Empty when the request never reached the</span>
+<span class="sd">            provider.</span>
+<span class="sd">        rubric_version: Echoed back from the request.</span>
+<span class="sd">        message: Human-readable detail for non-``"ok"`` statuses. Never</span>
+<span class="sd">            contains fragment text or anything from the provider's response.</span>
+<span class="sd">    """</span>
+
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">fragments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FragmentEvaluation</span><span class="p">]</span>
+    <span class="n">usage</span><span class="p">:</span> <span class="n">EvaluationUsage</span>
+    <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">rubric_version</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="EvaluationResult.by_id">
+<a class="viewcode-back" href="../../api/kumiho.html#kumiho.EvaluationResult.by_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">"FragmentEvaluation"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return :attr:`fragments` keyed by ``fragment_id``.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Revision: The Revision object that contains this artifact.</span>
+<span class="sd">            Dict[str, FragmentEvaluation]: One entry per fragment.</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; revision = artifact.get_revision()</span>
-<span class="sd">            &gt;&gt;&gt; print(f"Revision {revision.number}")</span>
+<span class="sd">            &gt;&gt;&gt; result.by_id()["a"].answers["relevant"].noul</span>
+<span class="sd">            0.82</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">revision_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Artifact.get_item">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.get_item">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Item'</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Get the item that contains this artifact.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Item: The Item object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; item = artifact.get_item()</span>
-<span class="sd">            &gt;&gt;&gt; print(item.item_name)</span>
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_kref</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_item_by_kref</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
-        <span class="c1"># Fallback via revision</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_revision</span><span class="p">()</span><span class="o">.</span><span class="n">get_item</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Artifact.get_space">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.get_space">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_space</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Space'</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Get the space containing this artifact's item.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Space: The Space object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; space = artifact.get_space()</span>
-<span class="sd">            &gt;&gt;&gt; print(space.path)</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item</span><span class="p">()</span><span class="o">.</span><span class="n">get_space</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="Artifact.get_project">
-<a class="viewcode-back" href="../../api/kumiho.html#kumiho.artifact.Artifact.get_project">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_project</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Project'</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Get the project containing this artifact.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Project: The Project object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; project = artifact.get_project()</span>
-<span class="sd">            &gt;&gt;&gt; print(project.name)</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_space</span><span class="p">()</span><span class="o">.</span><span class="n">get_project</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="n">fragment</span><span class="o">.</span><span class="n">fragment_id</span><span class="p">:</span> <span class="n">fragment</span> <span class="k">for</span> <span class="n">fragment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fragments</span><span class="p">}</span></div>
 </div>
 
 </pre></div>

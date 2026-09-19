@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho &mdash; Kumiho Python SDK v0.13.2</title>
+  <title>kumiho &mdash; Kumiho Python SDK v0.14.0</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=8399f5db"></script>
+      <script src="../_static/documentation_options.js?v=9e420a66"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -431,6 +431,93 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.ProjectLimitError"><code class="docutils literal notranslate"><span class="pre">ProjectLimitError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.EvaluationFragment"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationFragment.fragment_id"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment.fragment_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationFragment.text"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment.text</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationFragment.metadata"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment.fragment_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment.text</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationFragment.__init__"><code class="docutils literal notranslate"><span class="pre">EvaluationFragment.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.EvaluationQuestion"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationQuestion.question_id"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.question_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationQuestion.type"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationQuestion.instructions"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.instructions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationQuestion.criteria"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.criteria</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationQuestion.levels"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.levels</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.question_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.type</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.instructions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.criteria</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.levels</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationQuestion.__init__"><code class="docutils literal notranslate"><span class="pre">EvaluationQuestion.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.EvaluationResult"><code class="docutils literal notranslate"><span class="pre">EvaluationResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.status"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.fragments"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.fragments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.usage"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.usage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.model_id"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.model_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.rubric_version"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.rubric_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.message"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.message</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.status</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.fragments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.usage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.model_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.rubric_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.message</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.by_id"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationResult.__init__"><code class="docutils literal notranslate"><span class="pre">EvaluationResult.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.FragmentEvaluation"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.FragmentEvaluation.fragment_id"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation.fragment_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.FragmentEvaluation.answers"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation.answers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.FragmentEvaluation.error"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation.error</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation.fragment_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation.answers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation.error</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.FragmentEvaluation.__init__"><code class="docutils literal notranslate"><span class="pre">FragmentEvaluation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.EvaluationUsage"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationUsage.input_tokens"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.input_tokens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationUsage.output_tokens"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.output_tokens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationUsage.provider_requests"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.provider_requests</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationUsage.cached_fragments"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.cached_fragments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationUsage.month_tokens_used"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.month_tokens_used</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationUsage.month_tokens_limit"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.month_tokens_limit</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.input_tokens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.output_tokens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.provider_requests</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.cached_fragments</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.month_tokens_used</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.month_tokens_limit</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.EvaluationUsage.__init__"><code class="docutils literal notranslate"><span class="pre">EvaluationUsage.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.NoulAnswer"><code class="docutils literal notranslate"><span class="pre">NoulAnswer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.NoulAnswer.noul"><code class="docutils literal notranslate"><span class="pre">NoulAnswer.noul</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.NoulAnswer.__init__"><code class="docutils literal notranslate"><span class="pre">NoulAnswer.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.ChoiceAnswer"><code class="docutils literal notranslate"><span class="pre">ChoiceAnswer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ChoiceAnswer.choice"><code class="docutils literal notranslate"><span class="pre">ChoiceAnswer.choice</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ChoiceAnswer.probabilities"><code class="docutils literal notranslate"><span class="pre">ChoiceAnswer.probabilities</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ChoiceAnswer.confidence"><code class="docutils literal notranslate"><span class="pre">ChoiceAnswer.confidence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ChoiceAnswer.__init__"><code class="docutils literal notranslate"><span class="pre">ChoiceAnswer.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.ScoreAnswer"><code class="docutils literal notranslate"><span class="pre">ScoreAnswer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ScoreAnswer.score"><code class="docutils literal notranslate"><span class="pre">ScoreAnswer.score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ScoreAnswer.legend"><code class="docutils literal notranslate"><span class="pre">ScoreAnswer.legend</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ScoreAnswer.probabilities"><code class="docutils literal notranslate"><span class="pre">ScoreAnswer.probabilities</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ScoreAnswer.confidence"><code class="docutils literal notranslate"><span class="pre">ScoreAnswer.confidence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kumiho.ScoreAnswer.__init__"><code class="docutils literal notranslate"><span class="pre">ScoreAnswer.__init__()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.Bundle"><code class="docutils literal notranslate"><span class="pre">Bundle</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Bundle.kref"><code class="docutils literal notranslate"><span class="pre">Bundle.kref</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.Bundle.name"><code class="docutils literal notranslate"><span class="pre">Bundle.name</span></code></a></li>
@@ -455,11 +542,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleMember.added_by"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleMember.added_by_username"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by_username</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleMember.added_in_revision"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_in_revision</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">BundleMember.item_kref</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_at</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by_username</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_in_revision</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">BundleMember.item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_by_username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31"><code class="docutils literal notranslate"><span class="pre">BundleMember.added_in_revision</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleMember.__init__"><code class="docutils literal notranslate"><span class="pre">BundleMember.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -471,14 +558,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleRevisionHistory.username"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.username</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleRevisionHistory.created_at"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.created_at</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleRevisionHistory.metadata"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.metadata</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.revision_number</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.action</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.member_item_kref</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.author</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.revision_number</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.member_item_kref</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id35"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.author</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.BundleRevisionHistory.__init__"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.username</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.created_at</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.metadata</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id36"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.username</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id37"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id38"><code class="docutils literal notranslate"><span class="pre">BundleRevisionHistory.metadata</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.ReservedKindError"><code class="docutils literal notranslate"><span class="pre">ReservedKindError</span></code></a></li>
@@ -516,8 +603,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.current_request"><code class="docutils literal notranslate"><span class="pre">current_request()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.hosted_mode"><code class="docutils literal notranslate"><span class="pre">hosted_mode()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.use_request_context"><code class="docutils literal notranslate"><span class="pre">use_request_context()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id39"><code class="docutils literal notranslate"><span class="pre">LATEST_TAG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id40"><code class="docutils literal notranslate"><span class="pre">PUBLISHED_TAG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.EdgeType"><code class="docutils literal notranslate"><span class="pre">EdgeType</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeType.BELONGS_TO"><code class="docutils literal notranslate"><span class="pre">EdgeType.BELONGS_TO</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeType.CREATED_FROM"><code class="docutils literal notranslate"><span class="pre">EdgeType.CREATED_FROM</span></code></a></li>
@@ -529,25 +616,25 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeType.CONTAINS"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeType.SUPERSEDES"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeType.SUPPORTS"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">EdgeType.BELONGS_TO</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">EdgeType.CREATED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41"><code class="docutils literal notranslate"><span class="pre">EdgeType.BELONGS_TO</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42"><code class="docutils literal notranslate"><span class="pre">EdgeType.CREATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id43"><code class="docutils literal notranslate"><span class="pre">EdgeType.REFERENCED</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id44"><code class="docutils literal notranslate"><span class="pre">EdgeType.DEPENDS_ON</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45"><code class="docutils literal notranslate"><span class="pre">EdgeType.DERIVED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id46"><code class="docutils literal notranslate"><span class="pre">EdgeType.PRODUCED_BY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id47"><code class="docutils literal notranslate"><span class="pre">EdgeType.MIGRATED_FROM</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48"><code class="docutils literal notranslate"><span class="pre">EdgeType.CONTAINS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPERSEDES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50"><code class="docutils literal notranslate"><span class="pre">EdgeType.SUPPORTS</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.EdgeDirection"><code class="docutils literal notranslate"><span class="pre">EdgeDirection</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeDirection.OUTGOING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeDirection.INCOMING"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EdgeDirection.BOTH"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id28"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id29"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id30"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id51"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.OUTGOING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id52"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.INCOMING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53"><code class="docutils literal notranslate"><span class="pre">EdgeDirection.BOTH</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.get_tenant_info"><code class="docutils literal notranslate"><span class="pre">get_tenant_info()</span></code></a></li>
@@ -559,13 +646,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.analyze_project_deletion"><code class="docutils literal notranslate"><span class="pre">analyze_project_deletion()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.item_search"><code class="docutils literal notranslate"><span class="pre">item_search()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.search"><code class="docutils literal notranslate"><span class="pre">search()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kumiho.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#kumiho.SearchResult"><code class="docutils literal notranslate"><span class="pre">SearchResult</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.SearchResult.item"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.SearchResult.score"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.SearchResult.matched_in"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id31"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id32"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id33"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.SearchResult.__init__"><code class="docutils literal notranslate"><span class="pre">SearchResult.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -586,12 +674,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.max_retention_hours"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.max_buffer_size"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.tier"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id34"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id35"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id36"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id37"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id38"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id39"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id57"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_replay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_cursor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id59"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.supports_consumer_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_retention_hours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.max_buffer_size</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.tier</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kumiho.EventCapabilities.__init__"><code class="docutils literal notranslate"><span class="pre">EventCapabilities.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -672,146 +760,151 @@
 <p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.13.2] - 2026-09-18</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">[0.14.0] - 2026-09-19</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#removed">Removed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.13.1] - 2026-09-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id4">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id5">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">[0.13.2] - 2026-09-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id3">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#removed">Removed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id4">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">[0.13.0] - 2026-09-04</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id5">[0.13.1] - 2026-09-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id6">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id7">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id9">Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id8">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id10">[0.12.2] - 2026-09-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id11">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id13">Removed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id9">[0.13.0] - 2026-09-04</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id10">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id11">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id12">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id14">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id13">[0.12.2] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id14">Fixed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id15">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id17">Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id16">Removed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id18">[0.12.0] - 2026-08-13</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id19">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id20">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id17">[0.12.1] - 2026-09-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id18">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id19">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id20">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id21">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id21">[0.12.0] - 2026-08-13</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id22">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id23">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id24">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id23">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id25">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id24">[0.11.0] - 2026-08-01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id25">Added</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id26">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id27">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id27">[0.10.7] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id28">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id28">[0.10.8] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id29">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id29">[0.10.6] - 2026-07-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id30">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id30">[0.10.7] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id31">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id31">[0.10.5] - 2026-07-11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id32">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id32">[0.10.6] - 2026-07-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id33">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id33">[0.10.4] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id34">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id34">[0.10.5] - 2026-07-11</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id35">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id35">[0.10.3] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id36">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id36">[0.10.4] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id37">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id37">[0.10.2] - 2026-07-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id38">Fixed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id39">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id38">[0.10.3] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id39">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id40">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id40">[0.10.2] - 2026-07-03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id41">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id42">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id42">[0.10.0] - 2026-06-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id43">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id44">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id43">[0.10.1] - 2026-07-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id44">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id45">[0.9.24] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id46">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id45">[0.10.0] - 2026-06-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id46">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id47">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id47">[0.9.23] - 2026-04-17</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id48">Changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id48">[0.9.24] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id49">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id49">[0.9.22] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id50">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id50">[0.9.23] - 2026-04-17</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id51">Changed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id51">[0.9.21] - 2026-04-02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id52">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id52">[0.9.22] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id53">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id53">[0.9.20] - 2026-03-15</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id54">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id54">[0.9.21] - 2026-04-02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id55">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id55">[0.9.19] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id56">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id56">[0.9.20] - 2026-03-15</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id57">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id57">[0.9.18] - 2026-03-10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id58">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id58">[0.9.19] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id59">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id59">[0.9.17] - 2026-03-09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id60">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id60">[0.9.18] - 2026-03-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id61">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id61">[0.9.16] - 2026-03-08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id62">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id62">[0.9.17] - 2026-03-09</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id63">Added</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id63">[0.9.15] - 2026-03-07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id64">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id64">[0.9.16] - 2026-03-08</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id65">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id65">[0.4.0] - 2025-12-03</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id66">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id67">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id68">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id66">[0.9.15] - 2026-03-07</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id67">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id68">[0.4.0] - 2025-12-03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id69">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id70">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id71">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">[0.3.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id69">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id70">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id71">Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id72">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id73">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id74">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id72">[0.2.0] - 2024-XX-XX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id73">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id74">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id75">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id75">[0.2.0] - 2024-XX-XX</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../changelog.html#id76">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id77">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id78">[0.1.0] - 2024-XX-XX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#id79">Added</a></li>
 </ul>
 </li>
 </ul>
@@ -5185,6 +5278,536 @@ resume from this event after reconnection.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="kumiho.EvaluationFragment">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">EvaluationFragment</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#EvaluationFragment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.EvaluationFragment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>One piece of text to judge.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationFragment.fragment_id">
+<span class="sig-name descname"><span class="pre">fragment_id</span></span><a class="headerlink" href="#kumiho.EvaluationFragment.fragment_id" title="Link to this definition"></a></dt>
+<dd><p>Caller-scoped id, unique within the request, echoed back
+on the matching <a class="reference internal" href="#kumiho.FragmentEvaluation" title="kumiho.FragmentEvaluation"><code class="xref py py-class docutils literal notranslate"><span class="pre">FragmentEvaluation</span></code></a>. It is never sent to
+the evaluation provider, so it must not be a kref.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationFragment.text">
+<span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#kumiho.EvaluationFragment.text" title="Link to this definition"></a></dt>
+<dd><p>The text to judge. This <em>is</em> sent to the provider.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationFragment.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#kumiho.EvaluationFragment.metadata" title="Link to this definition"></a></dt>
+<dd><p>Optional non-identifying hints (e.g. <code class="docutils literal notranslate"><span class="pre">{&quot;origin&quot;:</span> <span class="pre">&quot;user&quot;}</span></code>)
+merged into the fragment the provider sees. Billed as input
+tokens, so keep it small.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">fragment_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">text</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">metadata</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.EvaluationFragment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.EvaluationFragment.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fragment_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.EvaluationQuestion">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">EvaluationQuestion</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#EvaluationQuestion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.EvaluationQuestion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>One question asked of every fragment.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationQuestion.question_id">
+<span class="sig-name descname"><span class="pre">question_id</span></span><a class="headerlink" href="#kumiho.EvaluationQuestion.question_id" title="Link to this definition"></a></dt>
+<dd><p>Unique within the request. Must not contain <code class="docutils literal notranslate"><span class="pre">__</span></code>, which
+the server reserves for its own per-fragment question ids.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationQuestion.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#kumiho.EvaluationQuestion.type" title="Link to this definition"></a></dt>
+<dd><p>One of <code class="docutils literal notranslate"><span class="pre">&quot;noul&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;choice&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;score&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationQuestion.instructions">
+<span class="sig-name descname"><span class="pre">instructions</span></span><a class="headerlink" href="#kumiho.EvaluationQuestion.instructions" title="Link to this definition"></a></dt>
+<dd><p>Natural-language instructions, billed on every provider
+request. May contain the literal placeholder <code class="docutils literal notranslate"><span class="pre">{fragment}</span></code>, which
+the server replaces with its own private label for each fragment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationQuestion.criteria">
+<span class="sig-name descname"><span class="pre">criteria</span></span><a class="headerlink" href="#kumiho.EvaluationQuestion.criteria" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">&quot;noul&quot;</span></code> — optional, keys <code class="docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;false&quot;</span></code>.
+<code class="docutils literal notranslate"><span class="pre">&quot;choice&quot;</span></code> — required, option name to description.
+<code class="docutils literal notranslate"><span class="pre">&quot;score&quot;</span></code> — ignored; use <code class="docutils literal notranslate"><span class="pre">levels</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationQuestion.levels">
+<span class="sig-name descname"><span class="pre">levels</span></span><a class="headerlink" href="#kumiho.EvaluationQuestion.levels" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">&quot;score&quot;</span></code> only: two or more ordered level descriptions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">question_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">instructions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">criteria</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">levels</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.EvaluationQuestion.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instructions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.EvaluationQuestion.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>type</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>instructions</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>criteria</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
+<li><p><strong>levels</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">EvaluationResult</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#EvaluationResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.EvaluationResult" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The outcome of one <a class="reference internal" href="#kumiho.evaluate" title="kumiho.evaluate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">kumiho.evaluate()</span></code></a> call.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#kumiho.EvaluationResult.status" title="Link to this definition"></a></dt>
+<dd><p>One of <code class="docutils literal notranslate"><span class="pre">&quot;ok&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;partial&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;over_limit&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;not_entitled&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;provider_unavailable&quot;</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&quot;invalid_request&quot;</span></code>. A server that answers with an enum this SDK
+does not know reports <code class="docutils literal notranslate"><span class="pre">&quot;unspecified&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.fragments">
+<span class="sig-name descname"><span class="pre">fragments</span></span><a class="headerlink" href="#kumiho.EvaluationResult.fragments" title="Link to this definition"></a></dt>
+<dd><p>One entry per request fragment, in request order. On a
+non-<code class="docutils literal notranslate"><span class="pre">&quot;ok&quot;</span></code> status this can be empty.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.usage">
+<span class="sig-name descname"><span class="pre">usage</span></span><a class="headerlink" href="#kumiho.EvaluationResult.usage" title="Link to this definition"></a></dt>
+<dd><p>Token and request counts for this call.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.model_id">
+<span class="sig-name descname"><span class="pre">model_id</span></span><a class="headerlink" href="#kumiho.EvaluationResult.model_id" title="Link to this definition"></a></dt>
+<dd><p>The provider’s resolved, versioned model id (e.g.
+<code class="docutils literal notranslate"><span class="pre">&quot;judge-1.2.0&quot;</span></code>). Empty when the request never reached the
+provider.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.rubric_version">
+<span class="sig-name descname"><span class="pre">rubric_version</span></span><a class="headerlink" href="#kumiho.EvaluationResult.rubric_version" title="Link to this definition"></a></dt>
+<dd><p>Echoed back from the request.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.message">
+<span class="sig-name descname"><span class="pre">message</span></span><a class="headerlink" href="#kumiho.EvaluationResult.message" title="Link to this definition"></a></dt>
+<dd><p>Human-readable detail for non-<code class="docutils literal notranslate"><span class="pre">&quot;ok&quot;</span></code> statuses. Never
+contains fragment text or anything from the provider’s response.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">fragments</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#kumiho.FragmentEvaluation" title="kumiho.evaluation.FragmentEvaluation"><span class="pre">FragmentEvaluation</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">usage</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.EvaluationUsage" title="kumiho.evaluation.EvaluationUsage"><span class="pre">EvaluationUsage</span></a></span><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">model_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">rubric_version</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">message</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho/evaluation.html#EvaluationResult.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.EvaluationResult.by_id" title="Link to this definition"></a></dt>
+<dd><p>Return <a class="reference internal" href="#id13" title="kumiho.EvaluationResult.fragments"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fragments</span></code></a> keyed by <code class="docutils literal notranslate"><span class="pre">fragment_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>One entry per fragment.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference internal" href="#kumiho.FragmentEvaluation" title="kumiho.FragmentEvaluation">FragmentEvaluation</a>]</p>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">by_id</span><span class="p">()[</span><span class="s2">"a"</span><span class="p">]</span><span class="o">.</span><span class="n">answers</span><span class="p">[</span><span class="s2">"relevant"</span><span class="p">]</span><span class="o">.</span><span class="n">noul</span>
+<span class="go">0.82</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.EvaluationResult.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rubric_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.EvaluationResult.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>status</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>fragments</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference internal" href="#kumiho.FragmentEvaluation" title="kumiho.evaluation.FragmentEvaluation"><em>FragmentEvaluation</em></a><em>]</em>)</p></li>
+<li><p><strong>usage</strong> (<a class="reference internal" href="#kumiho.EvaluationUsage" title="kumiho.evaluation.EvaluationUsage"><em>EvaluationUsage</em></a>)</p></li>
+<li><p><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>rubric_version</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.FragmentEvaluation">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">FragmentEvaluation</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#FragmentEvaluation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.FragmentEvaluation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Every answer for one fragment.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.FragmentEvaluation.fragment_id">
+<span class="sig-name descname"><span class="pre">fragment_id</span></span><a class="headerlink" href="#kumiho.FragmentEvaluation.fragment_id" title="Link to this definition"></a></dt>
+<dd><p>The caller’s own id for this fragment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.FragmentEvaluation.answers">
+<span class="sig-name descname"><span class="pre">answers</span></span><a class="headerlink" href="#kumiho.FragmentEvaluation.answers" title="Link to this definition"></a></dt>
+<dd><p>Question id to valid answer. Can be incomplete when <code class="docutils literal notranslate"><span class="pre">error</span></code>
+is set; callers must check for each required question.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.FragmentEvaluation.error">
+<span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#kumiho.FragmentEvaluation.error" title="Link to this definition"></a></dt>
+<dd><p>Per-fragment failure, e.g. the provider request carrying this
+fragment failed while others succeeded (the <code class="docutils literal notranslate"><span class="pre">&quot;partial&quot;</span></code> status).
+Empty when every requested question was answered successfully.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">fragment_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">answers</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.NoulAnswer" title="kumiho.evaluation.NoulAnswer"><span class="pre">NoulAnswer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.ChoiceAnswer" title="kumiho.evaluation.ChoiceAnswer"><span class="pre">ChoiceAnswer</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.ScoreAnswer" title="kumiho.evaluation.ScoreAnswer"><span class="pre">ScoreAnswer</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">error</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.FragmentEvaluation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">answers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.FragmentEvaluation.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fragment_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>answers</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference internal" href="#kumiho.NoulAnswer" title="kumiho.evaluation.NoulAnswer"><em>NoulAnswer</em></a><em> | </em><a class="reference internal" href="#kumiho.ChoiceAnswer" title="kumiho.evaluation.ChoiceAnswer"><em>ChoiceAnswer</em></a><em> | </em><a class="reference internal" href="#kumiho.ScoreAnswer" title="kumiho.evaluation.ScoreAnswer"><em>ScoreAnswer</em></a><em>]</em>)</p></li>
+<li><p><strong>error</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">EvaluationUsage</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#EvaluationUsage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.EvaluationUsage" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>What the call cost, and where the month stands after it.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage.input_tokens">
+<span class="sig-name descname"><span class="pre">input_tokens</span></span><a class="headerlink" href="#kumiho.EvaluationUsage.input_tokens" title="Link to this definition"></a></dt>
+<dd><p>Provider-reported and billable; 0 on a cache hit.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage.output_tokens">
+<span class="sig-name descname"><span class="pre">output_tokens</span></span><a class="headerlink" href="#kumiho.EvaluationUsage.output_tokens" title="Link to this definition"></a></dt>
+<dd><p>Provider-reported.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage.provider_requests">
+<span class="sig-name descname"><span class="pre">provider_requests</span></span><a class="headerlink" href="#kumiho.EvaluationUsage.provider_requests" title="Link to this definition"></a></dt>
+<dd><p>Chunks actually sent to the provider.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage.cached_fragments">
+<span class="sig-name descname"><span class="pre">cached_fragments</span></span><a class="headerlink" href="#kumiho.EvaluationUsage.cached_fragments" title="Link to this definition"></a></dt>
+<dd><p>Fragments served from cache, which are not metered.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage.month_tokens_used">
+<span class="sig-name descname"><span class="pre">month_tokens_used</span></span><a class="headerlink" href="#kumiho.EvaluationUsage.month_tokens_used" title="Link to this definition"></a></dt>
+<dd><p>Monthly input tokens used, after this request.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage.month_tokens_limit">
+<span class="sig-name descname"><span class="pre">month_tokens_limit</span></span><a class="headerlink" href="#kumiho.EvaluationUsage.month_tokens_limit" title="Link to this definition"></a></dt>
+<dd><p>Monthly allowance; <code class="docutils literal notranslate"><span class="pre">-1</span></code> means unlimited.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">input_tokens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">output_tokens</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">provider_requests</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">cached_fragments</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">month_tokens_used</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">month_tokens_limit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.EvaluationUsage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider_requests</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cached_fragments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month_tokens_used</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month_tokens_limit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.EvaluationUsage.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_tokens</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>output_tokens</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>provider_requests</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>cached_fragments</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>month_tokens_used</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+<li><p><strong>month_tokens_limit</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.NoulAnswer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">NoulAnswer</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#NoulAnswer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.NoulAnswer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Answer to a <code class="docutils literal notranslate"><span class="pre">&quot;noul&quot;</span></code> question: a float in [0, 1].</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.NoulAnswer.noul">
+<span class="sig-name descname"><span class="pre">noul</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#kumiho.NoulAnswer.noul" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.NoulAnswer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noul</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.NoulAnswer.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>noul</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.ChoiceAnswer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">ChoiceAnswer</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#ChoiceAnswer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.ChoiceAnswer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Answer to a <code class="docutils literal notranslate"><span class="pre">&quot;choice&quot;</span></code> question: the chosen option plus its odds.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.ChoiceAnswer.choice">
+<span class="sig-name descname"><span class="pre">choice</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#kumiho.ChoiceAnswer.choice" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.ChoiceAnswer.probabilities">
+<span class="sig-name descname"><span class="pre">probabilities</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#kumiho.ChoiceAnswer.probabilities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.ChoiceAnswer.confidence">
+<span class="sig-name descname"><span class="pre">confidence</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#kumiho.ChoiceAnswer.confidence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.ChoiceAnswer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.ChoiceAnswer.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choice</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>probabilities</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>]</em>)</p></li>
+<li><p><strong>confidence</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kumiho.ScoreAnswer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">ScoreAnswer</span></span><a class="reference internal" href="../_modules/kumiho/evaluation.html#ScoreAnswer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.ScoreAnswer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Answer to a <code class="docutils literal notranslate"><span class="pre">&quot;score&quot;</span></code> question: a level, with the legend it indexes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.ScoreAnswer.score">
+<span class="sig-name descname"><span class="pre">score</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#kumiho.ScoreAnswer.score" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.ScoreAnswer.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#kumiho.ScoreAnswer.legend" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.ScoreAnswer.probabilities">
+<span class="sig-name descname"><span class="pre">probabilities</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#kumiho.ScoreAnswer.probabilities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kumiho.ScoreAnswer.confidence">
+<span class="sig-name descname"><span class="pre">confidence</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#kumiho.ScoreAnswer.confidence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kumiho.ScoreAnswer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kumiho.ScoreAnswer.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>score</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p></li>
+<li><p><strong>legend</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>)</p></li>
+<li><p><strong>probabilities</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>]</em>)</p></li>
+<li><p><strong>confidence</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="kumiho.Bundle">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">Bundle</span></span><a class="reference internal" href="../_modules/kumiho/bundle.html#Bundle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.Bundle" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#kumiho.Item" title="kumiho.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a></p>
@@ -5602,8 +6225,8 @@ including metadata about when and by whom the item was added.</p>
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">item_kref</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><span class="pre">Kref</span></a></span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">item_kref</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><span class="pre">Kref</span></a></span><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
 <dd><p>The kref of the member item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5613,8 +6236,8 @@ including metadata about when and by whom the item was added.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">added_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">added_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
 <dd><p>ISO timestamp when the item was added to the bundle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5624,8 +6247,8 @@ including metadata about when and by whom the item was added.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">added_by</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">added_by</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
 <dd><p>UUID of the user who added the item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5635,8 +6258,8 @@ including metadata about when and by whom the item was added.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">added_by_username</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">added_by_username</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
 <dd><p>Display name of the user who added the item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5646,8 +6269,8 @@ including metadata about when and by whom the item was added.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">added_in_revision</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">added_in_revision</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
 <dd><p>The bundle revision number when this item was added.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5773,8 +6396,8 @@ None for the initial <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">revision_number</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">revision_number</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
 <dd><p>The bundle revision number for this change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5784,8 +6407,8 @@ None for the initial <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">action</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id33">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
 <dd><p>The action performed: <code class="docutils literal notranslate"><span class="pre">&quot;CREATED&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;ADDED&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;REMOVED&quot;</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5795,8 +6418,8 @@ None for the initial <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">member_item_kref</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><span class="pre">Kref</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">member_item_kref</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.Kref" title="kumiho.kref.Kref"><span class="pre">Kref</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
 <dd><p>The item that was added/removed (None for CREATED).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5806,8 +6429,8 @@ None for the initial <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">author</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id35">
+<span class="sig-name descname"><span class="pre">author</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
 <dd><p>UUID of the user who made the change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5838,8 +6461,8 @@ None for the initial <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">username</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id36">
+<span class="sig-name descname"><span class="pre">username</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
 <dd><p>Display name of the user who made the change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5849,8 +6472,8 @@ None for the initial <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">created_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id37">
+<span class="sig-name descname"><span class="pre">created_at</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
 <dd><p>ISO timestamp of when the change was made.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -5860,8 +6483,8 @@ None for the initial <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">metadata</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">metadata</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
 <dd><p>Immutable metadata captured at the time of the change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -6382,8 +7005,8 @@ and concurrent requests never leak into each other.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">LATEST_TAG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'latest'</span></span><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id39">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">LATEST_TAG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'latest'</span></span><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
 <dd><p>Standard tag name indicating the latest revision of an item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -6393,8 +7016,8 @@ and concurrent requests never leak into each other.</p>
 </dd></dl>
 
 <dl class="py data">
-<dt class="sig sig-object py" id="id17">
-<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">PUBLISHED_TAG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'published'</span></span><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id40">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">PUBLISHED_TAG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'published'</span></span><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
 <dd><p>Standard tag name indicating a published/released revision.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -6532,62 +7155,62 @@ revisions. Use them when creating or querying edges.</p>
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">BELONGS_TO</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BELONGS_TO'</span></span><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id41">
+<span class="sig-name descname"><span class="pre">BELONGS_TO</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BELONGS_TO'</span></span><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
 <dd><p>Ownership or grouping relationship.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">CREATED_FROM</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CREATED_FROM'</span></span><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id42">
+<span class="sig-name descname"><span class="pre">CREATED_FROM</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CREATED_FROM'</span></span><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
 <dd><p>Source was generated/created from target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">REFERENCED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'REFERENCED'</span></span><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id43">
+<span class="sig-name descname"><span class="pre">REFERENCED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'REFERENCED'</span></span><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
 <dd><p>Soft reference relationship.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">DEPENDS_ON</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEPENDS_ON'</span></span><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id44">
+<span class="sig-name descname"><span class="pre">DEPENDS_ON</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEPENDS_ON'</span></span><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
 <dd><p>Source requires target to function.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">DERIVED_FROM</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DERIVED_FROM'</span></span><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id45">
+<span class="sig-name descname"><span class="pre">DERIVED_FROM</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DERIVED_FROM'</span></span><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
 <dd><p>Source was derived or modified from target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">PRODUCED_BY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PRODUCED_BY'</span></span><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id46">
+<span class="sig-name descname"><span class="pre">PRODUCED_BY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PRODUCED_BY'</span></span><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
 <dd><p>Result Revision was produced by the target FlowRun Revision.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id24">
-<span class="sig-name descname"><span class="pre">MIGRATED_FROM</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MIGRATED_FROM'</span></span><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id47">
+<span class="sig-name descname"><span class="pre">MIGRATED_FROM</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MIGRATED_FROM'</span></span><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
 <dd><p>Revision was migrated from the target Revision or migration tombstone.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">CONTAINS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CONTAINS'</span></span><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id48">
+<span class="sig-name descname"><span class="pre">CONTAINS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CONTAINS'</span></span><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
 <dd><p>Source contains or includes target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">SUPERSEDES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SUPERSEDES'</span></span><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id49">
+<span class="sig-name descname"><span class="pre">SUPERSEDES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SUPERSEDES'</span></span><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
 <dd><p>Source replaces or supersedes target (belief revision).</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">SUPPORTS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SUPPORTS'</span></span><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id50">
+<span class="sig-name descname"><span class="pre">SUPPORTS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SUPPORTS'</span></span><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
 <dd><p>Source corroborates or supports target (evidence chains).</p>
 </dd></dl>
 
@@ -6647,20 +7270,20 @@ outgoing edges (from source), incoming edges (to target), or both.</p>
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id28">
-<span class="sig-name descname"><span class="pre">OUTGOING</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">OUTGOING</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
 <dd><p>Edges where the queried revision is the source.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id29">
-<span class="sig-name descname"><span class="pre">INCOMING</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id52">
+<span class="sig-name descname"><span class="pre">INCOMING</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
 <dd><p>Edges where the queried revision is the target.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id30">
-<span class="sig-name descname"><span class="pre">BOTH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id53">
+<span class="sig-name descname"><span class="pre">BOTH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
 <dd><p>Edges in either direction.</p>
 </dd></dl>
 
@@ -6988,6 +7611,89 @@ comprehensive search across all entity metadata.</p>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="kumiho.evaluate">
+<span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">questions</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rubric_version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout_ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kumiho.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Judge prepared text fragments against caller-supplied questions.</p>
+<p>Evaluation asks a server-managed provider how each fragment stands up to
+each question — is this relevant to the query, which category does it fall
+into, how would you rate it. It is the ranking step the memory layer runs
+over candidates it has already retrieved; it is not a search.</p>
+<dl class="simple">
+<dt>Availability:</dt><dd><p>Kumiho Cloud, paid tiers only. A self-hosted CE server does not
+implement the RPC and answers UNIMPLEMENTED; a tenant without the
+entitlement gets PERMISSION_DENIED, or a <code class="docutils literal notranslate"><span class="pre">&quot;not_entitled&quot;</span></code> result
+when the server prefers to answer in-band.</p>
+</dd>
+</dl>
+<p>The graph is not involved: nothing here takes a kref, and nothing is read,
+written or tagged. What leaves the server for the provider is exactly
+<code class="docutils literal notranslate"><span class="pre">query</span></code>, <code class="docutils literal notranslate"><span class="pre">extra_context</span></code>, each question’s <code class="docutils literal notranslate"><span class="pre">instructions</span></code> and
+<code class="docutils literal notranslate"><span class="pre">criteria</span></code>, and each fragment’s <code class="docutils literal notranslate"><span class="pre">text</span></code> and <code class="docutils literal notranslate"><span class="pre">metadata</span></code> — never the
+fragment ids, which the server replaces with private labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – What the caller is trying to answer or do. Sent verbatim.</p></li>
+<li><p><strong>fragments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#kumiho.EvaluationFragment" title="kumiho.evaluation.EvaluationFragment"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationFragment</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Mapping" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]]</span>) – The text to judge, at most 64 per call, each either an
+<a class="reference internal" href="#kumiho.EvaluationFragment" title="kumiho.evaluation.EvaluationFragment"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationFragment</span></code></a> or a mapping with
+keys <code class="docutils literal notranslate"><span class="pre">&quot;id&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;text&quot;</span></code> and optional <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code>.</p></li>
+<li><p><strong>questions</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#kumiho.EvaluationQuestion" title="kumiho.evaluation.EvaluationQuestion"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationQuestion</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Mapping" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]]</span>) – What to ask of each fragment, at most 8 per call, each
+either an <a class="reference internal" href="#kumiho.EvaluationQuestion" title="kumiho.evaluation.EvaluationQuestion"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationQuestion</span></code></a> or a
+mapping with keys <code class="docutils literal notranslate"><span class="pre">&quot;id&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;type&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;instructions&quot;</span></code> and
+optional <code class="docutils literal notranslate"><span class="pre">&quot;criteria&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;levels&quot;</span></code>. The literal placeholder
+<code class="docutils literal notranslate"><span class="pre">{fragment}</span></code> is passed through for the server to render.</p></li>
+<li><p><strong>extra_context</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Optional extra framing (constraints, current date).</p></li>
+<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> (server default), <code class="docutils literal notranslate"><span class="pre">&quot;batched&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;per_fragment&quot;</span></code>.</p></li>
+<li><p><strong>rubric_version</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Opaque caller-owned version string, folded into the
+cache key and echoed back.</p></li>
+<li><p><strong>timeout_ms</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</span>) – Overall deadline hint for the server, which also sets this
+call’s gRPC deadline.</p></li>
+<li><p><strong>allow_cache</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – When False the cached response is bypassed, though the
+fresh one is still cached.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Status, one
+<a class="reference internal" href="#kumiho.FragmentEvaluation" title="kumiho.evaluation.FragmentEvaluation"><code class="xref py py-class docutils literal notranslate"><span class="pre">FragmentEvaluation</span></code></a> per request fragment in
+request order, and the token usage for the call.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kumiho.EvaluationResult" title="kumiho.EvaluationResult">EvaluationResult</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the query is empty, a fragment id is empty or repeated,
+    a question id contains <code class="docutils literal notranslate"><span class="pre">__</span></code>, or a question type is unknown
+    (all client-side).</p></li>
+<li><p><a class="reference external" href="https://grpc.github.io/grpc/python/grpc.html#grpc.RpcError" title="(in gRPC Python v1.83.0)"><strong>grpc.RpcError</strong></a> – UNIMPLEMENTED on CE, PERMISSION_DENIED without the
+    entitlement, DEADLINE_EXCEEDED, or any other server error.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">query</span><span class="o">=</span><span class="s2">"What did we decide about the release cadence?"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">fragments</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>        <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"m1"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="s2">"We ship on the first Tuesday."</span><span class="p">},</span>
+<span class="gp">... </span>        <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"m2"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="s2">"The logo is green."</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">],</span>
+<span class="gp">... </span>    <span class="n">questions</span><span class="o">=</span><span class="p">[{</span>
+<span class="gp">... </span>        <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"relevant"</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"noul"</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">"instructions"</span><span class="p">:</span> <span class="s2">"Does </span><span class="si">{fragment}</span><span class="s2"> answer the query?"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">}],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">status</span>
+<span class="go">'ok'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">by_id</span><span class="p">()[</span><span class="s2">"m1"</span><span class="p">]</span><span class="o">.</span><span class="n">answers</span><span class="p">[</span><span class="s2">"relevant"</span><span class="p">]</span><span class="o">.</span><span class="n">noul</span>
+<span class="go">0.91</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="kumiho.SearchResult">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">kumiho.</span></span><span class="sig-name descname"><span class="pre">SearchResult</span></span><a class="reference internal" href="../_modules/kumiho/base.html#SearchResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kumiho.SearchResult" title="Link to this definition"></a></dt>
@@ -7021,18 +7727,18 @@ comprehensive search across all entity metadata.</p>
 </div>
 </div>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id31">
-<span class="sig-name descname"><span class="pre">item</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.Item" title="kumiho.item.Item"><span class="pre">Item</span></a></span><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id54">
+<span class="sig-name descname"><span class="pre">item</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#kumiho.Item" title="kumiho.item.Item"><span class="pre">Item</span></a></span><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id32">
-<span class="sig-name descname"><span class="pre">score</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">score</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#id55" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id33">
-<span class="sig-name descname"><span class="pre">matched_in</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id56">
+<span class="sig-name descname"><span class="pre">matched_in</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -7466,33 +8172,33 @@ consumer groups, replay) are available before using them.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id34">
-<span class="sig-name descname"><span class="pre">supports_replay</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id57">
+<span class="sig-name descname"><span class="pre">supports_replay</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#id57" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id35">
-<span class="sig-name descname"><span class="pre">supports_cursor</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id58">
+<span class="sig-name descname"><span class="pre">supports_cursor</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#id58" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id36">
-<span class="sig-name descname"><span class="pre">supports_consumer_groups</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id59">
+<span class="sig-name descname"><span class="pre">supports_consumer_groups</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#id59" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id37">
-<span class="sig-name descname"><span class="pre">max_retention_hours</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id60">
+<span class="sig-name descname"><span class="pre">max_retention_hours</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id60" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id38">
-<span class="sig-name descname"><span class="pre">max_buffer_size</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id61">
+<span class="sig-name descname"><span class="pre">max_buffer_size</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id61" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id39">
-<span class="sig-name descname"><span class="pre">tier</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id62">
+<span class="sig-name descname"><span class="pre">tier</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#id62" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
