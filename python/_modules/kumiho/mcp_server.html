@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.14.0</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.14.1</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9e420a66"></script>
+      <script src="../../_static/documentation_options.js?v=3a3a8e7f"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -1004,6 +1004,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">unicodedata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
@@ -3111,6 +3112,46 @@
 
 
 
+<span class="c1"># A failed batch on an older server must not add retry delay to every recall.</span>
+<span class="c1"># Weak client keys bind compatibility to the actual credential/channel lifetime.</span>
+<span class="n">_batch_recall_backoff</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakKeyDictionary</span><span class="p">()</span>
+<span class="n">_batch_recall_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_batch_memory_tags_or_fallback</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_client</span><span class="p">()</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">_batch_recall_lock</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_batch_recall_backoff</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">now</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_batch_resolve_memory_tags</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">_batch_recall_lock</span><span class="p">:</span>
+            <span class="n">_batch_recall_backoff</span><span class="p">[</span><span class="n">client</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span> <span class="o">+</span> <span class="mi">60</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_batch_resolve_memory_tags</span><span class="p">(</span><span class="n">item_krefs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Resolve published first, latest only for missing items, in &lt;=100 batches."""</span>
+    <span class="n">resolved</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">item_krefs</span><span class="p">),</span> <span class="mi">100</span><span class="p">):</span>
+        <span class="n">chunk</span> <span class="o">=</span> <span class="n">item_krefs</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="mi">100</span><span class="p">]</span>
+        <span class="n">revisions</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">batch_get_revisions</span><span class="p">(</span><span class="n">item_krefs</span><span class="o">=</span><span class="n">chunk</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"published"</span><span class="p">,</span> <span class="n">allow_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">revisions</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"?"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="n">resolved</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">rev</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">chunk</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resolved</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="n">revisions</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">batch_get_revisions</span><span class="p">(</span><span class="n">item_krefs</span><span class="o">=</span><span class="n">missing</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"latest"</span><span class="p">,</span> <span class="n">allow_partial</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">revisions</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"?"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">:</span>
+                    <span class="n">resolved</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">rev</span>
+    <span class="k">return</span> <span class="n">resolved</span>
+
+
 <div class="viewcode-block" id="tool_memory_retrieve">
 <a class="viewcode-back" href="../../api/mcp_server.html#kumiho.mcp_server.tool_memory_retrieve">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">tool_memory_retrieve</span><span class="p">(</span>
@@ -3126,6 +3167,7 @@
     <span class="n">include_revision_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">unroll_revisions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">memory_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">include_resolved_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Retrieve memory krefs using fuzzy search with bundle and fallback support.</span>
 
@@ -3369,7 +3411,15 @@
     <span class="c1"># and reports it; other modes record it and never read it.</span>
     <span class="n">revision_created</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
 
+    <span class="n">resolved_metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">include_resolved_metadata</span><span class="p">:</span>
+            <span class="n">resolved_metadata</span><span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">rev</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{}),</span>
+                <span class="s2">"created_at"</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+                <span class="s2">"tags"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="s2">"tags"</span><span class="p">,</span> <span class="p">[])</span> <span class="ow">or</span> <span class="p">[]),</span>
+            <span class="p">}</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="s2">"created_at"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">revision_created</span><span class="p">[</span><span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
 
@@ -3386,6 +3436,16 @@
     <span class="k">if</span> <span class="n">combined_query</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">search_results</span> <span class="o">=</span> <span class="n">relevance_search</span><span class="p">()</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">include_resolved_metadata</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">unroll_revisions</span><span class="p">:</span>
+                <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">search_pool</span><span class="p">]</span> <span class="k">if</span> <span class="n">in_scope</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">))))</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">batch</span> <span class="o">=</span> <span class="n">_batch_memory_tags_or_fallback</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="c1"># Older servers may not implement BatchGetRevisions.</span>
+                    <span class="c1"># Restore the historical per-item path on any batch failure.</span>
+                    <span class="n">batch</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">search_pool</span><span class="p">]:</span>  <span class="c1"># Get extra for filtering</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">in_scope</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)):</span>
@@ -3410,10 +3470,10 @@
                     <span class="c1"># Default: return only published/latest per item.</span>
                     <span class="c1"># For stacked items this avoids flooding recall slots</span>
                     <span class="c1"># with older revisions that share the same search score.</span>
-                    <span class="n">rev</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">rev</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">))</span> <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span>
                         <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"published"</span><span class="p">)</span>
                         <span class="ow">or</span> <span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_revision_by_tag</span><span class="p">(</span><span class="s2">"latest"</span><span class="p">)</span>
-                    <span class="p">)</span>
+                    <span class="p">))</span>
                     <span class="k">if</span> <span class="n">rev</span> <span class="ow">and</span> <span class="n">_matches_memory_types</span><span class="p">(</span><span class="n">rev</span><span class="p">,</span> <span class="n">allowed_types</span><span class="p">):</span>
                         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">rev</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sr</span><span class="o">.</span><span class="n">score</span><span class="p">))</span>
                         <span class="n">remember_created</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span>
@@ -3533,6 +3593,10 @@
         <span class="s2">"spaces_used"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">spaces_used</span><span class="p">)),</span>
         <span class="s2">"scores"</span><span class="p">:</span> <span class="p">[</span><span class="n">score</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">final</span><span class="p">],</span>
     <span class="p">}</span>
+    <span class="k">if</span> <span class="n">include_resolved_metadata</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">[</span><span class="s2">"resolved_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">rev</span><span class="p">:</span> <span class="n">resolved_metadata</span><span class="p">[</span><span class="n">rev</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span> <span class="k">if</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">resolved_metadata</span>
+        <span class="p">}</span>
     <span class="k">if</span> <span class="n">is_latest</span><span class="p">:</span>
         <span class="c1"># Aligned with revision_krefs, so a caller can state how recent each is.</span>
         <span class="n">response</span><span class="p">[</span><span class="s2">"created_at"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">revision_created</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">final</span><span class="p">]</span>
@@ -5993,6 +6057,36 @@
     <span class="s2">"kumiho_chat_clear"</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Clear the chat buffer"</span><span class="p">,</span>
         <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_record_experience"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Record an experience"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_record_outcome"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Record an experience outcome"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_prepare_patterns"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Prepare pattern evidence"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_store_pattern"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Store a pattern candidate"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_check_pattern"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Check pattern applicability"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"kumiho_memory_validate_insight_response"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Validate insight citations"</span><span class="p">,</span>
+        <span class="s2">"readOnlyHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"destructiveHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="s2">"idempotentHint"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"openWorldHint"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="c1"># -- kumiho-memory: lifecycle -------------------------------------------</span>
