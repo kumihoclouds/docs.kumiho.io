@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho &mdash; Kumiho Python SDK v0.14.1</title>
+  <title>kumiho &mdash; Kumiho Python SDK v0.14.2</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../_static/documentation_options.js?v=0dc20415"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
@@ -651,6 +651,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id54"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id55"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#id56"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult.memory_revision"><code class="docutils literal notranslate"><span class="pre">SearchResult.memory_revision</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult.memory_revision_resolved"><code class="docutils literal notranslate"><span class="pre">SearchResult.memory_revision_resolved</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/kumiho.html#kumiho.SearchResult.__init__"><code class="docutils literal notranslate"><span class="pre">SearchResult.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -1054,7 +1056,7 @@
 <span class="sd">    PUBLISHED_TAG (str): Standard tag name for published revisions.</span>
 <span class="sd">"""</span>
 
-<span class="n">__version__</span> <span class="o">=</span> <span class="s2">"0.14.1"</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">"0.14.2"</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextvars</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
@@ -1667,6 +1669,8 @@
     <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">include_revision_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">include_artifact_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">memory_project</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">memory_revision_limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SearchResult</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Full-text fuzzy search across items (Google-like search).</span>
 
@@ -1719,6 +1723,8 @@
         <span class="n">include_deprecated</span><span class="o">=</span><span class="n">include_deprecated</span><span class="p">,</span>
         <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
         <span class="n">include_artifact_metadata</span><span class="o">=</span><span class="n">include_artifact_metadata</span><span class="p">,</span>
+        <span class="n">memory_project</span><span class="o">=</span><span class="n">memory_project</span><span class="p">,</span>
+        <span class="n">memory_revision_limit</span><span class="o">=</span><span class="n">memory_revision_limit</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

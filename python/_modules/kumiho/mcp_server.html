@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.14.1</title>
+  <title>kumiho.mcp_server &mdash; Kumiho Python SDK v0.14.2</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=3a3a8e7f"></script>
+      <script src="../../_static/documentation_options.js?v=0dc20415"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -651,6 +651,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id54"><code class="docutils literal notranslate"><span class="pre">SearchResult.item</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id55"><code class="docutils literal notranslate"><span class="pre">SearchResult.score</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#id56"><code class="docutils literal notranslate"><span class="pre">SearchResult.matched_in</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.SearchResult.memory_revision"><code class="docutils literal notranslate"><span class="pre">SearchResult.memory_revision</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.SearchResult.memory_revision_resolved"><code class="docutils literal notranslate"><span class="pre">SearchResult.memory_revision_resolved</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/kumiho.html#kumiho.SearchResult.__init__"><code class="docutils literal notranslate"><span class="pre">SearchResult.__init__()</span></code></a></li>
 </ul>
 </li>
@@ -3231,9 +3233,18 @@
     <span class="n">_ensure_configured</span><span class="p">()</span>
 
     <span class="n">project_name</span> <span class="o">=</span> <span class="n">project</span> <span class="ow">or</span> <span class="s2">"CognitiveMemory"</span>
-    <span class="n">project_obj</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">project_obj</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Project '</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">' not found"</span><span class="p">}</span>
+    <span class="n">packet_mode</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">include_resolved_metadata</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">((</span><span class="n">query</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">unroll_revisions</span>
+        <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[\s-]+"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">,</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="ow">in</span> <span class="p">({</span><span class="s2">"search"</span><span class="p">}</span> <span class="o">|</span> <span class="n">_LATEST_MODE_ALIASES</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">project_checked</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">project_missing</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">packet_mode</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Project '</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">' not found"</span><span class="p">}</span>
+        <span class="n">project_checked</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">to_list</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
@@ -3313,14 +3324,27 @@
         <span class="c1"># Search each space context separately so space_paths filtering</span>
         <span class="c1"># is honoured.  When no space_paths are specified, contexts</span>
         <span class="c1"># defaults to [project_name] which searches everything.</span>
+        <span class="k">nonlocal</span> <span class="n">project_checked</span><span class="p">,</span> <span class="n">project_missing</span>
         <span class="n">hits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">search_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">deep</span><span class="p">):</span>
+            <span class="k">nonlocal</span> <span class="n">project_checked</span><span class="p">,</span> <span class="n">project_missing</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"memory_project"</span><span class="p">:</span> <span class="n">project_name</span><span class="p">,</span>
+                     <span class="s2">"memory_revision_limit"</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">_latest_candidate_pool</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_latest</span> <span class="k">else</span> <span class="n">limit</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)}</span> <span class="k">if</span> <span class="n">packet_mode</span> <span class="k">else</span> <span class="p">{}</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">combined_query</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
+                                 <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">deep</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">packet_mode</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">project_checked</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="s2">"memory_project_validated"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">project_checked</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># An older server ignores new protobuf fields. Do not treat</span>
+                    <span class="c1"># that as successful validation or skip its legacy checks.</span>
+                    <span class="n">project_missing</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">))</span>
+                    <span class="n">project_checked</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">project_missing</span> <span class="k">else</span> <span class="n">rows</span>
         <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
-            <span class="n">hits</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-                <span class="n">combined_query</span><span class="p">,</span>
-                <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
-                <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
-                <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
-            <span class="p">))</span>
+            <span class="n">hits</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">search_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">include_revision_metadata</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">project_missing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
         <span class="c1"># The deep search variant (include_revision_metadata=True) can</span>
         <span class="c1"># return zero results on some deployments even when the plain</span>
         <span class="c1"># item search matches (observed in production: every deep query</span>
@@ -3330,12 +3354,7 @@
         <span class="c1"># item in the project.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">hits</span> <span class="ow">and</span> <span class="n">include_revision_metadata</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">ctx</span> <span class="ow">in</span> <span class="n">contexts</span><span class="p">:</span>
-                <span class="n">hits</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-                    <span class="n">combined_query</span><span class="p">,</span>
-                    <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">,</span>
-                    <span class="n">kind</span><span class="o">=</span><span class="n">memory_item_kind</span><span class="p">,</span>
-                    <span class="n">include_revision_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="p">))</span>
+                <span class="n">hits</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">search_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">hits</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                     <span class="s2">"tool_memory_retrieve: deep search returned 0 results "</span>
@@ -3441,7 +3460,15 @@
                 <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
                     <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">search_pool</span><span class="p">]</span> <span class="k">if</span> <span class="n">in_scope</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">))))</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">batch</span> <span class="o">=</span> <span class="n">_batch_memory_tags_or_fallback</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+                    <span class="n">resolved</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">):</span> <span class="n">sr</span><span class="o">.</span><span class="n">memory_revision</span>
+                        <span class="k">for</span> <span class="n">sr</span> <span class="ow">in</span> <span class="n">search_results</span><span class="p">[:</span><span class="n">search_pool</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="s2">"memory_revision_resolved"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+                        <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">kref</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span> <span class="ow">in</span> <span class="n">keys</span>
+                    <span class="p">}</span>
+                    <span class="n">pending</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resolved</span><span class="p">]</span>
+                    <span class="n">fetched</span> <span class="o">=</span> <span class="n">_batch_memory_tags_or_fallback</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span> <span class="k">if</span> <span class="n">pending</span> <span class="k">else</span> <span class="p">{}</span>
+                    <span class="n">batch</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">resolved</span><span class="p">,</span> <span class="o">**</span><span class="n">fetched</span><span class="p">}</span> <span class="k">if</span> <span class="n">fetched</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="c1"># Older servers may not implement BatchGetRevisions.</span>
                     <span class="c1"># Restore the historical per-item path on any batch failure.</span>
@@ -3486,6 +3513,13 @@
                 <span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="c1"># Fall through to bundle/pattern search</span>
+
+    <span class="k">if</span> <span class="n">packet_mode</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">project_checked</span><span class="p">:</span>
+        <span class="c1"># Search failed before acknowledging validation: preserve the existing</span>
+        <span class="c1"># missing-project contract before bundle/listing fallbacks.</span>
+        <span class="n">project_missing</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">project_missing</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"error"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Project '</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">' not found"</span><span class="p">}</span>
 
     <span class="c1"># Secondary: Bundle-based search if specified and fuzzy didn't find enough</span>
     <span class="k">if</span> <span class="n">bundles</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
