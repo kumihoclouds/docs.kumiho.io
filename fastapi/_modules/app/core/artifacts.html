@@ -404,7 +404,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.artifacts</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Artifacts API router - full CRUD for Kumiho artifacts.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Artifacts API router - full CRUD for Kumiho artifacts."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">status</span>
@@ -421,13 +421,13 @@
 
 <div class="viewcode-block" id="list_artifacts">
 <a class="viewcode-back" href="../../../api/_generated/app.core.artifacts.html#app.core.artifacts.list_artifacts">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ArtifactResponse</span><span class="p">])</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ArtifactResponse</span><span class="p">])</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_artifacts</span><span class="p">(</span>
-    <span class="n">revision_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref (e.g., &#39;MyProject/Assets/Hero.model?r=1&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
+    <span class="n">revision_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref (e.g., 'MyProject/Assets/Hero.model?r=1')"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all artifacts for a revision.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""List all artifacts for a revision."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -440,12 +440,12 @@
 
 <div class="viewcode-block" id="get_artifacts_by_location">
 <a class="viewcode-back" href="../../../api/_generated/app.core.artifacts.html#app.core.artifacts.get_artifacts_by_location">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/by-location&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ArtifactResponse</span><span class="p">])</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/by-location"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ArtifactResponse</span><span class="p">])</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_artifacts_by_location</span><span class="p">(</span>
-    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Artifact location/path&quot;</span><span class="p">),</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Artifact location/path"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find all artifacts at a specific location.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Find all artifacts at a specific location."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">artifacts</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_artifacts_by_location</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ArtifactResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">artifact</span><span class="p">)</span> <span class="k">for</span> <span class="n">artifact</span> <span class="ow">in</span> <span class="n">artifacts</span><span class="p">]</span>
@@ -456,12 +456,12 @@
 
 <div class="viewcode-block" id="create_artifact">
 <a class="viewcode-back" href="../../../api/_generated/app.core.artifacts.html#app.core.artifacts.create_artifact">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_artifact</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">ArtifactCreate</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new artifact for a revision.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create a new artifact for a revision."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">revision_kref</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -478,22 +478,22 @@
 
 <div class="viewcode-block" id="get_artifact">
 <a class="viewcode-back" href="../../../api/_generated/app.core.artifacts.html#app.core.artifacts.get_artifact">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_artifact</span><span class="p">(</span>
-    <span class="n">revision_kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Artifact name&quot;</span><span class="p">),</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Artifact kref&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
+    <span class="n">revision_kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Artifact name"</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Artifact kref"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a specific artifact by kref or by revision kref + name.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get a specific artifact by kref or by revision kref + name."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">kref</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
             <span class="n">artifact</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ArtifactResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">artifact</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">revision_kref</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;revision_kref and name are required&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"revision_kref and name are required"</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">revision_kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">artifact</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
@@ -507,13 +507,13 @@
 
 <div class="viewcode-block" id="update_artifact_metadata">
 <a class="viewcode-back" href="../../../api/_generated/app.core.artifacts.html#app.core.artifacts.update_artifact_metadata">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_artifact_metadata</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Artifact kref&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Artifact kref"</span><span class="p">),</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArtifactUpdate</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update an artifact&#39;s metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Update an artifact's metadata."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
         <span class="n">artifact</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -526,13 +526,13 @@
 
 <div class="viewcode-block" id="delete_artifact">
 <a class="viewcode-back" href="../../../api/_generated/app.core.artifacts.html#app.core.artifacts.delete_artifact">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_artifact</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Artifact kref&quot;</span><span class="p">),</span>
-    <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Force deletion&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Artifact kref"</span><span class="p">),</span>
+    <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Force deletion"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an artifact.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Delete an artifact."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
         <span class="n">artifact</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -544,13 +544,13 @@
 
 <div class="viewcode-block" id="deprecate_artifact">
 <a class="viewcode-back" href="../../../api/_generated/app.core.artifacts.html#app.core.artifacts.deprecate_artifact">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/deprecate&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/deprecate"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ArtifactResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">deprecate_artifact</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Artifact kref&quot;</span><span class="p">),</span>
-    <span class="n">deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Deprecated status&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Artifact kref"</span><span class="p">),</span>
+    <span class="n">deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Deprecated status"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deprecate or restore an artifact.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Deprecate or restore an artifact."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
         <span class="n">artifact</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_artifact</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>

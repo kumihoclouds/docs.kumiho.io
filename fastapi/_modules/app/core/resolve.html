@@ -404,7 +404,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.resolve</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Resolve API router - kref resolution utilities.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Resolve API router - kref resolution utilities."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span>
@@ -421,7 +421,7 @@
 <div class="viewcode-block" id="ResolveResponse">
 <a class="viewcode-back" href="../../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ResolveResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Response for kref resolution.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Response for kref resolution."""</span>
     <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">resolved_revision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -432,7 +432,7 @@
 <div class="viewcode-block" id="ResolveRevisionResponse">
 <a class="viewcode-back" href="../../../api/_generated/app.core.resolve.html#app.core.resolve.ResolveRevisionResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ResolveRevisionResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Full kref resolution response with revision details.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Full kref resolution response with revision details."""</span>
     <span class="n">revision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RevisionResponse</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">found</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 
@@ -440,16 +440,16 @@
 
 <div class="viewcode-block" id="resolve_kref">
 <a class="viewcode-back" href="../../../api/_generated/app.core.resolve.html#app.core.resolve.resolve_kref">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ResolveResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ResolveResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">resolve_kref</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Kref to resolve (e.g., &#39;MyProject/Assets/Hero.model&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
-    <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tag to resolve (e.g., &#39;latest&#39;, &#39;published&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">a</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Artifact name&quot;</span><span class="p">),</span>
-    <span class="n">time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Time in YYYYMMDDHHMM format&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Kref to resolve (e.g., 'MyProject/Assets/Hero.model')"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
+    <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tag to resolve (e.g., 'latest', 'published')"</span><span class="p">),</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Artifact name"</span><span class="p">),</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Time in YYYYMMDDHHMM format"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resolve a kref to a file location.</span>
 <span class="sd">    </span>
 <span class="sd">    Resolution logic:</span>
@@ -458,14 +458,14 @@
 <span class="sd">    - Artifact kref → location directly</span>
 <span class="sd">    </span>
 <span class="sd">    Query parameters can override embedded values in the kref.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
         <span class="n">location</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
 
         <span class="c1"># `parse_kref_params()` only reflects what the caller provided.</span>
         <span class="c1"># When the caller omits `a=...`, `kumiho.resolve()` can still resolve</span>
-        <span class="c1"># via the revision&#39;s default artifact. In that case, populate</span>
+        <span class="c1"># via the revision's default artifact. In that case, populate</span>
         <span class="c1"># resolved_revision/resolved_artifact from the resolved revision.</span>
         <span class="n">resolved_revision</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">revision</span>
         <span class="n">resolved_artifact</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">artifact</span>
@@ -473,9 +473,9 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">resolved_revision</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">resolved_revision</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">revision</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="n">resolved_revision</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">revision</span><span class="p">,</span> <span class="s2">"number"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">resolved_artifact</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">resolved_artifact</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">revision</span><span class="p">,</span> <span class="s2">&quot;default_artifact&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="n">resolved_artifact</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">revision</span><span class="p">,</span> <span class="s2">"default_artifact"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="c1"># Best-effort enrichment only; keep the original fields.</span>
                 <span class="k">pass</span>
@@ -487,27 +487,27 @@
             <span class="n">resolved_artifact</span><span class="o">=</span><span class="n">resolved_artifact</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Kref could not be resolved&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"not found"</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Kref could not be resolved"</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="resolve_kref_to_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.resolve.html#app.core.resolve.resolve_kref_to_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/revision&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ResolveRevisionResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/revision"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ResolveRevisionResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">resolve_kref_to_revision</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Kref to resolve&quot;</span><span class="p">),</span>
-    <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tag to resolve&quot;</span><span class="p">),</span>
-    <span class="n">time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Time in YYYYMMDDHHMM format&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Kref to resolve"</span><span class="p">),</span>
+    <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tag to resolve"</span><span class="p">),</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Time in YYYYMMDDHHMM format"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resolve a kref to a specific revision with optional tag/time constraints.</span>
 <span class="sd">    </span>
 <span class="sd">    This is useful for point-in-time queries or finding which revision</span>
 <span class="sd">    had a specific tag at a given moment.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -518,7 +518,7 @@
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;not found&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">"not found"</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
             <span class="k">return</span> <span class="n">ResolveRevisionResponse</span><span class="p">(</span><span class="n">found</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
 

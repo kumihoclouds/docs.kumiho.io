@@ -404,7 +404,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.apps.blog.models</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Blog app Pydantic models.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Blog app Pydantic models."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
@@ -413,7 +413,7 @@
 <div class="viewcode-block" id="BlogPostMetadata">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMetadata">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogPostMetadata</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata stored in the revision node.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata stored in the revision node."""</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">date</span><span class="p">:</span> <span class="nb">str</span>
@@ -424,7 +424,7 @@
 <div class="viewcode-block" id="BlogPostSEO">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostSEO">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogPostSEO</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;SEO settings stored in the revision metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""SEO settings stored in the revision metadata."""</span>
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -437,7 +437,7 @@
 <div class="viewcode-block" id="BlogPostMedia">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostMedia">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogPostMedia</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Media item attached to a blog revision.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Media item attached to a blog revision."""</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">content_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -447,7 +447,7 @@
 <div class="viewcode-block" id="BlogPostCreate">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostCreate">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogPostCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Request model for creating a blog post.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Request model for creating a blog post."""</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Must be provided by client</span>
@@ -461,7 +461,7 @@
 <div class="viewcode-block" id="BlogPostResponse">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogPostResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogPostResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Response model for blog posts.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Response model for blog posts."""</span>
     <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
@@ -481,11 +481,11 @@
 <div class="viewcode-block" id="BlogSettings">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.models.html#app.apps.blog.models.BlogSettings">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlogSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blog settings for a project.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Blog settings for a project."""</span>
     <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">post_item_kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;post&quot;</span>
+    <span class="n">post_item_kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"post"</span>
     <span class="n">pagination_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="n">display_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;title_only&quot;</span>  <span class="c1"># title_only, excerpt, full</span>
+    <span class="n">display_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"title_only"</span>  <span class="c1"># title_only, excerpt, full</span>
     <span class="n">display_category_filters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">allow_public</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 

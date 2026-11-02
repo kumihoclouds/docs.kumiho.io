@@ -404,14 +404,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.rate_limit</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Rate limiting middleware for FastAPI.</span>
+<span></span><span class="sd">"""Rate limiting middleware for FastAPI.</span>
 
 <span class="sd">Usage:</span>
 <span class="sd">    from app.rate_limit import RateLimitMiddleware</span>
 <span class="sd">    </span>
 <span class="sd">    # In main.py:</span>
 <span class="sd">    app.add_middleware(RateLimitMiddleware, requests_per_minute=60)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">status</span>
@@ -425,17 +425,17 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_correlation_id</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;correlation_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="s2">&quot;x-correlation-id&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">"state"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">"correlation_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">"x-correlation-id"</span><span class="p">,</span> <span class="s2">""</span>
     <span class="p">)</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.fastapi.rate_limit&quot;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"kumiho.fastapi.rate_limit"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="RateLimitMiddleware">
 <a class="viewcode-back" href="../../api/_generated/app.rate_limit.html#app.rate_limit.RateLimitMiddleware">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RateLimitMiddleware</span><span class="p">(</span><span class="n">BaseHTTPMiddleware</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Simple in-memory rate limiting middleware.</span>
 <span class="sd">    </span>
 <span class="sd">    Tracks requests per client IP and enforces rate limits.</span>
@@ -444,7 +444,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        requests_per_minute: Maximum requests allowed per minute per client</span>
 <span class="sd">        burst_size: Maximum burst size (allows short bursts above the rate)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">requests_per_minute</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">burst_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
@@ -456,7 +456,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">last_cleanup</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     
     <span class="k">def</span><span class="w"> </span><span class="nf">_cleanup_old_entries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove entries older than 2 minutes to prevent memory bloat.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Remove entries older than 2 minutes to prevent memory bloat."""</span>
         <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_cleanup</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_interval</span><span class="p">:</span>
             <span class="k">return</span>
@@ -475,40 +475,40 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">last_cleanup</span> <span class="o">=</span> <span class="n">now</span>
     
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_client_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract client IP from request.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Extract client IP from request."""</span>
         <span class="c1"># Check forwarded headers first (for proxies/load balancers)</span>
-        <span class="n">forwarded</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-Forwarded-For&quot;</span><span class="p">)</span>
+        <span class="n">forwarded</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"X-Forwarded-For"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">forwarded</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">forwarded</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">forwarded</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         
-        <span class="n">real_ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-Real-IP&quot;</span><span class="p">)</span>
+        <span class="n">real_ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"X-Real-IP"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">real_ip</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">real_ip</span>
         
         <span class="c1"># Fallback to direct connection</span>
-        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">host</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">client</span> <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span>
+        <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">host</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">client</span> <span class="k">else</span> <span class="s2">"unknown"</span>
     
 <div class="viewcode-block" id="RateLimitMiddleware.dispatch">
 <a class="viewcode-back" href="../../api/_generated/app.rate_limit.html#app.rate_limit.RateLimitMiddleware.dispatch">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">call_next</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the request and enforce rate limiting.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Process the request and enforce rate limiting."""</span>
         <span class="c1"># Skip rate limiting for health checks and docs</span>
-        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="s2">&quot;/docs&quot;</span><span class="p">,</span> <span class="s2">&quot;/redoc&quot;</span><span class="p">,</span> <span class="s2">&quot;/openapi.json&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"/"</span><span class="p">,</span> <span class="s2">"/health"</span><span class="p">,</span> <span class="s2">"/docs"</span><span class="p">,</span> <span class="s2">"/redoc"</span><span class="p">,</span> <span class="s2">"/openapi.json"</span><span class="p">]:</span>
             <span class="k">return</span> <span class="k">await</span> <span class="n">call_next</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
         
         <span class="k">try</span><span class="p">:</span>
             <span class="n">tenant_context</span> <span class="o">=</span> <span class="n">ensure_tenant_context</span><span class="p">()</span>
             <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_context</span><span class="o">.</span><span class="n">tenant_id</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="c1"># If we can&#39;t load tenant context (e.g. missing credentials), </span>
+            <span class="c1"># If we can't load tenant context (e.g. missing credentials), </span>
             <span class="c1"># we fallback to a generic identifier so rate limiting still works per-IP.</span>
-            <span class="n">tenant_id</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+            <span class="n">tenant_id</span> <span class="o">=</span> <span class="s2">"unknown"</span>
         <span class="n">client_ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_client_ip</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
         <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-        <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">user_bucket</span> <span class="o">=</span> <span class="s2">&quot;auth&quot;</span> <span class="k">if</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Bearer &quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;anon&quot;</span>
-        <span class="n">rate_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tenant_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">user_bucket</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">client_ip</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Authorization"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">user_bucket</span> <span class="o">=</span> <span class="s2">"auth"</span> <span class="k">if</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Bearer "</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"anon"</span>
+        <span class="n">rate_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tenant_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">user_bucket</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">client_ip</span><span class="si">}</span><span class="s2">"</span>
         
         <span class="c1"># Periodic cleanup</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup_old_entries</span><span class="p">()</span>
@@ -527,7 +527,7 @@
             <span class="n">retry_after</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">60</span> <span class="o">-</span> <span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="n">oldest</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
             
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Rate limit exceeded for tenant=</span><span class="si">%s</span><span class="s2"> bucket=</span><span class="si">%s</span><span class="s2"> ip=</span><span class="si">%s</span><span class="s2"> path=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Rate limit exceeded for tenant=</span><span class="si">%s</span><span class="s2"> bucket=</span><span class="si">%s</span><span class="s2"> ip=</span><span class="si">%s</span><span class="s2"> path=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">tenant_id</span><span class="p">,</span>
                 <span class="n">user_bucket</span><span class="p">,</span>
                 <span class="n">client_ip</span><span class="p">,</span>
@@ -539,26 +539,26 @@
             <span class="k">return</span> <span class="n">JSONResponse</span><span class="p">(</span>
                 <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_429_TOO_MANY_REQUESTS</span><span class="p">,</span>
                 <span class="n">content</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;rate_limited&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Rate limit exceeded. Maximum </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="si">}</span><span class="s2"> requests per minute.&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;retryable&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                        <span class="s2">&quot;retry_after_ms&quot;</span><span class="p">:</span> <span class="n">retry_after</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span>
-                        <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="p">{</span>
-                            <span class="s2">&quot;retry_after&quot;</span><span class="p">:</span> <span class="n">retry_after</span><span class="p">,</span>
-                            <span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span> <span class="n">tenant_id</span><span class="p">,</span>
-                            <span class="s2">&quot;user_bucket&quot;</span><span class="p">:</span> <span class="n">user_bucket</span><span class="p">,</span>
+                    <span class="s2">"error"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">"code"</span><span class="p">:</span> <span class="s2">"rate_limited"</span><span class="p">,</span>
+                        <span class="s2">"message"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Rate limit exceeded. Maximum </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="si">}</span><span class="s2"> requests per minute."</span><span class="p">,</span>
+                        <span class="s2">"retryable"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="s2">"retry_after_ms"</span><span class="p">:</span> <span class="n">retry_after</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span>
+                        <span class="s2">"details"</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">"retry_after"</span><span class="p">:</span> <span class="n">retry_after</span><span class="p">,</span>
+                            <span class="s2">"tenant_id"</span><span class="p">:</span> <span class="n">tenant_id</span><span class="p">,</span>
+                            <span class="s2">"user_bucket"</span><span class="p">:</span> <span class="n">user_bucket</span><span class="p">,</span>
                         <span class="p">},</span>
                     <span class="p">},</span>
-                    <span class="s2">&quot;correlation_id&quot;</span><span class="p">:</span> <span class="n">correlation_id</span><span class="p">,</span>
+                    <span class="s2">"correlation_id"</span><span class="p">:</span> <span class="n">correlation_id</span><span class="p">,</span>
 
                     <span class="c1"># Transitional compatibility.</span>
-                    <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Rate limit exceeded. Maximum </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="si">}</span><span class="s2"> requests per minute.&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;retry_after&quot;</span><span class="p">:</span> <span class="n">retry_after</span><span class="p">,</span>
-                    <span class="s2">&quot;tenant_id&quot;</span><span class="p">:</span> <span class="n">tenant_id</span><span class="p">,</span>
-                    <span class="s2">&quot;user_bucket&quot;</span><span class="p">:</span> <span class="n">user_bucket</span><span class="p">,</span>
+                    <span class="s2">"detail"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Rate limit exceeded. Maximum </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="si">}</span><span class="s2"> requests per minute."</span><span class="p">,</span>
+                    <span class="s2">"retry_after"</span><span class="p">:</span> <span class="n">retry_after</span><span class="p">,</span>
+                    <span class="s2">"tenant_id"</span><span class="p">:</span> <span class="n">tenant_id</span><span class="p">,</span>
+                    <span class="s2">"user_bucket"</span><span class="p">:</span> <span class="n">user_bucket</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Retry-After&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">retry_after</span><span class="p">),</span> <span class="s2">&quot;x-correlation-id&quot;</span><span class="p">:</span> <span class="n">correlation_id</span><span class="p">}</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Retry-After"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">retry_after</span><span class="p">),</span> <span class="s2">"x-correlation-id"</span><span class="p">:</span> <span class="n">correlation_id</span><span class="p">}</span>
             <span class="p">)</span>
         
         <span class="c1"># Record this request</span>
@@ -568,11 +568,11 @@
         <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">call_next</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
         
         <span class="c1"># Add rate limit headers to response</span>
-        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-RateLimit-Limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="p">)</span>
-        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-RateLimit-Remaining&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">))</span>
-        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-RateLimit-Reset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">+</span> <span class="mi">60</span><span class="p">))</span> <span class="k">if</span> <span class="n">times</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">now</span> <span class="o">+</span> <span class="mi">60</span><span class="p">))</span>
-        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-Kumiho-Tenant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tenant_id</span>
-        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-Kumiho-Rate-Bucket&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_bucket</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">"X-RateLimit-Limit"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">"X-RateLimit-Remaining"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requests_per_minute</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">))</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">"X-RateLimit-Reset"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">+</span> <span class="mi">60</span><span class="p">))</span> <span class="k">if</span> <span class="n">times</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">now</span> <span class="o">+</span> <span class="mi">60</span><span class="p">))</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">"X-Kumiho-Tenant"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tenant_id</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">"X-Kumiho-Rate-Bucket"</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_bucket</span>
         
         <span class="k">return</span> <span class="n">response</span></div>
 </div>

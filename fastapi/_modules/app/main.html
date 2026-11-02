@@ -413,18 +413,18 @@
 <span class="c1"># Configure logging to ensure it shows up in Cloud Run logs immediately</span>
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
     <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
-    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> [</span><span class="si">%(levelname)s</span><span class="s2">] </span><span class="si">%(name)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2"> [</span><span class="si">%(levelname)s</span><span class="s2">] </span><span class="si">%(name)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
     <span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.fastapi.boot&quot;</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initializing Kumiho SaaS API...&quot;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"kumiho.fastapi.boot"</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Initializing Kumiho SaaS API..."</span><span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.middleware.cors</span><span class="w"> </span><span class="kn">import</span> <span class="n">CORSMiddleware</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
-<span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;1.0.2&quot;</span> <span class="c1"># CI requires a string literal assignment to &#39;version&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s2">"1.0.2"</span> <span class="c1"># CI requires a string literal assignment to 'version'</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.rate_limit</span><span class="w"> </span><span class="kn">import</span> <span class="n">RateLimitMiddleware</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.correlation</span><span class="w"> </span><span class="kn">import</span> <span class="n">CorrelationIdMiddleware</span>
@@ -463,7 +463,7 @@
 <a class="viewcode-back" href="../../api/_generated/app.main.html#app.main.lifespan">[docs]</a>
 <span class="nd">@asynccontextmanager</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">lifespan</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lifespan for Kumiho SaaS API.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Lifespan for Kumiho SaaS API."""</span>
     <span class="c1"># Initialize MCP Manager</span>
     <span class="n">mcp_server</span> <span class="o">=</span> <span class="n">create_mcp_server</span><span class="p">()</span>
     <span class="n">mcp_manager</span> <span class="o">=</span> <span class="n">StreamableHTTPSessionManager</span><span class="p">(</span><span class="n">mcp_server</span><span class="p">,</span> <span class="n">stateless</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -476,11 +476,11 @@
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_warm</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVICE_TOKEN&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVICE_TOKEN"</span><span class="p">):</span>
                     <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">ensure_tenant_context</span><span class="p">)</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Tenant context warmed successfully.&quot;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Tenant context warmed successfully."</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to warm tenant context: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to warm tenant context: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         
         <span class="n">warm_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">_warm</span><span class="p">())</span>
         
@@ -490,11 +490,11 @@
 
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span>
-    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Kumiho SaaS API&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Multi-tenant SaaS API for Kumiho - Build applications with version-controlled asset management&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Kumiho SaaS API"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Multi-tenant SaaS API for Kumiho - Build applications with version-controlled asset management"</span><span class="p">,</span>
     <span class="n">version</span><span class="o">=</span><span class="n">__version__</span><span class="p">,</span>
-    <span class="n">docs_url</span><span class="o">=</span><span class="s2">&quot;/docs&quot;</span><span class="p">,</span>
-    <span class="n">redoc_url</span><span class="o">=</span><span class="s2">&quot;/redoc&quot;</span><span class="p">,</span>
+    <span class="n">docs_url</span><span class="o">=</span><span class="s2">"/docs"</span><span class="p">,</span>
+    <span class="n">redoc_url</span><span class="o">=</span><span class="s2">"/redoc"</span><span class="p">,</span>
     <span class="n">lifespan</span><span class="o">=</span><span class="n">lifespan</span>
 <span class="p">)</span>
 
@@ -508,23 +508,23 @@
 <span class="n">register_error_handlers</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
 <span class="c1"># OpenTelemetry instrumentation (optional).</span>
-<span class="n">setup_otel</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="s2">&quot;kumiho-fastapi&quot;</span><span class="p">,</span> <span class="n">service_version</span><span class="o">=</span><span class="n">__version__</span><span class="p">)</span>
+<span class="n">setup_otel</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">service_name</span><span class="o">=</span><span class="s2">"kumiho-fastapi"</span><span class="p">,</span> <span class="n">service_version</span><span class="o">=</span><span class="n">__version__</span><span class="p">)</span>
 
 <span class="c1"># Configure CORS - environment aware</span>
 <span class="c1"># In production, set CORS_ORIGINS environment variable to specific allowed origins</span>
 <span class="c1"># Example: CORS_ORIGINS=https://yourdomain.com,https://app.yourdomain.com</span>
-<span class="n">allowed_origins_env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGINS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">allowed_origins_regex</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGIN_REGEX&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">allowed_origins_env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"CORS_ORIGINS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+<span class="n">allowed_origins_regex</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"CORS_ORIGIN_REGEX"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 <span class="k">if</span> <span class="n">allowed_origins_env</span><span class="p">:</span>
     <span class="c1"># Production: use specified origins</span>
-    <span class="n">origins</span> <span class="o">=</span> <span class="p">[</span><span class="n">origin</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">allowed_origins_env</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+    <span class="n">origins</span> <span class="o">=</span> <span class="p">[</span><span class="n">origin</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">origin</span> <span class="ow">in</span> <span class="n">allowed_origins_env</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)]</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="c1"># Development: allow common dev origins</span>
     <span class="n">origins</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;http://localhost:3000&quot;</span><span class="p">,</span> <span class="c1"># local web app</span>
-        <span class="s2">&quot;http://localhost:8080&quot;</span><span class="p">,</span> <span class="c1"># gRPC kumiho-server</span>
-        <span class="s2">&quot;http://localhost:5678&quot;</span><span class="p">,</span> <span class="c1"># n8n localhost</span>
-        <span class="s2">&quot;https://kumiho.io&quot;</span><span class="p">,</span> <span class="c1"># official kumiho site</span>
+        <span class="s2">"http://localhost:3000"</span><span class="p">,</span> <span class="c1"># local web app</span>
+        <span class="s2">"http://localhost:8080"</span><span class="p">,</span> <span class="c1"># gRPC kumiho-server</span>
+        <span class="s2">"http://localhost:5678"</span><span class="p">,</span> <span class="c1"># n8n localhost</span>
+        <span class="s2">"https://kumiho.io"</span><span class="p">,</span> <span class="c1"># official kumiho site</span>
     <span class="p">]</span>
 
 <span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span>
@@ -532,15 +532,15 @@
     <span class="n">allow_origins</span><span class="o">=</span><span class="n">origins</span><span class="p">,</span>
     <span class="n">allow_origin_regex</span><span class="o">=</span><span class="n">allowed_origins_regex</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">allow_credentials</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">allow_methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
-    <span class="n">allow_headers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
-    <span class="n">expose_headers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
+    <span class="n">allow_methods</span><span class="o">=</span><span class="p">[</span><span class="s2">"*"</span><span class="p">],</span>
+    <span class="n">allow_headers</span><span class="o">=</span><span class="p">[</span><span class="s2">"*"</span><span class="p">],</span>
+    <span class="n">expose_headers</span><span class="o">=</span><span class="p">[</span><span class="s2">"*"</span><span class="p">]</span>
 <span class="p">)</span>
 
 <span class="c1"># Add rate limiting - configurable via environment</span>
 <span class="c1"># Default: 120 requests per minute per IP</span>
 <span class="c1"># Set RATE_LIMIT_PER_MINUTE=0 to disable rate limiting</span>
-<span class="n">rate_limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;RATE_LIMIT_PER_MINUTE&quot;</span><span class="p">,</span> <span class="s2">&quot;120&quot;</span><span class="p">))</span>
+<span class="n">rate_limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"RATE_LIMIT_PER_MINUTE"</span><span class="p">,</span> <span class="s2">"120"</span><span class="p">))</span>
 <span class="k">if</span> <span class="n">rate_limit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">RateLimitMiddleware</span><span class="p">,</span> <span class="n">requests_per_minute</span><span class="o">=</span><span class="n">rate_limit</span><span class="p">)</span>
 
@@ -548,68 +548,68 @@
 <span class="c1"># Core API routers - SDK-mirroring CRUD endpoints</span>
 <span class="c1"># These expose the same operations as kumiho-python Client</span>
 <span class="c1"># ============================================================================</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">projects_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/projects&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;projects&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">spaces_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/spaces&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;spaces&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">items_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/items&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">revisions_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/revisions&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;revisions&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">artifacts_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/artifacts&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;artifacts&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">edges_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/edges&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;edges&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">graph_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/graph&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">tenant_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/tenant&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tenant&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">resolve_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/resolve&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;resolve&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">bundles_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/bundles&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;bundles&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">attributes_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/attributes&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;attributes&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">events_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/events&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;events&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">mcp_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/mcp&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mcp&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">projects_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/projects"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"projects"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">spaces_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/spaces"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"spaces"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">items_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/items"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"items"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">revisions_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/revisions"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"revisions"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">artifacts_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/artifacts"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"artifacts"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">edges_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/edges"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"edges"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">graph_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/graph"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"graph"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">tenant_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/tenant"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"tenant"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">resolve_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/resolve"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"resolve"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">bundles_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/bundles"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"bundles"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">attributes_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/attributes"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"attributes"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">events_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/events"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"events"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">mcp_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/mcp"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"mcp"</span><span class="p">])</span>
 
 <span class="c1"># ============================================================================</span>
 <span class="c1"># Apps - Domain-specific applications built on top of core APIs</span>
 <span class="c1"># ============================================================================</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">blog_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/apps/blog&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;blog&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">playground_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/apps/playground&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;playground&quot;</span><span class="p">])</span>
-<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">creative_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/apps/creative&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;creative&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">blog_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/apps/blog"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"blog"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">playground_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/apps/playground"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"playground"</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">creative_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"/api/v1/apps/creative"</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">"creative"</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="healthz">
 <a class="viewcode-back" href="../../api/_generated/app.main.html#app.main.healthz">[docs]</a>
-<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/healthz&quot;</span><span class="p">)</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/healthz"</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">healthz</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple health check endpoint for Cloud Run&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()}</span></div>
+<span class="w">    </span><span class="sd">"""Simple health check endpoint for Cloud Run"""</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"ok"</span><span class="p">,</span> <span class="s2">"timestamp"</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()}</span></div>
 
 
 
 <div class="viewcode-block" id="root">
 <a class="viewcode-back" href="../../api/_generated/app.main.html#app.main.root">[docs]</a>
-<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">root</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Root endpoint with API information&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Root endpoint with API information"""</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;Kumiho SaaS API&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Multi-tenant API for building applications with Kumiho&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;documentation&quot;</span><span class="p">:</span> <span class="s2">&quot;/docs&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;authentication&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;required_header&quot;</span><span class="p">:</span> <span class="s2">&quot;X-Kumiho-Token&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;get_token&quot;</span><span class="p">:</span> <span class="s2">&quot;https://kumiho.io - Sign up to get your service token&quot;</span>
+        <span class="s2">"service"</span><span class="p">:</span> <span class="s2">"Kumiho SaaS API"</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"1.0.1"</span><span class="p">,</span>
+        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Multi-tenant API for building applications with Kumiho"</span><span class="p">,</span>
+        <span class="s2">"documentation"</span><span class="p">:</span> <span class="s2">"/docs"</span><span class="p">,</span>
+        <span class="s2">"authentication"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"required_header"</span><span class="p">:</span> <span class="s2">"X-Kumiho-Token"</span><span class="p">,</span>
+            <span class="s2">"get_token"</span><span class="p">:</span> <span class="s2">"https://kumiho.io - Sign up to get your service token"</span>
         <span class="p">},</span>
-        <span class="s2">&quot;endpoints&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;core_api&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/v1&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="s2">&quot;projects&quot;</span><span class="p">,</span> <span class="s2">&quot;spaces&quot;</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">,</span> <span class="s2">&quot;revisions&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;artifacts&quot;</span><span class="p">,</span> <span class="s2">&quot;edges&quot;</span><span class="p">,</span> <span class="s2">&quot;tenant&quot;</span><span class="p">,</span> <span class="s2">&quot;resolve&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;bundles&quot;</span><span class="p">,</span> <span class="s2">&quot;attributes&quot;</span><span class="p">,</span> <span class="s2">&quot;events&quot;</span><span class="p">,</span> <span class="s2">&quot;mcp&quot;</span>
+        <span class="s2">"endpoints"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"core_api"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"/api/v1"</span><span class="p">,</span>
+                <span class="s2">"resources"</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="s2">"projects"</span><span class="p">,</span> <span class="s2">"spaces"</span><span class="p">,</span> <span class="s2">"items"</span><span class="p">,</span> <span class="s2">"revisions"</span><span class="p">,</span>
+                    <span class="s2">"artifacts"</span><span class="p">,</span> <span class="s2">"edges"</span><span class="p">,</span> <span class="s2">"tenant"</span><span class="p">,</span> <span class="s2">"resolve"</span><span class="p">,</span>
+                    <span class="s2">"bundles"</span><span class="p">,</span> <span class="s2">"attributes"</span><span class="p">,</span> <span class="s2">"events"</span><span class="p">,</span> <span class="s2">"mcp"</span>
                 <span class="p">]</span>
             <span class="p">},</span>
-            <span class="s2">&quot;apps&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="s2">&quot;/api/v1/apps&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;available&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blog&quot;</span><span class="p">,</span> <span class="s2">&quot;playground&quot;</span><span class="p">,</span> <span class="s2">&quot;creative&quot;</span><span class="p">]</span>
+            <span class="s2">"apps"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"prefix"</span><span class="p">:</span> <span class="s2">"/api/v1/apps"</span><span class="p">,</span>
+                <span class="s2">"available"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"blog"</span><span class="p">,</span> <span class="s2">"playground"</span><span class="p">,</span> <span class="s2">"creative"</span><span class="p">]</span>
             <span class="p">}</span>
         <span class="p">},</span>
-        <span class="s2">&quot;rate_limit&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">rate_limit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="s2">&quot;requests_per_minute&quot;</span><span class="p">:</span> <span class="n">rate_limit</span> <span class="k">if</span> <span class="n">rate_limit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;unlimited&quot;</span>
+        <span class="s2">"rate_limit"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"enabled"</span><span class="p">:</span> <span class="n">rate_limit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"requests_per_minute"</span><span class="p">:</span> <span class="n">rate_limit</span> <span class="k">if</span> <span class="n">rate_limit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">"unlimited"</span>
         <span class="p">}</span>
     <span class="p">}</span></div>
 

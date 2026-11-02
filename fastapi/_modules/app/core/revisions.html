@@ -404,7 +404,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.revisions</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Revisions API router - full CRUD for Kumiho revisions including tagging.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Revisions API router - full CRUD for Kumiho revisions including tagging."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">status</span>
@@ -429,12 +429,12 @@
 
 <div class="viewcode-block" id="list_revisions">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.list_revisions">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">RevisionResponse</span><span class="p">])</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">RevisionResponse</span><span class="p">])</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_revisions</span><span class="p">(</span>
-    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref (e.g., &#39;MyProject/Assets/Hero.model&#39;)&quot;</span><span class="p">),</span>
+    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref (e.g., 'MyProject/Assets/Hero.model')"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all revisions of an item.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""List all revisions of an item."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -447,12 +447,12 @@
 
 <div class="viewcode-block" id="create_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.create_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_revision</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">RevisionCreate</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new revision for an item.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create a new revision for an item."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">item_kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -468,23 +468,23 @@
 
 <div class="viewcode-block" id="batch_get_revisions">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.batch_get_revisions">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/batch&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">BatchRevisionsResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/batch"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">BatchRevisionsResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">batch_get_revisions</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">BatchRevisionsRequest</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Batch fetch multiple revisions in a single call.</span>
+<span class="w">    </span><span class="sd">"""Batch fetch multiple revisions in a single call.</span>
 
 <span class="sd">    Supports two modes:</span>
 <span class="sd">    1. Direct revision krefs — fetch specific revisions by their krefs</span>
-<span class="sd">    2. Item krefs with tag — resolve a tag (default: &quot;latest&quot;) for each item</span>
+<span class="sd">    2. Item krefs with tag — resolve a tag (default: "latest") for each item</span>
 
 <span class="sd">    Provide either revision_krefs or item_krefs, not both.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">revision_krefs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">item_krefs</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Provide either revision_krefs or item_krefs&quot;</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">"Provide either revision_krefs or item_krefs"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">revisions</span><span class="p">,</span> <span class="n">not_found</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">batch_get_revisions</span><span class="p">(</span>
@@ -507,14 +507,14 @@
 
 <div class="viewcode-block" id="get_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.get_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_revision</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref (e.g., &#39;MyProject/Assets/Hero.model?r=1&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
-    <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tag to resolve (e.g., &#39;latest&#39;, &#39;published&#39;)&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref (e.g., 'MyProject/Assets/Hero.model?r=1')"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
+    <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tag to resolve (e.g., 'latest', 'published')"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a specific revision by kref with optional revision/tag resolution.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get a specific revision by kref with optional revision/tag resolution."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -526,18 +526,18 @@
 
 <div class="viewcode-block" id="get_latest_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.get_latest_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/latest&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/latest"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_latest_revision</span><span class="p">(</span>
-    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref&quot;</span><span class="p">),</span>
+    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the latest revision of an item.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the latest revision of an item."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_latest_revision</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">revision</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;No revisions found&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"No revisions found"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">RevisionResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">revision</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
@@ -548,12 +548,12 @@
 
 <div class="viewcode-block" id="peek_next_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.peek_next_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/peek&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">PeekRevisionResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/peek"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">PeekRevisionResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">peek_next_revision</span><span class="p">(</span>
-    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref&quot;</span><span class="p">),</span>
+    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the next revision number that would be assigned.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the next revision number that would be assigned."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -566,14 +566,14 @@
 
 <div class="viewcode-block" id="update_revision_metadata">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.update_revision_metadata">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_revision_metadata</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RevisionUpdate</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update a revision&#39;s metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Update a revision's metadata."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -586,14 +586,14 @@
 
 <div class="viewcode-block" id="delete_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.delete_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_revision</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
-    <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Force deletion&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
+    <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Force deletion"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete a revision.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Delete a revision."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -605,14 +605,14 @@
 
 <div class="viewcode-block" id="deprecate_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.deprecate_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/deprecate&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/deprecate"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">deprecate_revision</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
-    <span class="n">deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Deprecated status&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
+    <span class="n">deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Deprecated status"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deprecate or restore a revision.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Deprecate or restore a revision."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -627,19 +627,19 @@
 
 <div class="viewcode-block" id="tag_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.tag_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/tags&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/tags"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">tag_revision</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TagRequest</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a tag to a revision.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Apply a tag to a revision."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">revision</span><span class="o">.</span><span class="n">tag</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Tag &#39;</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">&#39; applied&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Tag '</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">' applied"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
@@ -647,19 +647,19 @@
 
 <div class="viewcode-block" id="untag_revision">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.untag_revision">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/tags&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"/tags"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">StatusResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">untag_revision</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tag to remove&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tag to remove"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a tag from a revision.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Remove a tag from a revision."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">revision</span><span class="o">.</span><span class="n">untag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Tag &#39;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&#39; removed&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">StatusResponse</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Tag '</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">' removed"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
@@ -667,19 +667,19 @@
 
 <div class="viewcode-block" id="has_tag">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.has_tag">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/tags/check&quot;</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/tags/check"</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">has_tag</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tag to check&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tag to check"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a revision has a specific tag.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if a revision has a specific tag."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">has</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">has_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;has_tag&quot;</span><span class="p">:</span> <span class="n">has</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="n">tag</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"has_tag"</span><span class="p">:</span> <span class="n">has</span><span class="p">,</span> <span class="s2">"tag"</span><span class="p">:</span> <span class="n">tag</span><span class="p">}</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
@@ -687,19 +687,19 @@
 
 <div class="viewcode-block" id="was_tagged">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.was_tagged">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/tags/history&quot;</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/tags/history"</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">was_tagged</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision kref&quot;</span><span class="p">),</span>
-    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tag to check&quot;</span><span class="p">),</span>
-    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Revision number&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision kref"</span><span class="p">),</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tag to check"</span><span class="p">),</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Revision number"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a revision was ever tagged with a specific tag.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if a revision was ever tagged with a specific tag."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
         <span class="n">revision</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_revision</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
         <span class="n">was</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">was_tagged</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;was_tagged&quot;</span><span class="p">:</span> <span class="n">was</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="n">tag</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"was_tagged"</span><span class="p">:</span> <span class="n">was</span><span class="p">,</span> <span class="s2">"tag"</span><span class="p">:</span> <span class="n">tag</span><span class="p">}</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
@@ -709,31 +709,31 @@
 
 <div class="viewcode-block" id="get_revision_as_of">
 <a class="viewcode-back" href="../../../api/_generated/app.core.revisions.html#app.core.revisions.get_revision_as_of">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/as-of&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/as-of"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">RevisionResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_revision_as_of</span><span class="p">(</span>
-    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref (e.g., &#39;MyProject/Assets/Hero.model&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tag to query (e.g., &#39;published&#39;, &#39;approved&#39;)&quot;</span><span class="p">),</span>
+    <span class="n">item_kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref (e.g., 'MyProject/Assets/Hero.model')"</span><span class="p">),</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tag to query (e.g., 'published', 'approved')"</span><span class="p">),</span>
     <span class="n">time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Timestamp in YYYYMMDDHHMM format (e.g., &#39;202506011430&#39;) or ISO 8601 format (e.g., &#39;2025-06-01T14:30:00Z&#39;)&quot;</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Timestamp in YYYYMMDDHHMM format (e.g., '202506011430') or ISO 8601 format (e.g., '2025-06-01T14:30:00Z')"</span>
     <span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the revision that had a specific tag at a given point in time.</span>
+<span class="w">    </span><span class="sd">"""Get the revision that had a specific tag at a given point in time.</span>
 
 <span class="sd">    This endpoint enables time-travel queries for reproducible builds and</span>
 <span class="sd">    historical analysis. It answers questions like:</span>
-<span class="sd">    &quot;What was the published revision on June 1st, 2025?&quot;</span>
+<span class="sd">    "What was the published revision on June 1st, 2025?"</span>
 
 <span class="sd">    The query finds the revision that had the specified tag active at the</span>
 <span class="sd">    given timestamp, using the tag history time-ranges stored by Kumiho.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        item_kref: The item reference (e.g., &#39;MyProject/Assets/Hero.model&#39;)</span>
-<span class="sd">        tag: The tag to query (commonly &#39;published&#39;, &#39;approved&#39;, &#39;latest&#39;)</span>
+<span class="sd">        item_kref: The item reference (e.g., 'MyProject/Assets/Hero.model')</span>
+<span class="sd">        tag: The tag to query (commonly 'published', 'approved', 'latest')</span>
 <span class="sd">        time: The point in time to query. Supports two formats:</span>
-<span class="sd">            - YYYYMMDDHHMM: e.g., &#39;202506011430&#39; for June 1, 2025 at 14:30</span>
-<span class="sd">            - ISO 8601: e.g., &#39;2025-06-01T14:30:00Z&#39;</span>
+<span class="sd">            - YYYYMMDDHHMM: e.g., '202506011430' for June 1, 2025 at 14:30</span>
+<span class="sd">            - ISO 8601: e.g., '2025-06-01T14:30:00Z'</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        RevisionResponse: The revision that had the tag at that time.</span>
@@ -744,7 +744,7 @@
 
 <span class="sd">    Example:</span>
 <span class="sd">        GET /api/v1/revisions/as-of?item_kref=MyProject/Assets/Hero.model&amp;tag=published&amp;time=202506011430</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">item_kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -752,7 +752,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">revision</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
                 <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">,</span>
-                <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;No revision with tag &#39;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&#39; found at time &#39;</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"No revision with tag '</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">' found at time '</span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">RevisionResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">revision</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
@@ -760,7 +760,7 @@
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Invalid time format: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Invalid time format: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">translate_kumiho_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>

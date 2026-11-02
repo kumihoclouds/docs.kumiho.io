@@ -462,7 +462,7 @@
 <section id="create-service-account">
 <h3>1. Create Service Account<a class="headerlink" href="#create-service-account" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>create<span class="w"> </span>github-deployer<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">&quot;GitHub Actions Deployer&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">"GitHub Actions Deployer"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--project<span class="o">=</span>kumiho-server
 </pre></div>
 </div>
@@ -474,50 +474,50 @@
 
 <span class="c1"># Cloud Run Admin</span>
 gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECT_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/run.admin&quot;</span>
+<span class="w">  </span>--member<span class="o">=</span><span class="s2">"serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="o">=</span><span class="s2">"roles/run.admin"</span>
 
 <span class="c1"># Artifact Registry Writer</span>
 gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECT_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/artifactregistry.writer&quot;</span>
+<span class="w">  </span>--member<span class="o">=</span><span class="s2">"serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="o">=</span><span class="s2">"roles/artifactregistry.writer"</span>
 
 <span class="c1"># Service Account User (to act as the runtime SA)</span>
 gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECT_ID</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/iam.serviceAccountUser&quot;</span>
+<span class="w">  </span>--member<span class="o">=</span><span class="s2">"serviceAccount:</span><span class="nv">$SA_EMAIL</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="o">=</span><span class="s2">"roles/iam.serviceAccountUser"</span>
 </pre></div>
 </div>
 </section>
 <section id="configure-workload-identity-federation">
 <h3>3. Configure Workload Identity Federation<a class="headerlink" href="#configure-workload-identity-federation" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Workload Identity Pool</span>
-gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;github-pool&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--location<span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">&quot;GitHub Actions Pool&quot;</span>
+gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>create<span class="w"> </span><span class="s2">"github-pool"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--project<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--location<span class="o">=</span><span class="s2">"global"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">"GitHub Actions Pool"</span>
 
 <span class="c1"># Get the Pool ID</span>
-<span class="nv">POOL_ID</span><span class="o">=</span><span class="k">$(</span>gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>describe<span class="w"> </span><span class="s2">&quot;github-pool&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--location<span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--format<span class="o">=</span><span class="s1">&#39;value(name)&#39;</span><span class="k">)</span>
+<span class="nv">POOL_ID</span><span class="o">=</span><span class="k">$(</span>gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>describe<span class="w"> </span><span class="s2">"github-pool"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--project<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--location<span class="o">=</span><span class="s2">"global"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--format<span class="o">=</span><span class="s1">'value(name)'</span><span class="k">)</span>
 
 <span class="c1"># Create Workload Identity Provider</span>
-gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>providers<span class="w"> </span>create-oidc<span class="w"> </span><span class="s2">&quot;github-provider&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--location<span class="o">=</span><span class="s2">&quot;global&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--workload-identity-pool<span class="o">=</span><span class="s2">&quot;github-pool&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">&quot;GitHub Actions Provider&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--attribute-mapping<span class="o">=</span><span class="s2">&quot;google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--issuer-uri<span class="o">=</span><span class="s2">&quot;https://token.actions.githubusercontent.com&quot;</span>
+gcloud<span class="w"> </span>iam<span class="w"> </span>workload-identity-pools<span class="w"> </span>providers<span class="w"> </span>create-oidc<span class="w"> </span><span class="s2">"github-provider"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--project<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--location<span class="o">=</span><span class="s2">"global"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--workload-identity-pool<span class="o">=</span><span class="s2">"github-pool"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--display-name<span class="o">=</span><span class="s2">"GitHub Actions Provider"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--attribute-mapping<span class="o">=</span><span class="s2">"google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--issuer-uri<span class="o">=</span><span class="s2">"https://token.actions.githubusercontent.com"</span>
 
 <span class="c1"># Allow GitHub to impersonate the Service Account</span>
 <span class="c1"># Replace OWNER/REPO with your actual repository path</span>
-gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">SA_EMAIL</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--role<span class="o">=</span><span class="s2">&quot;roles/iam.workloadIdentityUser&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--member<span class="o">=</span><span class="s2">&quot;principalSet://iam.googleapis.com/</span><span class="si">${</span><span class="nv">POOL_ID</span><span class="si">}</span><span class="s2">/attribute.repository/OWNER/REPO&quot;</span>
+gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">SA_EMAIL</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--project<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--role<span class="o">=</span><span class="s2">"roles/iam.workloadIdentityUser"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--member<span class="o">=</span><span class="s2">"principalSet://iam.googleapis.com/</span><span class="si">${</span><span class="nv">POOL_ID</span><span class="si">}</span><span class="s2">/attribute.repository/OWNER/REPO"</span>
 </pre></div>
 </div>
 </section>
@@ -534,7 +534,7 @@ gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span c
 <p>The worker in <code class="docutils literal notranslate"><span class="pre">kumiho-FastAPI/worker</span></code> is configured via <code class="docutils literal notranslate"><span class="pre">wrangler.toml</span></code>.</p>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># kumiho-FastAPI/worker/wrangler.toml</span>
 <span class="n">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;api.kumiho.cloud/*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">zone_name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">&quot;kumiho.cloud&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"api.kumiho.cloud/*"</span><span class="p">,</span><span class="w"> </span><span class="n">zone_name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"kumiho.cloud"</span><span class="w"> </span><span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -565,7 +565,7 @@ docker<span class="w"> </span>push<span class="w"> </span>us-central1-docker.pkg
 <h3>3. Deploy Worker<a class="headerlink" href="#deploy-worker" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>kumiho-FastAPI/worker
 <span class="c1"># Set the ORIGIN_URL to the URL from step 2</span>
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s|ORIGIN_URL = &quot;.*&quot;|ORIGIN_URL = &quot;https://kumiho-fastapi-xxxxx-uc.a.run.app&quot;|&#39;</span><span class="w"> </span>wrangler.toml
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s|ORIGIN_URL = ".*"|ORIGIN_URL = "https://kumiho-fastapi-xxxxx-uc.a.run.app"|'</span><span class="w"> </span>wrangler.toml
 npx<span class="w"> </span>wrangler<span class="w"> </span>deploy
 </pre></div>
 </div>
@@ -651,7 +651,7 @@ gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"
 <p>Ensure the Cloud Run service account has access to required resources:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>run<span class="w"> </span>services<span class="w"> </span>describe<span class="w"> </span>kumiho-fastapi<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--region<span class="w"> </span>us-central1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--format<span class="w"> </span><span class="s1">&#39;value(spec.template.spec.serviceAccountName)&#39;</span>
+<span class="w">  </span>--format<span class="w"> </span><span class="s1">'value(spec.template.spec.serviceAccountName)'</span>
 </pre></div>
 </div>
 </section>

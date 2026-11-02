@@ -404,168 +404,61 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.auth_utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;User authentication dependencies and utilities.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""User authentication dependencies. Identity claims must be cryptographically verified."""</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">HTTPException</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_token</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.token_verification</span><span class="w"> </span><span class="kn">import</span> <span class="n">verify_token</span>
 
 
 <div class="viewcode-block" id="CurrentUser">
 <a class="viewcode-back" href="../../api/_generated/app.auth_utils.html#app.auth_utils.CurrentUser">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CurrentUser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the currently authenticated user.&quot;&quot;&quot;</span>
-    
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">is_authenticated</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-        <span class="n">is_anonymous</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">is_service_token</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">display_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_authenticated</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">is_anonymous</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_service_token</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">display_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">user_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="o">=</span> <span class="n">is_authenticated</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_anonymous</span> <span class="o">=</span> <span class="n">is_anonymous</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_service_token</span> <span class="o">=</span> <span class="n">is_service_token</span>  <span class="c1"># True if authenticated via service token (public access)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_service_token</span> <span class="o">=</span> <span class="n">is_service_token</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span> <span class="o">=</span> <span class="n">display_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-    
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;CurrentUser email=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2"> authenticated=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_authenticated</span><span class="si">}</span><span class="s2"> anonymous=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_anonymous</span><span class="si">}</span><span class="s2"> service_token=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_service_token</span><span class="si">}</span><span class="s2">&gt;&quot;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id</span></div>
 
 
 
 <div class="viewcode-block" id="get_current_user">
 <a class="viewcode-back" href="../../api/_generated/app.auth_utils.html#app.auth_utils.get_current_user">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_current_user</span><span class="p">(</span>
-    <span class="n">user_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_user_token</span><span class="p">),</span>
-    <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-kumiho-token&quot;</span><span class="p">)</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CurrentUser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Dependency that extracts and validates the current user from the token.</span>
-<span class="sd">    </span>
-<span class="sd">    Checks both Authorization header (user token) and X-Kumiho-Token (service token).</span>
-<span class="sd">    User tokens take precedence if both are present.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        user_token: The user&#39;s Firebase token from Authorization header</span>
-<span class="sd">        service_token: The service token from X-Kumiho-Token header</span>
-<span class="sd">        </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        CurrentUser object</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Default to unauthenticated</span>
-    <span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;anonymous&quot;</span>
-    <span class="n">user_id</span> <span class="o">=</span> <span class="s2">&quot;anonymous&quot;</span>
-    <span class="n">display_name</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">is_authenticated</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">is_anonymous</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="c1"># Try user token first (from Authorization header), then fallback to service token</span>
-    <span class="c1"># BUT: if user_token is a Firebase anonymous token, prefer service_token</span>
-    <span class="n">token</span> <span class="o">=</span> <span class="n">user_token</span> <span class="ow">or</span> <span class="n">service_token</span>
-    
-    <span class="c1"># If we have both tokens, check if user_token is anonymous and prefer service_token</span>
-    <span class="k">if</span> <span class="n">user_token</span> <span class="ow">and</span> <span class="n">service_token</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">user_decoded</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">user_token</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
-            <span class="n">firebase_claims</span> <span class="o">=</span> <span class="n">user_decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;firebase&#39;</span><span class="p">,</span> <span class="p">{})</span>
-            <span class="n">sign_in_provider</span> <span class="o">=</span> <span class="n">firebase_claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sign_in_provider&#39;</span><span class="p">)</span>
-            <span class="c1"># If user is Firebase anonymous, prefer the service token</span>
-            <span class="k">if</span> <span class="n">sign_in_provider</span> <span class="o">==</span> <span class="s1">&#39;anonymous&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user_decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">):</span>
-                <span class="n">token</span> <span class="o">=</span> <span class="n">service_token</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">pass</span>
-
-    <span class="c1"># Track if this is a service token (for public access - should only see published posts)</span>
-    <span class="n">is_service_token</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Decode without signature verification (Firebase token validation happens upstream)</span>
-            <span class="n">decoded</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
-
-            <span class="c1"># Extract user info</span>
-            <span class="n">token_email</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
-            <span class="n">token_sub</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">)</span>
-            <span class="n">token_name</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;display_name&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;displayName&#39;</span><span class="p">)</span>
-            
-            <span class="c1"># Check if this is a Control Plane JWT (has tenant_id claim)</span>
-            <span class="c1"># CP JWTs are always authenticated service tokens</span>
-            <span class="k">if</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tenant_id&#39;</span><span class="p">):</span>
-                <span class="n">is_authenticated</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">is_anonymous</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">is_service_token</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Mark as service token</span>
-                <span class="n">user_id</span> <span class="o">=</span> <span class="n">token_sub</span> <span class="ow">or</span> <span class="s2">&quot;service&quot;</span>
-                <span class="n">email</span> <span class="o">=</span> <span class="n">token_email</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;service_</span><span class="si">{</span><span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tenant_slug&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;unknown&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="c1"># Prioritize user&#39;s name from token over tenant slug</span>
-                <span class="n">display_name</span> <span class="o">=</span> <span class="n">token_name</span> <span class="ow">or</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tenant_slug&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">email</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="n">display_name</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Firebase token - check for anonymous session</span>
-                <span class="n">firebase_claims</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;firebase&#39;</span><span class="p">,</span> <span class="p">{})</span>
-                <span class="n">sign_in_provider</span> <span class="o">=</span> <span class="n">firebase_claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sign_in_provider&#39;</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="n">token_sub</span><span class="p">:</span>
-                    <span class="n">user_id</span> <span class="o">=</span> <span class="n">token_sub</span>
-
-                    <span class="c1"># Check if anonymous Firebase session</span>
-                    <span class="k">if</span> <span class="n">sign_in_provider</span> <span class="o">==</span> <span class="s1">&#39;anonymous&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">token_email</span><span class="p">:</span>
-                        <span class="n">is_anonymous</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">is_authenticated</span> <span class="o">=</span> <span class="kc">False</span>
-                        <span class="n">email</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;anonymous_</span><span class="si">{</span><span class="n">token_sub</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="c1"># Real authenticated user</span>
-                        <span class="n">is_authenticated</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">is_anonymous</span> <span class="o">=</span> <span class="kc">False</span>
-                        <span class="n">email</span> <span class="o">=</span> <span class="n">token_email</span>
-                        <span class="n">display_name</span> <span class="o">=</span> <span class="n">token_name</span>
-                        <span class="n">name</span> <span class="o">=</span> <span class="n">token_name</span>
-
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="c1"># If token decode fails, remain anonymous/unauthenticated</span>
-            <span class="k">pass</span>
-
-    <span class="k">return</span> <span class="n">CurrentUser</span><span class="p">(</span>
-        <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
-        <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
-        <span class="n">is_authenticated</span><span class="o">=</span><span class="n">is_authenticated</span><span class="p">,</span>
-        <span class="n">is_anonymous</span><span class="o">=</span><span class="n">is_anonymous</span><span class="p">,</span>
-        <span class="n">is_service_token</span><span class="o">=</span><span class="n">is_service_token</span><span class="p">,</span>
-        <span class="n">display_name</span><span class="o">=</span><span class="n">display_name</span><span class="p">,</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-    <span class="p">)</span></div>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_current_user</span><span class="p">(</span><span class="n">user_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_user_token</span><span class="p">),</span>
+                     <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"x-kumiho-token"</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">CurrentUser</span><span class="p">:</span>
+    <span class="c1"># Invalid supplied credentials must fail closed, even when a second valid token exists.</span>
+    <span class="n">user_claims</span> <span class="o">=</span> <span class="n">verify_token</span><span class="p">(</span><span class="n">user_token</span><span class="p">)</span> <span class="k">if</span> <span class="n">user_token</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">service_claims</span> <span class="o">=</span> <span class="n">verify_token</span><span class="p">(</span><span class="n">service_token</span><span class="p">)</span> <span class="k">if</span> <span class="n">service_token</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">claims</span> <span class="o">=</span> <span class="n">user_claims</span> <span class="ow">or</span> <span class="n">service_claims</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">claims</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">CurrentUser</span><span class="p">(</span><span class="s2">"anonymous"</span><span class="p">,</span> <span class="s2">"anonymous"</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_anonymous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">firebase</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"firebase"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">anonymous</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+        <span class="n">firebase</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sign_in_provider"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"anonymous"</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"email"</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">anonymous</span> <span class="ow">and</span> <span class="n">service_claims</span><span class="p">:</span>
+        <span class="n">claims</span> <span class="o">=</span> <span class="n">service_claims</span>
+        <span class="n">anonymous</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">))</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"display_name"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"displayName"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CurrentUser</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"email"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"service"</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="n">claims</span><span class="p">[</span><span class="s2">"sub"</span><span class="p">],</span>
+                       <span class="n">is_authenticated</span><span class="o">=</span><span class="ow">not</span> <span class="n">anonymous</span><span class="p">,</span> <span class="n">is_anonymous</span><span class="o">=</span><span class="n">anonymous</span><span class="p">,</span>
+                       <span class="n">is_service_token</span><span class="o">=</span><span class="n">service</span><span class="p">,</span> <span class="n">display_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                       <span class="n">tenant_id</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="require_authenticated_user">
 <a class="viewcode-back" href="../../api/_generated/app.auth_utils.html#app.auth_utils.require_authenticated_user">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">require_authenticated_user</span><span class="p">(</span><span class="n">current_user</span><span class="p">:</span> <span class="n">CurrentUser</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_current_user</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">CurrentUser</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Dependency that requires an authenticated user.</span>
-<span class="sd">    </span>
-<span class="sd">    Raises 401 if the user is not authenticated.</span>
-<span class="sd">    Use this for endpoints that require login.</span>
-<span class="sd">    </span>
-<span class="sd">    Args:</span>
-<span class="sd">        current_user: The current user from get_current_user dependency</span>
-<span class="sd">        </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        CurrentUser object (guaranteed to be authenticated)</span>
-<span class="sd">        </span>
-<span class="sd">    Raises:</span>
-<span class="sd">        HTTPException: 401 if user is not authenticated</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
-            <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_401_UNAUTHORIZED</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Authentication required&quot;</span>
-        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Authentication required"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">current_user</span></div>
 
 </pre></div>

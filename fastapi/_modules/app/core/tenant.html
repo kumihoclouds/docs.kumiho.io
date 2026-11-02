@@ -404,12 +404,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.tenant</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Tenant API router - tenant info, usage, and auth bootstrap.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Tenant API router - tenant info, usage, and auth bootstrap."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">Request</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.token_verification</span><span class="w"> </span><span class="kn">import</span> <span class="n">verify_token</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">app.dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kumiho_client</span><span class="p">,</span> <span class="n">get_user_token</span><span class="p">,</span> <span class="n">ensure_tenant_context</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
@@ -421,7 +421,7 @@
 <div class="viewcode-block" id="UserInfo">
 <a class="viewcode-back" href="../../../api/_generated/app.core.tenant.html#app.core.tenant.UserInfo">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserInfo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;User information response.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""User information response."""</span>
     <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span></div>
 
@@ -430,7 +430,7 @@
 <div class="viewcode-block" id="BootstrapResponse">
 <a class="viewcode-back" href="../../../api/_generated/app.core.tenant.html#app.core.tenant.BootstrapResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BootstrapResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Session bootstrap response for frontend initialization.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Session bootstrap response for frontend initialization."""</span>
     <span class="n">tenant_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">project_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">anonymous_allowed</span><span class="p">:</span> <span class="nb">bool</span></div>
@@ -440,7 +440,7 @@
 <div class="viewcode-block" id="TenantUsageResponse">
 <a class="viewcode-back" href="../../../api/_generated/app.core.tenant.html#app.core.tenant.TenantUsageResponse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TenantUsageResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tenant usage and limits.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Tenant usage and limits."""</span>
     <span class="n">tenant_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">node_count</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">node_limit</span><span class="p">:</span> <span class="nb">int</span></div>
@@ -449,21 +449,21 @@
 
 <div class="viewcode-block" id="bootstrap">
 <a class="viewcode-back" href="../../../api/_generated/app.core.tenant.html#app.core.tenant.bootstrap">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/bootstrap&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">BootstrapResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/bootstrap"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">BootstrapResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">bootstrap</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return public tenant configuration for frontend bootstrapping.</span>
 
 <span class="sd">    This replaces the need for NEXT_PUBLIC_TENANT_ID and other build-time secrets.</span>
 <span class="sd">    The frontend can call this endpoint to discover tenant configuration dynamically.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Use the tenant context already resolved by get_kumiho_client (per-request).</span>
         <span class="c1"># Fall back to env-level context only when no per-request hint is available.</span>
-        <span class="n">tenant_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;kumiho_tenant_hint&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">tenant_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">"kumiho_tenant_hint"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
             <span class="n">ctx</span> <span class="o">=</span> <span class="n">ensure_tenant_context</span><span class="p">()</span>
             <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">tenant_id</span>
@@ -479,60 +479,60 @@
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Failed to bootstrap session: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Failed to bootstrap session: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="whoami">
 <a class="viewcode-back" href="../../../api/_generated/app.core.tenant.html#app.core.tenant.whoami">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/whoami&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">UserInfo</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/whoami"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">UserInfo</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">whoami</span><span class="p">(</span>
-    <span class="n">project_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Project name to validate membership against&quot;</span><span class="p">),</span>
+    <span class="n">project_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Project name to validate membership against"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">),</span>
     <span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_user_token</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return information about the authenticated user.</span>
 <span class="sd">    </span>
 <span class="sd">    Optionally validates membership in a specific project.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">UserInfo</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">&quot;anonymous&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;anonymous&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">UserInfo</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s2">"anonymous"</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">"anonymous"</span><span class="p">)</span>
 
         <span class="c1"># Validate against Kumiho Backend (Tenant Membership)</span>
         <span class="k">if</span> <span class="n">project_name</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;User not authorized: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"User not authorized: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-        <span class="n">decoded</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;verify_signature&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="n">verify_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
         
-        <span class="n">email</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;Unknown&quot;</span>
-        <span class="n">user_id</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;Unknown&quot;</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'sub'</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"Unknown"</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'sub'</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"Unknown"</span>
         
         <span class="k">return</span> <span class="n">UserInfo</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Invalid authentication&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Invalid authentication"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_tenant_usage">
 <a class="viewcode-back" href="../../../api/_generated/app.core.tenant.html#app.core.tenant.get_tenant_usage">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/usage&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">TenantUsageResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/usage"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">TenantUsageResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_tenant_usage</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the current tenant&#39;s usage statistics and limits.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the current tenant's usage statistics and limits."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">usage</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_tenant_usage</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">TenantUsageResponse</span><span class="p">(</span>
-            <span class="n">tenant_id</span><span class="o">=</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="n">node_count</span><span class="o">=</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;node_count&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-            <span class="n">node_limit</span><span class="o">=</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;node_limit&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">tenant_id</span><span class="o">=</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="n">node_count</span><span class="o">=</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"node_count"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">node_limit</span><span class="o">=</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"node_limit"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>

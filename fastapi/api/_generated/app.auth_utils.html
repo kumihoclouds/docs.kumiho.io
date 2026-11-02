@@ -409,15 +409,15 @@
              
   <section id="module-app.auth_utils">
 <span id="app-auth-utils"></span><h1>app.auth_utils<a class="headerlink" href="#module-app.auth_utils" title="Link to this heading"></a></h1>
-<p>User authentication dependencies and utilities.</p>
+<p>User authentication dependencies. Identity claims must be cryptographically verified.</p>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#app.auth_utils.get_current_user" title="app.auth_utils.get_current_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_current_user</span></code></a>([user_token, service_token])</p></td>
-<td><p>Dependency that extracts and validates the current user from the token.</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#app.auth_utils.require_authenticated_user" title="app.auth_utils.require_authenticated_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">require_authenticated_user</span></code></a>([current_user])</p></td>
-<td><p>Dependency that requires an authenticated user.</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -425,15 +425,14 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#app.auth_utils.CurrentUser" title="app.auth_utils.CurrentUser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CurrentUser</span></code></a>(email, user_id, is_authenticated)</p></td>
-<td><p>Represents the currently authenticated user.</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="app.auth_utils.CurrentUser">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.auth_utils.</span></span><span class="sig-name descname"><span class="pre">CurrentUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_authenticated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_anonymous</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_service_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/auth_utils.html#CurrentUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.auth_utils.CurrentUser" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">app.auth_utils.</span></span><span class="sig-name descname"><span class="pre">CurrentUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_authenticated</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_anonymous</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_service_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/auth_utils.html#CurrentUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.auth_utils.CurrentUser" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Represents the currently authenticated user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -444,6 +443,7 @@
 <li><p><strong>is_service_token</strong> (<em>bool</em>)</p></li>
 <li><p><strong>display_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>tenant_id</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -452,21 +452,15 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="app.auth_utils.get_current_user">
 <span class="sig-prename descclassname"><span class="pre">app.auth_utils.</span></span><span class="sig-name descname"><span class="pre">get_current_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_user_token&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Header(None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/auth_utils.html#get_current_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.auth_utils.get_current_user" title="Link to this definition"></a></dt>
-<dd><p>Dependency that extracts and validates the current user from the token.</p>
-<p>Checks both Authorization header (user token) and X-Kumiho-Token (service token).
-User tokens take precedence if both are present.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>user_token</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – The user’s Firebase token from Authorization header</p></li>
-<li><p><strong>service_token</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – The service token from X-Kumiho-Token header</p></li>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#app.auth_utils.CurrentUser" title="app.auth_utils.CurrentUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurrentUser</span></code></a></span></p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>user_token</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>service_token</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 </ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#app.auth_utils.CurrentUser" title="app.auth_utils.CurrentUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurrentUser</span></code></a></span></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>CurrentUser object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -474,21 +468,12 @@ User tokens take precedence if both are present.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="app.auth_utils.require_authenticated_user">
 <span class="sig-prename descclassname"><span class="pre">app.auth_utils.</span></span><span class="sig-name descname"><span class="pre">require_authenticated_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Depends(dependency=&lt;function</span> <span class="pre">get_current_user&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/app/auth_utils.html#require_authenticated_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.auth_utils.require_authenticated_user" title="Link to this definition"></a></dt>
-<dd><p>Dependency that requires an authenticated user.</p>
-<p>Raises 401 if the user is not authenticated.
-Use this for endpoints that require login.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>current_user</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#app.auth_utils.CurrentUser" title="app.auth_utils.CurrentUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurrentUser</span></code></a></span>) – The current user from get_current_user dependency</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#app.auth_utils.CurrentUser" title="app.auth_utils.CurrentUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurrentUser</span></code></a></span></p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#app.auth_utils.CurrentUser" title="app.auth_utils.CurrentUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CurrentUser</span></code></a></span></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>CurrentUser object (guaranteed to be authenticated)</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>HTTPException</strong> – 401 if user is not authenticated</p>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>current_user</strong> (<a class="reference internal" href="#app.auth_utils.CurrentUser" title="app.auth_utils.CurrentUser"><em>CurrentUser</em></a>)</p>
 </dd>
 </dl>
 </dd></dl>

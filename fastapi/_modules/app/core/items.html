@@ -404,7 +404,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.core.items</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Items API router - full CRUD for Kumiho items.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Items API router - full CRUD for Kumiho items."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Query</span><span class="p">,</span> <span class="n">status</span>
@@ -420,54 +420,54 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_space_path</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">""</span>
     <span class="c1"># Normalize to a single leading slash and no trailing slash (except root).</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s2">&quot;/&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">&quot;//&quot;</span> <span class="k">else</span> <span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"/"</span> <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s2">"//"</span> <span class="k">else</span> <span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_reject_template_like</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># Guard against accidentally passing n8n expression strings like</span>
     <span class="c1"># `={{ $json.path }}` through as literal values.</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">return</span>
-    <span class="k">if</span> <span class="s2">&quot;{{&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">or</span> <span class="s2">&quot;}}&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;={{&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">"{{"</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">or</span> <span class="s2">"}}"</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"={{"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"="</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
             <span class="n">detail</span><span class="o">=</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> looks like an unevaluated expression. &quot;</span>
-                <span class="s2">&quot;Provide a literal Kumiho path like &#39;/MyProject/Assets&#39;.&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> looks like an unevaluated expression. "</span>
+                <span class="s2">"Provide a literal Kumiho path like '/MyProject/Assets'."</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
 
 <div class="viewcode-block" id="list_items">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.list_items">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ItemResponse</span><span class="p">])</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ItemResponse</span><span class="p">])</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_items</span><span class="p">(</span>
-    <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Space path (e.g., &#39;/MyProject/Assets&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">name_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filter by item name&quot;</span><span class="p">),</span>
-    <span class="n">kind_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filter by item kind&quot;</span><span class="p">),</span>
+    <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Space path (e.g., '/MyProject/Assets')"</span><span class="p">),</span>
+    <span class="n">name_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Filter by item name"</span><span class="p">),</span>
+    <span class="n">kind_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Filter by item kind"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List items in a specific space.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""List items in a specific space."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">space_path</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span>
-        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;space_path&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;space_path must include a project segment&quot;</span><span class="p">)</span>
+        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">"space_path"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">"/"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"space_path must include a project segment"</span><span class="p">)</span>
 
-        <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Project not found&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Project not found"</span><span class="p">)</span>
         <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span>
         <span class="n">items</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span>
-            <span class="n">item_name_filter</span><span class="o">=</span><span class="n">name_filter</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">item_name_filter</span><span class="o">=</span><span class="n">name_filter</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span> <span class="ow">or</span> <span class="s2">""</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ItemResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
@@ -479,19 +479,19 @@
 
 <div class="viewcode-block" id="search_items">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.search_items">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/search&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ItemResponse</span><span class="p">])</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/search"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">ItemResponse</span><span class="p">])</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">search_items</span><span class="p">(</span>
-    <span class="n">context_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filter by context/path&quot;</span><span class="p">),</span>
-    <span class="n">name_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filter by item name&quot;</span><span class="p">),</span>
-    <span class="n">kind_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Filter by item kind&quot;</span><span class="p">),</span>
+    <span class="n">context_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Filter by context/path"</span><span class="p">),</span>
+    <span class="n">name_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Filter by item name"</span><span class="p">),</span>
+    <span class="n">kind_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Filter by item kind"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search for items across the system using pattern/glob matching.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Search for items across the system using pattern/glob matching."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">items</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">item_search</span><span class="p">(</span>
-            <span class="n">context_filter</span><span class="o">=</span><span class="n">context_filter</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">name_filter</span><span class="o">=</span><span class="n">name_filter</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">context_filter</span><span class="o">=</span><span class="n">context_filter</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="n">name_filter</span><span class="o">=</span><span class="n">name_filter</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="n">kind_filter</span><span class="o">=</span><span class="n">kind_filter</span> <span class="ow">or</span> <span class="s2">""</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ItemResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -501,31 +501,31 @@
 
 <div class="viewcode-block" id="fulltext_search">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.fulltext_search">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/fulltext-search&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">SearchResultResponse</span><span class="p">])</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/fulltext-search"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">SearchResultResponse</span><span class="p">])</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fulltext_search</span><span class="p">(</span>
-    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Search query (supports fuzzy matching)&quot;</span><span class="p">),</span>
-    <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Restrict to kref prefix (e.g., &#39;myproject/assets&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">kind</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Exact kind match (e.g., &#39;model&#39;, &#39;texture&#39;)&quot;</span><span class="p">),</span>
-    <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Include soft-deleted items&quot;</span><span class="p">),</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Search query (supports fuzzy matching)"</span><span class="p">),</span>
+    <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Restrict to kref prefix (e.g., 'myproject/assets')"</span><span class="p">),</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Exact kind match (e.g., 'model', 'texture')"</span><span class="p">),</span>
+    <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Include soft-deleted items"</span><span class="p">),</span>
     <span class="n">include_revision_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Also search revision tags/metadata (slower but more comprehensive)&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Also search revision tags/metadata (slower but more comprehensive)"</span>
     <span class="p">),</span>
     <span class="n">include_artifact_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Also search artifact names/metadata (slower)&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Also search artifact names/metadata (slower)"</span>
     <span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Full-text fuzzy search across items (Google-like search).</span>
+<span class="w">    </span><span class="sd">"""Full-text fuzzy search across items (Google-like search).</span>
 
 <span class="sd">    Provides Google-like search with automatic typo tolerance. Searches</span>
 <span class="sd">    across item names, kinds, usernames, and optionally revision/artifact</span>
 <span class="sd">    metadata. Results are ranked by relevance score.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
             <span class="n">query</span><span class="p">,</span>
-            <span class="n">context</span><span class="o">=</span><span class="n">context</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">kind</span><span class="o">=</span><span class="n">kind</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">=</span><span class="n">context</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="n">kind</span><span class="o">=</span><span class="n">kind</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
             <span class="n">include_deprecated</span><span class="o">=</span><span class="n">include_deprecated</span><span class="p">,</span>
             <span class="n">include_revision_metadata</span><span class="o">=</span><span class="n">include_revision_metadata</span><span class="p">,</span>
             <span class="n">include_artifact_metadata</span><span class="o">=</span><span class="n">include_artifact_metadata</span><span class="p">,</span>
@@ -538,22 +538,22 @@
 
 <div class="viewcode-block" id="create_item">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.create_item">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_item</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">ItemCreate</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new item.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create a new item."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">space_path</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">)</span>
-        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;space_path&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;space_path must include a project segment&quot;</span><span class="p">)</span>
+        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">"space_path"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">"/"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"space_path must include a project segment"</span><span class="p">)</span>
 
-        <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Project not found&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Project not found"</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span>
             <span class="n">item_name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">item_name</span><span class="p">,</span>
             <span class="n">kind</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
@@ -571,12 +571,12 @@
 
 <div class="viewcode-block" id="get_item_by_kref">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.get_item_by_kref">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_item_by_kref</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref (e.g., &#39;MyProject/Assets/Hero.model&#39;)&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref (e.g., 'MyProject/Assets/Hero.model')"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get an item by its kref.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get an item by its kref."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -590,24 +590,24 @@
 
 <div class="viewcode-block" id="get_item_by_path">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.get_item_by_path">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/by-path&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/by-path"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_item_by_path</span><span class="p">(</span>
-    <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Space path&quot;</span><span class="p">),</span>
-    <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item name&quot;</span><span class="p">),</span>
-    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kind&quot;</span><span class="p">),</span>
+    <span class="n">space_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Space path"</span><span class="p">),</span>
+    <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item name"</span><span class="p">),</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kind"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get an item by its path components.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get an item by its path components."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">space_path</span> <span class="o">=</span> <span class="n">_normalize_space_path</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span>
-        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">&quot;space_path&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;space_path must include a project segment&quot;</span><span class="p">)</span>
+        <span class="n">_reject_template_like</span><span class="p">(</span><span class="n">space_path</span><span class="p">,</span> <span class="n">field_name</span><span class="o">=</span><span class="s2">"space_path"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_path</span> <span class="ow">or</span> <span class="n">space_path</span> <span class="o">==</span> <span class="s2">"/"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"space_path must include a project segment"</span><span class="p">)</span>
 
-        <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Project not found&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">404</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Project not found"</span><span class="p">)</span>
         <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="n">space_path</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span>
             <span class="n">item_name</span><span class="o">=</span><span class="n">item_name</span><span class="p">,</span>
@@ -623,13 +623,13 @@
 
 <div class="viewcode-block" id="update_item_metadata">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.update_item_metadata">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_item_metadata</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref"</span><span class="p">),</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ItemUpdate</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update an item&#39;s metadata.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Update an item's metadata."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -642,13 +642,13 @@
 
 <div class="viewcode-block" id="delete_item">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.delete_item">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/by-kref&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"/by-kref"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_item</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref&quot;</span><span class="p">),</span>
-    <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Force deletion&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref"</span><span class="p">),</span>
+    <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Force deletion"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delete an item.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Delete an item."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>
@@ -660,13 +660,13 @@
 
 <div class="viewcode-block" id="deprecate_item">
 <a class="viewcode-back" href="../../../api/_generated/app.core.items.html#app.core.items.deprecate_item">[docs]</a>
-<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/deprecate&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/deprecate"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">ItemResponse</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">deprecate_item</span><span class="p">(</span>
-    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Item kref&quot;</span><span class="p">),</span>
-    <span class="n">deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Deprecated status&quot;</span><span class="p">),</span>
+    <span class="n">kref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Item kref"</span><span class="p">),</span>
+    <span class="n">deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Deprecated status"</span><span class="p">),</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_kumiho_client</span><span class="p">)</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deprecate or restore an item.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Deprecate or restore an item."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">parse_kref_params</span><span class="p">(</span><span class="n">kref</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">kref_uri</span><span class="p">)</span>

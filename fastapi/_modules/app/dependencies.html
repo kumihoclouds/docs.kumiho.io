@@ -404,7 +404,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.dependencies</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;FastAPI dependencies for Kumiho integration.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""FastAPI dependencies for Kumiho integration."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
@@ -419,30 +419,31 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.token_verification</span><span class="w"> </span><span class="kn">import</span> <span class="n">verify_token</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">kumiho.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiscoveryError</span><span class="p">,</span> <span class="n">DiscoveryManager</span>
 
-<span class="n">_SERVICE_TOKEN_ENV_VAR</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_SERVICE_TOKEN&quot;</span>
-<span class="n">_CACHE_TTL_SECONDS</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVICE_TOKEN_CACHE_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;30&quot;</span><span class="p">))</span>
-<span class="n">_DEBUG_ENDPOINTS_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_DEBUG_ENDPOINTS&quot;</span>
-<span class="n">_DEBUG_JWKS_ENV</span> <span class="o">=</span> <span class="s2">&quot;KUMIHO_DEBUG_JWKS&quot;</span>
-<span class="n">_DEBUG_JWKS_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_DEBUG_JWKS_TIMEOUT_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">))</span>
-<span class="n">_DISCOVERY_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_DISCOVERY_TIMEOUT_SECONDS&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">))</span>
-<span class="n">_CONTROL_PLANE_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_CONTROL_PLANE_URL&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;https://control.kumiho.cloud&quot;</span>
+<span class="n">_SERVICE_TOKEN_ENV_VAR</span> <span class="o">=</span> <span class="s2">"KUMIHO_SERVICE_TOKEN"</span>
+<span class="n">_CACHE_TTL_SECONDS</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVICE_TOKEN_CACHE_SECONDS"</span><span class="p">,</span> <span class="s2">"30"</span><span class="p">))</span>
+<span class="n">_DEBUG_ENDPOINTS_ENV</span> <span class="o">=</span> <span class="s2">"KUMIHO_DEBUG_ENDPOINTS"</span>
+<span class="n">_DEBUG_JWKS_ENV</span> <span class="o">=</span> <span class="s2">"KUMIHO_DEBUG_JWKS"</span>
+<span class="n">_DEBUG_JWKS_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_DEBUG_JWKS_TIMEOUT_SECONDS"</span><span class="p">,</span> <span class="s2">"3"</span><span class="p">))</span>
+<span class="n">_DISCOVERY_TIMEOUT_SECONDS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_DISCOVERY_TIMEOUT_SECONDS"</span><span class="p">,</span> <span class="s2">"10"</span><span class="p">))</span>
+<span class="n">_CONTROL_PLANE_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_CONTROL_PLANE_URL"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"https://control.kumiho.cloud"</span>
 
 <span class="c1"># Service identification for outbound HTTP requests (Cloudflare WAF requires a</span>
-<span class="c1"># recognisable User-Agent; raw urllib defaults to &quot;Python-urllib/3.x&quot; which is</span>
+<span class="c1"># recognisable User-Agent; raw urllib defaults to "Python-urllib/3.x" which is</span>
 <span class="c1"># commonly blocked).</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">app</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">_app_version</span>
 
-<span class="n">_USER_AGENT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;kumiho-fastapi/</span><span class="si">{</span><span class="n">_app_version</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">_USER_AGENT</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"kumiho-fastapi/</span><span class="si">{</span><span class="n">_app_version</span><span class="si">}</span><span class="s2">"</span>
 
 
 <div class="viewcode-block" id="TenantContext">
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TenantContext</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cached tenant/control-plane metadata derived from the CP JWT.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Cached tenant/control-plane metadata derived from the CP JWT."""</span>
 
     <span class="n">auth_token</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">expires_at</span><span class="p">:</span> <span class="nb">float</span>
@@ -459,14 +460,14 @@
 <div class="viewcode-block" id="TenantContext.preferred_target">
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.TenantContext.preferred_target">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">preferred_target</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the best known endpoint for the tenant.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the best known endpoint for the tenant."""</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grpc_authority</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_url</span></div>
 </div>
 
 
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.fastapi.dependencies&quot;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"kumiho.fastapi.dependencies"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_derive_audit_identity_from_claims</span><span class="p">(</span>
@@ -474,10 +475,10 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fallback_author</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Derive best-effort (author, username) for response audit fields.</span>
+<span class="w">    </span><span class="sd">"""Derive best-effort (author, username) for response audit fields.</span>
 
 <span class="sd">    This is for display/audit convenience only; it does not grant access.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_pick_string</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
@@ -486,18 +487,18 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">author</span> <span class="o">=</span> <span class="n">_pick_string</span><span class="p">(</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_display_name&quot;</span><span class="p">),</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_name&quot;</span><span class="p">),</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_slug&quot;</span><span class="p">),</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_display_name"</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_name"</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_slug"</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">),</span>
         <span class="n">fallback_author</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">username</span> <span class="o">=</span> <span class="n">_pick_string</span><span class="p">(</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">),</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;preferred_username&quot;</span><span class="p">),</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;username&quot;</span><span class="p">),</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;client_id&quot;</span><span class="p">),</span>
-        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sub&quot;</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"email"</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"preferred_username"</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"username"</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"client_id"</span><span class="p">),</span>
+        <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sub"</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">author</span><span class="p">,</span> <span class="n">username</span>
 
@@ -506,16 +507,16 @@
     <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span> <span class="ow">or</span> <span class="s2">&quot;.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span> <span class="ow">or</span> <span class="s2">"."</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{}</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">payload_b64</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">padding</span> <span class="o">=</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">payload_b64</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span>
-        <span class="n">decoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64decode</span><span class="p">((</span><span class="n">payload_b64</span> <span class="o">+</span> <span class="n">padding</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+        <span class="n">payload_b64</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">padding</span> <span class="o">=</span> <span class="s2">"="</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">payload_b64</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64decode</span><span class="p">((</span><span class="n">payload_b64</span> <span class="o">+</span> <span class="n">padding</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span>
         <span class="n">claims</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">decoded</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">claims</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">claims</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
     <span class="k">except</span> <span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">Error</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">):</span>
@@ -530,14 +531,14 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_discovery_url</span><span class="p">(</span><span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">base</span> <span class="o">=</span> <span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api/discovery/tenant&quot;</span><span class="p">):</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"/api/discovery/tenant"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">base</span>
-    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api/discovery&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/tenant&quot;</span>
-    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/api&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/discovery/tenant&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/api/discovery/tenant&quot;</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"/api/discovery"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/tenant"</span>
+    <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"/api"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/discovery/tenant"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">/api/discovery/tenant"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_post_json</span><span class="p">(</span>
@@ -547,33 +548,33 @@
     <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">headers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
     <span class="n">req_headers</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">,</span>
+        <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="s2">"User-Agent"</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">headers</span><span class="p">:</span>
         <span class="n">req_headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">req_headers</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;POST&quot;</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">req_headers</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"POST"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
-            <span class="n">raw</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">raw</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">raw</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">snippet</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;HTTP </span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">snippet</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="s2">""</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"HTTP </span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;invalid json: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"invalid json: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;invalid json: expected object&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"invalid json: expected object"</span>
     <span class="k">return</span> <span class="n">payload</span><span class="p">,</span> <span class="kc">None</span>
 
 
@@ -583,7 +584,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_hint</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">_build_discovery_url</span><span class="p">(</span><span class="n">_CONTROL_PLANE_URL</span><span class="p">)</span>
-    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tenant_hint&quot;</span><span class="p">:</span> <span class="n">tenant_hint</span><span class="p">}</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"tenant_hint"</span><span class="p">:</span> <span class="n">tenant_hint</span><span class="p">}</span>
     <span class="n">response</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_post_json</span><span class="p">(</span>
         <span class="n">url</span><span class="p">,</span>
         <span class="n">payload</span><span class="p">,</span>
@@ -591,22 +592,22 @@
         <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="s2">"error"</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"error"</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-    <span class="n">region</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"region"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: invalid region payload&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Discovery lookup failed; falling back to env target: invalid region payload"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-    <span class="n">server_url</span> <span class="o">=</span> <span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;server_url&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;server_url&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">server_url</span> <span class="o">=</span> <span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"server_url"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"server_url"</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">grpc_authority</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grpc_authority&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grpc_authority&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"grpc_authority"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"grpc_authority"</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;Discovery routing result (anonymous): tenant_hint=</span><span class="si">%s</span><span class="s2"> server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"Discovery routing result (anonymous): tenant_hint=</span><span class="si">%s</span><span class="s2"> server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">tenant_hint</span><span class="p">,</span>
             <span class="n">server_url</span><span class="p">,</span>
             <span class="n">grpc_authority</span><span class="p">,</span>
@@ -623,13 +624,13 @@
         <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Discovery routing using tenant_hint without id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                    <span class="s2">"Discovery routing using tenant_hint without id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
                     <span class="n">tenant_hint</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">_resolve_routing_anonymous</span><span class="p">(</span><span class="n">tenant_hint</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Discovery routing skipped: no id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="s2">"Discovery routing skipped: no id_token (tenant_hint=</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
                 <span class="n">tenant_hint</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
@@ -639,7 +640,7 @@
         <span class="n">deadline</span> <span class="o">=</span> <span class="n">_discovery_refresh_deadline</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Discovery routing result: tenant_hint=</span><span class="si">%s</span><span class="s2"> server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Discovery routing result: tenant_hint=</span><span class="si">%s</span><span class="s2"> server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">tenant_hint</span><span class="p">,</span>
                 <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
                 <span class="n">record</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">grpc_authority</span><span class="p">,</span>
@@ -650,9 +651,9 @@
             <span class="n">deadline</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">DiscoveryError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Discovery lookup failed; falling back to env target: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Unexpected discovery failure; falling back to env target&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Unexpected discovery failure; falling back to env target"</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
 
@@ -663,27 +664,27 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">host</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">scheme</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="n">port</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"://"</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">:</span>
         <span class="n">parsed</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
         <span class="n">scheme</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">hostname</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">hostname</span> <span class="ow">or</span> <span class="s2">""</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">port</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;grpcs&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">}:</span>
-            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span>
-        <span class="k">elif</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;grpc&quot;</span><span class="p">,</span> <span class="s2">&quot;http&quot;</span><span class="p">}:</span>
-            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;http&quot;</span>
+        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"grpcs"</span><span class="p">,</span> <span class="s2">"https"</span><span class="p">}:</span>
+            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">"https"</span>
+        <span class="k">elif</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"grpc"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">}:</span>
+            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">"http"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span> <span class="k">if</span> <span class="n">port</span> <span class="o">==</span> <span class="mi">443</span> <span class="k">else</span> <span class="s2">&quot;http&quot;</span>
+            <span class="n">scheme</span> <span class="o">=</span> <span class="s2">"https"</span> <span class="k">if</span> <span class="n">port</span> <span class="o">==</span> <span class="mi">443</span> <span class="k">else</span> <span class="s2">"http"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">trimmed</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">trimmed</span><span class="p">:</span>
-            <span class="n">host</span><span class="p">,</span> <span class="n">port_str</span> <span class="o">=</span> <span class="n">trimmed</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">trimmed</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">trimmed</span><span class="p">:</span>
+            <span class="n">host</span><span class="p">,</span> <span class="n">port_str</span> <span class="o">=</span> <span class="n">trimmed</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">":"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">port_str</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
@@ -694,75 +695,75 @@
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">port</span> <span class="o">=</span> <span class="mi">8080</span>
-        <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span> <span class="k">if</span> <span class="n">port</span> <span class="o">==</span> <span class="mi">443</span> <span class="k">else</span> <span class="s2">&quot;http&quot;</span>
+        <span class="n">scheme</span> <span class="o">=</span> <span class="s2">"https"</span> <span class="k">if</span> <span class="n">port</span> <span class="o">==</span> <span class="mi">443</span> <span class="k">else</span> <span class="s2">"http"</span>
 
     <span class="k">if</span> <span class="n">port</span> <span class="ow">and</span> <span class="n">port</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">80</span><span class="p">,</span> <span class="mi">443</span><span class="p">}:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_effective_target</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">target</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span>
-    <span class="n">env_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">target</span><span class="p">,</span> <span class="s2">"context"</span>
+    <span class="n">env_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ENDPOINT"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ADDRESS"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">env_target</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">env_target</span><span class="p">,</span> <span class="s2">&quot;env&quot;</span>
-    <span class="k">return</span> <span class="s2">&quot;localhost:8080&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span>
+        <span class="k">return</span> <span class="n">env_target</span><span class="p">,</span> <span class="s2">"env"</span>
+    <span class="k">return</span> <span class="s2">"localhost:8080"</span><span class="p">,</span> <span class="s2">"default"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_json</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span> <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">})</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span> <span class="s2">"User-Agent"</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">})</span>
         <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;invalid json: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"invalid json: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;invalid json: expected object&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"invalid json: expected object"</span>
         <span class="k">return</span> <span class="n">payload</span><span class="p">,</span> <span class="kc">None</span>
     <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">snippet</span> <span class="o">=</span> <span class="n">body</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="k">if</span> <span class="n">body</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;HTTP </span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">snippet</span> <span class="o">=</span> <span class="n">body</span><span class="p">[:</span><span class="mi">200</span><span class="p">]</span> <span class="k">if</span> <span class="n">body</span> <span class="k">else</span> <span class="s2">""</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"HTTP </span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">snippet</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_jwks_diagnostics</span><span class="p">(</span><span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/api/_control-plane/jwks&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="si">}</span><span class="s2">/api/_control-plane/jwks"</span>
     <span class="n">payload</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_fetch_json</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">_DEBUG_JWKS_TIMEOUT_SECONDS</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">error</span>
-    <span class="n">jwks_url</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jwks_url&quot;</span><span class="p">)</span>
-    <span class="n">kids</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kids&quot;</span><span class="p">)</span>
+    <span class="n">jwks_url</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"jwks_url"</span><span class="p">)</span>
+    <span class="n">kids</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kids"</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kids</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">kids</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">kids</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">kids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">kids</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">kids</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">kids</span><span class="p">),)</span>
-    <span class="k">if</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">jwks_url</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">jwks_url</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kids</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">payload</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">"error"</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jwks_url</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">jwks_url</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kids</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">payload</span><span class="p">[</span><span class="s2">"error"</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">jwks_url</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">jwks_url</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kids</span><span class="p">,</span> <span class="kc">None</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_context_from_env</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TenantContext</span><span class="p">:</span>
-    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)</span>
+    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_TENANT_ID"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;KUMIHO_TENANT_ID must be set when using environment tokens.&quot;</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">"KUMIHO_TENANT_ID must be set when using environment tokens."</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="n">server_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+    <span class="n">server_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ENDPOINT"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ADDRESS"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">server_url</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT must be set when using environment tokens.&quot;</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">"KUMIHO_SERVER_ENDPOINT must be set when using environment tokens."</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -770,95 +771,95 @@
         <span class="n">auth_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
         <span class="n">expires_at</span><span class="o">=</span><span class="n">now</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">_CACHE_TTL_SECONDS</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
         <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
-        <span class="n">tenant_slug</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_SLUG&quot;</span><span class="p">),</span>
-        <span class="n">tenant_tier</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_TIER&quot;</span><span class="p">),</span>
-        <span class="n">region_code</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_REGION_CODE&quot;</span><span class="p">),</span>
-        <span class="n">neo4j_db_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_NEO4J_DB&quot;</span><span class="p">),</span>
+        <span class="n">tenant_slug</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_TENANT_SLUG"</span><span class="p">),</span>
+        <span class="n">tenant_tier</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_TENANT_TIER"</span><span class="p">),</span>
+        <span class="n">region_code</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_REGION_CODE"</span><span class="p">),</span>
+        <span class="n">neo4j_db_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_NEO4J_DB"</span><span class="p">),</span>
         <span class="n">guardrails</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">roles</span><span class="o">=</span><span class="p">(),</span>
         <span class="n">server_url</span><span class="o">=</span><span class="n">server_url</span><span class="p">,</span>
-        <span class="n">grpc_authority</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_AUTHORITY&quot;</span><span class="p">),</span>
+        <span class="n">grpc_authority</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_AUTHORITY"</span><span class="p">),</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_build_tenant_context</span><span class="p">(</span><span class="n">credentials</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">tenant_id_override</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TenantContext</span><span class="p">:</span>
     <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">token</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">)</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"control_plane_token"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id_token"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Control-plane token missing from credentials cache.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Control-plane token missing from credentials cache."</span><span class="p">)</span>
 
-    <span class="n">cp_exp</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cp_expires_at&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expires_at&quot;</span><span class="p">)</span>
+    <span class="n">cp_exp</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cp_expires_at"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"expires_at"</span><span class="p">)</span>
     <span class="n">expiry</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cp_exp</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cp_exp</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">now</span> <span class="o">+</span> <span class="n">_CACHE_TTL_SECONDS</span>
 
     <span class="n">claims</span> <span class="o">=</span> <span class="n">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
-    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id_override</span> <span class="ow">or</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)</span>
+    <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">tenant_id_override</span> <span class="ow">or</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_TENANT_ID"</span><span class="p">)</span>
 
     <span class="c1"># If the token is a Firebase ID token (no tenant_id in claims but has</span>
-    <span class="c1"># &#39;firebase&#39; key), exchange it for a control-plane JWT via discovery.</span>
+    <span class="c1"># 'firebase' key), exchange it for a control-plane JWT via discovery.</span>
     <span class="c1"># This handles the case where a plugin sends a Firebase token directly</span>
     <span class="c1"># instead of a pre-exchanged CP service token.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span> <span class="ow">and</span> <span class="s2">&quot;firebase&quot;</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Firebase ID token detected, exchanging for CP token via control plane&quot;</span><span class="p">)</span>
-        <span class="n">cp_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_CONTROL_PLANE_URL</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/api/control-plane/token&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span> <span class="ow">and</span> <span class="s2">"firebase"</span> <span class="ow">in</span> <span class="n">claims</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Firebase ID token detected, exchanging for CP token via control plane"</span><span class="p">)</span>
+        <span class="n">cp_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_CONTROL_PLANE_URL</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="si">}</span><span class="s2">/api/control-plane/token"</span>
         <span class="n">response</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">_post_json</span><span class="p">(</span>
             <span class="n">cp_url</span><span class="p">,</span>
             <span class="p">{},</span>
             <span class="n">timeout</span><span class="o">=</span><span class="n">_DISCOVERY_TIMEOUT_SECONDS</span><span class="p">,</span>
             <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">,</span>
+                <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"User-Agent"</span><span class="p">:</span> <span class="n">_USER_AGENT</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;CP token exchange failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">):</span>
-            <span class="n">cp_token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"CP token exchange failed: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"error"</span><span class="p">):</span>
+            <span class="n">cp_token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cp_token</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cp_token</span><span class="p">:</span>
                 <span class="c1"># Replace the token and re-decode claims from the CP JWT.</span>
                 <span class="n">token</span> <span class="o">=</span> <span class="n">cp_token</span>
-                <span class="n">credentials</span><span class="p">[</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+                <span class="n">credentials</span><span class="p">[</span><span class="s2">"control_plane_token"</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
                 <span class="c1"># Stash the original Firebase token as id_token for discovery routing.</span>
-                <span class="k">if</span> <span class="s2">&quot;id_token&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span><span class="p">:</span>
-                    <span class="n">credentials</span><span class="p">[</span><span class="s2">&quot;id_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">"id_token"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span><span class="p">:</span>
+                    <span class="n">credentials</span><span class="p">[</span><span class="s2">"id_token"</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"control_plane_token"</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
                 <span class="n">claims</span> <span class="o">=</span> <span class="n">_decode_jwt_claims</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
-                <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_id&quot;</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;CP token exchange succeeded, tenant_id=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)</span>
+                <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"CP token exchange succeeded, tenant_id=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">error_msg</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span> <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;CP token exchange returned error: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">)</span>
+            <span class="n">error_msg</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"error"</span><span class="p">)</span> <span class="k">if</span> <span class="n">response</span> <span class="k">else</span> <span class="s2">"unknown"</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"CP token exchange returned error: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">error_msg</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tenant_id</span><span class="p">:</span>
         <span class="c1"># Log enough context to diagnose token issues without leaking secrets.</span>
-        <span class="n">token_prefix</span> <span class="o">=</span> <span class="n">token</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">12</span> <span class="k">else</span> <span class="n">token</span>
-        <span class="n">has_dots</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">token</span>
+        <span class="n">token_prefix</span> <span class="o">=</span> <span class="n">token</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"..."</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">12</span> <span class="k">else</span> <span class="n">token</span>
+        <span class="n">has_dots</span> <span class="o">=</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">token</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-            <span class="s2">&quot;Tenant ID resolution failed: token_prefix=</span><span class="si">%s</span><span class="s2"> is_jwt=</span><span class="si">%s</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;claims_keys=</span><span class="si">%s</span><span class="s2"> tenant_id_override=</span><span class="si">%s</span><span class="s2"> KUMIHO_TENANT_ID=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"Tenant ID resolution failed: token_prefix=</span><span class="si">%s</span><span class="s2"> is_jwt=</span><span class="si">%s</span><span class="s2"> "</span>
+            <span class="s2">"claims_keys=</span><span class="si">%s</span><span class="s2"> tenant_id_override=</span><span class="si">%s</span><span class="s2"> KUMIHO_TENANT_ID=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">token_prefix</span><span class="p">,</span>
             <span class="n">has_dots</span><span class="p">,</span>
-            <span class="nb">list</span><span class="p">(</span><span class="n">claims</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">claims</span> <span class="k">else</span> <span class="s2">&quot;[]&quot;</span><span class="p">,</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">claims</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">claims</span> <span class="k">else</span> <span class="s2">"[]"</span><span class="p">,</span>
             <span class="n">tenant_id_override</span><span class="p">,</span>
-            <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_TENANT_ID&quot;</span><span class="p">)),</span>
+            <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_TENANT_ID"</span><span class="p">)),</span>
         <span class="p">)</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Tenant ID missing from control-plane token.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Tenant ID missing from control-plane token."</span><span class="p">)</span>
 
-    <span class="n">tenant_slug</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_slug&quot;</span><span class="p">)</span>
+    <span class="n">tenant_slug</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_slug"</span><span class="p">)</span>
     <span class="n">tenant_hint</span> <span class="o">=</span> <span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">tenant_id</span>
-    <span class="n">id_token</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id_token&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">id_token</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id_token"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id_token"</span><span class="p">),</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="c1"># IMPORTANT:</span>
     <span class="c1"># - If the caller supplied per-request credentials (service token in header), we must route</span>
     <span class="c1">#   per-tenant via discovery. Pinning to KUMIHO_SERVER_ENDPOINT would effectively make this</span>
     <span class="c1">#   FastAPI instance single-tenant / single-region and can break writes after regional rollouts.</span>
-    <span class="c1"># - If we&#39;re using environment credentials (no per-request creds), keep honoring env endpoints.</span>
-    <span class="n">using_env_creds_only</span> <span class="o">=</span> <span class="s2">&quot;control_plane_token&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span> <span class="ow">and</span> <span class="s2">&quot;id_token&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span>
+    <span class="c1"># - If we're using environment credentials (no per-request creds), keep honoring env endpoints.</span>
+    <span class="n">using_env_creds_only</span> <span class="o">=</span> <span class="s2">"control_plane_token"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span> <span class="ow">and</span> <span class="s2">"id_token"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">credentials</span>
 
     <span class="n">server_url</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">grpc_authority</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">discovery_deadline</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="n">using_env_creds_only</span><span class="p">:</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ENDPOINT"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ADDRESS"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">target</span><span class="p">:</span>
             <span class="n">server_url</span> <span class="o">=</span> <span class="n">target</span>
 
@@ -872,9 +873,9 @@
     <span class="k">if</span> <span class="n">discovery_deadline</span><span class="p">:</span>
         <span class="n">expiry_candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">discovery_deadline</span><span class="p">)</span>
 
-    <span class="n">guardrails_claim</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;guardrails&quot;</span><span class="p">)</span>
+    <span class="n">guardrails_claim</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"guardrails"</span><span class="p">)</span>
     <span class="n">guardrails</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">guardrails_claim</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">guardrails_claim</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
-    <span class="n">roles_claim</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;roles&quot;</span><span class="p">)</span>
+    <span class="n">roles_claim</span> <span class="o">=</span> <span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"roles"</span><span class="p">)</span>
     <span class="n">roles</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">roles_claim</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roles_claim</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="k">else</span> <span class="nb">tuple</span><span class="p">()</span>
 
     <span class="n">context</span> <span class="o">=</span> <span class="n">TenantContext</span><span class="p">(</span>
@@ -882,9 +883,9 @@
         <span class="n">expires_at</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">expiry_candidates</span><span class="p">)</span> <span class="k">if</span> <span class="n">expiry_candidates</span> <span class="k">else</span> <span class="n">expiry</span><span class="p">,</span>
         <span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span>
         <span class="n">tenant_slug</span><span class="o">=</span><span class="n">tenant_slug</span><span class="p">,</span>
-        <span class="n">tenant_tier</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tenant_tier&quot;</span><span class="p">),</span>
-        <span class="n">region_code</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;region_code&quot;</span><span class="p">),</span>
-        <span class="n">neo4j_db_name</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;neo4j_db_name&quot;</span><span class="p">),</span>
+        <span class="n">tenant_tier</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_tier"</span><span class="p">),</span>
+        <span class="n">region_code</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"region_code"</span><span class="p">),</span>
+        <span class="n">neo4j_db_name</span><span class="o">=</span><span class="n">claims</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"neo4j_db_name"</span><span class="p">),</span>
         <span class="n">guardrails</span><span class="o">=</span><span class="n">guardrails</span><span class="p">,</span>
         <span class="n">roles</span><span class="o">=</span><span class="n">roles</span><span class="p">,</span>
         <span class="n">server_url</span><span class="o">=</span><span class="n">server_url</span><span class="p">,</span>
@@ -895,7 +896,7 @@
     <span class="c1"># For per-request credentials, pinning to a single regional endpoint can route writes</span>
     <span class="c1"># to a stale region during rollouts and produce opaque 500s.</span>
     <span class="k">if</span> <span class="n">using_env_creds_only</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">context</span><span class="o">.</span><span class="n">server_url</span><span class="p">:</span>
-        <span class="n">env_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+        <span class="n">env_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ENDPOINT"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ADDRESS"</span><span class="p">)</span>
         <span class="n">context</span><span class="o">.</span><span class="n">server_url</span> <span class="o">=</span> <span class="n">env_target</span>
 
     <span class="k">return</span> <span class="n">context</span>
@@ -904,7 +905,7 @@
 <div class="viewcode-block" id="ensure_tenant_context">
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.ensure_tenant_context">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_tenant_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">TenantContext</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return tenant context from environment service token.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return tenant context from environment service token."""</span>
 
     <span class="n">env_token</span> <span class="o">=</span> <span class="n">_get_service_token_from_env</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">env_token</span><span class="p">:</span>
@@ -913,18 +914,18 @@
     <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
         <span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span>
         <span class="n">detail</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;No service token found. Set KUMIHO_SERVICE_TOKEN environment variable &quot;</span>
-            <span class="s2">&quot;or provide X-Kumiho-Token header.&quot;</span>
+            <span class="s2">"No service token found. Set KUMIHO_SERVICE_TOKEN environment variable "</span>
+            <span class="s2">"or provide X-Kumiho-Token header."</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_service_token_from_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the service token from KUMIHO_SERVICE_TOKEN environment variable.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the service token from KUMIHO_SERVICE_TOKEN environment variable."""</span>
     <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_SERVICE_TOKEN_ENV_VAR</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Found service token in </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">_SERVICE_TOKEN_ENV_VAR</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Found service token in </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">_SERVICE_TOKEN_ENV_VAR</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">return</span> <span class="kc">None</span>
 
@@ -932,7 +933,7 @@
 <div class="viewcode-block" id="get_user_token">
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.get_user_token">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_user_token</span><span class="p">(</span><span class="n">authorization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extract Firebase user token from Authorization header (optional).</span>
 
 <span class="sd">    This is for end-user authentication that gets passed through to kumiho-server.</span>
@@ -943,8 +944,8 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The extracted token or None</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">authorization</span> <span class="ow">and</span> <span class="n">authorization</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Bearer &quot;</span><span class="p">):</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">authorization</span> <span class="ow">and</span> <span class="n">authorization</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Bearer "</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">authorization</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
@@ -956,21 +957,21 @@
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.get_kumiho_client">[docs]</a>
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_kumiho_client</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-    <span class="n">x_kumiho_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;X-Kumiho-Token&quot;</span><span class="p">),</span>
-    <span class="n">x_tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">),</span>
-    <span class="n">x_correlation_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-correlation-id&quot;</span><span class="p">),</span>
-    <span class="n">x_idempotency_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;x-idempotency-key&quot;</span><span class="p">),</span>
+    <span class="n">x_kumiho_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"X-Kumiho-Token"</span><span class="p">),</span>
+    <span class="n">x_tenant_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"x-tenant-id"</span><span class="p">),</span>
+    <span class="n">x_correlation_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"x-correlation-id"</span><span class="p">),</span>
+    <span class="n">x_idempotency_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"x-idempotency-key"</span><span class="p">),</span>
     <span class="n">user_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_user_token</span><span class="p">),</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Creates a Kumiho client instance for the current request using the provided token.</span>
 <span class="sd">    </span>
 <span class="sd">    This is a per-request client - each API call gets its own client instance</span>
-<span class="sd">    configured with the client&#39;s service token. This enables multi-tenant operation</span>
+<span class="sd">    configured with the client's service token. This enables multi-tenant operation</span>
 <span class="sd">    where different clients can use the same FastAPI deployment with their own tokens.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        x_kumiho_token: The client&#39;s Kumiho service token from X-Kumiho-Token header</span>
+<span class="sd">        x_kumiho_token: The client's Kumiho service token from X-Kumiho-Token header</span>
 <span class="sd">        x_tenant_id: Optional tenant ID hint for anonymous users</span>
 <span class="sd">        user_token: Optional user ID token from Authorization: Bearer header</span>
 <span class="sd">        </span>
@@ -980,9 +981,18 @@
 <span class="sd">    Raises:</span>
 <span class="sd">        HTTPException: 401 if token is missing or invalid</span>
 <span class="sd">        HTTPException: 500 if client creation fails</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">service_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">using_request_token</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Validate before discovery, SDK setup or trusting any tenant hint.</span>
+    <span class="n">service_claims</span> <span class="o">=</span> <span class="n">verify_token</span><span class="p">(</span><span class="n">x_kumiho_token</span><span class="p">)</span> <span class="k">if</span> <span class="n">x_kumiho_token</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">user_claims</span> <span class="o">=</span> <span class="n">verify_token</span><span class="p">(</span><span class="n">user_token</span><span class="p">)</span> <span class="k">if</span> <span class="n">user_token</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">tenant_claim</span> <span class="o">=</span> <span class="p">(</span><span class="n">service_claims</span> <span class="ow">or</span> <span class="n">user_claims</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tenant_id"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tenant_claim</span> <span class="ow">and</span> <span class="n">x_tenant_id</span> <span class="ow">and</span> <span class="n">tenant_claim</span> <span class="o">!=</span> <span class="n">x_tenant_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">403</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Tenant not permitted"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x_kumiho_token</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">user_token</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">"Authentication required"</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Determine the service token (control plane token)</span>
@@ -993,12 +1003,12 @@
 
         <span class="k">if</span> <span class="n">service_token</span><span class="p">:</span>
             <span class="c1"># Use the provided service token</span>
-            <span class="n">credentials</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;control_plane_token&quot;</span><span class="p">:</span> <span class="n">service_token</span><span class="p">}</span>
+            <span class="n">credentials</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"control_plane_token"</span><span class="p">:</span> <span class="n">service_token</span><span class="p">}</span>
             
             <span class="c1"># If BOTH headers were provided, the Bearer token is treated as the ID token (user identity)</span>
             <span class="c1"># while X-Kumiho-Token is the service token (tenant identity).</span>
             <span class="k">if</span> <span class="n">x_kumiho_token</span> <span class="ow">and</span> <span class="n">user_token</span><span class="p">:</span>
-                <span class="n">credentials</span><span class="p">[</span><span class="s2">&quot;id_token&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_token</span>
+                <span class="n">credentials</span><span class="p">[</span><span class="s2">"id_token"</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_token</span>
                 
             <span class="n">context</span> <span class="o">=</span> <span class="n">_build_tenant_context</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">tenant_id_override</span><span class="o">=</span><span class="n">x_tenant_id</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1007,17 +1017,17 @@
     <span class="k">except</span> <span class="n">HTTPException</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - defensive</span>
-        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Failed to load tenant context: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Failed to load tenant context: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
     <span class="c1"># Prefer header tenant_id if provided, otherwise context tenant_id</span>
     <span class="n">tenant_id</span> <span class="o">=</span> <span class="n">x_tenant_id</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_id</span>
-    <span class="c1"># NOTE: tenant_hint parameter doesn&#39;t actually add x-tenant-id in kumiho-python</span>
+    <span class="c1"># NOTE: tenant_hint parameter doesn't actually add x-tenant-id in kumiho-python</span>
     <span class="c1"># so we need to add it to metadata manually</span>
-    <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;x-tenant-id&quot;</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)]</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"x-tenant-id"</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">)]</span>
     <span class="k">if</span> <span class="n">x_correlation_id</span><span class="p">:</span>
-        <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;x-correlation-id&quot;</span><span class="p">,</span> <span class="n">x_correlation_id</span><span class="p">))</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"x-correlation-id"</span><span class="p">,</span> <span class="n">x_correlation_id</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">x_idempotency_key</span><span class="p">:</span>
-        <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;x-idempotency-key&quot;</span><span class="p">,</span> <span class="n">x_idempotency_key</span><span class="p">))</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"x-idempotency-key"</span><span class="p">,</span> <span class="n">x_idempotency_key</span><span class="p">))</span>
     
     <span class="c1"># Use the preferred target from the context (which includes env override)</span>
     <span class="n">target</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">preferred_target</span><span class="p">()</span>
@@ -1042,18 +1052,18 @@
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">pass</span>
     
-    <span class="c1"># If we still don&#39;t have a target, try environment fallback ONLY for env-credential mode.</span>
+    <span class="c1"># If we still don't have a target, try environment fallback ONLY for env-credential mode.</span>
     <span class="c1"># When a caller supplies a service token per-request, pinning to a fixed env endpoint can</span>
     <span class="c1"># route writes to the wrong region during multi-region rollouts.</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">using_request_token</span><span class="p">:</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ENDPOINT&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;KUMIHO_SERVER_ADDRESS&quot;</span><span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ENDPOINT"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"KUMIHO_SERVER_ADDRESS"</span><span class="p">)</span>
 
-    <span class="c1"># If we still don&#39;t have a target, it means discovery failed or was skipped.</span>
+    <span class="c1"># If we still don't have a target, it means discovery failed or was skipped.</span>
     <span class="c1"># We should NOT let the SDK fall back to localhost:8080.</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
         <span class="n">tenant_hint</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">tenant_id</span>
         <span class="k">if</span> <span class="n">tenant_hint</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Target not resolved yet, attempting last-minute discovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Target not resolved yet, attempting last-minute discovery for </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">tenant_hint</span><span class="p">)</span>
             <span class="n">target</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span>
                 <span class="n">_resolve_routing_anonymous</span><span class="p">,</span>
                 <span class="n">tenant_hint</span><span class="p">,</span>
@@ -1068,24 +1078,24 @@
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">503</span><span class="p">,</span>
             <span class="n">detail</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Kumiho routing failed: Could not resolve a regional server for this tenant. &quot;</span>
-                <span class="s2">&quot;Check if KUMIHO_CONTROL_PLANE_URL is accessible and the token is valid.&quot;</span>
+                <span class="s2">"Kumiho routing failed: Could not resolve a regional server for this tenant. "</span>
+                <span class="s2">"Check if KUMIHO_CONTROL_PLANE_URL is accessible and the token is valid."</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;Connecting to Kumiho Server at </span><span class="si">%s</span><span class="s2"> (tenant: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="s2">"Connecting to Kumiho Server at </span><span class="si">%s</span><span class="s2"> (tenant: </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
         <span class="n">target</span><span class="p">,</span>
         <span class="n">context</span><span class="o">.</span><span class="n">tenant_slug</span> <span class="ow">or</span> <span class="n">tenant_id</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">auth_token</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using auth token: present&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Using auth token: present"</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No auth token in context&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"No auth token in context"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">_env_truthy</span><span class="p">(</span><span class="n">_DEBUG_ENDPOINTS_ENV</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;Kumiho routing debug: server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2"> tenant_id=</span><span class="si">%s</span><span class="s2"> tenant_slug=</span><span class="si">%s</span><span class="s2"> use_discovery=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"Kumiho routing debug: server_url=</span><span class="si">%s</span><span class="s2"> grpc_authority=</span><span class="si">%s</span><span class="s2"> tenant_id=</span><span class="si">%s</span><span class="s2"> tenant_slug=</span><span class="si">%s</span><span class="s2"> use_discovery=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">context</span><span class="o">.</span><span class="n">server_url</span><span class="p">,</span>
             <span class="n">context</span><span class="o">.</span><span class="n">grpc_authority</span><span class="p">,</span>
             <span class="n">tenant_id</span><span class="p">,</span>
@@ -1098,7 +1108,7 @@
         <span class="n">base_url</span> <span class="o">=</span> <span class="n">_infer_http_base</span><span class="p">(</span><span class="n">target</span> <span class="ow">or</span> <span class="n">effective_target</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Control plane JWKS diagnostics using fallback target: effective_target=</span><span class="si">%s</span><span class="s2"> source=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Control plane JWKS diagnostics using fallback target: effective_target=</span><span class="si">%s</span><span class="s2"> source=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">effective_target</span><span class="p">,</span>
                 <span class="n">target_source</span><span class="p">,</span>
             <span class="p">)</span>
@@ -1106,20 +1116,20 @@
             <span class="n">jwks_url</span><span class="p">,</span> <span class="n">kids</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_threadpool</span><span class="p">(</span><span class="n">_fetch_jwks_diagnostics</span><span class="p">,</span> <span class="n">base_url</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Control plane JWKS diagnostics failed: base_url=</span><span class="si">%s</span><span class="s2"> error=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"Control plane JWKS diagnostics failed: base_url=</span><span class="si">%s</span><span class="s2"> error=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">base_url</span><span class="p">,</span>
                     <span class="n">error</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;Control plane JWKS diagnostics: base_url=</span><span class="si">%s</span><span class="s2"> jwks_url=</span><span class="si">%s</span><span class="s2"> kids=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"Control plane JWKS diagnostics: base_url=</span><span class="si">%s</span><span class="s2"> jwks_url=</span><span class="si">%s</span><span class="s2"> kids=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">base_url</span><span class="p">,</span>
                     <span class="n">jwks_url</span><span class="p">,</span>
                     <span class="n">kids</span><span class="p">,</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Control plane JWKS diagnostics skipped: cannot derive base URL from target=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Control plane JWKS diagnostics skipped: cannot derive base URL from target=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">target</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -1137,7 +1147,7 @@
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pragma: no cover - upstream errors</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Failed to initialize Kumiho client: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Failed to initialize Kumiho client: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         
     <span class="c1"># Set the client context for the duration of the request</span>
@@ -1148,8 +1158,8 @@
 
 <div class="viewcode-block" id="require_user_token">
 <a class="viewcode-back" href="../../api/_generated/app.dependencies.html#app.dependencies.require_user_token">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">require_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;authorization&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">require_user_token</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"authorization"</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Require a Firebase user token in the Authorization header.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
@@ -1160,17 +1170,17 @@
 <span class="sd">        </span>
 <span class="sd">    Raises:</span>
 <span class="sd">        HTTPException: 401 if token is missing or invalid format</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Missing Authorization header&quot;</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">"Missing Authorization header"</span>
         <span class="p">)</span>
     
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Bearer &quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Bearer "</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">401</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Invalid Authorization header format. Expected &#39;Bearer &lt;token&gt;&#39;&quot;</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">"Invalid Authorization header format. Expected 'Bearer &lt;token&gt;'"</span>
         <span class="p">)</span>
     
     <span class="k">return</span> <span class="n">token</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span></div>

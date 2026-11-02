@@ -404,7 +404,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for app.apps.blog.services</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Blog app service layer - business logic for blog operations.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Blog app service layer - business logic for blog operations."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
@@ -414,7 +414,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">kumiho</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;kumiho.fastapi.blog&quot;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"kumiho.fastapi.blog"</span><span class="p">)</span>
 
 <span class="c1"># Simple in-memory cache for settings</span>
 <span class="c1"># Key: project_name, Value: (timestamp, settings_dict)</span>
@@ -429,7 +429,7 @@
     <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load blog settings for a project.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Load blog settings for a project."""</span>
     <span class="k">if</span> <span class="n">cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">project_name</span> <span class="ow">in</span> <span class="n">cache</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="n">project_name</span><span class="p">]</span>
 
@@ -438,13 +438,13 @@
         <span class="c1"># Use project traversal to get the settings item</span>
         <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">project</span><span class="p">:</span>
-            <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;blog.settings&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">"blog.settings"</span><span class="p">,</span> <span class="s2">"config"</span><span class="p">)</span>
             <span class="n">revision</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_latest_revision</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">revision</span> <span class="ow">and</span> <span class="n">revision</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
                 <span class="n">settings</span> <span class="o">=</span> <span class="n">revision</span><span class="o">.</span><span class="n">metadata</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;blog.settings lookup failed for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"blog.settings lookup failed for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">cache</span><span class="p">[</span><span class="n">project_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span>
@@ -459,11 +459,11 @@
     <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the configured item kind for blog posts from settings.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get the configured item kind for blog posts from settings."""</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">load_blog_settings</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;post_item_kind&quot;</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;post_item_kind&quot;</span><span class="p">,</span> <span class="s2">&quot;post&quot;</span><span class="p">))</span>
-    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;post_product_type&quot;</span><span class="p">,</span> <span class="s2">&quot;post&quot;</span><span class="p">))</span></div>
+    <span class="k">if</span> <span class="s2">"post_item_kind"</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"post_item_kind"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"post_product_type"</span><span class="p">,</span> <span class="s2">"post"</span><span class="p">))</span></div>
 
 
 
@@ -474,16 +474,16 @@
     <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if public read is allowed for a project&#39;s blog.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if public read is allowed for a project's blog."""</span>
     <span class="c1"># 1. Check blog settings first (override)</span>
     <span class="n">settings</span> <span class="o">=</span> <span class="n">load_blog_settings</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
-    <span class="n">value</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;allow_public&quot;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"allow_public"</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;public&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">}</span>
+            <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"public"</span><span class="p">,</span> <span class="s2">"on"</span><span class="p">}</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
             <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             
@@ -493,7 +493,7 @@
         <span class="k">if</span> <span class="n">project</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">project</span><span class="o">.</span><span class="n">allow_public</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to check project allow_public for </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to check project allow_public for </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="kc">False</span></div>
 
@@ -502,11 +502,11 @@
 <div class="viewcode-block" id="resolve_project_name">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.resolve_project_name">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve_project_name</span><span class="p">(</span><span class="n">space_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">project_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract project name from space path or project filter.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Extract project name from space path or project filter."""</span>
     <span class="k">if</span> <span class="n">project_filter</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">project_filter</span>
     <span class="k">if</span> <span class="n">space_path</span><span class="p">:</span>
-        <span class="n">path_parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="p">]</span>
+        <span class="n">path_parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">space_path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">path_parts</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">path_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="kc">None</span></div>
@@ -520,18 +520,18 @@
     <span class="n">project</span><span class="p">:</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">Project</span><span class="p">,</span>
     <span class="n">space_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">Space</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Navigate or create the space hierarchy under a project.</span>
 <span class="sd">    Returns the leaf Space object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPException</span>
     
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">current_space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">current_space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
             <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Project root space /</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> not found&quot;</span>
+            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Project root space /</span><span class="si">{</span><span class="n">project</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> not found"</span>
         <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">space_names</span><span class="p">:</span>
@@ -547,7 +547,7 @@
 <div class="viewcode-block" id="get_cached_settings">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.get_cached_settings">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_cached_settings</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get cached settings if still valid.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get cached settings if still valid."""</span>
     <span class="k">if</span> <span class="n">project_name</span> <span class="ow">in</span> <span class="n">_settings_cache</span><span class="p">:</span>
         <span class="n">timestamp</span><span class="p">,</span> <span class="n">cached_settings</span> <span class="o">=</span> <span class="n">_settings_cache</span><span class="p">[</span><span class="n">project_name</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">timestamp</span> <span class="o">&lt;</span> <span class="n">CACHE_TTL_SECONDS</span><span class="p">:</span>
@@ -559,7 +559,7 @@
 <div class="viewcode-block" id="set_cached_settings">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.set_cached_settings">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_cached_settings</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the settings cache.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Update the settings cache."""</span>
     <span class="n">_settings_cache</span><span class="p">[</span><span class="n">project_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span> <span class="n">settings</span><span class="p">)</span></div>
 
 
@@ -567,25 +567,25 @@
 <div class="viewcode-block" id="generate_slug">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.generate_slug">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_slug</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a URL-safe slug from a title.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Generate a URL-safe slug from a title."""</span>
     <span class="n">slug</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="n">slug</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-z0-9]+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">slug</span><span class="p">)</span>
-    <span class="n">slug</span> <span class="o">=</span> <span class="n">slug</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">slug</span> <span class="ow">or</span> <span class="s2">&quot;post&quot;</span></div>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'[^a-z0-9]+'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="n">slug</span><span class="p">)</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">slug</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">slug</span> <span class="ow">or</span> <span class="s2">"post"</span></div>
 
 
 
 <div class="viewcode-block" id="build_default_settings">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.build_default_settings">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">build_default_settings</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">allow_public</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build default blog settings dict.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Build default blog settings dict."""</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="n">project_name</span><span class="p">,</span>
-        <span class="s2">&quot;post_item_kind&quot;</span><span class="p">:</span> <span class="s2">&quot;post&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pagination_count&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="s2">&quot;display_type&quot;</span><span class="p">:</span> <span class="s2">&quot;title_only&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;display_category_filters&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="s2">&quot;allow_public&quot;</span><span class="p">:</span> <span class="n">allow_public</span>
+        <span class="s2">"project_name"</span><span class="p">:</span> <span class="n">project_name</span><span class="p">,</span>
+        <span class="s2">"post_item_kind"</span><span class="p">:</span> <span class="s2">"post"</span><span class="p">,</span>
+        <span class="s2">"pagination_count"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">"display_type"</span><span class="p">:</span> <span class="s2">"title_only"</span><span class="p">,</span>
+        <span class="s2">"display_category_filters"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"allow_public"</span><span class="p">:</span> <span class="n">allow_public</span>
     <span class="p">}</span></div>
 
 
@@ -593,43 +593,43 @@
 <div class="viewcode-block" id="ensure_blog_project">
 <a class="viewcode-back" href="../../../../api/_generated/app.apps.blog.services.html#app.apps.blog.services.ensure_blog_project">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_blog_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">Project</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Ensure the blog project and its settings exist.</span>
-<span class="sd">    Creates them if they don&#39;t exist.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Creates them if they don't exist.</span>
+<span class="sd">    """</span>
     <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">get_project</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">project</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating missing blog project: </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Blog project&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Creating missing blog project: </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">kumiho</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Blog project"</span><span class="p">)</span>
         <span class="n">project</span><span class="o">.</span><span class="n">set_public</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Default to public for blog projects</span>
     
     <span class="c1"># Ensure root space exists</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating missing root space for </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Creating missing root space for </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Create root space using project.create_space with parent_path=&quot;/&quot;</span>
-            <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="c1"># Create root space using project.create_space with parent_path="/"</span>
+            <span class="n">project</span><span class="o">.</span><span class="n">create_space</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">project_name</span><span class="p">,</span> <span class="n">parent_path</span><span class="o">=</span><span class="s2">"/"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to create root space: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to create root space: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="c1"># Continue anyway, maybe it exists but get_space failed for other reasons?</span>
 
     <span class="c1"># Ensure settings item exists</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">space</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">get_space</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/</span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">space</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">&quot;blog.settings&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+            <span class="n">space</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="s2">"blog.settings"</span><span class="p">,</span> <span class="s2">"config"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating missing blog settings for </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span><span class="s2">&quot;blog.settings&quot;</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Creating missing blog settings for </span><span class="si">{</span><span class="n">project_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">create_item</span><span class="p">(</span><span class="s2">"blog.settings"</span><span class="p">,</span> <span class="s2">"config"</span><span class="p">)</span>
             <span class="c1"># Create initial revision with defaults</span>
             <span class="n">defaults</span> <span class="o">=</span> <span class="n">build_default_settings</span><span class="p">(</span><span class="n">project_name</span><span class="p">,</span> <span class="n">allow_public</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;updated_at&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">"updated_at"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
             <span class="n">item</span><span class="o">.</span><span class="n">create_revision</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to ensure blog settings: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to ensure blog settings: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">project</span></div>
 
