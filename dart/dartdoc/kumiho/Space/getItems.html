@@ -54,12 +54,12 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/PagedList-class.html">PagedList</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Item-class.html">Item</a></span>&gt;</span></span>&gt;</span></span>
-<span class="name ">getItems</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="getItems-param-kindFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">kindFilter</span>, </span></li>
-<li><span class="parameter" id="getItems-param-nameFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">nameFilter</span>, </span></li>
-<li><span class="parameter" id="getItems-param-pageSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">pageSize</span>, </span></li>
-<li><span class="parameter" id="getItems-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span></li>
-<li><span class="parameter" id="getItems-param-includeDeprecated"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">includeDeprecated</span> = <span class="default-value">false</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.13.7/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/PagedList-class.html">PagedList</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Item-class.html">Item</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">getItems</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="getItems-param-kindFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">kindFilter</span>, </span></li>
+<li><span class="parameter" id="getItems-param-nameFilter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">nameFilter</span>, </span></li>
+<li><span class="parameter" id="getItems-param-pageSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">pageSize</span>, </span></li>
+<li><span class="parameter" id="getItems-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span></li>
+<li><span class="parameter" id="getItems-param-includeDeprecated"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">includeDeprecated</span> = <span class="default-value">false</span>, </span></li>
 </ol>})
 
       
@@ -99,6 +99,8 @@ final textures = await assets.getItems(kindFilter: 'texture');
     items.map&lt;Item&gt;((i) =&gt; Item(i, client)).toList(),
     nextCursor: items.nextCursor,
     totalCount: items.totalCount,
+    hasMore: items.hasMore,
+    paginationPresent: items.paginationPresent,
   );
 }</code></pre>
 </section>
@@ -128,7 +130,7 @@ final textures = await assets.getItems(kindFilter: 'texture');
 <footer>
   <span class="no-break">
     kumiho
-      0.2.0
+      0.3.0
   </span>
   
 </footer>

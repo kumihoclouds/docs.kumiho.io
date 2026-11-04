@@ -54,10 +54,10 @@
 
     <section class="multi-line-signature">
       
-<span class="returntype"><a href="https://api.dart.dev/stable/3.13.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.13.3/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Space-class.html">Space</a></span>&gt;</span></span>&gt;</span></span>
-<span class="name ">getSpaces</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="getSpaces-param-recursive"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>, </span></li>
-<li><span class="parameter" id="getSpaces-param-pageSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">pageSize</span>, </span></li>
-<li><span class="parameter" id="getSpaces-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.3/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.13.7/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.13.7/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../kumiho/Space-class.html">Space</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">getSpaces</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="getSpaces-param-recursive"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>, </span></li>
+<li><span class="parameter" id="getSpaces-param-pageSize"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">pageSize</span>, </span></li>
+<li><span class="parameter" id="getSpaces-param-cursor"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.13.7/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">cursor</span>, </span></li>
 </ol>})
 
       
@@ -92,7 +92,17 @@ for (final space in spaces) {
     pageSize: pageSize,
     cursor: cursor,
   );
-  return spaceResponses.map&lt;Space&gt;((s) =&gt; Space(s, client)).toList();
+  final spaces = spaceResponses.map&lt;Space&gt;((s) =&gt; Space(s, client)).toList();
+  if (spaceResponses is PagedList&lt;pb.SpaceResponse&gt;) {
+    return PagedList(
+      spaces,
+      nextCursor: spaceResponses.nextCursor,
+      totalCount: spaceResponses.totalCount,
+      hasMore: spaceResponses.hasMore,
+      paginationPresent: spaceResponses.paginationPresent,
+    );
+  }
+  return spaces;
 }</code></pre>
 </section>
 
@@ -121,7 +131,7 @@ for (final space in spaces) {
 <footer>
   <span class="no-break">
     kumiho
-      0.2.0
+      0.3.0
   </span>
   
 </footer>

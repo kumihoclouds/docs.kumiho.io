@@ -68,7 +68,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Item(pb.ItemResponse response, dynamic client) : super(client) {
-  kref = Kref(response.kref.uri);
+  kref = _inventoryItemKref(response.kref.uri);
   name = response.name;
   itemName = response.itemName;
   kind = response.kind;
@@ -105,7 +105,7 @@
 <footer>
   <span class="no-break">
     kumiho
-      0.2.0
+      0.3.0
   </span>
   
 </footer>
