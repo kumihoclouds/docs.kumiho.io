@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kumiho Go SDK &mdash; Kumiho Go SDK 0.10.0</title>
+  <title>Kumiho Go SDK &mdash; Kumiho Go SDK 0.11.0</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=82662543"></script>
+      <script src="_static/documentation_options.js?v=f3b36f1a"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -46,6 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">kumiho</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#kumihopb">kumihopb</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#inventory-probe">inventory-probe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html#quickstart">quickstart</a></li>
 </ul>
 
@@ -106,18 +107,18 @@ feature parity</strong> with the Python SDK.</p>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
-<span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">kumiho</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;https://us-central.kumiho.cloud&quot;</span><span class="p">)</span>
+<span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">kumiho</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"https://us-central.kumiho.cloud"</span><span class="p">)</span>
 <span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="k">defer</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
 
-<span class="nx">project</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">CreateProject</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my-vfx-project&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;VFX assets&quot;</span><span class="p">)</span>
-<span class="nx">space</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">project</span><span class="p">.</span><span class="nx">CreateSpace</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;characters&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
-<span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">space</span><span class="p">.</span><span class="nx">CreateItem</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hero&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;model&quot;</span><span class="p">)</span>
+<span class="nx">project</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">CreateProject</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"my-vfx-project"</span><span class="p">,</span><span class="w"> </span><span class="s">"VFX assets"</span><span class="p">)</span>
+<span class="nx">space</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">project</span><span class="p">.</span><span class="nx">CreateSpace</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"characters"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">)</span>
+<span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">space</span><span class="p">.</span><span class="nx">CreateItem</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"hero"</span><span class="p">,</span><span class="w"> </span><span class="s">"model"</span><span class="p">)</span>
 <span class="nx">rev</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">CreateRevision</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="nx">rev</span><span class="p">.</span><span class="nx">CreateArtifact</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mesh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/assets/hero.fbx&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
-<span class="nx">rev</span><span class="p">.</span><span class="nx">Tag</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;approved&quot;</span><span class="p">)</span>
+<span class="nx">rev</span><span class="p">.</span><span class="nx">CreateArtifact</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"mesh"</span><span class="p">,</span><span class="w"> </span><span class="s">"/assets/hero.fbx"</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="nx">rev</span><span class="p">.</span><span class="nx">Tag</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">"approved"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The full, generated API reference is in <a class="reference internal" href="api.html"><span class="doc">kumiho</span></a>.</p>
@@ -160,8 +161,12 @@ feature parity</strong> with the Python SDK.</p>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-eventstream">type EventStream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-impactedrevision">type ImpactedRevision</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-invalidargumenterror">type InvalidArgumentError</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-inventorypage">type InventoryPage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-item">type Item</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-kref">type Kref</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-kreferrorclass">type KrefErrorClass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-krefparts">type KrefParts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#type-krefshape">type KrefShape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-krefvalidationerror">type KrefValidationError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-kumihoerror">type KumihoError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-page">type Page</a></li>
@@ -306,8 +311,12 @@ feature parity</strong> with the Python SDK.</p>
 <li class="toctree-l2"><a class="reference internal" href="api.html#type-wastaggedresponse">type WasTaggedResponse</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html#quickstart">quickstart</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html#inventory-probe">inventory-probe</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api.html#id17">Index</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html#quickstart">quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id18">Index</a></li>
 </ul>
 </li>
 </ul>

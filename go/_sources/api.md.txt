@@ -94,12 +94,14 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func \(c \*Client\) GetBundleHistory\(ctx context.Context, bundleKref Kref\) \(\[\]BundleRevisionHistory, error\)](<#Client.GetBundleHistory>)
   - [func \(c \*Client\) GetBundleMembers\(ctx context.Context, bundleKref Kref, revisionNumber \*int32\) \(members \[\]BundleMember, revNumber, totalCount int32, err error\)](<#Client.GetBundleMembers>)
   - [func \(c \*Client\) GetChildSpaces\(ctx context.Context, parentPath string, recursive bool, pageSize int, cursor string\) \(\*Page\[\*Space\], error\)](<#Client.GetChildSpaces>)
+  - [func \(c \*Client\) GetChildSpacesPaged\(ctx context.Context, parentPath string, recursive bool, pageSize int, cursor string\) \(\*InventoryPage\[\*Space\], error\)](<#Client.GetChildSpacesPaged>)
   - [func \(c \*Client\) GetEdges\(ctx context.Context, kref Kref, edgeTypeFilter string, direction EdgeDirection\) \(\[\]\*Edge, error\)](<#Client.GetEdges>)
   - [func \(c \*Client\) GetEventCapabilities\(ctx context.Context\) \(\*EventCapabilities, error\)](<#Client.GetEventCapabilities>)
   - [func \(c \*Client\) GetItem\(ctx context.Context, parentPath, itemName, kind string\) \(\*Item, error\)](<#Client.GetItem>)
   - [func \(c \*Client\) GetItemByKref\(ctx context.Context, krefURI string\) \(\*Item, error\)](<#Client.GetItemByKref>)
   - [func \(c \*Client\) GetItemFromRevision\(ctx context.Context, revisionKref string\) \(\*Item, error\)](<#Client.GetItemFromRevision>)
   - [func \(c \*Client\) GetItems\(ctx context.Context, parentPath, nameFilter, kindFilter string, pageSize int, cursor string, includeDeprecated bool\) \(\*Page\[\*Item\], error\)](<#Client.GetItems>)
+  - [func \(c \*Client\) GetItemsPaged\(ctx context.Context, parentPath, nameFilter, kindFilter string, pageSize int, cursor string, includeDeprecated bool\) \(\*InventoryPage\[\*Item\], error\)](<#Client.GetItemsPaged>)
   - [func \(c \*Client\) GetLatestRevision\(ctx context.Context, itemKref Kref\) \(\*Revision, error\)](<#Client.GetLatestRevision>)
   - [func \(c \*Client\) GetProject\(ctx context.Context, name string\) \(\*Project, error\)](<#Client.GetProject>)
   - [func \(c \*Client\) GetProjects\(ctx context.Context\) \(\[\]\*Project, error\)](<#Client.GetProjects>)
@@ -161,6 +163,7 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
 - [type ImpactedRevision](<#ImpactedRevision>)
 - [type InvalidArgumentError](<#InvalidArgumentError>)
   - [func \(e \*InvalidArgumentError\) Error\(\) string](<#InvalidArgumentError.Error>)
+- [type InventoryPage](<#InventoryPage>)
 - [type Item](<#Item>)
   - [func \(i \*Item\) CreateRevision\(ctx context.Context, metadata map\[string\]string, number int32\) \(\*Revision, error\)](<#Item.CreateRevision>)
   - [func \(i \*Item\) Delete\(ctx context.Context, force bool\) error](<#Item.Delete>)
@@ -186,12 +189,19 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func \(k Kref\) ArtifactName\(\) string](<#Kref.ArtifactName>)
   - [func \(k Kref\) ItemName\(\) string](<#Kref.ItemName>)
   - [func \(k Kref\) Kind\(\) string](<#Kref.Kind>)
+  - [func \(k Kref\) Parts\(\) KrefParts](<#Kref.Parts>)
   - [func \(k Kref\) Path\(\) string](<#Kref.Path>)
   - [func \(k Kref\) Project\(\) string](<#Kref.Project>)
   - [func \(k Kref\) Revision\(\) int](<#Kref.Revision>)
   - [func \(k Kref\) Space\(\) string](<#Kref.Space>)
   - [func \(k Kref\) String\(\) string](<#Kref.String>)
   - [func \(k Kref\) URI\(\) string](<#Kref.URI>)
+- [type KrefErrorClass](<#KrefErrorClass>)
+- [type KrefParts](<#KrefParts>)
+  - [func ParseKref\(uri string\) KrefParts](<#ParseKref>)
+  - [func \(p KrefParts\) GetItemTuple\(\) \(parentPath, itemName, kind string, err error\)](<#KrefParts.GetItemTuple>)
+  - [func \(p KrefParts\) Valid\(\) bool](<#KrefParts.Valid>)
+- [type KrefShape](<#KrefShape>)
 - [type KrefValidationError](<#KrefValidationError>)
   - [func \(e \*KrefValidationError\) Error\(\) string](<#KrefValidationError.Error>)
 - [type KumihoError](<#KumihoError>)
@@ -206,8 +216,10 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func \(p \*Project\) GetBundle\(ctx context.Context, bundleName, parentPath string\) \(\*Bundle, error\)](<#Project.GetBundle>)
   - [func \(p \*Project\) GetItem\(ctx context.Context, itemName, kind, parentPath string\) \(\*Item, error\)](<#Project.GetItem>)
   - [func \(p \*Project\) GetItems\(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string\) \(\*Page\[\*Item\], error\)](<#Project.GetItems>)
+  - [func \(p \*Project\) GetItemsIncludingDeprecated\(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string\) \(\*Page\[\*Item\], error\)](<#Project.GetItemsIncludingDeprecated>)
   - [func \(p \*Project\) GetSpace\(ctx context.Context, name, parentPath string\) \(\*Space, error\)](<#Project.GetSpace>)
   - [func \(p \*Project\) GetSpaces\(ctx context.Context, parentPath string, recursive bool, pageSize int, cursor string\) \(\*Page\[\*Space\], error\)](<#Project.GetSpaces>)
+  - [func \(p \*Project\) GetSpacesPaged\(ctx context.Context, parentPath string, recursive bool, pageSize int, cursor string\) \(\*InventoryPage\[\*Space\], error\)](<#Project.GetSpacesPaged>)
   - [func \(p \*Project\) HardDelete\(ctx context.Context, impact \*pb.ProjectDeletionImpactResponse, confirmed bool\) error](<#Project.HardDelete>)
   - [func \(p \*Project\) ResolveReference\(ctx context.Context, insideKref, outsideKref, edgeType, action, replacementKref string\) error](<#Project.ResolveReference>)
   - [func \(p \*Project\) SetAllowPublic\(ctx context.Context, allowPublic bool\) \(\*Project, error\)](<#Project.SetAllowPublic>)
@@ -263,8 +275,11 @@ A [Kref](<#Kref>) is a URI identifying any object: kref://project/space/item.kin
   - [func \(s \*Space\) GetChildSpaces\(ctx context.Context\) \(\*Page\[\*Space\], error\)](<#Space.GetChildSpaces>)
   - [func \(s \*Space\) GetItem\(ctx context.Context, itemName, kind string\) \(\*Item, error\)](<#Space.GetItem>)
   - [func \(s \*Space\) GetItems\(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string\) \(\*Page\[\*Item\], error\)](<#Space.GetItems>)
+  - [func \(s \*Space\) GetItemsIncludingDeprecated\(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string\) \(\*Page\[\*Item\], error\)](<#Space.GetItemsIncludingDeprecated>)
+  - [func \(s \*Space\) GetItemsPaged\(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string, includeDeprecated bool\) \(\*InventoryPage\[\*Item\], error\)](<#Space.GetItemsPaged>)
   - [func \(s \*Space\) GetSpace\(ctx context.Context, name string\) \(\*Space, error\)](<#Space.GetSpace>)
   - [func \(s \*Space\) GetSpaces\(ctx context.Context, recursive bool, pageSize int, cursor string\) \(\*Page\[\*Space\], error\)](<#Space.GetSpaces>)
+  - [func \(s \*Space\) GetSpacesPaged\(ctx context.Context, recursive bool, pageSize int, cursor string\) \(\*InventoryPage\[\*Space\], error\)](<#Space.GetSpacesPaged>)
   - [func \(s \*Space\) ParentSpace\(ctx context.Context\) \(\*Space, error\)](<#Space.ParentSpace>)
   - [func \(s \*Space\) Project\(ctx context.Context\) \(\*Project, error\)](<#Space.Project>)
   - [func \(s \*Space\) SetAttribute\(ctx context.Context, key, value string\) \(bool, error\)](<#Space.SetAttribute>)
@@ -301,10 +316,21 @@ const (
 )
 ```
 
+<a name="MaxKrefBytes"></a>Limits of the kref grammar.
+
+```go
+const (
+    MaxKrefBytes         = 1024 // longest base (scheme and query not counted), in UTF-8 bytes
+    MaxKrefSegments      = 32   // most "/"-separated segments in a base
+    MaxTagBytes          = 1024 // longest tag selector, in UTF-8 bytes
+    MaxArtifactNameBytes = 256  // longest artifact selector, in bytes
+)
+```
+
 <a name="Version"></a>Version is the SDK version.
 
 ```go
-const Version = "0.10.0"
+const Version = "0.11.0"
 ```
 
 ## Variables
@@ -917,6 +943,15 @@ func (c *Client) GetChildSpaces(ctx context.Context, parentPath string, recursiv
 
 GetChildSpaces lists child spaces under parentPath.
 
+<a name="Client.GetChildSpacesPaged"></a>
+### func \(\*Client\) GetChildSpacesPaged
+
+```go
+func (c *Client) GetChildSpacesPaged(ctx context.Context, parentPath string, recursive bool, pageSize int, cursor string) (*InventoryPage[*Space], error)
+```
+
+GetChildSpacesPaged retains explicit metadata presence and the server's has\_more.
+
 <a name="Client.GetEdges"></a>
 ### func \(\*Client\) GetEdges
 
@@ -970,6 +1005,15 @@ func (c *Client) GetItems(ctx context.Context, parentPath, nameFilter, kindFilte
 ```
 
 GetItems lists items in a space.
+
+<a name="Client.GetItemsPaged"></a>
+### func \(\*Client\) GetItemsPaged
+
+```go
+func (c *Client) GetItemsPaged(ctx context.Context, parentPath, nameFilter, kindFilter string, pageSize int, cursor string, includeDeprecated bool) (*InventoryPage[*Item], error)
+```
+
+GetItemsPaged lists direct children with explicit completion metadata.
 
 <a name="Client.GetLatestRevision"></a>
 ### func \(\*Client\) GetLatestRevision
@@ -1572,6 +1616,19 @@ func (e *InvalidArgumentError) Error() string
 
 
 
+<a name="InventoryPage"></a>
+## type InventoryPage
+
+InventoryPage exposes completion metadata without changing Page's layout.
+
+```go
+type InventoryPage[T any] struct {
+    PaginationPresent bool
+    HasMore           bool
+    // contains filtered or unexported fields
+}
+```
+
 <a name="Item"></a>
 ## type Item
 
@@ -1810,7 +1867,16 @@ ItemName returns the last path segment \(e.g. "hero.model"\), or "".
 func (k Kref) Kind() string
 ```
 
-Kind returns the item kind \(after the first "." in the item name\), or "".
+Kind returns the item kind \(after the last "." in the item name\), or "". Item names may contain dots, so "a.b.model" has kind "model".
+
+<a name="Kref.Parts"></a>
+### func \(Kref\) Parts
+
+```go
+func (k Kref) Parts() KrefParts
+```
+
+Parts returns this kref read once by ParseKref: the kernel's reading plus its textual split. KrefParts.GetItemTuple is the GetItem request for it.
 
 <a name="Kref.Path"></a>
 ### func \(Kref\) Path
@@ -1865,6 +1931,121 @@ func (k Kref) URI() string
 ```
 
 URI returns the underlying URI string.
+
+<a name="KrefErrorClass"></a>
+## type KrefErrorClass
+
+KrefErrorClass says why the kernel refuses a kref, in the order it checks. The empty class means the kernel accepts.
+
+```go
+type KrefErrorClass string
+```
+
+<a name="KrefErrScheme"></a>The error classes, spelled as in the corpus.
+
+```go
+const (
+    KrefErrScheme            KrefErrorClass = "scheme"              // not "kref://" (case-sensitive)
+    KrefErrFragmentOrPercent KrefErrorClass = "fragment_or_percent" // a '#' or '%' outside a tag selector
+    KrefErrTagReservedChar   KrefErrorClass = "tag_reserved_char"   // a '#', '%' or '&' inside a tag selector
+    KrefErrPath              KrefErrorClass = "path"                // the base breaks a path rule
+    KrefErrQueryPair         KrefErrorClass = "query_pair"          // a query pair that is not key=value
+    KrefErrUnknownKey        KrefErrorClass = "unknown_key"         // a query key other than r, t, a
+    KrefErrDuplicateKey      KrefErrorClass = "duplicate_key"       // a query key given twice
+    KrefErrRAndT             KrefErrorClass = "r_and_t"             // both r and t
+    KrefErrRevisionNumber    KrefErrorClass = "revision_number"     // an r that is not a positive u64 (or "latest")
+    KrefErrTag               KrefErrorClass = "tag"                 // a t that is not a valid tag
+    KrefErrArtifact          KrefErrorClass = "artifact"            // an a without r/t, or not a valid artifact name
+)
+```
+
+<a name="KrefParts"></a>
+## type KrefParts
+
+KrefParts is a kref read once: the kernel's reading plus the textual split.
+
+The kernel's reading \(ErrorClass, Base, Shapes and the fields below\) follows spec/kref/README.md. A kref the kernel refuses has ErrorClass set and no reading: Base and every field are nil and Shapes is empty.
+
+ItemName, Kind and IsProjectRootItem describe the first shape the base satisfies; ItemName and Kind are nil when that shape is a space or a project.
+
+The textual split \(Path, Parent, Leaf, LeafName, LeafKind\) does not depend on the kernel's verdict. GetItemTuple uses it, so a kref this SDK passes through to the backend still yields its request.
+
+```go
+type KrefParts struct {
+    URI        string         // the string that was parsed
+    ErrorClass KrefErrorClass // why the kernel refuses it; "" when it accepts
+
+    Base              *string     // the text between "kref://" and the first "?"
+    Shapes            []KrefShape // every namespace the base satisfies, in resolver order
+    Project           *string     // the first segment
+    SpacePath         []string    // the spaces between the project and the item (all of them for a space)
+    ItemName          *string     // the leaf up to its last "."
+    Kind              *string     // the leaf after its last "."
+    IsProjectRootItem *bool       // whether the item sits directly under the project
+    Revision          *uint64     // the revision number from r=
+    Tag               *string     // the tag from t= ("r=latest" reads as the tag "latest")
+    Artifact          *string     // the artifact name from a=
+
+    Path     string  // the text after the first "://" and before the first "?"
+    Parent   *string // everything before the last "/" of Path
+    Leaf     *string // everything after the last "/" of Path
+    LeafName *string // the leaf up to its last "."
+    LeafKind *string // the leaf after its last "."
+}
+```
+
+<a name="ParseKref"></a>
+### func ParseKref
+
+```go
+func ParseKref(uri string) KrefParts
+```
+
+ParseKref parses uri once into a KrefParts. It never fails: a string the kernel refuses comes back with ErrorClass set.
+
+<a name="KrefParts.GetItemTuple"></a>
+### func \(KrefParts\) GetItemTuple
+
+```go
+func (p KrefParts) GetItemTuple() (parentPath, itemName, kind string, err error)
+```
+
+GetItemTuple returns the GetItem request \(parentPath, itemName, kind\) for this kref.
+
+The parent path is "/" plus everything before the LAST "/" of the path, so it holds the project and every nested space. The leaf after it is split at its LAST ".": item names may contain dots, kinds never do. The query is dropped.
+
+This is the one split used for every item lookup. It depends on the text only, never on the kernel's verdict.
+
+It returns an \*InvalidArgumentError if the path has no "/" or its leaf has no ".". A leaf without a dot \("kref://p/s.v1/x"\) names a space, not an item.
+
+<a name="KrefParts.Valid"></a>
+### func \(KrefParts\) Valid
+
+```go
+func (p KrefParts) Valid() bool
+```
+
+Valid reports whether the kumiho\-db kernel accepts this kref.
+
+<a name="KrefShape"></a>
+## type KrefShape
+
+KrefShape is a namespace a base can satisfy, in the order the kernel parser and the resolver try them.
+
+```go
+type KrefShape string
+```
+
+<a name="KrefShapeRootItem"></a>The shapes, spelled as in the corpus.
+
+```go
+const (
+    KrefShapeRootItem KrefShape = "root_item" // an item directly under the project: exactly two segments
+    KrefShapeItem     KrefShape = "item"      // an item in a space: three or more segments
+    KrefShapeSpace    KrefShape = "space"     // a space: two or more segments
+    KrefShapeProject  KrefShape = "project"   // a project: one segment
+)
+```
 
 <a name="KrefValidationError"></a>
 ## type KrefValidationError
@@ -2016,6 +2197,15 @@ func (p *Project) GetItems(ctx context.Context, nameFilter, kindFilter string, p
 
 GetItems searches items within this project.
 
+<a name="Project.GetItemsIncludingDeprecated"></a>
+### func \(\*Project\) GetItemsIncludingDeprecated
+
+```go
+func (p *Project) GetItemsIncludingDeprecated(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string) (*Page[*Item], error)
+```
+
+GetItemsIncludingDeprecated searches the project including deprecated items. This retains ItemSearch scope; use Space/Client GetItems for direct inventory.
+
 <a name="Project.GetSpace"></a>
 ### func \(\*Project\) GetSpace
 
@@ -2033,6 +2223,15 @@ func (p *Project) GetSpaces(ctx context.Context, parentPath string, recursive bo
 ```
 
 GetSpaces lists spaces in this project.
+
+<a name="Project.GetSpacesPaged"></a>
+### func \(\*Project\) GetSpacesPaged
+
+```go
+func (p *Project) GetSpacesPaged(ctx context.Context, parentPath string, recursive bool, pageSize int, cursor string) (*InventoryPage[*Space], error)
+```
+
+GetSpacesPaged exposes the list completion metadata for project spaces.
 
 <a name="Project.HardDelete"></a>
 ### func \(\*Project\) HardDelete
@@ -2585,6 +2784,24 @@ func (s *Space) GetItems(ctx context.Context, nameFilter, kindFilter string, pag
 
 GetItems lists items in this space.
 
+<a name="Space.GetItemsIncludingDeprecated"></a>
+### func \(\*Space\) GetItemsIncludingDeprecated
+
+```go
+func (s *Space) GetItemsIncludingDeprecated(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string) (*Page[*Item], error)
+```
+
+GetItemsIncludingDeprecated is the direct\-item inventory variant of GetItems.
+
+<a name="Space.GetItemsPaged"></a>
+### func \(\*Space\) GetItemsPaged
+
+```go
+func (s *Space) GetItemsPaged(ctx context.Context, nameFilter, kindFilter string, pageSize int, cursor string, includeDeprecated bool) (*InventoryPage[*Item], error)
+```
+
+GetItemsPaged is direct inventory with an explicit deprecated switch.
+
 <a name="Space.GetSpace"></a>
 ### func \(\*Space\) GetSpace
 
@@ -2602,6 +2819,15 @@ func (s *Space) GetSpaces(ctx context.Context, recursive bool, pageSize int, cur
 ```
 
 GetSpaces lists child spaces.
+
+<a name="Space.GetSpacesPaged"></a>
+### func \(\*Space\) GetSpacesPaged
+
+```go
+func (s *Space) GetSpacesPaged(ctx context.Context, recursive bool, pageSize int, cursor string) (*InventoryPage[*Space], error)
+```
+
+GetSpacesPaged retains completion metadata while preserving the old Page API.
 
 <a name="Space.ParentSpace"></a>
 ### func \(\*Space\) ParentSpace
@@ -14766,6 +14992,18 @@ func (x *WasTaggedResponse) Reset()
 ```go
 func (x *WasTaggedResponse) String() string
 ```
+
+
+
+# inventory\-probe
+
+```go
+import "github.com/KumihoIO/kumiho-SDKs/go/cmd/inventory-probe"
+```
+
+Opt\-in probe for the isolated CE fixture; never discovers a production endpoint.
+
+## Index
 
 
 
