@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kumiho.space &mdash; Kumiho Python SDK v0.15.0</title>
+  <title>kumiho.space &mdash; Kumiho Python SDK v0.16.0</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=ef97403f"></script>
+      <script src="../../_static/documentation_options.js?v=7de89ed4"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -1271,7 +1271,8 @@
         <span class="n">item_name_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">kind_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_deprecated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""List items within this space with optional filtering.</span>
 
@@ -1305,7 +1306,8 @@
             <span class="n">item_name_filter</span><span class="p">,</span>
             <span class="n">kind_filter</span><span class="p">,</span>
             <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span>
-            <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span>
+            <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">,</span>
+            <span class="n">include_deprecated</span><span class="o">=</span><span class="n">include_deprecated</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -1523,13 +1525,21 @@
 
 <div class="viewcode-block" id="Space.get_child_spaces">
 <a class="viewcode-back" href="../../api/space.html#kumiho.Space.get_child_spaces">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_child_spaces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">'Space'</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Get immediate child spaces of this space.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_child_spaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">'Space'</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get child spaces with optional recursion and pagination.</span>
 
-<span class="sd">        This is a convenience method equivalent to ``get_spaces(recursive=False)``.</span>
+<span class="sd">        Defaults to all immediate children, equivalent to</span>
+<span class="sd">        ``get_spaces(recursive=False)``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            recursive: Include every descendant when True.</span>
+<span class="sd">            page_size: Requested page size; None keeps the unpaged default.</span>
+<span class="sd">            cursor: Opaque continuation cursor from the previous page.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            List[Space]: A list of direct child Space objects.</span>
+<span class="sd">            List[Space]: List-compatible result retaining available pagination</span>
+<span class="sd">            metadata. Follow next_cursor to retrieve subsequent pages.</span>
 
 <span class="sd">        Example:</span>
 <span class="sd">            &gt;&gt;&gt; assets = project.get_space("assets")</span>
@@ -1537,7 +1547,8 @@
 <span class="sd">            &gt;&gt;&gt; for child in children:</span>
 <span class="sd">            ...     print(child.name)</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_child_spaces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_child_spaces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">,</span>
+                                             <span class="n">page_size</span><span class="o">=</span><span class="n">page_size</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Space.get_project">
